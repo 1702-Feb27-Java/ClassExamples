@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+I am just wrecking this file....Hello I am in a new text file edited by nick.
+=======
 Hello I am <DISASTER> in a new text file edited by nick.
 
 Ryan was here doing stuff...
@@ -18,3 +21,4 @@ Ryan was here do.
 Merge this
 
 Merge that
+>>>>>>> b0f2f66747a563001b810935402779ceae4d87cc
