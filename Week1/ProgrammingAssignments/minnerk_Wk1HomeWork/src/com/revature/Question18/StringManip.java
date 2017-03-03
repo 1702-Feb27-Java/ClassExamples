@@ -1,3 +1,5 @@
+
+
 package com.revature.Question18;
 
 public class StringManip extends StringMain {
@@ -29,5 +31,9 @@ public class StringManip extends StringMain {
 		for (int i = 0;i<str.length();i++){
 			a += Integer.valueOf(str.charAt(i));
 		}return a;
+	}
+	
+	public int toInt2(String str){
+		return Integer.parseInt(str) + 10;
 	}
 }
