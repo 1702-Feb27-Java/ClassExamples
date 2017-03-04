@@ -11,6 +11,18 @@ import java.util.StringTokenizer;
 public class readFile {
 
 	public static void main(String[] args){
+		System.out.println("Please enter your file and extension:");
+		
+		Scanner input = new Scanner(System.in);
+
+        File file = new File(input.nextLine());
+        input = new scanner(file);
+		File f1 = new File("Data.txt");
+		//Scanner input = new Scanner("Data.txt");
+//		System.out.println(input.);
+//		System.out.println(f1);
+		
+				
 	}
 	}
 		/*boolean check = false;

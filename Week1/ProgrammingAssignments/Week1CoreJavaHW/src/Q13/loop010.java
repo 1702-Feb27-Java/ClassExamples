@@ -26,9 +26,9 @@ public class loop010 {
 		
 		
 		for (int i = 0; i<=4; i++){
-			System.out.println(output.get(i));
+//			System.out.println(output.get(i));
 			temp = output.get(i);
-			ali.add(char);
+			ali.add(output.get(i));
 			System.out.println(ali);
 //			if (i%2==0){
 //				output.add(0);
