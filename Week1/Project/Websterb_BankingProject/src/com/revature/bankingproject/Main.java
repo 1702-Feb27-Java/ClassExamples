@@ -13,8 +13,6 @@ public class Main {
 
 		l.info("in main");
 		
-		Employee emp = new Employee();
-		
 		BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
 		mainMenuOption(br);
 	
@@ -224,6 +222,7 @@ public class Main {
 		System.out.println("2: Sign up for Checking Account");
 		System.out.println("3: View Accounts");
 		System.out.println("4: Add joint account");
+		System.out.println("5: Exit to main menu.");
 	}
 
 	/**
@@ -244,12 +243,14 @@ public class Main {
 				String createSavingsAccountResult;
 				createSavingsAccountResult = createSavingsAccount.signUpForSavingsAccount(customerId);
 				System.out.println(createSavingsAccountResult);
+				customerLoggedInMenu(customerId, sc);
 				break;
 			case 2://create checking
 				Customer createCheckingAccount = new Customer();
 				String createCheckingAccountResult;
 				createCheckingAccountResult = createCheckingAccount.signUpForCheckingAccount(customerId);
 				System.out.println(createCheckingAccountResult);
+				customerLoggedInMenu(customerId, sc);
 				break;
 			case 3://view accounts
 				Customer viewAccounts = new Customer();
@@ -300,6 +301,7 @@ public class Main {
 					withdrawMoney(customerId, sc, accountType);
 				else
 					System.out.println("not a correct option");
+				customerLoggedInMenu(customerId, sc);
 				break;
 			case 4:
 				String username, password;
@@ -309,9 +311,14 @@ public class Main {
 				password = sc.readLine();
 				Customer jointAccount = new Customer();
 				jointAccount.signUpForServices(username, password, customerId);
+				customerLoggedInMenu(customerId, sc);
+				break;
+			case 5:
+				main(null);
 				break;
 			default:
 				System.out.println("Not a valid option");
+				customerLoggedInMenu(customerId, sc);
 				break;
 			}
 		}
@@ -472,6 +479,7 @@ public class Main {
 		System.out.println("1: View all of your customers.");
 		System.out.println("2: See your customer's account applications to approve/decline.");
 		System.out.println("3: Open calculator");
+		System.out.println("4: Exit to main menu");
 	}
 
 	/**
@@ -499,16 +507,23 @@ public class Main {
 					System.out.println(customerStringArray[0] + " " + customerStringArray[1]);
 				}
 				System.out.println("-------------------------------");
+				employeeLoggedInMenu(employeeId, sc);
 				break;
 			case 2://see customer's account applications to approve/decline
 				approveAccountApplications(sc);
+				employeeLoggedInMenu(employeeId, sc);
 				break;
 			case 3:
 				Employee calculate = new Employee();
 				calculate.calculator(sc);
+				employeeLoggedInMenu(employeeId, sc);
+				break;
+			case 4: 
+				main(null);
 				break;
 			default:
 				System.out.println("Not a valid option");
+				employeeLoggedInMenu(employeeId, sc);
 				break;
 			}
 		}
