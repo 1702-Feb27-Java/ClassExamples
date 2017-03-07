@@ -1,2 +1,2 @@
-This is my example file!
-A second line?
+This is my example file.
+The second line.

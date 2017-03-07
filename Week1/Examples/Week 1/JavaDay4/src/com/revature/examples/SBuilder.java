@@ -5,11 +5,11 @@ import java.util.StringTokenizer;
 public class SBuilder {
 
 	public static void main(String[] args) {
+		// TODO Auto-generated method stub
 		String s = new String("Dog");
-		StringBuilder sb = new StringBuilder("Test");
+		StringBuilder sb = new StringBuilder(s);  // insert string you want to use into the string builder
 		
 		System.out.println(sb + " " + new Object().toString() + "\n");
-		
 		System.out.println("sb is: " + sb);
 		System.out.println("sb code: " + System.identityHashCode(sb));
 		System.out.println("string is: " + s);
@@ -19,56 +19,64 @@ public class SBuilder {
 		s+="s";
 		
 		System.out.println("sb is: " + sb);
-		System.out.println("sb code: " + System.identityHashCode(sb));
+		System.out.println("sb code: " + System.identityHashCode(sb));  
+		// this has the same hashcode as the sb above
+		// this is because StringBuilder is mutable, can change the original string without creating a new one
+		// not using the String Pool
 		System.out.println("string is: " + s);
 		System.out.println("string code: " + System.identityHashCode(s));
-
-			
-		//Performance test
+		
+		
+//		// Digression
+//		String s2 = null;
+//		//s2.concat("asd");  // NULL pointer exception - do not call a method on a null object
+//		s2 += "s";  // this prints out "nulls"
+//		System.out.println(s2);
+		
+		
+		// Performance test
 		String s2 = "";
 		StringBuilder sb2 = new StringBuilder();
 		StringBuffer sbuff = new StringBuffer();
 		
-		System.out.println("\nPerformance Times\n");
+		int loop = 100000;
 		
-		int loop = 1000;
 		long curTime = System.currentTimeMillis();
 		
-		for(int i = 0; i < loop; i++){
+		for (int i = 0; i < loop; i++){
 			sb2.append("a");
 		}
-		System.out.println("StringBuilder: " + (System.currentTimeMillis() - curTime));
+		System.out.println("String Builder: " + (System.currentTimeMillis() - curTime));
 		
 		curTime = System.currentTimeMillis();
-		for(int i = 0; i < loop; i++){
+		
+		for (int i = 0; i < loop; i++){
 			sbuff.append("a");
 		}
-		System.out.println("StringBuffer: " + (System.currentTimeMillis() - curTime));
+		System.out.println("String Buffer: " + (System.currentTimeMillis() - curTime));
 		
 		curTime = System.currentTimeMillis();
-		for(int i = 0; i < loop; i++){
+		
+		for (int i = 0; i < loop; i++){
 			s2+="a";
 		}
-		System.out.println("String(Only 100000 appends): " + (System.currentTimeMillis() - curTime));
+		System.out.println("String: " + (System.currentTimeMillis() - curTime));
 		
-		System.out.println("\n\n");
-		//tokenizer
+		
+		// Tokenizer
 		String s3 = "a b, c d, e f,g";
-		String[] sArr = s3.split(",");
+		String[] strArr = s3.split(",");
 		
-		for(String ss : sArr){
-			System.out.println(ss);
-		}
+//		for (String ss : strArr){
+//			System.out.println(ss);
+//		}
 		
-		StringTokenizer st = new StringTokenizer(s3);
+		StringTokenizer st = new StringTokenizer(s3);  // put s3 in the string tokenizer
 		
-		//"a b, c d, e f,g"
 		while(st.hasMoreTokens()){
-			st.nextToken(",");
+			System.out.println(st.nextToken(","));
 		}
-		
-
-		
 		
 	}
+
 }
