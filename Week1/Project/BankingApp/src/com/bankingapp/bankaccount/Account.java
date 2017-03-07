@@ -3,7 +3,7 @@ package com.bankingapp.bankaccount;
 public abstract class Account
 {
     public int amount;
-    long accountNumber;
+    int accountNumber;
 
     abstract int getAmount();
 
@@ -11,7 +11,9 @@ public abstract class Account
     
     abstract void addAmount(int amnt);
 
-    abstract long getAccountNumber();
+    abstract int getAccountNumber();
+    
+    abstract void setAccountNumber(int newNumber);
 
 
 }

@@ -43,7 +43,6 @@ public class TestMain2
 		}while (!(input.equals("Y")) && !(input.equals("N")));
 		return false;
 	}
-	
 	//CREATE A USERNAME AND PASSWORD FOR THE PERSON ===================================================
 	public static boolean createCredentials()
 	{
@@ -66,7 +65,7 @@ public class TestMain2
 				{
 					FileWriter fw = new FileWriter("logins.txt", true);
 					BufferedWriter bw = new BufferedWriter(fw);
-					String wrt = "\n3:"+username+":"+password+":N/A:N/A:N/A:N/A";
+					String wrt = "\n3:"+username+":"+password+":N/A:0:N/A:0";
 					bw.write(wrt);
 					bw.close();
 					System.out.println("USER CREATED \n");
@@ -277,6 +276,7 @@ public class TestMain2
 			}
 		}while (!choice.equals("0"));
 	}
+	//EMPLOYEE STUFF ==========================================================================
 	public static void doEmployeeStuff (Employee emp)
 	{
 		String choice;
@@ -306,28 +306,66 @@ public class TestMain2
 					}
 				}while(combo == null);
 				String [] userInfo = combo.split(",");
+				System.out.println(combo);
 				hasUser= new Customer(userInfo[0]);
 				count = Integer.parseInt(userInfo[1]);
-				if (hasUser.getHasChecking() && hasUser.getHasSavings())
+				
+				String approve;
+				if ((hasUser.getHasChecking() && hasUser.getHasSavings()) || count == 0)
 				{
 					System.out.println("THE USER DOES NOT HAVE ANY PENDING APPROVALS\n");
 				}
 				else if (count == 3)
 				{
 					System.out.println("HAS PENDING CHECKING AND SAVINGS");
+					Employee.getOption(hasUser, "both");
+					approve = sc.next();
+					if(approve.equals("1"))
+					{
+						emp.approveChkAccount(hasUser, true);
+						emp.approveSavAccount(hasUser, true);
+					}
+					else if(approve.equals("2"))
+					{
+						emp.approveChkAccount(hasUser, false);
+						emp.approveSavAccount(hasUser, false);
+					}
+					emp.updateFile(hasUser);
 				}
 				else if (count == 1)
 				{
 					System.out.println("HAS A PENDING CHECKING");
+					Employee.getOption(hasUser, "checking");
+					approve = sc.next();
+					if(approve.equals("1"))
+					{
+						emp.approveChkAccount(hasUser, true);
+					}
+					else if(approve.equals("2"))
+					{
+						emp.approveChkAccount(hasUser, false);
+					}
+					emp.updateFile(hasUser);
 				}
 				else if (count == 2)
 				{
 					System.out.println("HAS A PENDING SAVINGS");
+					Employee.getOption(hasUser, "savings");
+					approve = sc.next();
+					if(approve.equals("1"))
+					{
+						emp.approveSavAccount(hasUser, true);
+					}
+					else if(approve.equals("2"))
+					{
+						emp.approveSavAccount(hasUser, false);
+					}
+					emp.updateFile(hasUser);
 				}
 			}
 		}while (!choice.equals("0"));
 	}
-		
+	//CUSTOMER STUFF ==========================================================================
 	//================================================================================
 	static final Logger l = Logger.getRootLogger();
 	public static void main(String[] args)

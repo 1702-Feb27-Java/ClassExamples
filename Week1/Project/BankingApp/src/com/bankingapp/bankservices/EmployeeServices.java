@@ -9,8 +9,8 @@ public interface EmployeeServices
     public void viewCustomers ();
 
     //Approve a new CheckingAccount
-    public boolean  approveChkAccount (Customer c, boolean choice);
+    public void  approveChkAccount (Customer c, boolean choice);
 
     //Approve a new SavingsAccount
-    public boolean  approveSavAccount (Customer c, boolean choice);
+    public void  approveSavAccount (Customer c, boolean choice);
 }

@@ -18,11 +18,15 @@ public class SavingsAccount extends Account
         this.amount+=amnt;
     }
     
-    public long getAccountNumber()
+    public int getAccountNumber()
     {
         return this.accountNumber;
     }
-
+    
+    public void setAccountNumber(int newNumber)
+    {
+        this.accountNumber= newNumber;
+    }
     //CONSTRUCTORS FOR AN ACCOUNT TYPE
     public SavingsAccount ()
     {
