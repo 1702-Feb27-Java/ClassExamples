@@ -30,9 +30,7 @@ public class AdminMenu {
 				break;
 			case 3:
 				// edit accounts
-				// editAccount();
-				System.out.println("Can't currently implement this.");
-				MenuClass.showAdminMenu();
+				editAccount();
 				AdminMenu.functionality();
 				break;
 			case 4:
@@ -53,83 +51,148 @@ public class AdminMenu {
 		}
 	}
 
-	
-	// METHODS NOT IMPLEMENTED - CAN'T GET THEM TO WORK
-	
-//	public static void editAccount() {
-//
-//		try {
-//			BufferedReader br = new BufferedReader(new FileReader("customeraccounts.txt"));
-//
-//			String thisLine;
-//			// this array stores all accounts
-//			List<String> allAcc = new ArrayList();
-//			while ((thisLine = br.readLine()) != null) {
-//				allAcc.add(thisLine);
-//			}
-//			br.close();
-//
-//			System.out.println("These are all the customer accounts.");
-//			System.out.println(allAcc);
-//			System.out.println("Please enter the id of the customer you wish to edit");
-//
-//			BufferedReader bre = new BufferedReader(new InputStreamReader(System.in));
-//			String IDToEdit = bre.readLine();
-//			// store this id
-//			bre.close();
-//			
-//			whatToEdit(IDToEdit);
-//
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (NumberFormatException e2) {
-//			// TODO Auto-generated catch block
-//			e2.printStackTrace();
-//		}
-//
-//	}
-//
-//	public static void whatToEdit(String IDToEdit) {
-//
-//		int input = 0;
-//		MenuClass.showEditMenu();
-//		Scanner in = new Scanner(System.in);
-//		if(in.hasNextInt()){
-//		input = in.nextInt();}
-//		in.close();
-//		
-//		switch (input) {
-//		case 1: // first name
-//			System.out.println("What would you like to replace the first name with?");
-//			Scanner toReplace = new Scanner(System.in);
-//			String firstName = toReplace.toString();
-//			ReplaceClass.editFirstName(IDToEdit, firstName);
-//			break;
-//		case 2: // last name
-//			System.out.println("What would you like to replace the last name with?");
-//			// String lastName = br.readLine();
-//			break;
-//		case 3: // username
-//			System.out.println("What would you like to replace the username with?");
-//			// String username = br.readLine();
-//			break;
-//		case 4: // password
-//			System.out.println("What would you like to replace the password with?");
-//			// String password = br.readLine();
-//			break;
-//		case 5: // exit to previous menu
-//			MenuClass.showAdminMenu();
-//			AdminMenu.functionality();
-//			break;
-//		default:
-//			System.out.println("You cannot make that selection. Try again.");
-//			break;
-//		}
-//	}
-	
-	// METHODS THAT ARE BEING IMPLEMENTED
-	
+	public static void editAccount() {
+
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("customeraccounts.txt"));
+
+			String thisLine;
+			// this array stores all accounts
+			List<String> allAcc = new ArrayList();
+			while ((thisLine = br.readLine()) != null) {
+				allAcc.add(thisLine);
+			}
+			br.close();
+
+			System.out.println("These are all the customer accounts.");
+			System.out.println(allAcc);
+			System.out.println("Please enter the id of the customer you wish to edit");
+
+			BufferedReader bre = new BufferedReader(new InputStreamReader(System.in));
+			String IDToEdit = bre.readLine();
+			// store this id
+
+			whatToEdit(IDToEdit);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NumberFormatException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+	}
+
+	public static void whatToEdit(String IDToEdit) {
+
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			MenuClass.showEditMenu();
+			int input = Integer.parseInt(br.readLine());
+			int input2;
+
+			switch (input) {
+			case 1: // first name
+				System.out.println("What would you like to replace the first name with?");
+				String firstName = br.readLine();
+				ReplaceClass.editFirstName(IDToEdit, firstName);
+				System.out.println("Success, you have edited the customer's first name.");
+				System.out.println("Would you like to edit something else? 1 for YES and 2 for NO");
+				input2 = Integer.parseInt(br.readLine());
+				switch(input2){
+				case 1: // yes
+					whatToEdit(IDToEdit);
+					break;
+				case 2: // no
+					System.out.println("Returning you to the admin menu.");
+					MenuClass.showAdminMenu();
+					break;
+				default:
+					System.out.println("You cannot make that selection. Try again.");
+					break;
+				}
+				break;
+			case 2: // last name
+				System.out.println("What would you like to replace the last name with?");
+				String lastName = br.readLine();
+				ReplaceClass.editLastName(IDToEdit, lastName);
+				System.out.println("Success, you have edited the customer's last name.");
+				System.out.println("Would you like to edit something else? 1 for YES and 2 for NO");
+				input2 = Integer.parseInt(br.readLine());
+				switch(input2){
+				case 1: // yes
+					whatToEdit(IDToEdit);
+					break;
+				case 2: // no
+					System.out.println("Returning you to the admin menu.");
+					MenuClass.showAdminMenu();
+					break;
+				default:
+					System.out.println("You cannot make that selection. Try again.");
+					break;
+				}
+				break;
+			case 3: // username
+				System.out.println("What would you like to replace the username with?");
+				String username = br.readLine();
+				ReplaceClass.editUsername(IDToEdit, username);
+				System.out.println("Success, you have edited the customer's last name.");
+				System.out.println("Would you like to edit something else? 1 for YES and 2 for NO");
+				input2 = Integer.parseInt(br.readLine());
+				switch(input2){
+				case 1: // yes
+					whatToEdit(IDToEdit);
+					break;
+				case 2: // no
+					System.out.println("Returning you to the admin menu.");
+					MenuClass.showAdminMenu();
+					break;
+				default:
+					System.out.println("You cannot make that selection. Try again.");
+					break;
+				}
+				// String username = br.readLine();
+				break;
+			case 4: // password
+				System.out.println("What would you like to replace the password with?");
+				String password = br.readLine();
+				ReplaceClass.editPassword(IDToEdit, password);
+				System.out.println("Success, you have edited the customer's last name.");
+				System.out.println("Would you like to edit something else? 1 for YES and 2 for NO");
+				input2 = Integer.parseInt(br.readLine());
+				switch(input2){
+				case 1: // yes
+					whatToEdit(IDToEdit);
+					break;
+				case 2: // no
+					System.out.println("Returning you to the admin menu.");
+					MenuClass.showAdminMenu();
+					break;
+				default:
+					System.out.println("You cannot make that selection. Try again.");
+					break;
+				}
+				// String password = br.readLine();
+				break;
+			case 5: // exit to previous menu
+				MenuClass.showAdminMenu();
+				AdminMenu.functionality();
+				break;
+			default:
+				System.out.println("You cannot make that selection. Try again.");
+				break;
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NumberFormatException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+	}
+
 	public static void viewPending() {
 
 		try {
@@ -184,7 +247,7 @@ public class AdminMenu {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}catch (NumberFormatException e2) {
+		} catch (NumberFormatException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
@@ -209,12 +272,12 @@ public class AdminMenu {
 
 			System.out.println("These are all the customer accounts.");
 			System.out.println(allAcc);
-			
+
 			System.out.println("---------------------------");
 			System.out.println("Press 1 to return to the previous menu.");
-			
+
 			int confirm = Integer.parseInt(b.readLine());
-			
+
 			switch (confirm) {
 			case 1: // yes
 				MenuClass.showAdminMenu();
@@ -228,7 +291,7 @@ public class AdminMenu {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}catch (NumberFormatException e2) {
+		} catch (NumberFormatException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
@@ -248,9 +311,9 @@ public class AdminMenu {
 			String ID = br.readLine();
 
 			System.out.println("Approving now...");
-			
+
 			String thisLine;
-			
+
 			ReplaceClass.editID(ID);
 
 			System.out.println("Approval complete. Returning to the employee menu.");
