@@ -40,8 +40,8 @@ public class Menus {
 */
 	public static void displayMainMenu() {
 		
-		System.out.print("Welcome to the the Mincomm Banking Application: \n"
-				+ "Please make a selection from the menu below: \n1. Signup For Service\n"
+		System.out.print("Welcome to the the MinnComm Banking Application: \n"
+				+ "Please make a selection from the menu below: \n\n1. Signup For Service\n"
 				+ "2. Customer Login\n3. Employee Login\n4. Exit\n");
 
 		int selection = 0;

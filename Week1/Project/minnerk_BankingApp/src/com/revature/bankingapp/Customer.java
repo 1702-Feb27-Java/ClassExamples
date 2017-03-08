@@ -1,5 +1,6 @@
 /**
 *********************************************************************************************************
+x
 * TITLE: MINNCOMM BANKING APPLICATION
 * FILENAME: Customer.java
 * PROGRAMMER: KEITH MINNER

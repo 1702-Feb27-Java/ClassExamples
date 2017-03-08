@@ -1,7 +1,7 @@
 /**
 *********************************************************************************************************
 * TITLE: MINNCOMM BANKING APPLICATION
-* FILENAME: UserScreenTest.java
+* FILENAME: EmployeeClassTest.java
 * PROGRAMMER: KEITH MINNER
 * 
 * PURPOSE: ALLOW A USER TO SIGN UP FOR A BANKING SERVICE TO INCLUDE A CHECKING AND / OR SAVINGS ACCOUNT
@@ -20,7 +20,7 @@
 *										PACKAGE & IMPORT FILES
 *********************************************************************************************************
 */
-package com.revature.bankingapp;
+package com.revature.sourcetestfiles;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,11 +28,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.revature.bankingapp.Employee;
+
 /**
  * @author Keith
  *
  */
-public class UserScreenTest {
+public class EmployeeClassTest {
 
 	/**
 	 * @throws java.lang.Exception
@@ -63,9 +65,18 @@ public class UserScreenTest {
 	}
 
 	@Test
-	public void test() {
-		String[] s = {"Test"};
-		UserScreen.main(s);
+	public void testApproveAccounts() {
+		Employee.approveAccounts();
+	}
+
+	@Test
+	public void testPullAccounts() {
+		Employee.pullAccounts();
+	}
+
+	@Test
+	public void testAccessCustomerInfo() {
+		Employee.accessCustomerInfo();
 	}
 
 }

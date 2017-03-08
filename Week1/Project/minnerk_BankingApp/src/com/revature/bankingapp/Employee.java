@@ -59,8 +59,10 @@ public class Employee extends Person {
 *********************************************************************************************************
 */
 	public static void approveAccounts() {
+		
+		System.out.println("\nThis capability is currently under construction");
 
-		BufferedReader br = null;
+/*		BufferedReader br = null;
 		Customer c = new Customer();
 		try {
 			br = new BufferedReader(new FileReader("person.txt"));
@@ -105,7 +107,7 @@ public class Employee extends Person {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 /**
 *********************************************************************************************************
@@ -160,9 +162,12 @@ public class Employee extends Person {
  *  @METHOD TO GET A SIGNLE CUSTOMR IN FOR MANIPULATION
 *********************************************************************************************************
 */
-	public static Customer accessCustomerInfo() {
+	public static void accessCustomerInfo() {
 		
-		BufferedReader br = null;
+		System.out.println("\nThis capability is currently under construction");
+	
+	}
+		/*BufferedReader br = null;
 		Customer c = new Customer();
 		
 		try{
@@ -179,7 +184,9 @@ public class Employee extends Person {
 			}
 		} return c;
 	} 
+*/
 }
+
 /**
 *********************************************************************************************************
 *  										END CLASS EMPLOYEE
