@@ -10,7 +10,7 @@ then
         echo "Compile failed"
     fi
 else
-    java -cp "C:\Users\tobon\Documents\Revature\BankingApp\src;C:\Users\tobon\Downloads\log4j-1.2.17.jar" com.bankingapp.testbanking.testMain
+    java -cp "C:\Users\tobon\Documents\Revature\BankingApp\bin;C:\Users\tobon\Downloads\log4j-1.2.17.jar" com.bankingapp.testbanking.TestMain2
 
 fi
 

@@ -99,6 +99,7 @@ public abstract class People
 					return true;
 				}
 			}
+			br.close();
 		} catch (IOException e)
 		{
 			e.printStackTrace();

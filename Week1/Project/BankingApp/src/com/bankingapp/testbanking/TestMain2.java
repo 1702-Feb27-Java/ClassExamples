@@ -537,6 +537,8 @@ public class TestMain2
 	static final Logger l = Logger.getRootLogger();
 	public static void main(String[] args)
 	{
+		do
+		{
 		Admin admin = null;
 		Employee emp = null;
 		Customer customer = null;
@@ -575,5 +577,6 @@ public class TestMain2
 				doCustomerStuff(customer);
 				break;
 		}
+		}while(true);
 	}
 }
