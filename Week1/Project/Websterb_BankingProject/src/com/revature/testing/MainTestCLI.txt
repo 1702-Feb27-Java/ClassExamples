@@ -7,13 +7,14 @@ supersecretpassword
 2
 5
 3
-benwebster2
+benwebster
 pass123
-benwebster2
+benwebster
 pass123
 2
 1
 2
+1
 4
 2
 boblikesunicorns
@@ -31,6 +32,7 @@ supersecretpassword
 1
 1000
 5
+5
 benwebsteradmin
 password
 boblikesunicorns
@@ -41,6 +43,7 @@ boblikesunicorns
 4
 bobswife
 anothersecretpassword
+5
 2
 bobswife
 anothersecretpassword

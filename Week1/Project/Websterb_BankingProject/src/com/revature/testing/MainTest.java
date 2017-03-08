@@ -41,8 +41,6 @@ public class MainTest {
 				"src\\com\\revature\\testing\\MainTestCLI.txt"));)
 			{
 			
-			System.out.println("test");
-			
 			mainMenuOption(br);
 			
 			Customer viewAccounts = new Customer();

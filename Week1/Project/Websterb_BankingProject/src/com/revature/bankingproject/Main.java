@@ -319,7 +319,7 @@ public class Main {
 				customerLoggedInMenu(customerId, sc);
 				break;
 			case 5:
-				main(null);
+				mainMenuOption(sc);
 				break;
 			default:
 				System.out.println("Not a valid option");
@@ -523,7 +523,7 @@ public class Main {
 				employeeLoggedInMenu(employeeId, sc);
 				break;
 			case 4: 
-				main(null);
+				mainMenuOption(sc);
 				break;
 			default:
 				System.out.println("Not a valid option");
