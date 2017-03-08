@@ -111,7 +111,7 @@ public class App
     				sb = new StringBuilder();
     				sb.append(adminList.get(0).getUserName() + ",");
     				sb.append(adminList.get(0).getPassword() + ",");
-    				sb.append(adminList.get(0).getRole());
+    				sb.append(adminList.get(0).getAdminPin());
     				try
 					{
 						bw1.write(sb.toString());
@@ -150,7 +150,20 @@ public class App
     					adminLoggedIn = true;
     					while(adminLoggedIn)
     					{
-    						
+    						System.out.println("Welcome Administrator");
+    						System.out.println("Here are your bank's current accounts: ");
+    						System.out.println("Username: " + employeeList.get(0).getUserName());
+    						System.out.println("Password: " + employeeList.get(0).getPassword());
+    						System.out.println("Role: " + employeeList.get(0).getRole());
+    						System.out.println("\n Username: " + customerList.get(0).getUserName());
+    						System.out.println("Password: " + customerList.get(0).getPassword());
+    						System.out.println("Role: " + customerList.get(0).getRole());
+    						System.out.println("Account Type: " + customerList.get(0).getAccountType());
+    						System.out.println("Account Balance: " + customerList.get(0).getAccountBalance());
+    						System.out.println("Account Active: " + customerList.get(0).getActive());
+    						System.out.println("\n Thanks for viewing our accounts!");
+    						System.out.println("Logging out!");
+    						adminLoggedIn = false;
     					}
     				}
     				else
@@ -270,7 +283,7 @@ public class App
     				sb.append(customerList.get(0).getRole() + ",");
     				sb.append(customerList.get(0).getAccountType() + ",");
     				sb.append(customerList.get(0).getAccountBalance() + ",");
-    				sb.append("false");
+    				sb.append(customerList.get(0).getActive());
     				try
 					{
 						bw3.write(sb.toString());
