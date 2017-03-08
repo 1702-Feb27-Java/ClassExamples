@@ -38,7 +38,7 @@ public class CheckingAccount extends Account
     public CheckingAccount (int amt)
     {
         this.setAmount(amt);
-
+        
         //RADOMNUMBER FOR ACCOUNT NUMBER
 
     }

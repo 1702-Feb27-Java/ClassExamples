@@ -34,7 +34,7 @@ public interface CustomerServices
     // 
     // TRUE if successful
     // FALSE otherwise
-    public boolean withdraw (int amount, String type);
+    public int withdraw (int amount, String type);
     
     //Deposit from account 
     // AMOUNT amount no cents
@@ -42,5 +42,5 @@ public interface CustomerServices
     // 
     // TRUE if successful
     // FALSE otherwise
-    public boolean deposit (int amount, String type);
+    public int deposit (int amount, String type);
 }

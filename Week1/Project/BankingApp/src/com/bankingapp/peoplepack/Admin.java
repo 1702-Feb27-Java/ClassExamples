@@ -132,7 +132,6 @@ public class Admin extends People implements AdminServices
     @Override
     public boolean editUsername (Customer name, String option)
     {
-    	
 		FileWriter fw = null;
 		try
 		{
@@ -165,6 +164,18 @@ public class Admin extends People implements AdminServices
 				fields = line.split(":");
 				if(fields[1].equals(option))
 				{
+					try
+					{
+						bw.write(userToChange);
+						bw.close();
+						br.close();
+						fw.close();
+		    			//Files.delete(old.toPath());;
+					} catch (IOException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					return false;
 				}
 				else if (fields[1].equals(name.getUsername()))
@@ -189,24 +200,29 @@ public class Admin extends People implements AdminServices
     		System.out.println(userToChange);
     		try
 			{
-				bw.write(userToChange);
 				bw.close();
 				br.close();
 				fw.close();
-    			File old = new File("logins.txt");
-    			if(old.delete())
-    			{
-    				System.out.println("Deleted correctly");
-    			}
-    			//Files.delete(old.toPath());;
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    		
+    		updateFile();
     		return true;
     	}
+    	try
+		{
+			bw.write(userToChange);
+			bw.close();
+			br.close();
+			fw.close();
+			//Files.delete(old.toPath());;
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	return false;
     }
     //EDIT THE EMPLOYEE FOR A CUSTOMER WITH OPTION ==================================================================
@@ -246,6 +262,18 @@ public class Admin extends People implements AdminServices
 				fields = line.split(":");
 				if(fields[1].equals(option))
 				{
+					try
+					{
+						bw.write(userToChange);
+						bw.close();
+						br.close();
+						fw.close();
+		    			//Files.delete(old.toPath());;
+					} catch (IOException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					return false;
 				}
 				else if (fields[1].equals(name.getUsername()))
@@ -267,18 +295,12 @@ public class Admin extends People implements AdminServices
     		split[1] = option;
     		name.setUsername(option);
     		userToChange = String.join(":", split);
-    		System.out.println(userToChange);
     		try
 			{
 				bw.write(userToChange);
 				bw.close();
 				br.close();
 				fw.close();
-    			File old = new File("logins.txt");
-    			if(old.delete())
-    			{
-    				System.out.println("Deleted correctly");
-    			}
     			//Files.delete(old.toPath());;
 			} catch (IOException e)
 			{
@@ -286,8 +308,20 @@ public class Admin extends People implements AdminServices
 				e.printStackTrace();
 			}
     		
+    		People.updateFile();
     		return true;
     	}
+    	try
+		{
+			bw.close();
+			br.close();
+			fw.close();
+			//Files.delete(old.toPath());;
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	return false;
     }
     //EDIT THE ADMIN FOR A CUSTOMER WITH OPTION ==================================================================
@@ -327,6 +361,18 @@ public class Admin extends People implements AdminServices
 				fields = line.split(":");
 				if(fields[1].equals(option))
 				{
+					try
+					{
+						bw.write(userToChange);
+						bw.close();
+						br.close();
+						fw.close();
+		    			//Files.delete(old.toPath());;
+					} catch (IOException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					return false;
 				}
 				else if (fields[1].equals(name.getUsername()))
@@ -355,20 +401,27 @@ public class Admin extends People implements AdminServices
 				bw.close();
 				br.close();
 				fw.close();
-    			File old = new File("logins.txt");
-    			if(old.delete())
-    			{
-    				System.out.println("Deleted correctly");
-    			}
     			//Files.delete(old.toPath());;
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    		
+    		People.updateFile();
     		return true;
     	}
+    	try
+		{
+			bw.write(userToChange);
+			bw.close();
+			br.close();
+			fw.close();
+			//Files.delete(old.toPath());;
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	return false;
     }
     //CHANGE PASSWORD FOR CUSTOMER ===================================================
@@ -431,11 +484,7 @@ public class Admin extends People implements AdminServices
 				bw.close();
 				br.close();
 				fw.close();
-    			File old = new File("logins.txt");
-    			if(old.delete())
-    			{
-    				System.out.println("Deleted correctly");
-    			}
+				People.updateFile();
     			//Files.delete(old.toPath());;
 			} catch (IOException e)
 			{
@@ -443,6 +492,17 @@ public class Admin extends People implements AdminServices
 				e.printStackTrace();
 			}
     	}	
+    	try
+		{
+			bw.close();
+			br.close();
+			fw.close();
+			//Files.delete(old.toPath());;
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     //CHANGE PASSWORD FOR EMPLOYEE ===================================================
     @Override
@@ -505,11 +565,8 @@ public class Admin extends People implements AdminServices
 				bw.close();
 				br.close();
 				fw.close();
-    			File old = new File("logins.txt");
-    			if(old.delete())
-    			{
-    				System.out.println("Deleted correctly");
-    			}
+				People.updateFile();
+    			//File old = new File("logins.txt");
     			//Files.delete(old.toPath());;
 			} catch (IOException e)
 			{
@@ -517,6 +574,17 @@ public class Admin extends People implements AdminServices
 				e.printStackTrace();
 			}
     	}
+    	try
+		{
+			bw.close();
+			br.close();
+			fw.close();
+			//Files.delete(old.toPath());;
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     //CHANGE PASSWORD FOR ADMIN ===================================================
     @Override
@@ -578,11 +646,7 @@ public class Admin extends People implements AdminServices
 				bw.close();
 				br.close();
 				fw.close();
-    			File old = new File("logins.txt");
-    			if(old.delete())
-    			{
-    				System.out.println("Deleted correctly");
-    			}
+				People.updateFile();
     			//Files.delete(old.toPath());;
 			} catch (IOException e)
 			{
@@ -590,6 +654,17 @@ public class Admin extends People implements AdminServices
 				e.printStackTrace();
 			}
     	}	
+    	try
+		{
+			bw.close();
+			br.close();
+			fw.close();
+			//Files.delete(old.toPath());;
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     //CONSTRUCTORS ==================================================
     public Admin (String username, String password)

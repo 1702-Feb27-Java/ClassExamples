@@ -117,6 +117,7 @@ public class Employee extends People implements EmployeeServices
 					pendingCount+=2;
 				}
 			}
+			br.close();
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -147,7 +148,6 @@ public class Employee extends People implements EmployeeServices
         	c.savings.setAccountNumber(c.getUsername().hashCode()+1);
         }
     }
-    
     public void updateFile(Customer c)
     {
     	//OPEN FILE 
@@ -200,7 +200,7 @@ public class Employee extends People implements EmployeeServices
 							newUser = "3:"+c.getUsername()+":"+c.getPassword()+":N/A:N/A:N/A:N/A\n";
 					
 						bw.write(newUser);
-						System.out.println("ADDED USER: " + newUser);
+						//System.out.println("ADDED USER: " + newUser);
 					}
 					else
 					{
@@ -215,6 +215,7 @@ public class Employee extends People implements EmployeeServices
 				bw.close();
 				br.close();
 				fw.close();
+				People.updateFile();
 		} catch (IOException e)
 		{
 			e.printStackTrace();

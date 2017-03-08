@@ -1,9 +1,17 @@
 package com.bankingapp.peoplepack;
 
+import java.awt.image.ReplicateScaleFilter;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 public abstract class People
 {
@@ -54,8 +62,8 @@ public abstract class People
 				if (fields[1].equals(username) && fields[2].equals(password))
 				{
 					br.close();
-					System.out.println("TRUE");
-					return fields[0];
+//					System.out.println(line);
+					return line;
 				}
 			}
 		} catch (IOException e)
@@ -65,6 +73,7 @@ public abstract class People
     	return "0";
     }
     final static public boolean ifExists (String username)
+
     {
    		BufferedReader br =null;
     	try
@@ -96,7 +105,79 @@ public abstract class People
 		}
     	return false;
     }
-    
+   
+    final static public void pushToFile (String s)
+    {
+    	String [] values = s.split(":");
+		FileWriter fw = null;
+		try
+		{
+			fw = new FileWriter("loginstemp.txt");
+		} catch (IOException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		BufferedWriter bw = new BufferedWriter(fw);
+    	BufferedReader br =null;
+    	String userToChange= null;
+    	try
+		{
+			br=new BufferedReader(new FileReader("logins.txt"));
+		} catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+    	String line;
+    	String[] fields= null;
+    	try
+		{
+			while((line=br.readLine()) != null)
+			{
+				if (line.isEmpty())
+				{
+					continue;
+				}
+				fields = line.split(":");
+				if(fields[0].equals(values[0]) && fields[1].equals(values[1]))
+				{
+					bw.write(s+"\n");
+				}
+				else
+				{
+					bw.write(line+"\n");
+				}
+			}
+			People.updateFile();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+    }
+    final static public void updateFile ()
+    {
+		File oldfile = new File("logins.txt");
+		File updatedFile = new File("loginstemp.txt");
+		
+
+		Path oldpath;
+		Path updatedPat;
+		try
+		{ 
+			oldpath = Paths.get(oldfile.getCanonicalPath());
+			Path source = Files.move(oldpath, oldpath.resolveSibling("old.txt"), StandardCopyOption.REPLACE_EXISTING);
+			if(updatedFile.exists())
+			{
+				updatedPat = Paths.get(updatedFile.getCanonicalPath());
+				Path source2 = Files.move(updatedPat, updatedPat.resolveSibling("logins.txt"), StandardCopyOption.REPLACE_EXISTING);
+			}
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+    }
     final static void printAccount (String [] fields)
     {
     	for (int i = 0; i < fields.length; i++)

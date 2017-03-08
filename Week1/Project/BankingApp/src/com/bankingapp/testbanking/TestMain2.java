@@ -3,8 +3,8 @@ package com.bankingapp.testbanking;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
+import com.bankingapp.bankaccount.CheckingAccount;
+import com.bankingapp.bankaccount.SavingsAccount;
 import com.bankingapp.peoplepack.Admin;
 import com.bankingapp.peoplepack.Customer;
 import com.bankingapp.peoplepack.Employee;
@@ -27,6 +29,7 @@ public class TestMain2
 		Scanner sc = new Scanner(System.in);
 		do
 		{
+			l.info("USER ENTERING BANK APP");
 			System.out.println("============= WELCOME TO THE BANKING APP =============");
 			System.out.println("Do you have a username and password?");
 			System.out.print( "[Y/N] : ");
@@ -39,6 +42,7 @@ public class TestMain2
 			{
 				return false;
 			}
+			l.warn("User entered incorrect option");
 			System.out.println("PLEASE ENTER Y OR N\n");
 		}while (!(input.equals("Y")) && !(input.equals("N")));
 		return false;
@@ -50,6 +54,7 @@ public class TestMain2
 		Scanner sc = new Scanner(System.in);
 		do
 		{
+			l.info("USER CREATING CREDENTIALS");
 			String username, password;
 			System.out.println("============= CREATE LOGIN =============");
 			System.out.print("Enter your username: ");
@@ -69,7 +74,8 @@ public class TestMain2
 					bw.write(wrt);
 					bw.close();
 					System.out.println("USER CREATED \n");
-
+					fw.close();
+					l.info("USER CREATED NEW MEMBER");
 					return true;
 				} catch (IOException e)
 				{
@@ -77,6 +83,7 @@ public class TestMain2
 					e.printStackTrace();
 				}
 			}
+			l.warn("USER ATTEMPTED USER  WITH USERAME THAT ALREADY EXISTS");
 			System.out.println("THE USERNAME YOU ARE TRYING TO USE ALREADY EXISTS PLEASE TRY AGAIN\n");
 		}while(loginCheck);
 		return false;
@@ -89,6 +96,7 @@ public class TestMain2
 		String username, password;
 		do
 		{
+			l.trace("USER IN LOGIN MENU");
 			System.out.println("============= LOGIN =============");
 			System.out.print("Enter your username: ");
 			username = sc.next();
@@ -97,10 +105,13 @@ public class TestMain2
 		
 			loginUser = People.login(username, password);
 			
-			if (loginUser.equals("0"))
+			if (loginUser.startsWith("0"))
+			{
+				l.warn("USER ENTERED WRONG CREDENTIALS");
 				System.out.println("WRONG USERNAME OR PASSWORD \n");
-		}while(loginUser.equals("0"));
-		return loginUser+":"+username+":"+password;
+			}
+		}while(loginUser.startsWith("0"));
+		return loginUser;
 		
 	}
 	//RETURNS ALL THE DATA FOR AN ACCOUNT WITH USERNAME MATCING NAME================================
@@ -127,9 +138,11 @@ public class TestMain2
 				fields = line.split(":");
 				if (fields[1].equals(name))
 				{
+					br.close();
 					return line;
 				}
 			}
+			br.close();
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -249,19 +262,25 @@ public class TestMain2
 						}
 						else if (input.equals("3") || input.equals("4"))
 						{
-
 							System.out.println("Enter the balance");
 							int change;
+							Employee t = new Employee("x","x");
 							try
 							{
 								change=sc.nextInt();
 								if (input.equals("3"))
 								{
-									nc.check.setAmount(change);
+									nc.setHasChecking(true);
+									nc.check = new CheckingAccount(change);
+									nc.check.setAccountNumber(nc.getUsername().hashCode());
+									t.updateFile(nc);
 								}
 								else
 								{
-									nc.savings.setAmount(change);
+									nc.setHasSavings(true);
+									nc.savings = new SavingsAccount(change);
+									nc.savings.setAccountNumber(nc.getUsername().hashCode()+1);
+									t.updateFile(nc);
 								}
 							}
 							catch (InputMismatchException e)
@@ -306,7 +325,7 @@ public class TestMain2
 					}
 				}while(combo == null);
 				String [] userInfo = combo.split(",");
-				System.out.println(combo);
+				//System.out.println(combo);
 				hasUser= new Customer(userInfo[0]);
 				count = Integer.parseInt(userInfo[1]);
 				
@@ -366,6 +385,129 @@ public class TestMain2
 		}while (!choice.equals("0"));
 	}
 	//CUSTOMER STUFF ==========================================================================
+	public static void doCustomerStuff (Customer cus)
+	{
+		Employee t = new Employee("x","x");
+		String choice;
+		Scanner sc = new Scanner(System.in);
+		do 
+		{
+			Customer.getMenu(cus);
+			choice = sc.next();
+		
+			boolean applySucc=false;
+			if (choice.equals("1"))
+			{
+				applySucc = cus.applyAccnt("Checking");
+				if(applySucc)
+				{
+					System.out.println("APPLIED SUCCESSFULLY\n");
+					//t.updateFile(cus);
+				}
+				else
+					System.out.println("YOU EITHER HAVE A PENDING OR OPEN ACCOUNT ALREADY\n");
+			}
+			else if (choice.equals("2"))
+			{
+				applySucc = cus.applyAccnt("Savings");
+				if(applySucc)
+				{
+					System.out.println("APPLIED SUCCESSFULLY\n");
+					//t.updateFile(cus);
+				}
+				else
+					System.out.println("YOU EITHER HAVE A PENDING OR OPEN ACCOUNT ALREADY\n");
+			}
+			else if (choice.equals("3") || choice.equals("4"))
+			{
+				int amount=0;
+				do
+				{
+					System.out.println("Enter Amount: ");
+					int transaction = 1;
+					try
+					{
+						amount=sc.nextInt();
+						if(choice.equals("3"))
+							transaction = cus.deposit(amount, "Checking");
+						else if(choice.equals("4"))
+							transaction = cus.deposit(amount, "Savings");
+					}
+					catch (InputMismatchException e)
+					{
+						System.out.println("YOU DID NOT ENTER A INTERGER" );
+						System.out.println("GOING BACK TO MENU");
+						sc.next();
+						break;
+					}
+					if(transaction == 0)
+					{
+						System.out.println("TRANSACTION COMPLETE");
+						if(choice.equals("3"))
+							System.out.println("NEW BALANACE: "+cus.check.getAmount()+"\n");
+						else if(choice.equals("4"))
+							System.out.println("NEW BALANACE: "+cus.savings.getAmount()+"\n");
+						
+						//UPDATE FILE
+						t.updateFile(cus);
+					}
+					else if(transaction == 1)
+					{
+						System.out.println("TRANSACTION ERROR: NOT ENOUGH FUNDS\n");
+					}
+					else if(transaction == 2)
+					{
+						System.out.println("NO ACCOUNT: OR STILL PENDING APPROVAL\n");
+//						System.out.println("NO ACCOUNT: PLEASE APPLY FOR ONE\n");
+					}
+				}while(amount==0);
+			}
+			else if (choice.equals("5") || choice.equals("6"))
+			{
+				int amount=0;
+				do
+				{
+					System.out.println("Enter Amount: ");
+					int transaction = 1;
+					try
+					{
+						amount=sc.nextInt();
+						if(choice.equals("5"))
+							transaction = cus.withdraw(amount, "Checking");
+						else if(choice.equals("6"))
+							transaction = cus.withdraw(amount, "Savings");
+					}
+					catch (InputMismatchException e)
+					{
+						System.out.println("YOU DID NOT ENTER A INTERGER" );
+						System.out.println("GOING BACK TO MENU");
+						sc.next();
+						break;
+					}
+					if(transaction == 0)
+					{
+						System.out.println("TRANSACTION COMPLETE");
+						if(choice.equals("5"))
+							System.out.println("NEW BALANACE: "+cus.check.getAmount()+"\n");
+						else if(choice.equals("6"))
+							System.out.println("NEW BALANACE: "+cus.savings.getAmount()+"\n");
+						
+						//UPDATE FILE
+						t.updateFile(cus);
+						//System.out.println("UPDATE THE FILE");
+					}
+					else if(transaction == 1)
+					{
+						System.out.println("TRANSACTION ERROR: NOT ENOUGH FUNDS\n");
+					}
+					else if(transaction == 2)
+					{
+						System.out.println("NO ACCOUNT: OR STILL PENDING APPROVAL\n");
+					}
+				}while(amount==0);	
+			}
+		}while (!choice.equals("0"));	
+	}
 	//================================================================================
 	static final Logger l = Logger.getRootLogger();
 	public static void main(String[] args)
@@ -393,16 +535,19 @@ public class TestMain2
 		switch (user[0])
 		{
 			case "1":
+				l.trace("ADMIN SIGNED IN");
 				admin = new Admin(user[1], user[2]);
 				doAdminStuff(admin);
 				break;
 			case "2":
+				l.trace("EMPLOYEE SIGNED IN");
 				emp = new Employee(user[1], user[2]);
 				doEmployeeStuff(emp);
 				break;
 			case "3":
-				Customer.getMenu();
-				customer = new Customer(user[1], user[2]);
+				l.trace("CUSTOMER SIGNED IN");
+				customer = new Customer(checkCreds);
+				doCustomerStuff(customer);
 				break;
 		}
 	}
