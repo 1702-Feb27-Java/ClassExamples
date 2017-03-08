@@ -29,9 +29,9 @@ public class Employee {
 		
 		// open reader and writer for data file
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+				"src\\com\\revature\\bankingproject\\Data.txt"));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(
-						"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt",
+						"src\\com\\revature\\bankingproject\\Data.txt",
 						true))) {
 			String line;
 			try {
@@ -121,9 +121,9 @@ public class Employee {
 
 		// open reader and writer for data file
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+				"src\\com\\revature\\bankingproject\\Data.txt"));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(
-						"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt",
+						"src\\com\\revature\\bankingproject\\Data.txt",
 						true))) {
 
 			// loop through every line in the file to check for username
@@ -226,9 +226,9 @@ public class Employee {
 
 		// open reader and writer for data file
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+				"src\\com\\revature\\bankingproject\\Data.txt"));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(
-						"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt",
+						"src\\com\\revature\\bankingproject\\Data.txt",
 						true))) {
 			
 					//populate copies of data file to traverse
@@ -372,9 +372,9 @@ public class Employee {
 		ArrayList<String> file2= new ArrayList<String>();
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+				"src\\com\\revature\\bankingproject\\Data.txt"));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(
-						"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt",
+						"src\\com\\revature\\bankingproject\\Data.txt",
 						true))) {
 			//populate copies of data file to traverse
 			while((line2 = br.readLine()) != null){

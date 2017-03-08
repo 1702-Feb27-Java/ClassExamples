@@ -31,9 +31,9 @@ public class Customer {
 		
 		// open reader and writer for data file
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+				"src\\com\\revature\\bankingproject\\Data.txt"));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(
-						"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt",
+						"src\\com\\revature\\bankingproject\\Data.txt",
 						true))) {
 			String line;
 			try {
@@ -131,9 +131,9 @@ public class Customer {
 
 		// open reader and writer for data file
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+				"src\\com\\revature\\bankingproject\\Data.txt"));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(
-						"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt",
+						"src\\com\\revature\\bankingproject\\Data.txt",
 						true))) {
 
 			// loop through every line in the file to check for username
@@ -231,9 +231,9 @@ public class Customer {
 		boolean valid = false;
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+				"src\\com\\revature\\bankingproject\\Data.txt"));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(
-						"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt",
+						"src\\com\\revature\\bankingproject\\Data.txt",
 						true))) {
 			
 			while ((line = br.readLine()) != null) {
@@ -307,9 +307,9 @@ public class Customer {
 		boolean valid = false;
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+				"src\\com\\revature\\bankingproject\\Data.txt"));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(
-						"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt",
+						"src\\com\\revature\\bankingproject\\Data.txt",
 						true))) {
 			
 			while ((line = br.readLine()) != null) {
@@ -385,9 +385,9 @@ public class Customer {
 
 		// open reader and writer for data file
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+				"src\\com\\revature\\bankingproject\\Data.txt"));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(
-						"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt",
+						"src\\com\\revature\\bankingproject\\Data.txt",
 						true))) {
 
 			// loop through every line in the file to check for checking or savings account
@@ -439,8 +439,9 @@ public class Customer {
 					}
 				}
 			}
-			if(!accountFound)
-				System.out.println("No Accounts Found");
+			if(!accountFound){
+				return null;
+			}
 		} catch (IOException e) {
 			l.error(e);
 			System.out.println("IO Exception");
@@ -463,9 +464,9 @@ public class Customer {
 	public int depositMoney(int customerId, String accountType, int amount){
 		int currBalance = 0;
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+				"src\\com\\revature\\bankingproject\\Data.txt"));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(
-						"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt",
+						"src\\com\\revature\\bankingproject\\Data.txt",
 						true))) {
 			String line = "";
 			String oldText = "";
@@ -515,7 +516,7 @@ public class Customer {
 								accountType + ":" + customerId + ":" + "true" + ":" + currBalance + ":" + "benwebster".hashCode());
 			
 			BufferedWriter bw2 = new BufferedWriter(new FileWriter(
-					"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+					"src\\com\\revature\\bankingproject\\Data.txt"));
 			bw2.write(newText);
 			bw2.close();
 			
@@ -542,9 +543,9 @@ public class Customer {
 	public int withdrawMoney(int customerId, String accountType, int amount){
 		int currBalance = 0;
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+				"src\\com\\revature\\bankingproject\\Data.txt"));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(
-						"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt",
+						"src\\com\\revature\\bankingproject\\Data.txt",
 						true))) {
 			String line = "";
 			String oldText = "";
@@ -594,7 +595,7 @@ public class Customer {
 								accountType + ":" + customerId + ":" + "true" + ":" + currBalance + ":" + "benwebster".hashCode());
 			
 			BufferedWriter bw2 = new BufferedWriter(new FileWriter(
-					"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+					"src\\com\\revature\\bankingproject\\Data.txt"));
 			bw2.write(newText);
 			bw2.close();
 			

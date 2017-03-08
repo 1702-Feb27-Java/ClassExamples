@@ -32,9 +32,9 @@ public class Admin{
 
 		// open reader and writer for data file
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+				"src\\com\\revature\\bankingproject\\Data.txt"));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(
-						"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt",
+						"src\\com\\revature\\bankingproject\\Data.txt",
 						true))) {
 
 			// loop through every line in the file to check for username
@@ -122,9 +122,9 @@ public class Admin{
 		
 		// open reader and writer for data file
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt"));
+				"src\\com\\revature\\bankingproject\\Data.txt"));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(
-						"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt",
+						"src\\com\\revature\\bankingproject\\Data.txt",
 						true))) {
 			String line = "";
 			// loop through every line in the file to check for username

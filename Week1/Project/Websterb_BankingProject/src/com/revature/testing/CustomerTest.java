@@ -23,7 +23,7 @@ public class CustomerTest {
 	@Test
 	public void test() {
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\testing\\CustomerTestCLI.txt"));)
+				"src\\com\\revature\\testing\\CustomerTestCLI.txt"));)
 			{
 			//test create a customer account
 			Customer customer = new Customer();

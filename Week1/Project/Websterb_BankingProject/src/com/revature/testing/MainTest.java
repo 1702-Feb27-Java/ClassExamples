@@ -24,11 +24,11 @@ public class MainTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		File file = new File("C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt");
+		File file = new File("src\\com\\revature\\bankingproject\\Data.txt");
 		file.delete();
 		
 		BufferedWriter bw = new BufferedWriter(new FileWriter(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\bankingproject\\Data.txt", true));
+				"src\\com\\revature\\bankingproject\\Data.txt", true));
 		
 		bw.write("admin:" + "benwebsteradmin".hashCode() + ":" + "benwebsteradmin" + ":" + "password" + ":" + "benwebsteradmin".hashCode());
 		bw.newLine();
@@ -38,35 +38,20 @@ public class MainTest {
 	@Test
 	public void test() {
 		try(BufferedReader br = new BufferedReader(new FileReader(
-				"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\testing\\MainTestCLI.txt"));)
+				"src\\com\\revature\\testing\\MainTestCLI.txt"));)
 			{
-
 			
-			mainMenuOption(br);
-			mainMenuOption(br);
-			mainMenuOption(br);
-			mainMenuOption(br);
-			mainMenuOption(br);
-			mainMenuOption(br);
-			mainMenuOption(br);
-			mainMenuOption(br);
-			mainMenuOption(br);
-			mainMenuOption(br);
+			System.out.println("test");
+			
 			mainMenuOption(br);
 			
 			Customer viewAccounts = new Customer();
 			ArrayList<String> viewAccountsResult = viewAccounts.getAccountsForCustomer("boblikesunicorns".hashCode());	
 			assertEquals("savings", viewAccountsResult.get(0));
-			assertEquals("$55", viewAccountsResult.get(1));
+			assertEquals("$65", viewAccountsResult.get(1));
 			assertEquals("checking", viewAccountsResult.get(2));
 			System.out.println(viewAccountsResult.get(3));
 			assertEquals("$1150", viewAccountsResult.get(3));
-			
-			//test admin login and admin priveledges
-			mainMenuOption(br);
-			ArrayList<String> viewAccountsResult2 = viewAccounts.getAccountsForCustomer("boblikesunicorns".hashCode());	
-			assertEquals("savings", viewAccountsResult2.get(0));
-			assertEquals("$65", viewAccountsResult2.get(1));
 			
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -256,6 +256,11 @@ public class Main {
 				Customer viewAccounts = new Customer();
 				ArrayList<String> viewAccountsResult;	
 				viewAccountsResult = viewAccounts.getAccountsForCustomer(customerId);
+				if(viewAccountsResult == null){
+					System.out.println("No Accounts to view");
+					customerLoggedInMenu(customerId, sc);
+				}
+					
 				
 				String accountType;
 				//2 accounts
@@ -329,8 +334,7 @@ public class Main {
 		catch(Exception e){
 			l.error(e);
 			System.out.println(e);
-		}
-		
+		}		
 	}
 	
 	/**

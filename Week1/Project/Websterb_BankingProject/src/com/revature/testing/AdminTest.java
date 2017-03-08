@@ -23,7 +23,7 @@ public class AdminTest {
 	@Test
 	public void test(){
 	try (BufferedReader br = new BufferedReader(new FileReader(
-			"C:\\Users\\Ben\\Documents\\workspace-sts-3.8.3.RELEASE\\Websterb_BankingProject\\src\\com\\revature\\testing\\AdminTestCLI.txt"));)
+			"src\\com\\revature\\testing\\AdminTestCLI.txt"));)
 		{
 			//test admin login
 			Admin admin = new Admin();
