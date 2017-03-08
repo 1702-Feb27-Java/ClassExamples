@@ -7,15 +7,21 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
+/**
+ * Class to simulate the driver application of a Banking app
+ * Assistance provide by David, Marco, Marcus and Danni
+ * @author Nick
+ *
+ */
 
 public class MainApp {
 
+	//static variables to be used throughout the program
 	static Customer new_person = new Customer();
+	
 	static ArrayList<Customer> Cust_list = new ArrayList<Customer>();
 	
 	public static void main(String[] args) {
@@ -105,6 +111,8 @@ public class MainApp {
 				case 1: CustomerMenu();
 				break;
 				
+				//case 3: 
+				
 			}
 		}
 	}
@@ -124,37 +132,44 @@ public class MainApp {
 		//function to check file for credentials
 		//then put it into a local ArrayList of customers
 		Scanner cust_input = new Scanner(System.in);
-		
-		for( int i = 0; i < Cust_list.size(); i++ ) {
-			//System.out.println(":"+Cust_list.get(i).getUser_name()+":");
-			if( Cust_list.get(i).getUser_name().equals(cust_user) & Cust_list.get(i).getPassword().equals(cust_pass)) {
-				is_loggedIn = true;
-				System.out.println("Welcome, What do you want to do?");
-				System.out.println();
-				System.out.println("1: Widthdraw");
-				System.out.println("2: Deposit");
-				System.out.print("Enter your choice: ");
-				int cust_num = cust_input.nextInt();
-				System.out.println();
-				
-				if ( cust_num == 1 )
-					Widthdraw(Cust_list.get(i));
-				else
+		int cust_num = 0;
+		do {
+			for( int i = 0; i < Cust_list.size(); i++ ) {
+				//System.out.println(":"+Cust_list.get(i).getUser_name()+":");
+				if( Cust_list.get(i).getUser_name().equals(cust_user) & Cust_list.get(i).getPassword().equals(cust_pass)) {
+					is_loggedIn = true;
+					System.out.println("Welcome, What do you want to do?");
 					System.out.println();
+					System.out.println("1: Widthdraw");
+					System.out.println("2: Deposit");
+					System.out.println("0: Exit");
+					System.out.print("Enter your choice: ");
+					cust_num = cust_input.nextInt();
+					System.out.println();
+					
+					if ( cust_num == 1 )
+						Widthdraw(Cust_list.get(i));
+					else if ( cust_num == 2)
+						Deposit(Cust_list.get(i));
+					
+				}
 				
 			}
-			
-		}
-			//else ( !(Cust_list.get(i).getUser_name().equals(cust_user)) & !(Cust_list.get(i).getPassword().equals(cust_pass)) ) {
-		if (!is_loggedIn)
-		{
-				System.out.println("Invalid credentials! Please log in again");
-				System.out.println();
-			//break;
-		}
+				//else ( !(Cust_list.get(i).getUser_name().equals(cust_user)) & !(Cust_list.get(i).getPassword().equals(cust_pass)) ) {
+			if (!is_loggedIn)
+			{
+					System.out.println("Invalid credentials! Please log in again");
+					System.out.println();
+				//break;
+			}
+		}  while ( cust_num != 0);
+		
 			
 	}
-	
+	/**
+	 * Function for the customer to withdraw from their accounts
+	 * @param obj of type customer to be passed in.
+	 */
 	static void Widthdraw(Customer obj) {
 		System.out.println("Which account would you like to widthdraw from?");
 		System.out.println("1: Checking");
@@ -184,7 +199,7 @@ public class MainApp {
 			int num = read_num.nextInt();
 			
 			if ( obj.getBalance2() - num <= 0 ) {
-				System.out.println("You can not widthdraw. Here is your balance: " + obj.getBalance1());
+				System.out.println("You can not widthdraw. Here is your balance: " + obj.getBalance2());
 				System.out.println("Deposit money first!");
 			}
 			else {
@@ -192,6 +207,46 @@ public class MainApp {
 				//System.out.println(obj.getBalance1());
 			}
 			
+			
+		}
+		//place object back to customer list or at least sort through it
+		for( int i = 0; i < Cust_list.size(); i++ ) {
+			if ( Cust_list.get(i).getUser_name().equals(obj.getUser_name()) ) {
+				Cust_list.set(i, obj);
+			}
+		}
+		WriteToCustFile(Cust_list);
+	}
+	/**
+	 * Function to deposit to customers account of their choosing
+	 * @param obj is of type Customer
+	 */
+	static void Deposit(Customer obj) {
+		System.out.println("Which account would you like to deposit to?");
+		System.out.println("1: Checking");
+		System.out.println("2: Savings");
+		System.out.print("Enter your choice: ");
+	
+		Scanner depo_input = new Scanner(System.in);
+		int depo_num = depo_input.nextInt();
+		Scanner read_num = new Scanner(System.in);
+		
+		
+		if ( depo_num == 1 ) {
+			System.out.print("How much do you want to deposit?: ");
+			int num = read_num.nextInt();
+			
+			obj.setBalance1(obj.getBalance1() + num);
+			//System.out.println(obj.getBalance1());
+			
+		}
+		else {
+			System.out.print("How much do you want to deposit?: ");
+			int num = read_num.nextInt();
+			
+			
+			obj.setBalance2(obj.getBalance2() + num);
+			//System.out.println(obj.getBalance1());
 			
 		}
 		//place object back to customer list or at least sort through it
@@ -258,7 +313,7 @@ public class MainApp {
 	}
 	
 	/**
-	 * Reading from customer file and putting it into the ArrayList of customer before the program starts
+	 * Reading from customer file and putting it into the ArrayList of customers before the program starts
 	 * so I can check the data of the customers
 	 */
 	static void ReadFromCustFile() {
@@ -281,7 +336,7 @@ public class MainApp {
 			while ((line = BR.readLine()) != null) {
 				String[] temp = line.split(":");
 				Cust_list.add(new Customer(temp[0], temp[1], temp[2], Double.parseDouble(temp[3]), temp[4], Double.parseDouble(temp[5] )));
-				//String user_name, String password, String AccountName1, double Balance1, String AccountName2, double Balance2
+							//String user_name, String password, String AccountName1, double Balance1, String AccountName2, double Balance2
 			}
 				
 			

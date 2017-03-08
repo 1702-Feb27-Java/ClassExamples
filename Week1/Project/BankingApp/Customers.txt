@@ -1,3 +1,3 @@
-nick:pass1:Checking:1.0:Savings:0.0
+nick:pass1:Checking:1.0:Savings:44.0
 john:smith:Checking:5.0:Savings:0.0
-neo:bluepill:Checking:0.0:Savings:0.0
+neo:bluepill:Checking:9.0:Savings:10.0
