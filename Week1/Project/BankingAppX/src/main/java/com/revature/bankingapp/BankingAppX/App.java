@@ -270,7 +270,7 @@ public class App
     				sb.append(customerList.get(0).getRole() + ",");
     				sb.append(customerList.get(0).getAccountType() + ",");
     				sb.append(customerList.get(0).getAccountBalance() + ",");
-    				sb.append("false");
+    				sb.append(customerList.get(0).getActive());
     				try
 					{
 						bw3.write(sb.toString());
