@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import org.apache.log4j.Logger;
 
 public class ReplaceClass {
 
@@ -17,6 +18,9 @@ public class ReplaceClass {
 	// there's one method for editing each field in a customer info
 	// editID, editFirstName, editLastName, editUsername, editPassword
 	// deposit and withdraw
+
+	// let's create a logger object first
+	static final Logger transactionLogger = Logger.getRootLogger();
 
 	public static void editID(String ID) {
 
@@ -209,7 +213,7 @@ public class ReplaceClass {
 		} // TRY-CATCH
 
 	}
-	
+
 	public static void editLastName(String ID, String newLastName) {
 
 		// thisLine is the line we're looking at as an entire string
@@ -304,7 +308,7 @@ public class ReplaceClass {
 		} // TRY-CATCH
 
 	}
-	
+
 	public static void editUsername(String ID, String newUsername) {
 
 		// thisLine is the line we're looking at as an entire string
@@ -399,7 +403,7 @@ public class ReplaceClass {
 		} // TRY-CATCH
 
 	}
-	
+
 	public static void editPassword(String ID, String newPassword) {
 
 		// thisLine is the line we're looking at as an entire string
@@ -537,12 +541,14 @@ public class ReplaceClass {
 					if (accountType.equals("c")) {
 
 						double oldAmount = Double.parseDouble(newLine[5].substring(1, newLine[5].length()));
-						System.out.println(oldAmount);
 						double sum = oldAmount + newAmount;
 						String toAdd = "c" + Double.toString(sum);
-						System.out.println("sum");
 						newLine[5] = newLine[5].replace(newLine[5], toAdd);
 						// System.out.println(Arrays.toString(newLine));
+
+						// save to log
+						transactionLogger.trace("Customer " + newLine[0] + " has deposited " + Double.toString(newAmount)
+								+ " dollars in their checking account.");
 
 					}
 
@@ -554,6 +560,10 @@ public class ReplaceClass {
 						String toAdd = "s" + Double.toString(sum);
 						newLine[6] = newLine[6].replace(newLine[6], toAdd);
 						// System.out.println(Arrays.toString(newLine));
+						
+						// save to log
+						transactionLogger.trace("Customer " + newLine[0] + " has deposited " + Double.toString(newAmount)
+								+ " dollars in their savings account.");
 
 					}
 
@@ -644,34 +654,42 @@ public class ReplaceClass {
 
 						double oldAmount = Double.parseDouble(newLine[5].substring(1, newLine[5].length()));
 						double diff = oldAmount - newAmount;
-						
-						if (diff < 0){ // a check for overdraft protection
-							System.out.println("Withdrawing " + newAmount + " will result in a negative balance.");
-							System.out.println("Press 1 to accept. Overdraft protection fee will be applied.");
-							System.out.println("Press 2 to cancel and choose a new amount to withdraw.");
-							int input = Integer.parseInt(br.readLine());
-							
-							switch(input){
-							case 1: // apply overdraft
-								String toAdd = "c" + Double.toString(diff);
-								newLine[5] = newLine[5].replace(newLine[5], toAdd);
-								System.out.println("Overdraft fee applied.");
-								break;
-							case 2: // choose new amount 
-								System.out.println("Enter a new amount to withdraw.");
-								double newWithdraw = Double.parseDouble(br.readLine());
-								withdraw(username, "c", newWithdraw);
-								break;
-							default:
-								System.out.println("You cannot make that selection. Try again.");
-								break;
-							}			
-						}
 
-						else {
-						String toAdd = "c" + Double.toString(diff);
-						newLine[5] = newLine[5].replace(newLine[5], toAdd);
-						}
+//						if (diff < 0) { // a check for overdraft protection
+//							System.out.println("Withdrawing " + newAmount + " will result in a negative balance.");
+//							System.out.println("Press 1 to accept. Overdraft protection fee will be applied.");
+//							System.out.println("Press 2 to cancel and choose a new amount to withdraw.");
+//							int input = Integer.parseInt(br.readLine());
+//
+//							switch (input) {
+//							case 1: // apply overdraft
+//								String toAdd = "c" + Double.toString(diff);
+//								newLine[5] = newLine[5].replace(newLine[5], toAdd);
+//								System.out.println("Overdraft fee applied.");
+//								
+//								// save to log
+//								transactionLogger.trace("Customer " + newLine[0] + " has withdrawn " + Double.toString(newAmount)
+//										+ " dollars from their checking account.");
+//								break;
+//							case 2: // choose new amount
+//								System.out.println("Enter a new amount to withdraw.");
+//								double newWithdraw = Double.parseDouble(br.readLine());
+//								withdraw(username, "c", newWithdraw);
+//								break;
+//							default:
+//								System.out.println("You cannot make that selection. Try again.");
+//								break;
+//							}
+//						}
+//
+//						else {
+							String toAdd = "c" + Double.toString(diff);
+							newLine[5] = newLine[5].replace(newLine[5], toAdd);
+							
+							// save to log
+							transactionLogger.trace("Customer " + newLine[0] + " has withdrawn " + Double.toString(newAmount)
+									+ " dollars from their checking account.");
+						//}
 
 						// System.out.println(Arrays.toString(newLine));
 
@@ -680,37 +698,45 @@ public class ReplaceClass {
 					// savings account balance
 					if (accountType.equals("s")) {
 
-						double oldAmount = Double.parseDouble(newLine[6].substring(1, newLine[5].length()));
+						double oldAmount = Double.parseDouble(newLine[6].substring(1, newLine[6].length()));
 						double diff = oldAmount - newAmount;
-						
-						if (diff < 0){ // check for overdraft
-							System.out.println("Withdrawing " + newAmount + " will result in a negative balance.");
-							System.out.println("Press 1 to accept. Overdraft protection fee will be applied.");
-							System.out.println("Press 2 to cancel and choose a new amount to withdraw.");
-							int input = Integer.parseInt(br.readLine());
-							
-							switch(input){
-							case 1: // apply overdraft
-								String toAdd = "s" + Double.toString(diff);
-								newLine[6] = newLine[6].replace(newLine[6], toAdd);
-								System.out.println("Overdraft fee applied.");
-								break;
-							case 2: // choose new amount
-								System.out.println("Enter a new amount to withdraw.");
-								double newWithdraw = Double.parseDouble(br.readLine());
-								withdraw(username, "s", newWithdraw);
-								break;
-							default:
-								System.out.println("You cannot make that selection. Try again.");
-								break;
-							}			
-						}
-						
-						else{
 
-						String toAdd = "s" + Double.toString(diff);
-						newLine[6] = newLine[6].replace(newLine[6], toAdd);
-						}
+//						if (diff < 0) { // check for overdraft
+//							System.out.println("Withdrawing " + newAmount + " will result in a negative balance.");
+//							System.out.println("Press 1 to accept. Overdraft protection fee will be applied.");
+//							System.out.println("Press 2 to cancel and choose a new amount to withdraw.");
+//							int input = Integer.parseInt(br.readLine());
+//
+//							switch (input) {
+//							case 1: // apply overdraft
+//								String toAdd = "s" + Double.toString(diff);
+//								newLine[6] = newLine[6].replace(newLine[6], toAdd);
+//								System.out.println("Overdraft fee applied.");
+//								
+//								// save to log
+//								transactionLogger.trace("Customer " + newLine[0] + " has withdrawn " + Double.toString(newAmount)
+//										+ " dollars from their savings account.");
+//								break;
+//							case 2: // choose new amount
+//								System.out.println("Enter a new amount to withdraw.");
+//								double newWithdraw = Double.parseDouble(br.readLine());
+//								withdraw(username, "s", newWithdraw);
+//								break;
+//							default:
+//								System.out.println("You cannot make that selection. Try again.");
+//								break;
+//							}
+//						}
+//
+//						else {
+
+							String toAdd = "s" + Double.toString(diff);
+							newLine[6] = newLine[6].replace(newLine[6], toAdd);
+							
+							// save to log
+							transactionLogger.trace("Customer " + newLine[0] + " has withdrawn " + Double.toString(newAmount)
+									+ " dollars from their savings account.");
+						//}
 
 						// System.out.println(Arrays.toString(newLine));
 

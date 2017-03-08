@@ -55,7 +55,6 @@ public class LogInClass {
 				if (username.equals(s)) { // if username is in this line
 					// check for username and pw combos
 					if (username.equals(s) & password.equals(hashC.get(s))) {
-						System.out.println("stuff 1");
 						// both username and password entered are correct
 
 						// now we have to check if the customer account is
