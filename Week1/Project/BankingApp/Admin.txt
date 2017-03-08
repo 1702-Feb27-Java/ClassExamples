@@ -1,0 +1,48 @@
+admin:password
+
+/**
+	 * Function to read from the customer database and compare the user name and password
+	 * @return True if the both match else return false with a message
+	 */
+	static void ReadFromCustFile(String this_name, String this_password ) {
+		File file = new File("Customers.txt");
+		FileReader same_file = null;
+		BufferedReader BR = null;
+		
+		try {
+			same_file = new FileReader(file);
+			BR = new BufferedReader(same_file);
+		} catch (IOException e) {
+			System.out.println("The file is not located here. It may have been deleted or moved!");
+			e.printStackTrace();
+		}
+		
+		try{
+			
+			String line = null;
+			List<String> info = new ArrayList<String>();
+
+			Hashtable hashC = new Hashtable();
+
+			while ((line = BR.readLine()) != null){
+				String[] temp = line.split(":");
+				hashC.put(temp[0], temp[1]);
+			}
+			
+			//System.out.println(hashC);
+			Set<String> keys = hashC.keySet();
+			
+			for ( String s : keys ) {
+				if (this_name.equals(s)) {
+					if( this_password.equals(hashC.get(s)))
+						System.out.println("You have logged in");
+				}
+				else
+					System.out.println("Wrong Credentials");
+				
+			}
+		} catch (IOException e) {
+			System.out.println("else nothing to read");
+		}
+		
+	}
