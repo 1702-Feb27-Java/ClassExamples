@@ -161,16 +161,19 @@ public class TestMain2
 		
 			if (choice.equals("1"))
 			{
+				l.trace("Admin looking at accounts");
 				admin.viewAccounts();
 			}
 			else if (choice.equals("2"))
 			{
+				l.trace("Admin viewing a specific user");
 				System.out.print("Enter the account username you want to view: ");
 				String name = sc.next();
 				admin.viewAccounts(name);
 			}
 			else if (choice.equals("3"))
 			{
+				l.trace("Admin editing account");
 				System.out.print("Enter the account username you want to edit: ");
 				String name = sc.next();
 				String res = getType(name);
@@ -182,6 +185,7 @@ public class TestMain2
 					Admin na = new Admin(res);
 					do
 					{
+						l.trace("\t Admin editing Admin");
 						Admin.getEditMenu(na);
 						input = sc.next();
 						String newValue;
@@ -190,13 +194,17 @@ public class TestMain2
 							boolean tryAgain = false;
 							do
 							{
+								l.trace("\t\t ADMING CHANGING USER NAME");
 								System.out.print("Enter the new username you want to change it too: ");
 								newValue=sc.next();
 								tryAgain = admin.editUsername(na,newValue);
-								System.out.println(tryAgain);
+								if(!tryAgain)
+									l.warn("\t\t\t NEW NAME ALREADY EXISTS IN FILE");
 							}while(!tryAgain);
+							l.trace("\t\t ADMING CHANGED NAME SUCCESSFULLY");
 						}
 					}while (!input.equals("0"));
+					l.trace("\t Exiting Admin to Admin");
 				}
 				
 				//IF ITS AN EMPLOYEE
@@ -205,6 +213,7 @@ public class TestMain2
 					Employee ne = new Employee(res);
 					do
 					{
+						l.trace("\t Admin editing Employee");
 						Admin.getEditMenu(ne);
 						input = sc.next();
 						String newValue;
@@ -213,22 +222,30 @@ public class TestMain2
 							boolean tryAgain = false;
 							do
 							{
+								l.info("\t\t ADMIN CHANGING EMPLOYEE NAME");
 								System.out.print("Enter the new username you want to change it too: ");
 								newValue=sc.next();
 								tryAgain = admin.editUsername(ne,newValue);
 							
 								if(!tryAgain)
+								{
+									l.warn("\t\t\t ADMIN FAILED TO CHANGE EMPLOYEE NAME");
 									System.out.println("THE USERNAME ALREADY EXISTS\n");
+								}
 							}while(!tryAgain);
+							l.warn("\t\t ADMIN CHANGED EMPLOYEE NAME");
 						}
 						else if (input.equals("2"))
 						{
+							l.trace("\t\t ADMIN CHANGING EMPLOYEE NAME");
 							System.out.print("Enter the new password you want to change it too: ");
 							newValue=sc.next();
-							 admin.editPassword(ne,newValue);
+							admin.editPassword(ne,newValue);
+							l.warn("\t\t ADMIN CHANGED EMPLOYEE PASSWORD");
 							
 						}
 					}while (!input.equals("0"));
+					l.trace("\t Exiting Admin to Employee");
 				}
 				
 				//IF ITS A CUSTOMER
@@ -237,6 +254,7 @@ public class TestMain2
 					Customer nc = new Customer(res);
 					do
 					{
+						l.trace("\t Admin editing Customer");
 						Admin.getEditMenu(nc);
 						input = sc.next();
 						String newValue;
@@ -245,19 +263,26 @@ public class TestMain2
 							boolean tryAgain = false;
 							do
 							{
+								l.trace("\t\t Admin changing Customer username");
 								System.out.print("Enter the new username you want to change it too: ");
 								newValue=sc.next();
 								tryAgain = admin.editUsername(nc,newValue);
 							
 								if(!tryAgain)
+								{
+									l.warn("\t\t\t ADMIN FAILED TO CHANGE CUSTOMER NAME");
 									System.out.println("THE USERNAME ALREADY EXISTS\n");
+								}
 							}while(!tryAgain);
+							l.warn("\t\t ADMIN CHANGED CUSTOMER NAME");
 						}
 						else if (input.equals("2"))
 						{
+							l.trace("\t\t Admin changing Customer password");
 							System.out.print("Enter the new password you want to change it too: ");
 							newValue=sc.next();
 							 admin.editPassword(nc,newValue);
+							l.warn("\t\t ADMIN CHANGED CUSTOMER PASSWORD");
 							
 						}
 						else if (input.equals("3") || input.equals("4"))
