@@ -8,13 +8,16 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 public class CustomerMenu {
-
+	
+	// this method implements functionality for a customer menu
+	// takes user input
 	public static void functionality(String username) {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			int cMenuInput = Integer.parseInt(br.readLine());
 
+			// depending on user choice, implement stuff
 			switch (cMenuInput) {
 			case 1:
 				// check balance
@@ -22,12 +25,12 @@ public class CustomerMenu {
 				MenuClass.showCustomerMenu();
 				CustomerMenu.functionality(username);
 				break;
-			case 2:
+			case 2: // deposit
 				deposit(username);
 				MenuClass.showCustomerMenu();
 				CustomerMenu.functionality(username);
 				break;
-			case 3:
+			case 3: // withdraw
 				withdraw(username);
 				MenuClass.showCustomerMenu();
 				CustomerMenu.functionality(username);
@@ -50,6 +53,7 @@ public class CustomerMenu {
 		}
 	}
 
+	// method for check balance
 	public static void checkBalance(String username) {
 
 		try {
@@ -59,6 +63,7 @@ public class CustomerMenu {
 			String hashCh = null;
 			String hashSav = null;
 
+			// make a hashtable for checking and savings balance depending on the user
 			while ((thisLine = br.readLine()) != null) {
 				String[] lineArr = thisLine.split(":");
 
@@ -77,14 +82,13 @@ public class CustomerMenu {
 
 	}
 	
+	// deposit method for the customer
 	public static void deposit(String username){
 		System.out.println("You have chosen to deposit. Which account do you want to deposit in?");
 		System.out.println("1. Checking");
 		System.out.println("2. Savings");
 		Scanner sc = new Scanner(System.in);
-		
-		// br.close();
-		
+				
 		try {
 			
 			int input = sc.nextInt();
@@ -107,18 +111,17 @@ public class CustomerMenu {
 			double amount;
 			
 			switch(input){
-			case 1: // checking
+			case 1: // checking deposit
 				System.out.println("How much would you like to deposit?");
 				amount = sc.nextDouble();
 				
 				// calls the overloaded method
-				// method args are (String, double, double)
-				//double oldAmount = Double.parseDouble(containsCh.get(username).substring(1, containsCh.get(username).length()));
+				// method args are (String, String, double)
 				
 				//System.out.println(oldAmount);
 				ReplaceClass.deposit(username, "c", amount);
 				break;
-			case 2: // savings
+			case 2: // savings deposit
 				System.out.println("How much would you like to deposit?");
 				amount = sc.nextDouble();
 				ReplaceClass.deposit(username, "s", amount);				
@@ -138,14 +141,14 @@ public class CustomerMenu {
 		}
 	}
 	
+	
+	// withdraw method for the customer
 	public static void withdraw(String username){
 		System.out.println("You have chosen to withdraw. Which account do you want to withdraw from?");
 		System.out.println("1. Checking");
 		System.out.println("2. Savings");
 		Scanner sc = new Scanner(System.in);
-		
-		// br.close();
-		
+				
 		try {
 			
 			int input = sc.nextInt();
@@ -168,18 +171,16 @@ public class CustomerMenu {
 			double amount;
 			
 			switch(input){
-			case 1: // checking
+			case 1: // checking withdraw
 				System.out.println("How much would you like to withdraw?");
 				amount = sc.nextDouble();
 				
 				// calls the overloaded method
-				// method args are (String, double, double)
-				//double oldAmount = Double.parseDouble(containsCh.get(username).substring(1, containsCh.get(username).length()));
+				// method args are (String, String, double)
 				
-				//System.out.println(oldAmount);
 				ReplaceClass.withdraw(username, "c", amount);
 				break;
-			case 2: // savings
+			case 2: // savings withdraw
 				System.out.println("How much would you like to withdraw?");
 				amount = sc.nextDouble();
 				ReplaceClass.withdraw(username, "s", amount);				

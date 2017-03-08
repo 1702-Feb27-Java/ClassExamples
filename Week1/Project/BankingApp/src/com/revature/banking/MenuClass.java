@@ -6,8 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+// this stores all the menus in this program
 public class MenuClass {
 
+	// simple void method to print stuff
 	public static void showMainMenu() {
 		System.out.println("---------------------------");
 		System.out.println("Welcome to Revature Bank!");
@@ -17,6 +19,7 @@ public class MenuClass {
 		System.out.println("3. Exit");
 	}
 
+	// log in menu that takes user input as to what type of account it is
 	public static void showLogInMenu() {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -30,6 +33,7 @@ public class MenuClass {
 
 		try {
 			logInMenuInput = Integer.parseInt(br.readLine());
+			// calls the method to implement which account it is
 			accountTypeSelection(logInMenuInput);
 
 		} catch (NumberFormatException e) {
@@ -67,14 +71,14 @@ public class MenuClass {
 		System.out.println("Menu options:");
 		System.out.println("1. View pending account applications");
 		System.out.println("2. View all accounts");
-		System.out.println("3. Edit accounts -- functionality not available");
+		System.out.println("3. Edit accounts");
 		System.out.println("4. Back to main menu");
 	}
 
 	public static void accountTypeSelection(int accountType) {
 
 		switch (accountType) {
-		case 1:
+		case 1: // logs customer in and show customer menu
 			LogInClass.customerLogIn();
 			break;
 		case 2:
@@ -82,7 +86,7 @@ public class MenuClass {
 			LogInClass.employeeLogIn();
 			EmployeeMenu.functionality();
 			break;
-		case 3:
+		case 3: // logs admin in and show admin menu
 			LogInClass.adminLogIn();
 			AdminMenu.functionality();
 			break;

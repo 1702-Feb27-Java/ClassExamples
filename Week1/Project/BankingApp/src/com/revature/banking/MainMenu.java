@@ -6,9 +6,13 @@ import java.io.InputStreamReader;
 
 public class MainMenu {
 	
+	// main menu functionality
+	// takes user input
 	public static void functionality(){
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int mainMenuInput = 0;
+		
+		// if exit is true, we exit the program entirely
 		boolean exit = false;
 
 		do {
@@ -25,6 +29,7 @@ public class MainMenu {
 					ac.makeAccount();
 					break;
 				case 3:
+					// quit the program
 					exit = true;
 					break;
 				default:

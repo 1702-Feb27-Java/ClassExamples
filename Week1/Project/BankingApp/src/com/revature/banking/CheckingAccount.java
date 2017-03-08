@@ -2,8 +2,10 @@ package com.revature.banking;
 
 import java.io.IOException;
 
+// this is a class for a checking account
 public class CheckingAccount {
 	
+	// with balance member, constructors, and getters and setters
 	private double balance;
 	
 	public CheckingAccount()
@@ -32,35 +34,5 @@ public class CheckingAccount {
 		balance = balance - amount;
 	}
 	
-	
-//	System.out.println("Checking account created. Would you like to deposit money now?");
-//	System.out.println("1. Yes");
-//	System.out.println("2. No");
-//	int yesOrNo;
-//	double amount = 0;
-//	try {
-//		yesOrNo = Integer.parseInt(br.readLine());
-//
-//		switch (yesOrNo) {
-//		case 1:
-//			System.out.println("---------------------------");
-//			System.out.println("Please enter an amount: ");
-//			amount = Double.parseDouble(br.readLine());
-//			ch = amount;
-//			ca.setBalance(amount);
-//			System.out.println(
-//					"Success. You currently have " + ca.getBalance() + " dollars in your checking account.");
-//			break;
-//		case 2:
-//			System.out.println("Thanks for choosing Revature Banking.");
-//			break;
-//		default:
-//			System.out.println("You cannot make that selection. Try again.");
-//			break;
-//		}
-//	} catch (IOException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	}
 
 }

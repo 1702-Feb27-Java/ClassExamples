@@ -8,15 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class AdminMenu {
+// everything in an admin menu
 
+public class AdminMenu {
+	
+	// this makes the menu functional and take inputs from the user
 	public static void functionality() {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
 			int aMenuInput = Integer.parseInt(br.readLine());
-
+			
+			// menu options selected by user and return to admin menu
 			switch (aMenuInput) {
 			case 1:
 				// view pending accounts
@@ -50,20 +54,22 @@ public class AdminMenu {
 			e2.printStackTrace();
 		}
 	}
-
+	
+	// edit account method, allows admin to edit customer info
 	public static void editAccount() {
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("customeraccounts.txt"));
 
 			String thisLine;
-			// this array stores all accounts
+			// this array stores all accounts read from the file
 			List<String> allAcc = new ArrayList();
 			while ((thisLine = br.readLine()) != null) {
 				allAcc.add(thisLine);
 			}
 			br.close();
 
+			// print all customer accounts
 			System.out.println("These are all the customer accounts.");
 			System.out.println(allAcc);
 			System.out.println("Please enter the id of the customer you wish to edit");
@@ -72,6 +78,7 @@ public class AdminMenu {
 			String IDToEdit = bre.readLine();
 			// store this id
 
+			// calls what to edit method
 			whatToEdit(IDToEdit);
 
 		} catch (IOException e) {
@@ -88,14 +95,20 @@ public class AdminMenu {
 
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			
+			// shows what admin can edit
 			MenuClass.showEditMenu();
 			int input = Integer.parseInt(br.readLine());
 			int input2;
 
+			// based on customer input, edit one of four fields
+			// first name, last name, username, password
 			switch (input) {
 			case 1: // first name
 				System.out.println("What would you like to replace the first name with?");
 				String firstName = br.readLine();
+				
+				// calls method to edit
 				ReplaceClass.editFirstName(IDToEdit, firstName);
 				System.out.println("Success, you have edited the customer's first name.");
 				System.out.println("Would you like to edit something else? 1 for YES and 2 for NO");
@@ -193,6 +206,7 @@ public class AdminMenu {
 		}
 	}
 
+	// view all pending accounts
 	public static void viewPending() {
 
 		try {
@@ -253,7 +267,9 @@ public class AdminMenu {
 		}
 
 	}
+	
 
+	// view all accounts including pending accounts
 	public static void viewAll() {
 
 		try {
@@ -297,6 +313,8 @@ public class AdminMenu {
 		}
 
 	}
+	
+	// approve pending accounts
 
 	public static void approve() {
 
@@ -312,8 +330,7 @@ public class AdminMenu {
 
 			System.out.println("Approving now...");
 
-			String thisLine;
-
+			// calls the edit id method to approve accounts
 			ReplaceClass.editID(ID);
 
 			System.out.println("Approval complete. Returning to the employee menu.");

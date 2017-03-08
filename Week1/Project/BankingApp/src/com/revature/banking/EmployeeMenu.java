@@ -13,6 +13,8 @@ import javax.swing.plaf.synth.SynthSeparatorUI;
 
 public class EmployeeMenu {
 
+	// prints menu for employee
+	// takes user input and implement functionality
 	public static void functionality() {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -30,7 +32,7 @@ public class EmployeeMenu {
 				viewAll();
 				EmployeeMenu.functionality();
 				break;
-			case 3:
+			case 3: // go back to the root menu
 				MenuClass.showMainMenu();
 				MainMenu.functionality();
 				break;
@@ -73,6 +75,7 @@ public class EmployeeMenu {
 												// accounts array
 				}
 			}
+			br.close();
 
 			if (pendingAcc.size() != 0) {
 				System.out.println("There are the current accounts pending for approval.");
@@ -80,7 +83,6 @@ public class EmployeeMenu {
 				System.out.println("Would you like to approve the new accounts? Press 1 for YES and 2 for NO");
 				int yesOrNo = Integer.parseInt(b.readLine());
 
-				// dflsdfs
 				switch (yesOrNo) {
 
 				case 1: // yes we will approve
@@ -110,6 +112,7 @@ public class EmployeeMenu {
 
 	}
 
+	// method to view all accounts, pending or not
 	public static void viewAll() {
 
 		try {
@@ -117,7 +120,6 @@ public class EmployeeMenu {
 			BufferedReader br = new BufferedReader(new FileReader("customeraccounts.txt"));
 
 			String thisLine;
-			String[] lineArr = null;
 
 			// this array stores all accounts
 			List<String> allAcc = new ArrayList();
@@ -125,6 +127,8 @@ public class EmployeeMenu {
 			while ((thisLine = br.readLine()) != null) {
 				allAcc.add(thisLine);
 			}
+			
+			br.close();
 
 			System.out.println("These are all the customer accounts.");
 			System.out.println(allAcc);
@@ -154,12 +158,13 @@ public class EmployeeMenu {
 
 	}
 
+	//method to approve new accounts
 	public static void approve() {
 
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			BufferedReader data = new BufferedReader(new FileReader("customeraccounts.txt"));
-
+			
+			// self-explanatory
 			System.out.println("---------------------------");
 			System.out.println("Please enter the id of the customer you want to approve: ");
 
@@ -168,8 +173,7 @@ public class EmployeeMenu {
 
 			System.out.println("Approving now...");
 			
-			String thisLine;
-			
+			// calls the edit ID method
 			ReplaceClass.editID(ID);
 
 			System.out.println("Approval complete. Returning to the employee menu.");

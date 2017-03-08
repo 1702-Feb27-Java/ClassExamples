@@ -1,7 +1,11 @@
 package com.revature.banking;
 
+
+// class for creating a customer object
+
 public class CustomerClass {
 
+	// private members of a customer class
 	private String firstName;
 	private String lastName;
 	private String username;
@@ -10,6 +14,7 @@ public class CustomerClass {
 	private double checkingAmount;
 	private double savingsAmount;
 
+	// getters and setters
 	public String getFirstName() {
 		return firstName;
 	}
@@ -66,6 +71,7 @@ public class CustomerClass {
 		this.savingsAmount = savingsAmount;
 	}
 
+	// override toString
 	public String toString() {
 		return "Customer:" + firstName + ":" + lastName + ":" + username + ":" + password + ":";
 

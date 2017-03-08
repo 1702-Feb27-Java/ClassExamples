@@ -9,9 +9,12 @@ import java.io.InputStreamReader;
 import java.util.UUID;
 
 public class AccountCreation {
+	
+	// this method creates a new customer account
 
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+	// the fields for customer info
 	String firstName;
 	String lastName;
 	String username;
@@ -22,6 +25,7 @@ public class AccountCreation {
 	static double ch;
 	static double sav;
 
+	// new customer class object
 	CustomerClass cc = new CustomerClass();
 
 	StringBuilder customerInfo = new StringBuilder();
@@ -31,9 +35,13 @@ public class AccountCreation {
 		try {
 			File file = new File("customeraccounts.txt");
 
+			// writes to a file customeraccounts and appends to it
 			BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
 
 			try {
+				
+				// now the program will prompt the user for info
+				// self-explanatory
 				
 				System.out.println("Please enter your first name: ");
 				firstName = br.readLine();
@@ -61,28 +69,34 @@ public class AccountCreation {
 					confirmPW = br.readLine(); // check this later
 				}
 
+				// now we generate a random id for the customer 
+				// alpha-numeric with a length of 8
 				String uuid = (UUID.randomUUID().toString()).substring(0, 8);
 				cc.setId(uuid);
 
+				// append everything to a string
+				// add 'n' to the front of the id to indicate it's a NEW account
 				customerInfo.append("n" + cc.getId() + ":" + cc.getFirstName() + ":" + cc.getLastName() + ":"
 						+ cc.getUsername() + ":" + cc.getPassword() + ":");
 
-				System.out.println("Would you like to make your checking and savings accounts now? 1 for YES and 2 for NO");
+				System.out.println("Creating your checking and savings accounts.");
 
-				int confirm = Integer.parseInt(br.readLine());
-
-				makeAccounts(confirm);
-
+				// calls make checking and savings accounts
+				makeChecking();
+				makeSavings();
 				cc.setCheckingAmount(ch);
 				cc.setSavingsAmount(sav);
+				
+				// append balances to the string
 
 				customerInfo.append("c" + Double.toString(cc.getCheckingAmount()) + ":");
 				customerInfo.append("s" + Double.toString(cc.getSavingsAmount()));
 
+				// now we write that string into a txt file
 				bw.write(customerInfo.toString());
 				bw.newLine();
 				
-
+				// return to the main menu now
 				System.out.println("Your account is currently pending approval.");
 				System.out.println("---------------------------");
 				System.out.println("Returning you to the main menu now...");
@@ -102,22 +116,9 @@ public class AccountCreation {
 		}
 	}
 
-	public static void makeAccounts(int confirm) {
 
-		switch (confirm) {
-		case 1: // yes
-			makeChecking();
-			makeSavings();
-			break;
-		case 2: //no
-			break;
-		default:
-			System.out.println("You cannot make that selection. Try again.");
-			break;
-		}
-
-	}
-
+	// MAKE CHECKING AND SAVINGS ACCOUNTS METHODS
+	
 	public static void makeChecking() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("---------------------------");

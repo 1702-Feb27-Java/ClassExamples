@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,6 +14,9 @@ public class ReplaceClass {
 
 	// we have to write a method for this because java doesn't have this
 	// functionality... :(
+	// there's one method for editing each field in a customer info
+	// editID, editFirstName, editLastName, editUsername, editPassword
+	// deposit and withdraw
 
 	public static void editID(String ID) {
 
@@ -23,7 +27,6 @@ public class ReplaceClass {
 			BufferedReader br = new BufferedReader(new FileReader("customeraccounts.txt"));
 
 			int charCount = 0;
-			int count = 0;
 
 			List<String> lineArr = new ArrayList<>();
 			String thisLine;
@@ -104,6 +107,7 @@ public class ReplaceClass {
 
 			bw.write(newFile.toString());
 			bw.flush();
+			bw.close();
 
 		} catch (IOException e) {
 			e.getStackTrace();
@@ -198,6 +202,7 @@ public class ReplaceClass {
 
 			bw.write(newFile.toString());
 			bw.flush();
+			bw.close();
 
 		} catch (IOException e) {
 			e.getStackTrace();
@@ -292,6 +297,7 @@ public class ReplaceClass {
 
 			bw.write(newFile.toString());
 			bw.flush();
+			bw.close();
 
 		} catch (IOException e) {
 			e.getStackTrace();
@@ -341,7 +347,7 @@ public class ReplaceClass {
 					// if the id is in this line
 					if (ID.equals(newLine[0])) {
 
-						// we will replace old name with new name
+						// we will replace old username with new username
 						newLine[3] = newLine[3].replace(newLine[3], newUsername);
 						// System.out.println(Arrays.toString(newLine));
 
@@ -386,6 +392,7 @@ public class ReplaceClass {
 
 			bw.write(newFile.toString());
 			bw.flush();
+			bw.close();
 
 		} catch (IOException e) {
 			e.getStackTrace();
@@ -435,7 +442,7 @@ public class ReplaceClass {
 					// if the id is in this line
 					if (ID.equals(newLine[0])) {
 
-						// we will replace old name with new name
+						// we will replace old password with new password
 						newLine[4] = newLine[4].replace(newLine[4], newPassword);
 						// System.out.println(Arrays.toString(newLine));
 
@@ -480,6 +487,7 @@ public class ReplaceClass {
 
 			bw.write(newFile.toString());
 			bw.flush();
+			bw.close();
 
 		} catch (IOException e) {
 			e.getStackTrace();
@@ -577,8 +585,6 @@ public class ReplaceClass {
 
 				// then we rewrite the entire file
 
-				System.out.println("printing current NEW line: " + finalStr);
-
 				newFile.append(finalStr);
 				newFile.append(System.getProperty("line.separator"));
 
@@ -602,7 +608,6 @@ public class ReplaceClass {
 			BufferedReader br = new BufferedReader(new FileReader("customeraccounts.txt"));
 
 			int charCount = 0;
-			int count = 0;
 
 			List<String> lineArr = new ArrayList<>();
 			String thisLine;
@@ -639,9 +644,34 @@ public class ReplaceClass {
 
 						double oldAmount = Double.parseDouble(newLine[5].substring(1, newLine[5].length()));
 						double diff = oldAmount - newAmount;
+						
+						if (diff < 0){ // a check for overdraft protection
+							System.out.println("Withdrawing " + newAmount + " will result in a negative balance.");
+							System.out.println("Press 1 to accept. Overdraft protection fee will be applied.");
+							System.out.println("Press 2 to cancel and choose a new amount to withdraw.");
+							int input = Integer.parseInt(br.readLine());
+							
+							switch(input){
+							case 1: // apply overdraft
+								String toAdd = "c" + Double.toString(diff);
+								newLine[5] = newLine[5].replace(newLine[5], toAdd);
+								System.out.println("Overdraft fee applied.");
+								break;
+							case 2: // choose new amount 
+								System.out.println("Enter a new amount to withdraw.");
+								double newWithdraw = Double.parseDouble(br.readLine());
+								withdraw(username, "c", newWithdraw);
+								break;
+							default:
+								System.out.println("You cannot make that selection. Try again.");
+								break;
+							}			
+						}
 
+						else {
 						String toAdd = "c" + Double.toString(diff);
 						newLine[5] = newLine[5].replace(newLine[5], toAdd);
+						}
 
 						// System.out.println(Arrays.toString(newLine));
 
@@ -652,9 +682,35 @@ public class ReplaceClass {
 
 						double oldAmount = Double.parseDouble(newLine[6].substring(1, newLine[5].length()));
 						double diff = oldAmount - newAmount;
+						
+						if (diff < 0){ // check for overdraft
+							System.out.println("Withdrawing " + newAmount + " will result in a negative balance.");
+							System.out.println("Press 1 to accept. Overdraft protection fee will be applied.");
+							System.out.println("Press 2 to cancel and choose a new amount to withdraw.");
+							int input = Integer.parseInt(br.readLine());
+							
+							switch(input){
+							case 1: // apply overdraft
+								String toAdd = "s" + Double.toString(diff);
+								newLine[6] = newLine[6].replace(newLine[6], toAdd);
+								System.out.println("Overdraft fee applied.");
+								break;
+							case 2: // choose new amount
+								System.out.println("Enter a new amount to withdraw.");
+								double newWithdraw = Double.parseDouble(br.readLine());
+								withdraw(username, "s", newWithdraw);
+								break;
+							default:
+								System.out.println("You cannot make that selection. Try again.");
+								break;
+							}			
+						}
+						
+						else{
 
-						String toAdd = "c" + Double.toString(diff);
+						String toAdd = "s" + Double.toString(diff);
 						newLine[6] = newLine[6].replace(newLine[6], toAdd);
+						}
 
 						// System.out.println(Arrays.toString(newLine));
 
@@ -687,8 +743,6 @@ public class ReplaceClass {
 				// we're currently in the for loop for looping through arraylist
 
 				// then we rewrite the entire file
-
-				System.out.println("printing current NEW line: " + finalStr);
 
 				newFile.append(finalStr);
 				newFile.append(System.getProperty("line.separator"));
