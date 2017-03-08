@@ -1,0 +1,7 @@
+customer:jbar:password:Y:Y:432.0:656.0:true
+customer:joe:wordspass:N:Y:0.0:61641.0:false
+customer:steve:1023pass:Y:N:2498.0:0.0:true
+employee:karl:8665
+employee:paul:518165fv
+admin:jeff:big
+admin:just:poiuy
