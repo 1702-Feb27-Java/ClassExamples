@@ -14,13 +14,25 @@ public class CustomerUserAccount extends UserAccount {
 		this.accounts = new ArrayList<>();
 	}
 	
+	public ArrayList<Account> getAccounts() {
+		return this.accounts;
+	}
+	
 	public void openNewAccount() {
 		this.accounts.add(new Account());
 	}
 	
+	public void openCheckingAccount(int accountNumber) { 
+		this.accounts.get(accountNumber).openChecking();
+	}
+	
+	public void openSavingsAccount(int accountNumber) { 
+		this.accounts.get(accountNumber).openSavings();
+	}
+	
 	@Override
 	public String toString() {
-		return "CustomerUserAccount: [username=" + this.getUsername() + ", password=" + this.getPassword() + ", email=" + this.getEmail() + ", number of accounts = " + this.accounts.size()  + " {" + this.accounts + "} ]";
+		return "CustomerUserAccount: [username=" + this.getUsername() + ", password=" + this.getPassword() + ", email=" + this.getEmail() + ", number of accounts = " + this.accounts.size()  + ": { " + this.accounts + " } ]";
 	}
 	
 }

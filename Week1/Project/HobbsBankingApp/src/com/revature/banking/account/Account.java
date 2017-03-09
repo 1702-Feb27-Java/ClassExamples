@@ -15,8 +15,16 @@ public class Account implements Serializable {
 	private BankAccount savings;
 	
 	public Account() {
-		this.checking = new BankAccount();
-		this.savings = new BankAccount();
+		//this.checking = new BankAccount();
+		//this.savings = new BankAccount();
+	}
+	
+	public double getCheckingBalance() {
+		return this.checking.getBalance();
+	}
+	
+	public double getSavingsBalance() {
+		return this.savings.getBalance();
 	}
 	
 	public void depositChecking(double amount) {
@@ -36,19 +44,34 @@ public class Account implements Serializable {
 	}
 	
 	public Status checkCheckingStatus() {
-		return this.checking.getStatus();
+		return this.checking != null ? this.checking.getStatus() : null;
 	}
 	
 	public Status checkSavingsStatus() {
-		return this.savings.getStatus();
+		return this.savings != null ? this.savings.getStatus() : null;
+	}
+	
+	public void setCheckingStatus(BankAccount.Status status) {
+		this.checking.setStatus(status);
+	}
+	
+	public void setSavingsStatus(BankAccount.Status status) {
+		this.savings.setStatus(status);
 	}
 	
 	public void openChecking() {
-		this.checking.setStatus(Status.pending);
+		this.checking = new BankAccount();
+		//this.checking.setStatus(Status.pending);
 	}
 	
 	public void openSavings() {
-		this.savings.setStatus(Status.pending);
+		this.savings = new BankAccount();
+		//this.savings.setStatus(Status.pending);
+	}
+	
+	@Override
+	public String toString() {
+		return "Account: Checking: " + this.checking + ", Savings: " + this.savings;
 	}
 	
 }

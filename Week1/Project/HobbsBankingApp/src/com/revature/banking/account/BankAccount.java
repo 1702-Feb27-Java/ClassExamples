@@ -46,4 +46,9 @@ public class BankAccount implements Serializable {
 		this.status = status;
 	}
 	
+	@Override
+	public String toString() {
+		return "BankAccount: balance=" + this.balance + ", status=" + this.status;
+	}
+	
 }
