@@ -18,10 +18,10 @@ Admin
 
 Employees
 - username: benwebster
-- password: uncommonpassword
+- password: pass123
 
 - username: benwebster2
-- password: pass123
+- password: uncommonpassword
 
 Customers
 - username: boblikesunicorns
