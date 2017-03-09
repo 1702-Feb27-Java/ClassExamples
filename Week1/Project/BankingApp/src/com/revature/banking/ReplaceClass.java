@@ -257,7 +257,7 @@ public class ReplaceClass {
 					if (ID.equals(newLine[0])) {
 
 						// we will replace old name with new name
-						newLine[2] = newLine[2].replace(newLine[1], newLastName);
+						newLine[2] = newLine[2].replace(newLine[2], newLastName);
 						// System.out.println(Arrays.toString(newLine));
 
 						// then we rewrite the entire line
