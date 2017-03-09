@@ -1,0 +1,110 @@
+CREATE TABLE Role(
+  role_id NUMBER,
+  role VARCHAR2(20),
+  
+  CONSTRAINT r_id_pk PRIMARY KEY(role_id)
+);
+
+CREATE TABLE Users
+(
+  user_id NUMBER, 
+  first_name VARCHAR2(25) NOT NULL,
+  last_name VARCHAR(25) NOT NULL,
+  username VARCHAR2(16) NOT NULL UNIQUE,
+  pw VARCHAR2(16) NOT NULL, 
+  role_id NUMBER,
+  PRIMARY KEY(user_id),
+  FOREIGN KEY(role_id) REFERENCES Role(role_id)
+);
+
+create table AccountType
+(
+  type_id NUMBER,
+  type VARCHAR2(25),
+  primary key (type_id)
+);
+
+create table Status
+(
+  status_id NUMBER,
+  status VARCHAR2(25),
+  PRIMARY KEY(status_id)
+);
+
+CREATE TABLE Accounts
+(
+  account_id NUMBER, 
+  type_id NUMBER NOT NULL,
+  balance DECIMAL(12,2) CHECK(balance > 0),
+  status_id NUMBER DEFAULT 1,
+  resolver_id NUMBER,
+  PRIMARY KEY(account_id),
+  FOREIGN KEY(type_id) references AccountType(type_id),
+  FOREIGN KEY(resolver_id) references Users(user_id),
+  FOREIGN KEY(status_id) references Status(status_id)
+);
+
+create table Customer_Accounts
+(
+  user_id NUMBER,
+  account_id NUMBER,
+  PRIMARY KEY (user_id, account_id),
+  FOREIGN KEY(user_id) references Users(user_id),
+  FOREIGN KEY(account_id) references Accounts(account_id)
+);
+
+
+create sequence user_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+/
+create or replace trigger user_trigger -- name
+  before insert on Users --upon what event
+  for each row -- how often
+  begin --start what actually happens
+    select user_seq.NEXTVAL
+    into :new.user_id
+    from dual;
+  end;
+/
+
+create sequence account_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+/
+create or replace trigger account_trigger -- name
+  before insert on AccountType --upon what event
+  for each row -- how often
+  begin --start what actually happens
+    select account_seq.NEXTVAL
+    into :new.type_id
+    from dual;
+  end;
+/
+
+select * from Users;
+
+insert into Users (FIRST_NAME, LAST_NAME, username, pw, role_id) VALUES ('Bella', 'Rose', 'brose', '1234', 1);
+
+insert into Role(role_id, role) VALUES (1, 'Admin');
+insert into Role(role_id, role) VALUES (2, 'Employee');
+insert into Role(role_id, role) VALUES (3, 'Customer');
+
+insert into Status(status_id, status) VALUES (1, 'Pending');
+insert into Status(status_id, status) VALUES (2, 'Approved');
+insert into Status(status_id, status) VALUES (3, 'Denied');
+
+insert into AccountType(type_id, type) VALUES (1, 'Checking');
+insert into AccountType(type_id, type) VALUES (2, 'Savings');
+
+
+update AccountType set TYPE_ID = 1 where TYPE = 'Checking'; 
+update AccountType set TYPE_ID = 2 where TYPE = 'Savings'; 
+
+select * from Role;
+select * from Status;
+select * from AccountType;
