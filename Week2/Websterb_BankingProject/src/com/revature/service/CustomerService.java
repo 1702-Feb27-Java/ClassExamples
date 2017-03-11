@@ -60,5 +60,23 @@ public class CustomerService {
 		}
 		return customerId;
 	}
+	public double depositMoney(int accountId, double amount){
+		double balance = 0;
+		
+		balance = daoCust.getBalance(accountId);
+		balance += amount;
+		balance = daoCust.setBalance(accountId, balance);
+		
+		return balance;
+	}
+	public double withdrawMoney(int accountId, double amount){
+		double balance = 0;
+		
+		balance = daoCust.getBalance(accountId);
+		balance -= amount;
+		balance = daoCust.setBalance(accountId, balance);
+		
+		return balance;
+	}
 	
 }

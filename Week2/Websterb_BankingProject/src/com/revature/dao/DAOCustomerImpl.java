@@ -125,5 +125,56 @@ public class DAOCustomerImpl implements DAOCustomer{
 				
 		return customer;
 	}
+	
+	public double getBalance(int accountId){
+		double balance = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+		
+			String sql = "CALL GETBALANCE(?, ?)";
+			CallableStatement cs = connect.prepareCall(sql);
+			
+			cs.setInt(1, accountId);
+			cs.registerOutParameter(2, java.sql.Types.DOUBLE);
+		
+			cs.executeUpdate();
+			
+			connect.commit();	
+			
+			balance = cs.getDouble(2);
+			
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return balance;
+	}
+
+	@Override
+	public double setBalance(int accountId, double balance) {
+		double newBalance = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "CALL SETBALANCE(?, ?)";
+			CallableStatement cs = connect.prepareCall(sql);
+			
+			cs.setInt(1, accountId);
+			cs.setDouble(2, balance);
+			
+			cs.executeUpdate();
+			
+			connect.commit();	
+			newBalance = balance; 
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return newBalance;
+	}
 		
 }

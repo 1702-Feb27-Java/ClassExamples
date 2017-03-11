@@ -21,12 +21,14 @@ public class Main {
 		l.info("in main");
 		
 		BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
-		mainMenuOption(br);
+		//mainMenuOption(br);
 /*		DAOCustomerImpl daoCust = new DAOCustomerImpl();
-		String un = "t";
-		String pw = "password";
-		daoCust.loginCustomer(un, pw);*/
+		int accountId = 10;
+		daoCust.getBalance(10);
+		System.out.println(daoCust.setBalance(10, 10.15));
+		daoCust.getBalance(10);*/
 		//System.out.println(accountId);
+		serve.withdrawMoney(10, 5);
 	}
 	
 	/**
@@ -42,6 +44,7 @@ public class Main {
 			case 1:
 				if(createCustomerAccountOption(sc)){
 					System.out.println("Customer Account Created.");
+					mainMenuOption(sc);
 				}
 				else{
 					System.out.println("Username already in use.");
