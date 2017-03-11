@@ -21,6 +21,9 @@
 *********************************************************************************************************
 */
 package com.revature.bankingapp;
+
+import com.revature.dao.DAOImpl;
+
 /**
 *********************************************************************************************************
 *  										MAIN MENUS SCREEN
@@ -29,9 +32,16 @@ package com.revature.bankingapp;
 public class UserScreen {
 
 	public static void main(String[] args) {
-		Menus.displayMainMenu();
-	}
+		//Menus.displayMainMenu();
+		Customer c = new Customer("Ted", "Bundy", "t", "t");
+		DAOImpl.insertData(c);
+		
+		
+	}	
 }
+
+
+
 /**
 *********************************************************************************************************
 *  										END CLASS USERSCREEN

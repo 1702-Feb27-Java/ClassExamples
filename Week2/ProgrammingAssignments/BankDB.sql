@@ -1,105 +1,136 @@
 CREATE TABLE Role 
 (
-role_id NUMBER,
+roleid NUMBER,
 role VARCHAR2(20),
-CONSTRAINT r_id_pk PRIMARY KEY(role_id)
+CONSTRAINT pk_roleid PRIMARY KEY(roleid)
 );
 
 CREATE TABLE Users
 (
-user_id NUMBER,
-first_name VARCHAR2(25) NOT NULL,
-last_name VARCHAR2(25) NOT NULL,
+userid NUMBER,
+firstname VARCHAR2(25) NOT NULL,
+lastname VARCHAR2(25) NOT NULL,
 username VARCHAR2(16) NOT NULL UNIQUE,
 pw VARCHAR2(16) NOT NULL,
-role_id NUMBER,
-PRIMARY KEY(user_id),
-FOREIGN KEY(role_id) REFERENCES Role(role_id)
+roleid NUMBER,
+PRIMARY KEY(userid),
+FOREIGN KEY(roleid) REFERENCES Role(roleid) 
+ON DELETE CASCADE
 );
 
 CREATE TABLE Status 
 (
-status_id NUMBER,
+statusid NUMBER,
 status VARCHAR2(25),
-CONSTRAINT s_id_pk PRIMARY KEY(status_id)
+CONSTRAINT pk_statusid PRIMARY KEY(statusid)
 );
 
 CREATE TABLE Type
 (
-type_id NUMBER,
+typeid NUMBER,
 type VARCHAR2(25),
-
-CONSTRAINT t_id_pk PRIMARY KEY(type_id)
+CONSTRAINT p_typeid PRIMARY KEY(typeid)
 );
 
 CREATE TABLE Accounts 
 (
-account_id NUMBER,
-type_id NUMBER,
-balance DECIMAL(12,2) CHECK (balance > 0),
-status_id NUMBER DEFAULT 1,
-resolver_id NUMBER,
-CONSTRAINT a_id_pk PRIMARY KEY(account_id),
-FOREIGN KEY(type_id) REFERENCES Type(type_id),
-FOREIGN KEY(status_id) REFERENCES Status(status_id),
-FOREIGN KEY(resolver_id)REFERENCES Users(user_id)
+accountid NUMBER,
+typeid NUMBER DEFAULT 1,
+balance NUMBER(12,2) DEFAULT 0 CHECK (balance >= 0),
+statusid NUMBER DEFAULT 1,
+resolverid NUMBER,
+CONSTRAINT pk_accountid PRIMARY KEY(accountid),
+FOREIGN KEY(typeid) REFERENCES Type(typeid)
+ON DELETE CASCADE,
+FOREIGN KEY(statusid) REFERENCES Status(statusid)
+ON DELETE CASCADE,
+FOREIGN KEY(resolverid)REFERENCES Users(userid)
+ON DELETE CASCADE
 );
 
-CREATE TABLE Customer_Accounts
+CREATE TABLE CustomerAccounts
 (
-user_id NUMBER,
-account_id NUMBER,
-PRIMARY KEY(user_id, account_id),
-FOREIGN KEY(user_id) REFERENCES Users(user_id),
-FOREIGN KEY(account_id) REFERENCES Accounts(account_id)
+userid NUMBER,
+accountid NUMBER,
+PRIMARY KEY(userid, accountid),
+FOREIGN KEY(userid) REFERENCES Users(userid)
+ON DELETE CASCADE,
+FOREIGN KEY(accountid) REFERENCES Accounts(accountid)
+ON DELETE CASCADE
 );
-
+--------------------------------------------------------------------------------
+-- LOOKUP TABLES - INSERTS
+-- ROLE
+INSERT INTO Role (roleid, role) VALUES (1, 'Admin');
+INSERT INTO Role (roleid, role) VALUES (2, 'Employee');
+INSERT INTO Role (roleid, role) VALUES (3, 'Customer');
+-- STATUS
+INSERT INTO Status (STATUSID, STATUS) VALUES (1, 'Pending');
+INSERT INTO Status (STATUSID, STATUS) VALUES (2, 'Resolved');
+INSERT INTO Status (STATUSID, STATUS) VALUES (3, 'Denied');
+-- TYPE
+INSERT INTO Type (TYPEID, TYPE) VALUES (0,'None');
+INSERT INTO Type (TYPEID, TYPE) VALUES (2,'Checking');
+INSERT INTO Type (TYPEID, TYPE) VALUES (3,'Savings');
+-------------------------------------------------------------------------------
 CREATE SEQUENCE user_seq
     MINVALUE 1
     START WITH 1
     INCREMENT BY 1;
-
-CREATE OR REPLACE TRIGGER user_trigger -- name
-    BEFORE INSERT ON Users --upon what event
-    FOR EACH ROW -- how ofter
-    BEGIN  --start what actually happens
+/
+CREATE OR REPLACE TRIGGER user_trigger 
+    BEFORE INSERT ON USERS
+    FOR EACH ROW 
+    BEGIN  
         SELECT user_seq.NEXTVAL
-        INTO :new.user_id
+        INTO :new.userid
         FROM dual;
     END;
-/ -- need to stop PL/SQL
-
-CREATE SEQUENCE acct_seq
+/
+CREATE SEQUENCE acctseq
     MINVALUE 1
     START WITH 1
     INCREMENT BY 1;
-
-CREATE OR REPLACE TRIGGER acct_trigger -- name
-    BEFORE INSERT ON Users --upon what event
-    FOR EACH ROW -- how ofter
-    BEGIN  --start what actually happens
-        SELECT acct_seq.NEXTVAL
-        INTO :new.account_id
+/
+CREATE OR REPLACE TRIGGER accttrigger 
+    BEFORE INSERT ON ACCOUNTS 
+    FOR EACH ROW 
+    BEGIN  
+        SELECT acctseq.NEXTVAL
+        INTO :new.acctid
         FROM dual;
     END;
-/ -- need to stop PL/SQL
--- insersts into lookup table Role
-INSERT INTO Role (role_id, role) VALUES (1, 'Admin');
-INSERT INTO Role (role_id, role) VALUES (2, 'Employee');
-INSERT INTO Role (role_id, role) VALUES (3, 'Customer');
-INSERT INTO Role (role_id, role) VALUES (3, 'Customer');
+/
+-- PROCEDURES
+CREATE OR REPLACE PROCEDURE insert_new_person(fname IN VARCHAR2, lname IN VARCHAR2, uname IN VARCHAR2, pw IN VARCHAR2)
+IS
+    newid NUMBER(10);
+    new_acctid NUMBER(10);
+BEGIN
+    INSERT INTO USERS (FIRSTNAME, LASTNAME, USERNAME, PW) VALUES (fname, lname, uname, pw);
+    COMMIT;   
+    SELECT USERID INTO newid FROM USERS WHERE USERNAME = uname;
+    INSERT INTO ACCOUNTS(RESOLVERID) VALUES(1);
+    COMMIT;
+    SELECT ACCTID INTO new_acctid FROM ACCOUNTS WHERE ACCTID=(SELECT MAX(ACCTID) FROM ACCOUNTS);
+    INSERT INTO CUSTOMERACCOUNTS (USERID, ACCTID) VALUES (newid, new_acctid);
+END;
+/
+truncate table users
+truncate table accounts
+truncate table customeraccounts
+call insert_new_person('Keith','Minner', 'minncomm','m1ssw0rd');
 
--- insert two users
-INSERT INTO Users (FIRST_NAME, LAST_NAME, USERNAME, PW, ROLE_ID) 
-VALUES ('KEITH', 'MINNER','MINNCOMM', 'password', 1);
-INSERT INTO Users VALUES ('','MICHAEL', 'SCOTT','SCOTSTOTS', 'password', 2);
--- inserts into lookup table Status
-INSERT INTO Status (STATUS_ID, STATUS) VALUES ('1', 'Pending');
-INSERT INTO Status (STATUS_ID, STATUS) VALUES ('2', 'Resolved');
-INSERT INTO Status (STATUS_ID, STATUS) VALUES ('3', 'Denied');
--- insert into lookup table Type
-INSERT INTO Type (TYPE_ID, TYPE) VALUES ('1','Checking');
-INSERT INTO Type (TYPE_ID, TYPE) VALUES ('2','Savings');
+
+
+
+
+
+
+
+
+
+
 
 
 

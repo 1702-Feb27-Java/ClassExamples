@@ -31,9 +31,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
-
 import org.apache.log4j.Logger;
+import com.revature.util.FactoryConnection;
 /**
 *********************************************************************************************************
 *	@ CLASS CUSTOMERFILE
@@ -171,37 +175,14 @@ public class CustomerFile {
 *	@ METHOD TO VERIFY A USER ID DOES NOT ALREADY EXIST
 *********************************************************************************************************
 */	
-	public static boolean verifyInfo(int i, String s) {
-
-		BufferedReader br = null;
-
-		try {
-			br = new BufferedReader(new FileReader("person.txt"));
-			String readin = br.readLine();
-
-			// Searches through the file for the specific username
-			// if it finds it returns true, if not false at end of method
-
-			while (readin != null) {
-				String[] sArr = readin.split(":");
-				if (sArr[i].equals(s)) {
-					return true;
-				}
-				readin = br.readLine();
-			}
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		} finally {
-			try {
-				if (br != null)
-					br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return false;
-	}
+	
 }
+		
+	
+			
+			
+	
+
 /**
 *********************************************************************************************************
 *  										END CLASS CUSTOMERFILE

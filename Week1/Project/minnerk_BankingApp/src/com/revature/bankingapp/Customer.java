@@ -27,9 +27,11 @@ package com.revature.bankingapp;
 import java.io.BufferedReader;
 
 import java.io.FileReader;
-import java.util.Random;
+//import java.util.Random;
 import java.util.Scanner;
 import org.apache.log4j.Logger;
+
+import com.revature.dao.DAOImpl;
 /**
 ********************************************************************************************************
 *										CLASS CUSTOMER EXTENDS PERSON
@@ -99,12 +101,6 @@ public class Customer extends Person {
 	public double getCheckingBalance() {
 		return checkingBalance;
 	}
-/**
-*********************************************************************************************************
-*  										END CLASS CUSTOMER
-*********************************************************************************************************
-*/
-
 
 	public void setCheckingBalance(double balance) {
 		this.checkingBalance = balance;
@@ -143,11 +139,11 @@ public class Customer extends Person {
 			String lastName = in.nextLine();
 			System.out.println("Enter in a username: ");
 			String username = in.nextLine();
-			boolean valid = CustomerFile.verifyInfo(3, username);
+			boolean valid = DAOImpl.verifyInfo(username);
 			while(valid){
 				System.out.println("That user name is already taken, please try another one: ");
 				username = in.nextLine();
-				valid = CustomerFile.verifyInfo(3, username);
+				valid = DAOImpl.verifyInfo(username);
 			}
 			System.out.println("Enter in a password: ");
 			String password = in.nextLine();
@@ -158,7 +154,10 @@ public class Customer extends Person {
 				c.setRole(1); //default is 3 for customer, so if it is an admin 10
 			if (i == 2)
 				c.setRole(2); //employee is a 2		
-			CustomerFile.newPersonToFile(c);  //Calling method to send data to text file
+			DAOImpl.insertData(c);  //Calling method to send data to text file
+			
+			
+			
 			System.out.println();
 			l.trace("NEW SERVICE CREATED FOR " + (c.getFirstName().toUpperCase()
 					+ " " + c.getLastName().toUpperCase()));
@@ -182,15 +181,26 @@ public class Customer extends Person {
 	public static void openAccount(Customer c) {
 		
 		//User prompt for Checking or Savings account
-		System.out.print("\nSelect the type of account you wish to open" + " 1. Checking or 2. Savings: ");
-		int accountChoice = Integer.parseInt(in.nextLine());  //Getting input
+		System.out.print("\nSelect the type of account you wish to open" + "\n1. Checking or 2. Savings: ");
+		String accountChoice = in.nextLine();  //Getting input
 		System.out.println();		
 		
 		//Getting the existing checking/saving account number
-		double accountNum = (accountChoice == 1 ? c.getCheckingAccountNumber() : c.getSavingsAccountNumber());
+		if (accountChoice.equals("1"))
+			c.setCheckingAccountNumber(1);
+		else
+			c.setSavingsAccountNumber(2);
+		
+		CustomerFile.newPersonToFile(c); //appending to current text file
+		l.trace("NEW ACCOUNT CREATED FOR " + (c.getFirstName().toUpperCase() + " "
+				+ c.getLastName().toUpperCase() + " ACCOUNT#: " + (accountChoice.equals("1")? 
+						c.getCheckingAccountNumber() : c.getSavingsAccountNumber())));
+		
 		//Checking to see if customer already has the type of account, if so, they cannot open another one, if they 
 		//don't have one a random number of 8 digits is created and entered into the text file
-		int number = 0;
+		
+		//This code is used for an auto-generated number for checking account or savings account
+		/*int number = 0;
 		if (accountNum != 0) {
 			System.out.println("You already have a " + (accountChoice == 1 ? "checking account" : "savings account"));
 			Menus.accountMenu(c);  //Back to account menu
@@ -205,19 +215,8 @@ public class Customer extends Person {
 				number = rand.nextInt(89999999) + 10000000; //random number created and assigned to number
 				s = Integer.toString(number);
 				valid = CustomerFile.verifyInfo(arrayPosition, s);
-			}
-			CustomerFile.updateRecord(c); //deleting current record from text file
-		}
-		//Selecting which account to update
-		if (accountChoice == 1) {
-			c.setCheckingAccountNumber(number);
-		} else {
-			c.setSavingsAccountNumber(number);
-		}
-		CustomerFile.newPersonToFile(c); //appending to current text file
-		l.trace("NEW ACCOUNT CREATED FOR " + (c.getFirstName().toUpperCase() + " "
-				+ c.getLastName().toUpperCase() + " ACCOUNT#: " + (accountChoice == 1 ? 
-						c.getCheckingAccountNumber() : c.getSavingsAccountNumber())));
+			}*/
+			//CustomerFile.updateRecord(c); //deleting current record from text file
 	}
 /**
 *********************************************************************************************************
