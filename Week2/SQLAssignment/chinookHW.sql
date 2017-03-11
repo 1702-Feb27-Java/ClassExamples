@@ -300,3 +300,9 @@ select customer.firstname, customer.lastname, invoice.invoiceid from customer in
 --7.2
 select customer.customerid, customer.firstname, customer.lastname, invoice.invoiceid, invoice.total from customer 
 left outer join invoice on customer.customerid = invoice.customerid;
+--7.3
+select artist.name, album.title from album right join artist on artist.artistid = album.artistid;
+--7.4
+select artist.name from artist cross join album order by artist.name asc;
+--7.5
+select a.lastname, a.firstname, b.lastname, b.firstname from employee a, employee b where a.reportsto < b.reportsto;
