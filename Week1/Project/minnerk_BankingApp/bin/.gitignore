@@ -2,3 +2,6 @@
 /BankingLog.html
 /com/
 /log4j.properties
+/DBprop.properties
+/bankDBprop.properties
+/bankDBprop2.properties

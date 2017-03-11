@@ -129,15 +129,21 @@ public class CustomerFile {
 		try {
 			br = new BufferedReader(new FileReader("person.txt"));
 			String s = br.readLine();
-			String app = Integer.toString(i);
 
 			// Finds the specific info and sets all of the variables in
 			// a customer based on what is in the string array
 			while (s != null) {
 				String[] sArr = s.split(":");
 				    //username              password             role
-				if (sArr[3].equals(s1) && sArr[4].equals(s2) && sArr[5].equals(app)) {
-					c = Customer.setCustomerInfo(sArr);
+				if (sArr[3].equals(s1) && sArr[4].equals(s2)) {
+					if (Integer.parseInt(sArr[6]) == 1)
+						System.out.println("\nYour account is still pending, please speak with a "
+								+ "bank representative ");
+					else if (Integer.parseInt(sArr[6]) == 3)
+						System.out.println("\nYour account has been denied, please speak with a "
+								+ "bank representative ");
+					else
+						c = Customer.setCustomerInfo(sArr);
 				}
 				s = br.readLine();
 			}
@@ -173,7 +179,7 @@ public class CustomerFile {
 			br = new BufferedReader(new FileReader("person.txt"));
 			String readin = br.readLine();
 
-			// Searches through the file for the specific userID
+			// Searches through the file for the specific username
 			// if it finds it returns true, if not false at end of method
 
 			while (readin != null) {

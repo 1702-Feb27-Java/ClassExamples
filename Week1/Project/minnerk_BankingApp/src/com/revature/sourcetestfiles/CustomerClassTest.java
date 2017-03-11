@@ -95,13 +95,24 @@ public class CustomerClassTest {
 	
 	@Test
 	public void testToString() {
-		Customer.addNewPerson();
+		Customer.addNewPerson(0);
 	}
 	
 	@Test
-	public void newAddLine() {
-		Customer.addNewPerson();
+	public void newAddLine1() {
+		Customer.addNewPerson(1);
 	}
+	
+	@Test
+	public void newAddLine2() {
+		Customer.addNewPerson(2);
+	}
+	
+	@Test
+	public void newAddLine3() {
+		Customer.addNewPerson(3);
+	}
+	
 	
 	@Test
 	public void openAccount() {

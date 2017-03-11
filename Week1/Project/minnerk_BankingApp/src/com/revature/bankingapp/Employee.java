@@ -44,20 +44,7 @@ public class Employee extends Person {
 	public Employee() {
 
 	}
-	/**
-*********************************************************************************************************
-* @CONSTRUCTOR WITH ARGUMENTS FOR PERSON
-*********************************************************************************************************
-* 
-*/
-	public Employee(String firstName, String lastName, String userID, String password, String email) {
-		super(firstName, lastName, userID, password, email);
-	}
-	/**
-*********************************************************************************************************
-* @METHOD TO APPROVE ACCOUNTS FOR CUSTOMERS WITH A FALSE 
-*********************************************************************************************************
-*/
+
 	public static void approveAccounts() {
 		
 		System.out.println("\nThis capability is currently under construction");
@@ -132,13 +119,13 @@ public class Employee extends Person {
 				String[] sArr = s.split(":");
 				c = Customer.setCustomerInfo(sArr);
 								
-				System.out.println(String.format("%10s",c.getFirstName())
+				System.out.println(String.format("%10s",c.getUserID())
+					+ " | " + String.format("%10s",c.getFirstName())				
 					+ " | " + String.format("%10s",c.getLastName()) 
-					+ " | " + String.format("%10s",c.getUserID()) 
+					+ " | " + String.format("%20s",c.getUserName())
 					+ " | " + String.format("%10s",c.getPassword())
-					+ " | " + String.format("%20s",c.getEmail()) 
-					+ " | " + String.format("%12s",c.getAccessLevel())
-					+ " | " + String.format("%10s",c.isApproved())
+ 					+ " | " + String.format("%12s",c.getRole())
+					+ " | " + String.format("%10s",c.getApproved())
 					+ " | " + String.format("%10s",c.getCheckingAccountNumber())
 					+ " | " + String.format("%10s",c.getSavingsAccountNumber()) 
 					+ " | " + String.format("%12s",c.getCheckingBalance())

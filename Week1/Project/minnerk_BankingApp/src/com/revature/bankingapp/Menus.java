@@ -52,15 +52,15 @@ public class Menus {
 			
 			switch(selection){
 			case "1":
-				personTypeSelection();	
+				personTypeSelection();	//New Person
 				break;
 			case "2":
-				loginType();
+				loginType(); //Login Type Menu
 				break;
 			case "3":
 				break;
 			}
-			System.out.println("Have a nice day, Goodbye!");			
+			System.out.println("\nHave a Wonderful Day!");			
 	}
 /**
 ********************************************************************************************************
@@ -80,13 +80,13 @@ public class Menus {
 			
 			switch (selection) { //determines which statement to execute
 			case "1":
-				Customer.addNewPerson(2); //calls to create a new customer line in the text file
+				Customer.addNewPerson(3); //Create Customer
 				break;
 			case "2":
-				Customer.addNewPerson(1); //calls to create a new customer line in the text file
+				Customer.addNewPerson(2); //Create Employee
 				break;
 			case "3":
-				Customer.addNewPerson(0); //calls to create a new customer line in the text file
+				Customer.addNewPerson(1); //Create Admin
 				break;
 			case "4":
 				break;
@@ -111,13 +111,13 @@ public class Menus {
 				
 				switch (selection) { //determines which statement to execute
 				case "1":
-					loginMenu(2);
+					loginMenu(3); //Customer
 					break;
 				case "2":
-					loginMenu(1);
+					loginMenu(2); //Employee
 					break;
 				case "3":
-					loginMenu(0);
+					loginMenu(1);//Admin
 					break;
 				case "4":
 					break;
@@ -132,18 +132,18 @@ public class Menus {
 	public static void loginMenu(int i) {
 		try {
 			System.out.println("\nLog-in Menu: ");
-			System.out.println("Enter in your username: "); //prompt
+			System.out.println("\nEnter in your username: "); //prompt
 			String username = in.nextLine(); //get value
-			System.out.println("Enter in your password: "); //prompt
+			System.out.println("\nEnter in your password: "); //prompt
 			String password = in.nextLine(); //get value
 			Customer c = CustomerFile.verifyLogin(username, password, i);  //call to method to verify values
 			switch(i){
-			case 0:
-				break;
 			case 1:
-				employeeMenu(); //calls employee menu if verification is valid
 				break;
 			case 2:
+				employeeMenu(); //calls employee menu if verification is valid
+				break;
+			case 3:
 				accountMenu(c); //calls next menu if verification of is valid
 				break;
 			}
@@ -160,8 +160,8 @@ public class Menus {
 */	
 	//Method that displays a menu for an Employee
 	public static void employeeMenu(){
-		System.out.print("\nEmployee Menu\n1. Approve Accounts"
-			+ "\n2. View All Customers\n3. View Customer Info\nSelect an option from the above Menu: ");
+		System.out.println("Employee Menu\n\n1. Approve Accounts"
+			+ "\n2. View All Customers\n3. View Customer Info\n\nSelect an option from the above Menu: ");
 		String selection = in.nextLine();
 		while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3")){
 			System.out.print("Invalid Entry! Enter an option from 1 - 3: ");
@@ -178,8 +178,7 @@ public class Menus {
 				Employee.accessCustomerInfo();
 				break;
 			}
-				
-		}
+	}
 			
 /**
 *********************************************************************************************************
@@ -225,10 +224,9 @@ public class Menus {
 				accountMenu(c); //call to account menu if user selected invalid operation
 				break;
 			}
-			System.out.print("\n'y' - return to Account Menu, 'n' - to exit: "); //prompt to run again
+			System.out.println("\nReturn to Account Menu?\n'y' or 'n': "); //prompt to run again
 			again = in.nextLine();
 		} while (again.equals("y")); //if y run again, otherwise exit
-		System.out.println("Have a nice Day!");
 	}
 }
 /**

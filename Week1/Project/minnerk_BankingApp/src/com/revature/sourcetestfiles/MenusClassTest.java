@@ -73,17 +73,7 @@ public class MenusClassTest {
 	
 	@Test
 	public void testGotoSelection1() {
-		Menus.gotoSelection(1);
-	}
-	
-	@Test
-	public void testGotoSelection2() {
-		Menus.gotoSelection(2);
-	}
-	
-	@Test
-	public void testGotoSelection3() {
-		Menus.gotoSelection(3);
+		Menus.personTypeSelection();
 	}
 	
 	@Test

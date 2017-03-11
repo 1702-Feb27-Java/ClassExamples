@@ -35,8 +35,8 @@ public class Person {
 	private String lastName;
 	private String username;
 	private String password;
-	private int role = 2;
-	private int approved = 0;
+	private int role = 3;
+	private int approved = 1;
 	
 /**
 *********************************************************************************************************

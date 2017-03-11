@@ -154,10 +154,10 @@ public class Customer extends Person {
 			
 			//Assigning respective values entered into a Customer object
 			Customer c = new Customer(firstName, lastName, username, password);
-			if(i == 0)
-				c.setRole(0); //default is 2 for customer, so if it is an admin 0
-			if (i == 1)
-				c.setRole(1); //employee is a 1			
+			if(i == 1)
+				c.setRole(1); //default is 3 for customer, so if it is an admin 10
+			if (i == 2)
+				c.setRole(2); //employee is a 2		
 			CustomerFile.newPersonToFile(c);  //Calling method to send data to text file
 			System.out.println();
 			l.trace("NEW SERVICE CREATED FOR " + (c.getFirstName().toUpperCase()

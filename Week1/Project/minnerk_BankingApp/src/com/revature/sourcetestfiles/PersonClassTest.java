@@ -36,7 +36,7 @@ import com.revature.bankingapp.Person;
  */
 public class PersonClassTest {
 	
-	Person p = new Person("Keith", "Minner", "minncomm", "password", "email");
+	Person p = new Person("Keith", "Minner", "minncomm", "password");
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -79,7 +79,7 @@ public class PersonClassTest {
 	
 	@Test
 	public void testUserID() {
-		p.setUserID("mjscott");
+		p.setUserName("mjscott");
 		p.getUserID();
 	}
 	
@@ -90,12 +90,6 @@ public class PersonClassTest {
 	}
 	
 	@Test
-	public void testEmail() {
-		p.setEmail("mjscott@scottstots.com");
-		p.getEmail();
-	}
-	
-	@Test
 	public void testAccessLevel() {
 		p.setFirstName("Ted");
 		p.getFirstName();
@@ -103,8 +97,8 @@ public class PersonClassTest {
 	
 	@Test
 	public void testApproved() {
-		p.setApproved(true);
-		p.isApproved();
+		p.setApproved(2);
+		p.getApproved();
 	}
 	
 	@Test
