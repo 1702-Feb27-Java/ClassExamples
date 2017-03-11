@@ -2,3 +2,4 @@ minncomm:admin:Keith:Minner:keith.minner@ymail.com:0:false:0:0:0.0:0.0
 m:m:k:m:k:1:false:0:0:0.0:0.0
 b:b:b:b:b:1:false:0:0:0.0:0.0
 mj:mj:Mike:Scott:dsdf:1:false:44145316:61280407:96000.0:0.0
+0:Keith:Minner:mincom:password:2:0:0:0:0.0:0.0

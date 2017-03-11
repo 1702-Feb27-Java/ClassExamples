@@ -30,13 +30,14 @@ public class Person {
 
 	// Declaration of variables for any individual within the banking
 	// application system
+	private int userID = 0;
 	private String firstName;
 	private String lastName;
-	private String userID;
+	private String username;
 	private String password;
-	private String email;
-	private int accessLevel = 1;
-	private boolean approved = false;
+	private int role = 2;
+	private int approved = 0;
+	
 /**
 *********************************************************************************************************
 *  @DEFAULT CONSTRUCTOR WITH NO ARGUMENTS
@@ -50,28 +51,26 @@ public class Person {
 *  @CONSTRUCTOR WITH ARGUMENTS
 *********************************************************************************************************
 */
-	public Person(String firstName, String lastName, String userID, String password, String email) {
+	public Person(String firstName, String lastName, String username, String password) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.userID = userID;
+		this.username = username;
 		this.password = password;
-		this.email = email;
 	}
-
 /**
 *********************************************************************************************************
-*  @CONSTRUCTOR WITH ADDITIONAL ARGUMENTS THAT INITIALLY HAVE DEFAULT VALUES
+*  @CONSTRUCTOR WITH ARGUMENTS
 *********************************************************************************************************
-*/	//Arguments Constructor with additional fields
-	public Person(String firstName, String lastName, String userID, String password, String email, int accessLevel,
-			boolean approved) {
+*/
+	public Person(String firstName, String lastName, String username, String password, 
+			int role, int approved) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.userID = userID;
+		this.username = username;
 		this.password = password;
-		this.email = email;
+		this.role = role;
 	}
 
 /**
@@ -79,6 +78,14 @@ public class Person {
 *  @ GETTERS AND SETTERS
 *********************************************************************************************************
 	*/	// Getters and Setters for all private variables
+	public int getUserID() {
+		return userID;
+	}
+
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -95,14 +102,13 @@ public class Person {
 		this.lastName = lastName;
 	}
 
-	public String getUserID() {
-		return userID;
+	public String getUserName() {
+		return username;
 	}
 
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setUserName(String username) {
+		this.username = username;
 	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -111,27 +117,19 @@ public class Person {
 		this.password = password;
 	}
 
-	public String getEmail() {
-		return email;
+	public int getRole() {
+		return role;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setRole(int role) {
+		this.role = role;
 	}
 
-	public int getAccessLevel() {
-		return accessLevel;
-	}
-
-	public void setAccessLevel(int accessLevel) {
-		this.accessLevel = accessLevel;
-	}
-
-	public boolean isApproved() {
+	public int getApproved() {
 		return approved;
 	}
 
-	public void setApproved(boolean approved) {
+	public void setApproved(int approved) {
 		this.approved = approved;
 	}
 /**
@@ -140,7 +138,7 @@ public class Person {
 *********************************************************************************************************
 */
 	public String toString() {
-		return "Name: " + firstName + " " + lastName + "\n\t Email: " + email + "\n\t: " + userID + "\n\t Password: "
+		return "Name: " + firstName + " " + lastName + "\n\t username: " + username + "\n\t: " + userID + "\n\t Password: "
 				+ password;
 	}
 }

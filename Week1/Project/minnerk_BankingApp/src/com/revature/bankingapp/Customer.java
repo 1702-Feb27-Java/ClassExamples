@@ -60,8 +60,8 @@ public class Customer extends Person {
 *	@ CONSTRUCTOR WITH ARGUMENTS FOR PERSON
 *********************************************************************************************************
 */	
-	public Customer(String firstName, String lastName, String userID, String password, String email) {
-		super(firstName, lastName, userID, password, email);
+	public Customer(String firstName, String lastName, String username, String password) {
+		super(firstName, lastName, username, password);
 	}
 	
 /**
@@ -69,10 +69,10 @@ public class Customer extends Person {
 *	@ CONSTRUCTOR WITH ARGUMENTS FOR PERSON & CUSTOMER
 *********************************************************************************************************
 */	
-	public Customer(String firstName, String lastName, String userID, String password, String email, 
-			int accessLevel, boolean approved, int checkingAccountNumber, int savingsAccountNumber, 
+	public Customer(String firstName, String lastName, String username, String password, 
+			int checkingAccountNumber, int savingsAccountNumber, 
 			double checkingBalance, double savingsBalance) {
-		super(firstName, lastName, userID, password, email, accessLevel, approved);
+		super(firstName, lastName, username, password);
 	}
 
 /**
@@ -124,11 +124,10 @@ public class Customer extends Person {
 *********************************************************************************************************
 */	
 	public String toString() {
-		return getUserID() + ":" + getPassword() + ":" + getFirstName() + ":" + getLastName() + ":" 
-	+ getEmail() + ":" 	+ getAccessLevel() + ":" + isApproved() + ":" + checkingAccountNumber + ":"
+		return getUserID() + ":" + getFirstName() + ":" + getLastName() + ":" + getUserName() + ":" 
+				+ getPassword() + ":" + getRole() + ":" + getApproved() + ":" + checkingAccountNumber + ":"
 				+ savingsAccountNumber + ":" + checkingBalance + ":" + savingsBalance;
 	}
-
 /**
 *********************************************************************************************************
 *	@METHOD TO ADD A NEW PERSON TO THE BANKING APPLICATION
@@ -142,23 +141,23 @@ public class Customer extends Person {
 			String firstName = in.nextLine();
 			System.out.println("Enter in your last name: ");
 			String lastName = in.nextLine();
-			System.out.println("Enter in your email address: ");
-			String email = in.nextLine();
-			System.out.println("Enter in a user name: ");
-			String userID = in.nextLine();
-			boolean valid = CustomerFile.verifyInfo(0, userID);
+			System.out.println("Enter in a username: ");
+			String username = in.nextLine();
+			boolean valid = CustomerFile.verifyInfo(3, username);
 			while(valid){
 				System.out.println("That user name is already taken, please try another one: ");
-				userID = in.nextLine();
-				valid = CustomerFile.verifyInfo(0, userID);
+				username = in.nextLine();
+				valid = CustomerFile.verifyInfo(3, username);
 			}
-			System.out.print("Enter in a password: ");
+			System.out.println("Enter in a password: ");
 			String password = in.nextLine();
 			
 			//Assigning respective values entered into a Customer object
-			Customer c = new Customer(firstName, lastName, userID, password, email);
-			if(i == 2)
-				c.setAccessLevel(0);
+			Customer c = new Customer(firstName, lastName, username, password);
+			if(i == 0)
+				c.setRole(0); //default is 2 for customer, so if it is an admin 0
+			if (i == 1)
+				c.setRole(1); //employee is a 1			
 			CustomerFile.newPersonToFile(c);  //Calling method to send data to text file
 			System.out.println();
 			l.trace("NEW SERVICE CREATED FOR " + (c.getFirstName().toUpperCase()
@@ -326,7 +325,7 @@ public class Customer extends Person {
 		String again = null;
 		do {              //Loop to run until customer is finished updating things
 			System.out.print("\nEdit Personal Information Menu\n1. First Name\n2. Last Name"
-					+ "\n3. Email Address\n4. Password\n5. Exit\nSelect Option: ");
+					+ "\n3. Password\n4. Exit\nSelect Option: ");
 			int myEditsChoice = Integer.parseInt(in.nextLine());
 			
 			switch (myEditsChoice) { //Base on selection will determine which case gets ran
@@ -356,18 +355,6 @@ public class Customer extends Person {
 				break;
 			case 3:
 				CustomerFile.updateRecord(c);
-				System.out.print("\nEnter in your new email address name: ");
-				String email = in.nextLine();
-				String fName2 = c.getFirstName();
-				String lName2 = c.getLastName();
-				c.setEmail(email);
-				CustomerFile.newPersonToFile(c);
-				System.out.println();
-				l.trace("EMAIL ADDRESS CHANGE FOR " + fName2.toUpperCase() + " " + lName2.toUpperCase()
-				+ " to " + c.getEmail().toUpperCase());				
-				break;
-			case 4:
-				CustomerFile.updateRecord(c);
 				System.out.print("\nEnter in your new password name: ");
 				String password = in.nextLine();
 				String fName3 = c.getFirstName();
@@ -378,7 +365,7 @@ public class Customer extends Person {
 				l.trace("PASSWORD CHANGE FOR " + fName3.toUpperCase() + " " + lName3.toUpperCase()
 				+ " to " + c.getPassword().toUpperCase());				
 				break;
-			case 5:
+			case 4:
 				break;
 			default:
 				System.out.println("You did not enter in a valid selection " + "\nPlease try again");
@@ -400,13 +387,13 @@ public class Customer extends Person {
 		Customer c = new Customer();
 		
 		//Sets all of the fields for a Customer object from a line in the text file
-		c.setFirstName(sArr[2]);
-		c.setLastName(sArr[3]);
-		c.setUserID(sArr[0]);
-		c.setPassword(sArr[1]);
-		c.setEmail(sArr[4]);
-		c.setAccessLevel(Integer.parseInt(sArr[5]));
-		c.setApproved(Boolean.parseBoolean(sArr[6]));
+		c.setUserID(Integer.parseInt(sArr[0]));
+		c.setFirstName(sArr[1]);
+		c.setLastName(sArr[2]);
+		c.setUserName(sArr[3]);
+		c.setPassword(sArr[4]);
+		c.setRole(Integer.parseInt(sArr[5]));
+		c.setApproved(Integer.parseInt(sArr[6]));
 		c.setCheckingAccountNumber(Integer.parseInt(sArr[7]));
 		c.setSavingsAccountNumber(Integer.parseInt(sArr[8]));
 		c.setCheckingBalance(Double.parseDouble(sArr[9]));

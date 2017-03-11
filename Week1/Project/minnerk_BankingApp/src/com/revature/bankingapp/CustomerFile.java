@@ -135,7 +135,8 @@ public class CustomerFile {
 			// a customer based on what is in the string array
 			while (s != null) {
 				String[] sArr = s.split(":");
-				if (sArr[0].equals(s1) && sArr[1].equals(s2) && sArr[5].equals(app)) {
+				    //username              password             role
+				if (sArr[3].equals(s1) && sArr[4].equals(s2) && sArr[5].equals(app)) {
 					c = Customer.setCustomerInfo(sArr);
 				}
 				s = br.readLine();

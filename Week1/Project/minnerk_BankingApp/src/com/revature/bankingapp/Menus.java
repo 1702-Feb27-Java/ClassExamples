@@ -55,7 +55,7 @@ public class Menus {
 				personTypeSelection();	
 				break;
 			case "2":
-				loginMenu(0);
+				loginType();
 				break;
 			case "3":
 				break;
@@ -83,16 +83,47 @@ public class Menus {
 				Customer.addNewPerson(2); //calls to create a new customer line in the text file
 				break;
 			case "2":
-				loginMenu(0); //calls the login menu to add an Admin, *Must have admin creation user name and password
+				Customer.addNewPerson(1); //calls to create a new customer line in the text file
 				break;
 			case "3":
-				loginMenu(1); //calls the login menu to add an Employee, *Must have employee creation user name and password
+				Customer.addNewPerson(0); //calls to create a new customer line in the text file
 				break;
 			case "4":
 				break;
 			}
 							
 	}
+/**
+********************************************************************************************************
+*  @METHOD TO DISPLAY TYPE OF ACCOUNT TO CREATE MENU
+*********************************************************************************************************
+*/
+	public static void loginType() {
+			
+		System.out.println("\nType of Account to log into:\n\n1. Customer\n2. Employee\n3. Admin\n4. Exit");
+
+			String selection = null;
+				do{ //Loop that ensures that either a 1, 2, 3, or 4 is entered in, if not repeats until done
+					System.out.println("\nSelect an option from the above Menu: ");
+					selection = in.nextLine();
+				}while (!selection.equals("1") && !selection.equals("2")
+						&& !selection.equals("3") && !selection.equals("4"));
+				
+				switch (selection) { //determines which statement to execute
+				case "1":
+					loginMenu(2);
+					break;
+				case "2":
+					loginMenu(1);
+					break;
+				case "3":
+					loginMenu(0);
+					break;
+				case "4":
+					break;
+				}
+								
+		}
 /**
 *********************************************************************************************************
 *  @METHOD THAT GETS USER LOGIN CREDENTIALS
@@ -106,10 +137,16 @@ public class Menus {
 			System.out.println("Enter in your password: "); //prompt
 			String password = in.nextLine(); //get value
 			Customer c = CustomerFile.verifyLogin(username, password, i);  //call to method to verify values
-			if (i == 0)
+			switch(i){
+			case 0:
+				break;
+			case 1:
 				employeeMenu(); //calls employee menu if verification is valid
-			else
+				break;
+			case 2:
 				accountMenu(c); //calls next menu if verification of is valid
+				break;
+			}
 		} catch (Exception e) {
 			e.getStackTrace();
 		} finally {
