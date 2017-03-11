@@ -1,0 +1,5 @@
+bankInfo=C:/Users/Samsel/workspace/BankingAppSD/src/main/resources/bankInfo.txt
+bankId=1000
+bankName=D-Bank
+bankAddressPath=C:/Users/Samsel/workspace/BankingAppSD/src/main/resources/Address.txt
+loginProfile=C:/Users/Samsel/workspace/BankingAppSD/src/main/resources/bProfiles.txt
