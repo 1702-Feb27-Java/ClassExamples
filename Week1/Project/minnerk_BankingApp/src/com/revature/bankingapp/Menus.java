@@ -41,35 +41,57 @@ public class Menus {
 	public static void displayMainMenu() {
 		
 		System.out.print("Welcome to the the MinnComm Banking Application: \n"
-				+ "Please make a selection from the menu below: \n\n1. Signup For Service\n"
-				+ "2. Customer Login\n3. Employee Login\n4. Exit\n");
+				+ "Please make a selection from the menu below: \n\n1. Create an Account\n"
+				+ "2. Login\n3. Exit\n");
 
-		int selection = 0;
+		String selection = null;
 			do{ //Loop that ensures that either a 1 or 2 is entered in, if not repeats until done
-				System.out.print("\nSelect an option from the above Menu: ");
-				selection = Integer.parseInt(in.nextLine());
-			}while (selection != 1 && selection != 2 && selection !=3 && selection != 4);
-			gotoSelection(selection);				
+				System.out.println("\nSelect a valid option from the above Menu: ");
+				selection = in.nextLine();
+			}while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3"));
+			
+			switch(selection){
+			case "1":
+				personTypeSelection();	
+				break;
+			case "2":
+				loginMenu(0);
+				break;
+			case "3":
+				break;
+			}
+			System.out.println("Have a nice day, Goodbye!");			
 	}
 /**
-*********************************************************************************************************
- *  @METHOD TO GO TO THE SELECTION OF THE PERSON
+********************************************************************************************************
+*  @METHOD TO DISPLAY TYPE OF ACCOUNT TO CREATE MENU
 *********************************************************************************************************
 */
-	public static void gotoSelection(int s) {
-		switch (s) { //determines which statement to execute
-		case 1:
-			Customer.addNewPerson(); //creates a new customer line in the text file
-			break;
-		case 2:
-			loginMenu(1); //goes to login prompts for customer access, 1 is access level for customers
-			break;
-		case 3:
-			loginMenu(0);//goes to login prompts for employee, 0 is access level for employees
-		case 4:
-			System.out.println("Goodbye!");
-			break;
-		}
+	public static void personTypeSelection() {
+		
+		System.out.println("\nType of Account Menu:\n\n1. Customer\n2. Employee\n3. Admin\n4. Exit");
+
+		String selection = null;
+			do{ //Loop that ensures that either a 1 or 2 is entered in, if not repeats until done
+				System.out.println("\nSelect an option from the above Menu: ");
+				selection = in.nextLine();
+			}while (!selection.equals("1") && !selection.equals("2")
+					&& !selection.equals("3") && !selection.equals("4"));
+			
+			switch (selection) { //determines which statement to execute
+			case "1":
+				Customer.addNewPerson(2); //calls to create a new customer line in the text file
+				break;
+			case "2":
+				loginMenu(0); //calls the login menu to add an Admin, *Must have admin creation user name and password
+				break;
+			case "3":
+				loginMenu(1); //calls the login menu to add an Employee, *Must have employee creation user name and password
+				break;
+			case "4":
+				break;
+			}
+							
 	}
 /**
 *********************************************************************************************************
@@ -78,10 +100,10 @@ public class Menus {
 */
 	public static void loginMenu(int i) {
 		try {
-			System.out.println("\nLog-in");
-			System.out.print("Enter in your username: "); //prompt
+			System.out.println("\nLog-in Menu: ");
+			System.out.println("Enter in your username: "); //prompt
 			String username = in.nextLine(); //get value
-			System.out.print("Enter in your password: "); //prompt
+			System.out.println("Enter in your password: "); //prompt
 			String password = in.nextLine(); //get value
 			Customer c = CustomerFile.verifyLogin(username, password, i);  //call to method to verify values
 			if (i == 0)
@@ -103,19 +125,19 @@ public class Menus {
 	public static void employeeMenu(){
 		System.out.print("\nEmployee Menu\n1. Approve Accounts"
 			+ "\n2. View All Customers\n3. View Customer Info\nSelect an option from the above Menu: ");
-		int choice = Integer.parseInt(in.nextLine());
-		while (choice < 0 && choice > 3){
+		String selection = in.nextLine();
+		while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3")){
 			System.out.print("Invalid Entry! Enter an option from 1 - 3: ");
-			choice = Integer.parseInt(in.nextLine());
+			selection = in.nextLine();
 		}
-		switch (choice){
-			case 1:
+		switch (selection){
+			case "1":
 				Employee.approveAccounts();
 				break;
-			case 2:
+			case "2":
 				Employee.pullAccounts();
 				break;
-			case 3:
+			case "3":
 				Employee.accessCustomerInfo();
 				break;
 			}
@@ -130,7 +152,7 @@ public class Menus {
 	public static void accountMenu(Customer c) {
 
 		String again = null;
-		int selection = 0;
+		String selection = null;
 
 		do {
 			System.out.print("\nAccount Menu\n1. Open an Account\n2. View Account Info "
@@ -138,28 +160,28 @@ public class Menus {
 					+ "\n6. Change Personal Info\n7. Exit Program\nSelect an option"
 					+ " from the above Menu: ");
 
-			selection = Integer.parseInt(in.nextLine());
+			selection = in.nextLine();
 
 			switch (selection) {
-			case 1:
+			case "1":
 				Customer.openAccount(c); //call to open a checking or savings account
 				break;
-			case 2:
+			case "2":
 				Customer.viewAccountInfo(c); //call to view the customers information
 				break;
-			case 3:
+			case "3":
 				Customer.accountDeposit(c); //call to deposit money into an account
 				break;
-			case 4:
+			case "4":
 				Customer.accountWithdraw(c); //call to withdraw money from an account
 				break;
-			case 5:
+			case "5":
 				Customer.viewBalance(c); //call to view the balance of an account
 				break;
-			case 6:
+			case "6":
 				Customer.editPersonalInfo(c); //call to edit personal info menu
 				break;
-			case 7: 
+			case "7": 
 				break;
 			default:
 				System.out.println("You did not enter in a valid selection " + "\nPlease try again");

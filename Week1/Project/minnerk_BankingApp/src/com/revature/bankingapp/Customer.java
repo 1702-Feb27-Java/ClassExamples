@@ -134,23 +134,21 @@ public class Customer extends Person {
 *	@METHOD TO ADD A NEW PERSON TO THE BANKING APPLICATION
 *********************************************************************************************************
 */	
-	public static void addNewPerson() {
+	public static void addNewPerson(int i) {
 		try {
 			in = new Scanner(System.in); //Creating input stream
-			System.out.print("\nWhat type of account, 1. Customer or 2. Employee: ");
-			String type = in.nextLine();
 			//User prompts and getting values
-			System.out.print("\nEnter in your first name: ");
+			System.out.println("\nEnter in your first name: ");
 			String firstName = in.nextLine();
-			System.out.print("Enter in your last name: ");
+			System.out.println("Enter in your last name: ");
 			String lastName = in.nextLine();
-			System.out.print("Enter in your email address: ");
+			System.out.println("Enter in your email address: ");
 			String email = in.nextLine();
-			System.out.print("Enter in a user name: ");
+			System.out.println("Enter in a user name: ");
 			String userID = in.nextLine();
 			boolean valid = CustomerFile.verifyInfo(0, userID);
 			while(valid){
-				System.out.print("That user name is taken, please try another one: ");
+				System.out.println("That user name is already taken, please try another one: ");
 				userID = in.nextLine();
 				valid = CustomerFile.verifyInfo(0, userID);
 			}
@@ -159,13 +157,13 @@ public class Customer extends Person {
 			
 			//Assigning respective values entered into a Customer object
 			Customer c = new Customer(firstName, lastName, userID, password, email);
-			if(type.equals("2"))
+			if(i == 2)
 				c.setAccessLevel(0);
 			CustomerFile.newPersonToFile(c);  //Calling method to send data to text file
 			System.out.println();
 			l.trace("NEW SERVICE CREATED FOR " + (c.getFirstName().toUpperCase()
 					+ " " + c.getLastName().toUpperCase()));
-			Menus.loginMenu(Integer.parseInt(type));
+			Menus.loginMenu(i);
 		} catch (Exception e) {
 			e.printStackTrace();				
 		} finally {
