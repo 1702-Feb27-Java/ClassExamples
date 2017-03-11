@@ -75,7 +75,7 @@ UPDATE ARTIST
 SET NAME='CCR'
 WHERE NAME = 'Creedence Clearwater Revival';
 
--- 2.5 LIKE
+-- 2.5. LIKE
 -- 2.5.1.
 SELECT * FROM INVOICE
 WHERE BILLINGADDRESS LIKE 'T%';
@@ -89,7 +89,8 @@ WHERE TOTAL BETWEEN 15 AND 50;
 SELECT * FROM EMPLOYEE
 WHERE HIREDATE BETWEEN '1-JUN-03' AND '1-MAR-04';
 
--- 2.7.
+-- 2.7.DELETE
+-- 2.7.1.
 -- ALTER ALL CHILD DEPENDANCIES
 ALTER TABLE INVOICELINE
 DROP CONSTRAINT FK_INVOICELINEINVOICEID;
@@ -112,6 +113,313 @@ ON DELETE CASCADE;
 DELETE FROM CUSTOMER
 WHERE FIRSTNAME='Robert' AND LASTNAME='Walter';
 
+-- 3.0. SQL FUNCTIONS
+-- 3.1. SYSTEM DEFINED FUNCTIONS
+-- 3.1.1.
+CREATE OR REPLACE FUNCTION currentTime
+RETURN VARCHAR2
+IS
+   myTime VARCHAR2(10); 
+BEGIN
+    SELECT TO_CHAR(CURRENT_DATE, 'HH:MI:SS')INTO myTime FROM DUAL;
+    RETURN myTime;
+END;
+/
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(currentTime());
+END;
+/
+-- 3.1.2. 
+CREATE OR REPLACE FUNCTION getLength(id IN NUMBER)
+RETURN NUMBER
+IS
+    length1 NUMBER(10);
+BEGIN
+    SELECT LENGTH(NAME)INTO length1 FROM MEDIATYPE
+    WHERE MEDIATYPEID=id;
+    RETURN length1;
+END;
+/
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(getLength(1));
+END;
+/
+-- 3.2. SYSTEM DEFINED AGGREGATE FUNTIONS
+-- 3.2.1.
+CREATE OR REPLACE FUNCTION average
+RETURN NUMBER
+IS
+    my_total NUMBER(8,2);
+BEGIN
+    SELECT AVG(TOTAL) INTO my_total FROM INVOICE;
+    RETURN my_total;
+END;
+/
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(average());
+END;
+/
+-- 3.2.2.
+CREATE OR REPLACE FUNCTION expensive_track
+RETURN SYS_REFCURSOR
+IS
+    outCursor SYS_REFCURSOR;
+    maxprice NUMBER(8,2);
+BEGIN
+    SELECT MAX(UNITPRICE) INTO maxprice FROM TRACK;
+    OPEN outCursor FOR 
+    SELECT NAME, MAX(UNITPRICE)FROM TRACK
+    GROUP BY NAME
+    HAVING MAX(UNITPRICE) = maxprice;
+    RETURN outCursor;
+END;
+/
+DECLARE
+  cursorVar SYS_REFCURSOR;
+  name1 TRACK.NAME%TYPE;
+  unitprice TRACK.UNITPRICE%TYPE;
+BEGIN
+    cursorVar:=expensive_track();
+  LOOP
+    FETCH cursorVAR INTO name1, unitprice;
+    EXIT WHEN cursorVar%NOTFOUND;
+    dbms_output.put_line(name1 || ' | ' || unitprice);
+  END LOOP;
+END;
+/
+-- 3.3. USER DEFINED SCALAR FUNCTIONS
+-- 3.3.1.
+CREATE OR REPLACE FUNCTION average_price
+RETURN NUMBER
+IS
+    price NUMBER(10);
+BEGIN
+    SELECT AVG(UNITPRICE) INTO price FROM INVOICELINE;
+    RETURN price;
+END;
+/
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(average_price());
+END;
+/
+-- 3.4. USER DEFINED TABLE VALUED FUNCTIONS
+-- 3.4.1.
+CREATE OR REPLACE FUNCTION sixty_eight
+RETURN SYS_REFCURSOR
+IS
+    outCursor SYS_REFCURSOR;
+BEGIN
+    OPEN outCursor FOR 
+    SELECT FIRSTNAME, LASTNAME, BIRTHDATE FROM EMPLOYEE WHERE BIRTHDATE > '01-JAN-68';
+    RETURN outCursor;
+END;
+/
+DECLARE
+  cursorVar SYS_REFCURSOR;
+  firstname EMPLOYEE.FIRSTNAME%TYPE;
+  lastname EMPLOYEE.LASTNAME%TYPE;
+  birthdate EMPLOYEE.BIRTHDATE%TYPE;
+BEGIN
+    cursorVar:=sixty_eight();
+  LOOP
+    FETCH cursorVAR INTO firstname, lastname, birthdate;
+    EXIT WHEN cursorVar%NOTFOUND;
+    dbms_output.put_line(firstname || ' | ' || lastname || ' | ' || birthdate);
+  END LOOP;
+END;
+/
+-- 4.0. STORED PROCEDURES
+-- 4.1. BASIC STORED PROCEDURE
+-- 4.1.1.
+CREATE OR REPLACE PROCEDURE getEmployeeNames(outCursor OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN outCursor FOR
+    SELECT FIRSTNAME, LASTNAME FROM EMPLOYEE;
+END;
+/
+DECLARE
+  cursorVar SYS_REFCURSOR;
+  firstname EMPLOYEE.FIRSTNAME%TYPE;
+  lastname EMPLOYEE.LASTNAME%TYPE;
+BEGIN
+  getEmployeeNames(cursorVar);
+  LOOP
+    FETCH cursorVAR INTO firstname, lastname;
+    EXIT WHEN cursorVar%NOTFOUND;
+    dbms_output.put_line(firstname || ' | ' || lastname || ' |');
+  END LOOP;
+END;
+/
+-- 4.2. STORED PROCEDURES INPUT PARAMETERS
+-- 4.2.1.
+CREATE OR REPLACE PROCEDURE updateEmployeeInfo(emp_id IN NUMBER, ln IN VARCHAR2)
+IS
+BEGIN
+    UPDATE EMPLOYEE
+    SET LASTNAME=ln
+    WHERE EMPLOYEEID=emp_id;
+END;
+/
+BEGIN
+    updateEmployeeInfo(4,'Parkz');
+END;
+/
+-- 4.2.2.
+CREATE OR REPLACE PROCEDURE returnManager(emp_id IN NUMBER, outCursor OUT SYS_REFCURSOR)
+IS
+BEGIN 
+    OPEN outCursor FOR
+    SELECT FIRSTNAME, LASTNAME FROM EMPLOYEE
+    WHERE emp_id = EMPLOYEEID;
+END;
+/
+DECLARE
+  cursorVar SYS_REFCURSOR;
+  firstname EMPLOYEE.FIRSTNAME%TYPE;
+  lastname EMPLOYEE.LASTNAME%TYPE;
+BEGIN
+  returnManager(3, cursorVar);
+  LOOP
+    FETCH cursorVAR INTO firstname, lastname;
+    EXIT WHEN cursorVar%NOTFOUND;
+    dbms_output.put_line(firstname || ' | ' || lastname || ' |');
+  END LOOP;
+END;
+/
+-- 4.3. STORED PROCEDURES OUTPUT PARAMETERS
+-- 4.3.1.
+CREATE OR REPLACE PROCEDURE companyName(c_id IN NUMBER, outCursor OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN outCursor FOR
+    SELECT FIRSTNAME, LASTNAME, COMPANY FROM CUSTOMER
+    WHERE c_id = CUSTOMERID;
+END;
+/
+DECLARE
+cursorVar SYS_REFCURSOR;
+firstname CUSTOMER.FIRSTNAME%TYPE;
+lastname CUSTOMER.LASTNAME%TYPE;
+company CUSTOMER.COMPANY%TYPE;
+BEGIN
+    companyName(6, cursorVar);
+    LOOP
+        FETCH cursorVAR INTO firstname, lastname, company;
+        EXIT WHEN cursorVar%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE(firstname || ' | ' || lastname || ' | ' || company);
+    END LOOP;
+END;
+/
+-- 5.0. TRANSACTIONS
+-- 5.0.1
+CREATE OR REPLACE PROCEDURE delete_invoice(invid IN NUMBER)
+IS
+BEGIN
+    DELETE FROM INVOICE
+    WHERE INVOICEID = invid;
+    COMMIT;
+END;
+
+BEGIN
+    delete_invoice(177);
+END;
+
+-- 5.0.2
+CREATE OR REPLACE PROCEDURE new_record(customerid IN NUMBER, firstname IN VARCHAR2,
+lastname IN VARCHAR2, company IN VARCHAR2, address IN VARCHAR2, city IN VARCHAR2, 
+state IN VARCHAR2, country IN VARCHAR2, postalcode IN VARCHAR2, phoneIN VARCHAR2,
+fax IN VARCHAR2, email IN VARCHAR2, supportrepid IN NUMBER)
+IS
+BEGIN
+    INSERT INTO CUSTOMER (CUSTOMERID, FIRSTNAME, LASTNAME, COMPANY,
+    ADDRESS, CITY, STATE, COUNTRY, POSTALCODE, PHONE, FAX, EMAIL, SUPPORTREPID)
+    VALUES (customerid, firstname, lastname, company, address, city, 
+        state, country , postalcode , phoneIN ,
+        fax , email, supportrepid);
+    COMMIT;
+END;
+/
+
+-- TEST CASE
+BEGIN
+    new_record('69', 'Michael', 'Scott', 'DunderMifflin', '5335', 'Scanton', 'PA','United States','74567', '123-345-1234', '321-654-9876', 'scottstots@gmail.com','3');
+END;
+
+
+-- 6.0. TRIGGERS
+-- 6.1. AFTER/FOR
+-- 6.1.1.
+CREATE OR REPLACE TRIGGER afterNewRecord
+AFTER INSERT
+ON EMPLOYEE
+FOR EACH ROW
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('New Employee Created');
+END;
+/
+-- TEST CASE
+INSERT INTO EMPLOYEE VALUES('11', 'Michael', 'Scott', 'DunderMifflin', '3', '1-May-90', '1-May-16', '5535', 'Scanton', 'PA','United States','74567', '123-345-1234', '321-654-9876', 'scottstots@gmail.com');
+
+-- 6.1.2.
+CREATE OR REPLACE TRIGGER new_album_trigger
+AFTER UPDATE
+ON ALBUM
+FOR EACH ROW
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Album Inserted');
+END;
+-- TEST CASE
+UPDATE ALBUM
+SET TITLE='The Cross'
+WHERE ALBUMID = 348;
+
+-- 6.1.3.
+CREATE OR REPLACE TRIGGER on_delete
+AFTER DELETE
+ON CUSTOMER
+FOR EACH ROW
+BEGIN 
+ DBMS_OUTPUT.PUT_LINE('Customer Deleted');
+END;
+
+-- TEST CASE TO DELETE THE CUSTOMER IN THE ABOVE TRIGGER AFTER INSERT
+DELETE FROM CUSTOMER
+WHERE CUSTOMERID=69;
+
+-- 7.1. JOINS
+-- 7.1. INNER
+-- 7.1.1.
+SELECT (FIRSTNAME || ' ' || LASTNAME) AS "CUSTOMER NAME", INVOICEID FROM CUSTOMER c
+INNER JOIN INVOICE i ON c.CUSTOMERID=i.CUSTOMERID;
+
+-- 7.2. OUTER
+-- 7.2.1.
+SELECT c.CUSTOMERID, FIRSTNAME, LASTNAME, INVOICEID, TOTAL FROM CUSTOMER c
+FULL OUTER JOIN INVOICE i ON c.CUSTOMERID=i.CUSTOMERID;
+
+-- 7.3. RIGHT
+-- 7.3.1.
+SELECT art.NAME, TITLE FROM ARTIST art
+RIGHT JOIN ALBUM a ON art.ARTISTID=a.ARTISTID;
+
+-- 7.4. CROSS
+-- 7.4.1.
+SELECT art.NAME, a.Title
+FROM ALBUM a
+CROSS JOIN ARTIST art
+ORDER BY NAME;
+
+-- 7.5. SELF
+-- 7.5.1.
+SELECT r1.LASTNAME "SUPERVISOR", r2.LASTNAME "SUPERVISEE"
+FROM EMPLOYEE r1
+INNER JOIN EMPLOYEE r2
+ON r1.EMPLOYEEID=r2.REPORTSTO;
+
+-- 9.0 ADMINISTRATION
+-- 9.1.
+-- FILE SAVED AS CHINOOK_DB_BACKUP.SQL
 
 
 
