@@ -55,8 +55,42 @@ SELECT * FROM employee WHERE hiredate BETWEEN '01-JUN-03' AND '01-MAR-04';
 -- 2.7 DELETE
 -- delete a record in customer table where the name is robert walter (there may be constraints that rely on this,
 -- find out how to resolve them).
-DELETE FROM customer WHERE firstname = 'Robert' AND lastname = 'Walter';
 
+-- METHOD 1
+-- have to alter invoiceline table constraints first
+ALTER TABLE invoiceline
+DROP CONSTRAINT fk_invoicelineinvoiceid;
+ALTER TABLE invoiceline
+ADD CONSTRAINT fk_invoicelineinvoiceid
+  FOREIGN KEY (invoiceid)
+  REFERENCES invoice(invoiceid)
+  ON DELETE CASCADE;
+
+-- alter invoice table constraints second
+ALTER TABLE invoice
+DROP CONSTRAINT fk_invoicecustomerid;
+ALTER TABLE invoice
+ADD CONSTRAINT fk_invoicecustomerid
+  FOREIGN KEY (customerid)
+  REFERENCES customer(customerid)
+  ON DELETE CASCADE;
+
+-- THEN we can delete
+DELETE FROM customer WHERE customerid = 32;
+
+
+-- BUT, the second way to do this is with nested delete statements
+-- METHOD 2
+
+
+-- resolve restraints from child table first
+DELETE FROM invoiceline WHERE invoiceid IN
+  (SELECT invoiceid FROM invoiceline WHERE invoiceid IN
+  (SELECT customerid FROM invoice WHERE customerid = 32));
+-- then delete what you want from parent table
+DELETE FROM customerid WHERE customerid = 32;
+
+  
 -- -------------------------------------------------------------------------------
 
 -- 3.0 SQL FUNCTIONS
@@ -115,8 +149,17 @@ SELECT mostExp FROM dual;
 
 -- 3.3 USER DEFINED SCALAR FUNCTIONS
 -- create a function that returns the average price of invoiceline items in the invoiceline table
+CREATE OR REPLACE FUNCTION avgPrice
+RETURN binary_double
+IS avgPrice binary_double;
+BEGIN
+  SELECT AVG(unitprice) INTO avgPrice FROM invoiceline;
+RETURN avgPrice;
+END;
 
-SELECT * FROM invoiceline;
+SELECT avgPrice FROM dual;
+
+select * from invoiceline;
 
 -- 3.4 USER DEFINED TABLE VALUED FUNCTIONS
 CREATE OR REPLACE TYPE bornTable AS TABLE OF EMPLOYEE;
@@ -130,10 +173,128 @@ SELECT birthdate FROM EMPLOYEE
 RETURN
 END;
 
-SELECT * FROM employee;
+  SELECT firstname, lastname FROM employee;
 
+--------------------------------------------------------------------
 
-------------------------------------------------------------
+-- 4.0 STORE PROCEDURES
+
+-- 4.1 BASIC STORED PROCEDURE
+-- create a stored procedure that selects the first and last names of al the employees
+CREATE OR REPLACE PROCEDURE selFirstLast (curs OUT sys_refcursor)
+IS
+BEGIN
+  OPEN curs FOR SELECT firstname, lastname FROM employee;
+END selFirstLast;
+/
+--show error procedure selFirstLast;
+DECLARE
+ cursorOut sys_refcursor;
+ fName employee.firstname%Type;
+ lName employee.lastname%Type;
+BEGIN
+  selFirstLast(cursorOut);
+    LOOP
+      FETCH cursorOut INTO fName, lName;
+        EXIT WHEN cursorOut%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('|' || fName || '|' ||  lName || '|');
+    END LOOP;
+END;
+
+-- 4.2 STORED PROCEDURE INPUT PARAMETERS
+-- create a stored procedure that updates the personal information of an employee
+
+CREATE OR REPLACE PROCEDURE updateInfo(newFirst IN varchar2, 
+  newLast IN varchar2, empID IN number)
+IS
+BEGIN
+ UPDATE employee
+ SET firstname = newFirst,
+ lastname = newLast
+ WHERE employeeid = empID;
+END updateInfo;
+/
+
+-- create a stored procedure that returns the managers of an employee
+
+CREATE OR REPLACE PROCEDURE findManager(empID IN number)
+IS managerID number; nameManager varchar2(40);
+BEGIN
+  SELECT reportsto INTO managerID FROM employee
+  WHERE employeeid = empID;
+  SELECT firstname INTO nameManager FROM employee
+  WHERE employeeid = managerID;
+  DBMS_OUTPUT.PUT_LINE(nameManager);
+END findManager;
+/
+
+-- testing the procedure
+SELECT * FROM EMPLOYEE;
+BEGIN
+  findManager(9);
+END;
+
+-- 4.3 STORED PROCEDURE OUTPUT PARAMETERS
+--  create a stored procedure that returns the name and company of a customer
+
+CREATE OR REPLACE PROCEDURE nameCompany(cusID IN number, fName OUT varchar2, 
+lName OUT varchar2, company OUT varchar2)
+IS
+BEGIN
+  SELECT firstname, lastname, company
+  INTO fName, lName, company FROM customer
+  WHERE customerid = cusID;
+  --DBMS_OUTPUT.PUT_LINE(fName + ' ' + lName + ' works at ' + company);
+END;
+
+SELECT * FROM customer;
+
+DECLARE
+  firstname customer.firstname%Type;
+  lastname customer.lastname%Type;
+  company customer.company%Type;
+BEGIN
+  nameCompany(5, firstname, lastname, company);
+  DBMS_OUTPUT.PUT_LINE('|' || firstname || '|' ||  lastname || '|' ||  company || '|');
+END;
+
+--------------------------------------------------------------------
+
+-- 5.0 TRANSACTIONS
+
+-- create a transaction that given a invoiceid will delete that invoice
+-- alter constraints first
+
+SET TRANSACTION;
+CREATE OR REPLACE PROCEDURE deleteInvoiceID(invID IN number)
+IS
+BEGIN
+-- resolve restraints from child table first
+  DELETE FROM invoiceline WHERE invoiceid IN
+    (SELECT invoiceid FROM invoiceline WHERE invoiceid = invID);
+-- then delete what you want from parent table
+  DELETE FROM invoice WHERE invoiceid = invID;
+END deleteInvoiceID;
+SAVEPOINT;
+
+-- create a transaction nested within a stored procedure that inserts a new record
+-- in the customer table
+
+CREATE OR REPLACE PROCEDURE insertNewCus
+IS
+BEGIN
+  INSERT INTO customer VALUES (62, 'Wayne', 'Bruce', 'Justice League', '10 Wayne Enterprises St', 'Gotham',
+'NY', 'USA', '12345', null, null, 'imbatman@jla.org', 3);
+    COMMIT WORK COMMENT 'added bruce wayne to customer database';
+END;
+
+BEGIN
+  insertNewCus();
+END;
+
+SELECT * FROM customer;
+
+--------------------------------------------------------------------
 -- 6.0 TRIGGERS
 
 -- 6.1 AFTER/FOR
@@ -222,5 +383,3 @@ select * from employee;
 -- 9.0 ADMINISTRATION
 
 -- create a .bak file for the chinook database
-
-BACKUP DATABASE chinook TO DISK='C:\Users\Danni Tang\Documents\Repos\ClassExamples\SQLWeek\chinook.bak';
