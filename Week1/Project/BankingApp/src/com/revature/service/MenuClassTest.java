@@ -1,4 +1,4 @@
-package com.revature.banking;
+package com.revature.service;
 
 import static org.junit.Assert.*;
 

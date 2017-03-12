@@ -1,4 +1,4 @@
-package com.revature.banking;
+package com.revature.service;
 
 
 // class for creating a customer object

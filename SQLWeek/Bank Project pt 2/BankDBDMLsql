@@ -81,10 +81,10 @@ END;
 /
 
 CREATE OR REPLACE PROCEDURE addAccounts
-(typeid IN NUMBER, bal IN NUMBER, customer_id IN NUMBER)
+(typeid IN NUMBER, customer_id IN NUMBER)
 IS
 BEGIN
-  INSERT INTO Accounts VALUES ('', typeid, bal, 1, 1);
+  INSERT INTO Accounts (type_id) VALUES (typeid);
   INSERT INTO CustomerAccounts VALUES 
   (customer_id, account_seq.CURRVAL);
 END;
@@ -94,13 +94,12 @@ END;
 TESTING AREA
 ******************************************************************************/
 
-  
-CALL addUser('Clark', 'Kent, 'superman', 'notsuperman');
+CALL addAccounts(2, 4); 
 
-INSERT INTO Users VALUES (3, 'd', 't', 'dt', '12', 3);
+SELECT ca.customer_id, ac.ACCOUNT_ID,ac.TYPE_ID, ac.BALANCE, ac.STATUS_ID, ac.RESOLVER_ID 
+FROM Accounts ac
+INNER JOIN CustomerAccounts ca ON  Accounts.account_id = CustomerAccounts.acct_id
+AND CustomerAccounts.customer_id = 4;
 
-UPDATE Users SET firstname = '' WHERE user_id = ;
-
-SELECT * FROM Users;
 INSERT INTO Accounts Values (3, 1, 0, 1, 1);
 DELETE FROM Accounts WHERE account_id = 1;

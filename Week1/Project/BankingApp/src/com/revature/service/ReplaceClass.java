@@ -1,4 +1,4 @@
-package com.revature.banking;
+package com.revature.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

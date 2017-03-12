@@ -1,7 +1,8 @@
 package com.revature.test;
 
+import com.revature.dao.DAOAccountImp;
 import com.revature.dao.DAOUserImp;
-import com.revature.pojo.UserClass;
+import com.revature.pojo.AccountClass;
 
 public class Testing {
 
@@ -18,8 +19,15 @@ public class Testing {
 //		
 //		dao.addUser(dummy);
 	
-		System.out.println(dao.getUserByID(5));
+//		System.out.println(dao.getUserByID(5));
 		
+		DAOAccountImp daoA = new DAOAccountImp();
+//		
+		AccountClass dummyA = new AccountClass();
+//		dummyA.setTypeID(1);
+		daoA.updateStatus(6, 2);
+//		
+//		daoA.getAccountsByUserID(4);
 
 	}
 

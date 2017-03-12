@@ -168,6 +168,7 @@ public class DAOUserImp implements DAOUser {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
+		allUsers.forEach(System.out::println);
 		return allUsers;
 	}
 
