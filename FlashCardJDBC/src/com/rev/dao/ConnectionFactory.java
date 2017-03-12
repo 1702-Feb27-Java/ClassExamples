@@ -44,11 +44,11 @@ public class ConnectionFactory {
 		return conn;
 	}
 	
-	public static Connection getConnection(){
-		if(cf = null){
-			cf = new COnnectionFactory();
-		}
-		return cf.createConnection();
-	}
+//	public static Connection getConnection(){
+//		if(cf = null){
+//			cf = new COnnectionFactory();
+//		}
+//		return cf.createConnection();
+//	}
 
 }

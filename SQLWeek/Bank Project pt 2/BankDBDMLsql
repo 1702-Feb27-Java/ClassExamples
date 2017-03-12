@@ -1,0 +1,106 @@
+/******************************************************************************
+POPULATE SOME STUFF NOW
+******************************************************************************/
+
+/******************************************************************************
+lOOKUP TABLES
+******************************************************************************/
+
+INSERT INTO ROLE VALUES (1, 'Admin');
+INSERT INTO ROLE VALUES (2, 'Employee');
+INSERT INTO ROLE VALUES (3, 'Customer');
+
+SELECT * FROM ROLE;
+
+INSERT INTO AccountType VALUES (1, 'Checking');
+INSERT INTO AccountType VALUES (2, 'Saving');
+INSERT INTO AccountType VALUES (3, 'Joint');
+
+SELECT * FROM ACCOUNTTYPE;
+
+INSERT INTO Status VALUES (1, 'Pending');
+INSERT INTO Status VALUES (2, 'Active');
+
+SELECT * FROM Status;
+
+/******************************************************************************
+ADD THE ADMIN AND EMPLOYEES
+******************************************************************************/
+
+-- creating our admin
+INSERT INTO Users VALUES (1, 'Danni', 'Tang', 'dtang', '1234', 1);
+-- creating a default employee
+INSERT INTO Users VALUES (2, 'John', 'Smith', 'default', '1234', 2);
+
+SELECT * FROM Users;
+COMMIT;
+
+
+/******************************************************************************
+NOW WE NEED SEQUENCES AND TRIGGERS
+******************************************************************************/
+
+-- sequence and trigger for creating a new user
+CREATE SEQUENCE user_seq
+  START WITH 3  -- because we already have 2 default accounts stored
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER user_seq_trigger
+  BEFORE INSERT ON Users
+    FOR EACH ROW
+  BEGIN
+    SELECT user_seq.NEXTVAL INTO :new.user_id FROM dual;
+  END;
+/
+
+-- sequence and trigger for creating a new account
+CREATE SEQUENCE account_seq
+  START WITH 1
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER account_seq_trigger
+  BEFORE INSERT ON Accounts
+    FOR EACH ROW
+  BEGIN
+    SELECT account_seq.NEXTVAL INTO :new.account_id FROM dual;
+  END;
+/
+
+/******************************************************************************
+PROCEDURES AND FUNCTIONS
+******************************************************************************/
+
+CREATE OR REPLACE PROCEDURE addUser(fName IN VARCHAR2, lName IN VARCHAR2, 
+uname IN VARCHAR2, pw IN VARCHAR2)
+IS
+BEGIN
+  INSERT INTO Users VALUES ('', fName, lName, uname, pw, 3); -- only add customers
+END;
+/
+
+CREATE OR REPLACE PROCEDURE addAccounts
+(typeid IN NUMBER, bal IN NUMBER, customer_id IN NUMBER)
+IS
+BEGIN
+  INSERT INTO Accounts VALUES ('', typeid, bal, 1, 1);
+  INSERT INTO CustomerAccounts VALUES 
+  (customer_id, account_seq.CURRVAL);
+END;
+/
+
+/******************************************************************************
+TESTING AREA
+******************************************************************************/
+
+  
+CALL addUser('Clark', 'Kent, 'superman', 'notsuperman');
+
+INSERT INTO Users VALUES (3, 'd', 't', 'dt', '12', 3);
+
+UPDATE Users SET firstname = '' WHERE user_id = ;
+
+SELECT * FROM Users;
+INSERT INTO Accounts Values (3, 1, 0, 1, 1);
+DELETE FROM Accounts WHERE account_id = 1;
