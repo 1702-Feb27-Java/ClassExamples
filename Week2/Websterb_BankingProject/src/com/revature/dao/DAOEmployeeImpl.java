@@ -137,6 +137,31 @@ public class DAOEmployeeImpl implements DAOEmployee{
 
 
 
-	
+	public boolean setResolverId(int empId, int actId){
+		boolean confirmation = false;
+		
+		try (Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "CALL SETRESOLVERID(?, ?)";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, empId);
+			ps.setInt(2, actId);
+			
+			ps.execute();
+
+			connect.commit();
+			confirmation = true;
+			
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return confirmation;
+	}
 	
 }

@@ -119,7 +119,7 @@ public class Main {
 	 */
 	public static void menuOption(){
 		//Menu for banking program
-		System.out.println("Enter a number option");
+		System.out.println("\nEnter a number option");
 		System.out.println("----------------------");
 		System.out.println("1: Customer Sign up");
 		System.out.println("2: Customer Login");
@@ -210,7 +210,7 @@ public class Main {
 	 */
 	public static void customerLoggedInMenuOption(){
 		//Menu for logged in customer
-		System.out.println("Welcome to your account");
+		System.out.println("\nWelcome to your account");
 		System.out.println("----------------------");
 		System.out.println("1: Sign up for Savings Acccount");
 		System.out.println("2: Sign up for Checking Account");
@@ -463,7 +463,7 @@ public class Main {
 	 */
 	public static void employeeLoggedInMenuOption(){
 		//Menu for logged in employee
-		System.out.println("Employee Menu: Enter Selection");
+		System.out.println("\nEmployee Menu: Enter Selection");
 		System.out.println("------------------------------");
 		System.out.println("1: View all of your customers.");
 		System.out.println("2: See your customer's account applications to approve/decline.");
@@ -494,6 +494,9 @@ public class Main {
 					if((!(customerStringArray[0].equals("savings"))) && (!(customerStringArray[0].equals("checking"))))
 							System.out.println("-------------------------------");
 					System.out.println(customerStringArray[0] + " " + customerStringArray[1]);
+				}
+				if(customerAccounts.size() == 0){
+					System.out.println("\nNo Accounts found.");
 				}
 				System.out.println("-------------------------------");
 				employeeLoggedInMenu(employeeId, sc);
@@ -537,11 +540,15 @@ public class Main {
 					int action = Integer.parseInt(sc.readLine());
 					if(action == 2){
 						serveEmp.editAccountStatus(accountSelect, action);
+						serveEmp.setResolverId(employeeId, accountSelect);
+						System.out.println("Account successfully approved.");
 						employeeLoggedInMenu(employeeId, sc);
 						break;
 					}
 					else if(action == 3){
 						serveEmp.editAccountStatus(accountSelect, action);
+						serveEmp.setResolverId(employeeId, accountSelect);
+						System.out.println("Account denied.");
 						employeeLoggedInMenu(employeeId, sc);
 						break;
 					}

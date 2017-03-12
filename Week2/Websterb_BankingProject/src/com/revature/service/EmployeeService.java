@@ -50,4 +50,12 @@ public class EmployeeService {
 		boolean editConfirm = daoEmp.editAccountStatus(actId, statusId);
 		return editConfirm;
 	}
+	
+	public boolean setResolverId(int empId, int actId){
+		boolean confirmation = daoEmp.setResolverId(empId, actId);		
+		return confirmation;
+		
+	}
+
+
 }
