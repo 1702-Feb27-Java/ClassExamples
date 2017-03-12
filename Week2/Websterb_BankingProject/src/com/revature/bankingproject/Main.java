@@ -6,18 +6,18 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 import org.apache.log4j.Logger;
 
-import com.revature.dao.DAOCustomerImpl;
+import com.revature.dao.DAOEmployeeImpl;
 import com.revature.pojo.Account;
 import com.revature.service.CustomerService;
+import com.revature.service.EmployeeService;
 
 public class Main {
 	static final Logger l =  Logger.getRootLogger();
 	static Scanner scan = new Scanner(System.in);
-	static CustomerService serve = new CustomerService();
+	static CustomerService serveCust = new CustomerService();
+	static EmployeeService serveEmp = new EmployeeService();
 	
 	public static void main(String[] args) {
 
@@ -25,11 +25,13 @@ public class Main {
 		
 		BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
 		mainMenuOption(br);
-		DAOCustomerImpl daoCust = new DAOCustomerImpl();
+		DAOEmployeeImpl daoEmp = new DAOEmployeeImpl();
 		int accountId = 2;
-/*		daoCust.getBalance(10);
-		System.out.println(daoCust.setBalance(10, 10.15));
-		daoCust.getBalance(10);*/
+		String fn = "employee2";
+		String ln = "lastname2";
+		String un = "empBen2";
+		String pw = "pass";
+		System.out.println(serveEmp.addEmployee(fn, ln, un, pw));
 		//System.out.println(accountId);
 		//serve.getAccounts(accountId);
 	}
@@ -63,19 +65,13 @@ public class Main {
 				break;
 			case 3:
 				//presents options for creating account
-				String createEmployeeAccountResult = createEmployeeAccountOption(sc);
-				
-				System.out.println(createEmployeeAccountResult);
-				if(!(createEmployeeAccountResult.equals("Account created successfully!"))){
-					main(null);
+				if(createEmployeeAccountOption(sc)){
+					System.out.println("Customer Account Created.");
+					mainMenuOption(sc);
 				}
-				else if((createEmployeeAccountResult.equals("Account created successfully!"))){
-					int employeeLoginResult = 0;
-					
-					while(employeeLoginResult == 0){
-						employeeLoginResult = employeeLoginOption(sc);
-					}
-					employeeLoggedInMenu(employeeLoginResult, sc);
+				else{
+					System.out.println("Username already in use.");
+					mainMenuOption(sc);
 				}
 				break;
 			case 4:
@@ -162,7 +158,7 @@ public class Main {
 			l.error(e);
 			System.out.println(e);
 		}
-		boolean result = serve.addCustomer(firstname, lastname, username, password);
+		boolean result = serveCust.addCustomer(firstname, lastname, username, password);
 		return result;
 	}
 	
@@ -180,7 +176,7 @@ public class Main {
 			username = sc.readLine();
 			System.out.println("Enter password: ");
 			password = sc.readLine();
-			int result = serve.loginCustomer(username, password);
+			int result = serveCust.loginCustomer(username, password);
 			if(result == 0){
 				customerLoggedInId = result;
 				System.out.println("Username or password incorrect.");
@@ -232,38 +228,50 @@ public class Main {
 			
 			switch(response){
 			case 1://create savings
-				if(serve.applyForAccount(customerId, 1, 1)){
+				if(serveCust.applyForAccount(customerId, 1, 1)){
 					System.out.println("Applied for Savings Account.");
+					customerLoggedInMenu(customerId, sc);
+					break;
 				}
 				else{
 					System.out.println("Applying for savings account failed.");
+					customerLoggedInMenu(customerId, sc);
+					break;
 				}
-				break;
 			case 2://create checking
-				if(serve.applyForAccount(customerId, 1, 2)){
+				if(serveCust.applyForAccount(customerId, 1, 2)){
 					System.out.println("Applied for Checking Account.");
+					customerLoggedInMenu(customerId, sc);
+					break;
 				}
 				else{
 					System.out.println("Applying for checking account failed.");
+					customerLoggedInMenu(customerId, sc);
+					break;
 				}
-				break;
 			case 3://view accounts
-				ArrayList<Account> accounts = serve.getAccounts(customerId);
+				ArrayList<Account> accounts = serveCust.getAccounts(customerId);
 				System.out.println("Enter account number that you would like to enter!");
 				System.out.println("-------------------------------------------------");
 				String accountType;
 				
 				for(Account act : accounts){
-					accountType = serve.getAccountType(act.getTypeId());
+					accountType = serveCust.getAccountType(act.getTypeId());
 					System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " + act.getBalance());
-				}
+				}				
+				System.out.println("-------------------------------------------------");
+				System.out.println("Press 1 to go back.");
 				int accountSelect = Integer.parseInt(sc.readLine());
+				if(accountSelect == 1){
+					customerLoggedInMenu(customerId, sc);
+					break;
+				}
 				
 				boolean actFound = false;
 				System.out.println("What would you like to do with your account?");
 				System.out.println("-------------------------------------------------");
 				for(Account act : accounts){
-					accountType = serve.getAccountType(act.getTypeId());
+					accountType = serveCust.getAccountType(act.getTypeId());
 					if(act.getAccountId() == accountSelect){
 						System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " + act.getBalance() +"\n");
 						actFound = true;
@@ -277,29 +285,32 @@ public class Main {
 						System.out.println("How much would you like to deposit?");
 						double dep = Double.parseDouble(sc.readLine());
 						System.out.println("CI" + customerId);
-						double newBal = serve.depositMoney(accountSelect, dep);
+						double newBal = serveCust.depositMoney(accountSelect, dep);
 						System.out.println("Deposited $" + dep);
 						System.out.println("New Balance: $" + newBal);
 						customerLoggedInMenu(customerId, sc);
+						break;
 					}
 					else if(action == 2){
 						System.out.println("How much would you like to withdraw?");
 						double with = Double.parseDouble(sc.readLine());
-						double newBal = serve.withdrawMoney(accountSelect, with);
+						double newBal = serveCust.withdrawMoney(accountSelect, with);
 						System.out.println("Withdrew $" + with);
 						System.out.println("New Balance: $" + newBal);
 						customerLoggedInMenu(customerId, sc);
+						break;
 					}
 					else{
 						System.out.println("Invalid Option");
 						customerLoggedInMenu(customerId, sc);
+						break;
 					}
 				}
 				else{
 					System.out.println("No Account with that account number found");
 					customerLoggedInMenu(customerId, sc);
+					break;
 				}
-				break;
 			case 4:
 				mainMenuOption(sc);
 				break;
@@ -372,13 +383,19 @@ public class Main {
 	 * @param sc input scanner
 	 * @return String result of what happened
 	 */
-	public static String createEmployeeAccountOption(BufferedReader sc){
+	public static boolean createEmployeeAccountOption(BufferedReader sc){
+		String firstname = "";
+		String lastname = "";
 		String username = "";
 		String password = "";
 		try
 		{
 			System.out.println("Employee Sign Up Page");
 			System.out.println("-----------------------");
+			System.out.println("Enter first name:");
+			firstname = sc.readLine();
+			System.out.println("Enter last name:");
+			lastname = sc.readLine();
 			System.out.println("Enter username:");
 			username = sc.readLine();
 			System.out.println("Enter password:");	
@@ -392,12 +409,8 @@ public class Main {
 			l.error(e);
 			System.out.println(e);
 		}
-		
-		//call sign up method from Customer class
-		Employee createEmployee = new Employee();
-		String createEmployeeResult = createEmployee.createEmployeeAccount(username, password);
-		l.info("created employee account");
-		return createEmployeeResult;
+		boolean result = serveEmp.addEmployee(firstname, lastname, username, password);
+		return result;
 	}
 
 	/**
