@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.revature.bankingproject.Customer;
-import com.revature.bankingproject.Employee;
-
 public class CustomerTest {
 	
 	@BeforeClass
@@ -22,7 +19,7 @@ public class CustomerTest {
 	
 	@Test
 	public void test() {
-		try (BufferedReader br = new BufferedReader(new FileReader(
+/*		try (BufferedReader br = new BufferedReader(new FileReader(
 				"src\\com\\revature\\testing\\CustomerTestCLI.txt"));)
 			{
 			//test create a customer account
@@ -80,7 +77,7 @@ public class CustomerTest {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 }

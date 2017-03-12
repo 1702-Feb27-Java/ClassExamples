@@ -528,6 +528,7 @@ public class Main {
 		}
 	}
 
+	
 	/**
 	 * Tries to log in as admin, calling admin class, then returning true or false
 	 * @param sc input scanner

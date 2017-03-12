@@ -9,14 +9,11 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import com.revature.bankingproject.Customer;
-import com.revature.bankingproject.Employee;
-
 public class EmployeeTest {
 
 	@Test
 	public void test() {
-		try (BufferedReader br = new BufferedReader(new FileReader(
+/*		try (BufferedReader br = new BufferedReader(new FileReader(
 				"src\\com\\revature\\testing\\EmployeeTestCLI.txt"));)
 			{
 			Employee employee = new Employee();
@@ -79,9 +76,9 @@ public class EmployeeTest {
 					assertEquals("-287807177",customerStringArray[4]);
 					break;
 				}
-			}
+			}*/
 			
-			//test getting unapproved account applications
+/*			//test getting unapproved account applications
 			Customer newCustomer = new Customer();
 			String newCustomerUsername = br.readLine();
 			String newCustomerPassword = br.readLine();
@@ -97,9 +94,10 @@ public class EmployeeTest {
 			boolean result = employee.approveAccountApplications(getAccountApplications, br);
 			assertEquals(true, result);
 			
-		} catch (IOException e) {
+		}*/
+/*	catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 }

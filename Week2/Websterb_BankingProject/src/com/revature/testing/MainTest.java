@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.revature.bankingproject.Admin;
-import com.revature.bankingproject.Customer;
 import com.revature.bankingproject.Main;
 
 import static com.revature.bankingproject.Main.*;
@@ -24,7 +22,7 @@ public class MainTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		File file = new File("src\\com\\revature\\bankingproject\\Data.txt");
+/*		File file = new File("src\\com\\revature\\bankingproject\\Data.txt");
 		file.delete();
 		
 		BufferedWriter bw = new BufferedWriter(new FileWriter(
@@ -32,12 +30,12 @@ public class MainTest {
 		
 		bw.write("admin:" + "benwebsteradmin".hashCode() + ":" + "benwebsteradmin" + ":" + "password" + ":" + "benwebsteradmin".hashCode());
 		bw.newLine();
-		bw.close();
+		bw.close();*/
 	}
 
 	@Test
 	public void test() {
-		try(BufferedReader br = new BufferedReader(new FileReader(
+/*		try(BufferedReader br = new BufferedReader(new FileReader(
 				"src\\com\\revature\\testing\\MainTestCLI.txt"));)
 			{
 			
@@ -53,7 +51,7 @@ public class MainTest {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 }
