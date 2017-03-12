@@ -73,6 +73,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 
 
 	@Override
+	
 	public ArrayList<Account> getUnapprovedAccounts() {
 		ArrayList<Account> accounts = new ArrayList<Account>();
 		
@@ -202,4 +203,34 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		return accounts;
 	}
 	
+	public boolean adminLogin(String un, String pw){
+		boolean confirmation = false;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "CALL LOGINADMIN(?, ?, ?)";
+			CallableStatement cs = connect.prepareCall(sql);
+			
+			cs.registerOutParameter(1, java.sql.Types.INTEGER);
+			cs.setString(2, un);
+			cs.setString(3, pw);
+		
+			cs.execute();
+			
+			int adminId = cs.getInt(1);
+			
+			connect.commit();	
+
+			if(adminId != 0){
+				confirmation = true;
+			}
+			
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return confirmation;
+	}
 }

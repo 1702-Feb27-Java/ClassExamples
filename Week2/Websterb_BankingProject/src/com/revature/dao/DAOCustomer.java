@@ -13,6 +13,8 @@ public interface DAOCustomer {
 	
 	ArrayList<String> loginCustomer(String un, String pw);
 	
+	int loginCustomer(String un);
+	
 	ArrayList<Account> getAccounts(int userId);
 	
 	public String getAccountType(int typeId); 

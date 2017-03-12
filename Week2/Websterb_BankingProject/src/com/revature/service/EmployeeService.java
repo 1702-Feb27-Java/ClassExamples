@@ -2,11 +2,13 @@ package com.revature.service;
 
 import java.util.ArrayList;
 
+import com.revature.dao.DAOCustomerImpl;
 import com.revature.dao.DAOEmployeeImpl;
 import com.revature.pojo.Account;
 
 public class EmployeeService {
 	static CustomerService serve = new CustomerService();
+	static DAOCustomerImpl daoCust = new DAOCustomerImpl();
 	static DAOEmployeeImpl daoEmp = new DAOEmployeeImpl();
 	
 	public boolean addEmployee(String fn, String ln, String un, String pw){
@@ -60,5 +62,10 @@ public class EmployeeService {
 	public ArrayList<Account> getAccounts(int empId){
 		ArrayList<Account> accounts = daoEmp.getAccounts(empId);
 		return accounts;
+	}
+
+	public boolean loginAdmin(String un, String pw){
+		boolean loginResult = daoEmp.adminLogin(un, pw);
+		return loginResult;
 	}
 }

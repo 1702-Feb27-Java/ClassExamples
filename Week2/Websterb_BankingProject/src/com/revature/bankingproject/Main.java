@@ -62,7 +62,7 @@ public class Main {
 			case 2:
 				int customerLoginResult = 0;
 				
-				while(customerLoginResult == 0 || customerLoginResult == 1)
+				while(customerLoginResult == 0 || customerLoginResult == -1)
 					customerLoginResult = customerLoginOption(sc);
 				customerLoggedInMenu(customerLoginResult, sc);
 				break;
@@ -85,22 +85,12 @@ public class Main {
 				employeeLoggedInMenu(employeeLoginResult, sc);
 				break;
 			case 5:
-				System.out.println("admin login");
-				System.out.println("-------------");
-				boolean adminLogin = adminLoginOption(sc);
-				while(!adminLogin){
-					System.out.println("Wrong login info, Mr. Admin");
-					adminLogin = adminLoginOption(sc);
+				boolean adminLoginResult = false;
+				
+				while(!adminLoginResult){
+					adminLoginResult = adminLoginOption(sc);
 				}
 				viewCustomerAccounts(sc);
-				break;
-			case 6: 
-				System.out.println("Log in to previously created Customer to add joint account");
-					int customerLoginResult2 = 0;
-					
-					while(customerLoginResult2 == 0)
-						customerLoginResult2 = customerLoginOption(sc);
-					customerLoggedInMenu(customerLoginResult2, sc);
 				break;
 			default:
 				System.out.println("You didn't enter a correct number option");
@@ -126,7 +116,6 @@ public class Main {
 		System.out.println("3: Employee Sign up");
 		System.out.println("4: Employee Login");
 		System.out.println("5: Admin Login");
-		System.out.println("6: Create joint account with existing user");
 	}
 	
 	/**
@@ -184,7 +173,7 @@ public class Main {
 				customerLoggedInId = result;
 				System.out.println("Username or password incorrect.");
 			}
-			else if(result == 1){
+			else if(result == -1){
 				customerLoggedInId = result;
 				System.out.println("Username or password incorrect");
 			}
@@ -217,7 +206,7 @@ public class Main {
 		System.out.println("3: View Accounts");
 		System.out.println("4: Exit to main menu.");
 	}
-
+	
 	/**
 	 * Deals with customer logged in menu input
 	 * 
@@ -265,9 +254,9 @@ public class Main {
 					System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " + act.getBalance());
 				}			
 				System.out.println("-------------------------------------------------");
-				System.out.println("Press 1 to go back.");
+				System.out.println("Press 0 to go back.");
 				int accountSelect = Integer.parseInt(sc.readLine());
-				if(accountSelect == 1){
+				if(accountSelect == 0){
 					customerLoggedInMenu(customerId, sc);
 					break;
 				}
@@ -517,9 +506,9 @@ public class Main {
 								+ act.getBalance() + " (" + statusType + ")");
 				}				
 				System.out.println("-------------------------------------------------");
-				System.out.println("Press 1 to go back.");
+				System.out.println("Press 0 to go back.");
 				int accountSelect = Integer.parseInt(sc.readLine());
-				if(accountSelect == 1){
+				if(accountSelect == 0){
 					employeeLoggedInMenu(employeeId, sc);
 					break;
 				}
@@ -622,15 +611,12 @@ public class Main {
 	public static boolean adminLoginOption(BufferedReader sc){
 		boolean adminLoginResult = false;
 		try{
-			String username, password;
 			System.out.println("Enter username: ");
-			username = sc.readLine();
+			String un = sc.readLine();
 			System.out.println("Enter password: ");
-			password = sc.readLine();
+			String pw = sc.readLine();
 			
-			//tries to login with username and password input
-			Admin adminLogin = new Admin();
-			adminLoginResult = adminLogin.login(username, password);
+			adminLoginResult = serveEmp.loginAdmin(un, pw);
 			
 		}
 		catch(IOException e){
@@ -644,30 +630,27 @@ public class Main {
 		l.info("admin logged in");
 		return adminLoginResult;
 	}
-
+	
 	/**
 	 * Retrieve customerid from data teid to username input
 	 * @param sc input scanner
 	 */
 	public static void viewCustomerAccounts(BufferedReader sc){
+		System.out.println("Enter username of customer to login to.");
 		String customerUsername = "";
-		System.out.println("What is the username of the customer you want to view?");
-		try{
+		try {
 			customerUsername = sc.readLine();
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
 		}
-		catch(IOException e){
-			l.error(e);
-			System.out.println(e);
-		}
-		Admin customerId = new Admin();
-		String customerIdRetrieved = customerId.getCustomerId(customerUsername);
-		//only move on if customer with username was found
-		if(customerIdRetrieved.equals("")){
-			System.out.println("No customer with that username");
+		int customerId = serveCust.loginCustomer(customerUsername);
+		if(customerId != 0){
+			customerLoggedInMenu(customerId, sc);
 		}
 		else{
-			//act as a customer logged in, but you are an admin in that account
-			customerLoggedInMenu(Integer.parseInt(customerIdRetrieved), sc);
+			System.out.println("Customer username not found");
+			viewCustomerAccounts(sc);
 		}
 	}
  	

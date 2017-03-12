@@ -127,6 +127,31 @@ public class DAOCustomerImpl implements DAOCustomer{
 		return customer;
 	}
 
+	public int loginCustomer(String un){
+		int customerId = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "CALL LOGINCUSTOMERNOPASS(?, ?)";
+			CallableStatement cs = connect.prepareCall(sql);
+			
+			cs.registerOutParameter(1, java.sql.Types.INTEGER);
+			cs.setString(2, un);
+		
+			customerId = cs.executeUpdate();
+			
+			customerId = cs.getInt(1);
+			
+			connect.commit();	
+
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		return customerId;
+	}
+	
 	@Override
 	public ArrayList<Account> getAccounts(int userId) {
 		ArrayList<Account> accounts = new ArrayList<Account>();

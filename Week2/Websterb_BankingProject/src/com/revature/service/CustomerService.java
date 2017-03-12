@@ -56,10 +56,19 @@ public class CustomerService {
 				return customerId;
 			}
 			else{
-				customerId = 1;//password wrong
+				customerId = -1;//password wrong
 				return customerId;
 			}
 		}
+		else{
+			
+		}
+		return customerId;
+	}
+	
+
+	public int loginCustomer(String un){
+		int customerId = daoCust.loginCustomer(un);
 		return customerId;
 	}
 	
