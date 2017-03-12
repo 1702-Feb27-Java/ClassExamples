@@ -88,7 +88,7 @@ public class CustomerService {
 		return balance;
 	}
 	
-public double withdrawMoney(int accountId, double amount){
+	public double withdrawMoney(int accountId, double amount){
 		double balance = 0;
 		
 		balance = daoCust.getBalance(accountId);

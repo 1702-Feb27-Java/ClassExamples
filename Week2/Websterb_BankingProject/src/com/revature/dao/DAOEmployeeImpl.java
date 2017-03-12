@@ -110,5 +110,33 @@ public class DAOEmployeeImpl implements DAOEmployee{
 
 
 
+	@Override
+	public boolean editAccountStatus(int actId, int statusId) {
+		boolean editConfirm = false;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "CALL SETSTATUS(?, ?)";
+			CallableStatement cs = connect.prepareCall(sql);
+			
+			cs.setInt(1, actId);
+			cs.setInt(2, statusId);
+			
+			cs.executeUpdate();
+			
+			connect.commit();	
+			editConfirm = true;
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return editConfirm;
+	}
+
+
+
+	
 	
 }

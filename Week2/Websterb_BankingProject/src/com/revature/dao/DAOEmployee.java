@@ -11,6 +11,6 @@ public interface DAOEmployee {
 	
 	ArrayList<Account> getUnapprovedAccounts();
 	
-	
+	public boolean editAccountStatus(int actId, int status);
 	
 }

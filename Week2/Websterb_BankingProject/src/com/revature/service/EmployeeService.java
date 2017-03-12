@@ -46,4 +46,8 @@ public class EmployeeService {
 		return accounts;
 	};
 
+	public boolean editAccountStatus(int actId, int statusId){
+		boolean editConfirm = daoEmp.editAccountStatus(actId, statusId);
+		return editConfirm;
+	}
 }

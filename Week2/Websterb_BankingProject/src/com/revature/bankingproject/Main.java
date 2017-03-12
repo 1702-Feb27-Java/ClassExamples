@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.security.auth.login.AccountNotFoundException;
+
 import org.apache.log4j.Logger;
 
 import com.revature.dao.DAOEmployeeImpl;
@@ -514,7 +516,44 @@ public class Main {
 					employeeLoggedInMenu(employeeId, sc);
 					break;
 				}
-				break;
+				
+				boolean actFound = false;
+				System.out.println("Aprove or Decline?");
+				System.out.println("-------------------------------------------------");
+				for(Account act : accounts){
+					accountType = serveCust.getAccountType(act.getTypeId());
+					statusType = serveCust.getStatusType(act.getStatusId());
+					if(act.getAccountId() == accountSelect){
+						System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " 
+								+ act.getBalance() + " (" + statusType + ")\n");
+						actFound = true;
+					}
+				}
+				if(actFound){
+					System.out.println("Press 2 to Approve");
+					System.out.println("Press 3 to Decline");
+					int action = Integer.parseInt(sc.readLine());
+					if(action == 2){
+						System.out.println(serveEmp.editAccountStatus(accountSelect, action));
+						employeeLoggedInMenu(employeeId, sc);
+						break;
+					}
+					else if(action == 3){
+						System.out.println(serveEmp.editAccountStatus(accountSelect, action));
+						employeeLoggedInMenu(employeeId, sc);
+						break;
+					}
+					else{
+						System.out.println("Invalid Option");
+						employeeLoggedInMenu(employeeId, sc);
+						break;
+					}
+				}
+				else{
+					System.out.println("No Account with that account number found");
+					employeeLoggedInMenu(employeeId, sc);
+					break;
+				}
 			case 3:
 				Employee calculate = new Employee();
 				calculate.calculator(sc);
