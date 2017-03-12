@@ -1,15 +1,18 @@
 package com.revature.bankingproject;
 
-import org.apache.log4j.Logger;
-
-import com.revature.dao.DAOCustomerImpl;
-import com.revature.service.CustomerService;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
+import org.apache.log4j.Logger;
+
+import com.revature.dao.DAOCustomerImpl;
+import com.revature.pojo.Account;
+import com.revature.service.CustomerService;
 
 public class Main {
 	static final Logger l =  Logger.getRootLogger();
@@ -21,14 +24,14 @@ public class Main {
 		l.info("in main");
 		
 		BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
-		//mainMenuOption(br);
-/*		DAOCustomerImpl daoCust = new DAOCustomerImpl();
-		int accountId = 10;
-		daoCust.getBalance(10);
+		mainMenuOption(br);
+		DAOCustomerImpl daoCust = new DAOCustomerImpl();
+		int accountId = 2;
+/*		daoCust.getBalance(10);
 		System.out.println(daoCust.setBalance(10, 10.15));
 		daoCust.getBalance(10);*/
 		//System.out.println(accountId);
-		serve.withdrawMoney(10, 5);
+		//serve.getAccounts(accountId);
 	}
 	
 	/**
@@ -213,8 +216,7 @@ public class Main {
 		System.out.println("1: Sign up for Savings Acccount");
 		System.out.println("2: Sign up for Checking Account");
 		System.out.println("3: View Accounts");
-		System.out.println("4: Add joint account");
-		System.out.println("5: Exit to main menu.");
+		System.out.println("4: Exit to main menu.");
 	}
 
 	/**
@@ -225,7 +227,6 @@ public class Main {
 	 */
 	public static void customerLoggedInMenu(int customerId, BufferedReader sc){
 		customerLoggedInMenuOption();
-		
 		try{
 			int response = Integer.parseInt(sc.readLine());
 			
@@ -247,72 +248,59 @@ public class Main {
 				}
 				break;
 			case 3://view accounts
-				Customer viewAccounts = new Customer();
-				ArrayList<String> viewAccountsResult;	
-				viewAccountsResult = viewAccounts.getAccountsForCustomer(customerId);
-				if(viewAccountsResult == null){
-					System.out.println("No Accounts to view");
+				ArrayList<Account> accounts = serve.getAccounts(customerId);
+				System.out.println("Enter account number that you would like to enter!");
+				System.out.println("-------------------------------------------------");
+				String accountType;
+				
+				for(Account act : accounts){
+					accountType = serve.getAccountType(act.getTypeId());
+					System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " + act.getBalance());
+				}
+				int accountSelect = Integer.parseInt(sc.readLine());
+				
+				boolean actFound = false;
+				System.out.println("What would you like to do with your account?");
+				System.out.println("-------------------------------------------------");
+				for(Account act : accounts){
+					accountType = serve.getAccountType(act.getTypeId());
+					if(act.getAccountId() == accountSelect){
+						System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " + act.getBalance() +"\n");
+						actFound = true;
+					}
+				}
+				if(actFound){
+					System.out.println("Press 1 to Deposit");
+					System.out.println("Press 2 to Withdraw");
+					int action = Integer.parseInt(sc.readLine());
+					if(action == 1){
+						System.out.println("How much would you like to deposit?");
+						double dep = Double.parseDouble(sc.readLine());
+						System.out.println("CI" + customerId);
+						double newBal = serve.depositMoney(accountSelect, dep);
+						System.out.println("Deposited $" + dep);
+						System.out.println("New Balance: $" + newBal);
+						customerLoggedInMenu(customerId, sc);
+					}
+					else if(action == 2){
+						System.out.println("How much would you like to withdraw?");
+						double with = Double.parseDouble(sc.readLine());
+						double newBal = serve.withdrawMoney(accountSelect, with);
+						System.out.println("Withdrew $" + with);
+						System.out.println("New Balance: $" + newBal);
+						customerLoggedInMenu(customerId, sc);
+					}
+					else{
+						System.out.println("Invalid Option");
+						customerLoggedInMenu(customerId, sc);
+					}
+				}
+				else{
+					System.out.println("No Account with that account number found");
 					customerLoggedInMenu(customerId, sc);
 				}
-					
-				
-				String accountType;
-				//2 accounts
-				if(viewAccountsResult.size() == 4){
-					System.out.println("Enter account to access:");
-					//savings account is option 1
-					if(viewAccountsResult.get(0).equals("savings")){
-						System.out.println("1: " + viewAccountsResult.get(0) + ": " + viewAccountsResult.get(1));				
-						System.out.println("2: " + viewAccountsResult.get(2) + ": " + viewAccountsResult.get(3));
-					}
-					else{
-						System.out.println("1: " + viewAccountsResult.get(2) + ": " + viewAccountsResult.get(3));
-						System.out.println("2: " + viewAccountsResult.get(0) + ": " + viewAccountsResult.get(1));
-					}
-				}
-				// 1 account
-				else if(viewAccountsResult.size() == 2){
-					System.out.println("Enter account to access:");
-					if(viewAccountsResult.get(0).equals("savings")){
-						System.out.println("1: " + viewAccountsResult.get(0) + ": " + viewAccountsResult.get(1));
-					}
-					else{
-						System.out.println("2: " + viewAccountsResult.get(0) + ": " + viewAccountsResult.get(1));
-					}	
-				}
-				accountType = sc.readLine();
-				if(accountType.equals("1"))//1 for savings
-					accountType = "savings";
-				else if (accountType.equals("2"))//2 for checking
-					accountType = "checking";
-				
-				int manageBalance = 0;
-				
-				System.out.println("Do you want to deposit or withdraw?");
-				System.out.println("1: Deposit");
-				System.out.println("2: Withraw");
-				
-				//deposit or withdraw option
-				manageBalance = Integer.parseInt(sc.readLine());
-				if(manageBalance == 1)
-					depositMoney(customerId, sc, accountType);
-				else if(manageBalance == 2)
-					withdrawMoney(customerId, sc, accountType);
-				else
-					System.out.println("not a correct option");
-				customerLoggedInMenu(customerId, sc);
 				break;
 			case 4:
-				String username, password;
-				System.out.println("Username for joint account:");
-				username = sc.readLine();
-				System.out.println("Password for joint account");
-				password = sc.readLine();
-				Customer jointAccount = new Customer();
-				jointAccount.signUpForServices(username, password, customerId);
-				customerLoggedInMenu(customerId, sc);
-				break;
-			case 5:
 				mainMenuOption(sc);
 				break;
 			default:

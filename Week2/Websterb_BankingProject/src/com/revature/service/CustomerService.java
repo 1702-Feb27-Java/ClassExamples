@@ -3,6 +3,7 @@ package com.revature.service;
 import java.util.ArrayList;
 
 import com.revature.dao.DAOCustomerImpl;
+import com.revature.pojo.Account;
 import com.revature.pojo.User;
 
 public class CustomerService {
@@ -33,7 +34,7 @@ public class CustomerService {
 	}
 	
 	public boolean applyForAccount(int userId, int actId, int typeId){
-		if(daoCust.applyForAccount(userId, actId, typeId) == 0){
+		if((daoCust.applyForAccount(userId, actId, typeId)) == 0){
 			return false;
 		}
 		else{
@@ -60,6 +61,17 @@ public class CustomerService {
 		}
 		return customerId;
 	}
+	
+	public ArrayList<Account> getAccounts(int userId){
+		ArrayList<Account> accounts = daoCust.getAccounts(userId);
+		return accounts;
+	}
+	
+	public String getAccountType(int typeId){
+		String actType = daoCust.getAccountType(typeId);
+		return actType;
+	}
+	
 	public double depositMoney(int accountId, double amount){
 		double balance = 0;
 		

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.revature.pojo.Account;
 import com.revature.pojo.User;
 import com.revature.util.ConnectionUtil;
 
@@ -82,9 +83,9 @@ public class DAOCustomerImpl implements DAOCustomer{
 			cs.setInt(3, typeId);
 			cs.setDouble(4, startingBalance);
 			
-			numRows = cs.executeUpdate();
-			
+			cs.executeUpdate();
 			connect.commit();
+			numRows++;
 		}
 		catch(SQLException e){
 			e.printStackTrace(); 	
@@ -124,6 +125,70 @@ public class DAOCustomerImpl implements DAOCustomer{
 		}
 				
 		return customer;
+	}
+
+	@Override
+	public ArrayList<Account> getAccounts(int userId) {
+		ArrayList<Account> accounts = new ArrayList<Account>();
+		
+		try (Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "SELECT * FROM ACCOUNT, CUSTOMERACCOUNTS"
+					+ " WHERE ACCOUNT.account_id = CUSTOMERACCOUNTS.account_id"
+					+ " and CUSTOMERACCOUNTS.user_id = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, userId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				Account ac = new Account();
+				
+				ac.setAccountId(rs.getInt(1));
+				ac.setTypeId(rs.getInt(2));
+				ac.setBalance(rs.getDouble(3));
+				ac.setStatusId(rs.getInt(4));
+				ac.setResolverId(rs.getInt(5));
+				accounts.add(ac);
+				
+				ac = null;
+			}
+			connect.commit();
+			
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return accounts;
+	}
+	
+	@Override
+	public String getAccountType(int typeId) {
+		String accountType = "";
+		
+		try (Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "SELECT type FROM ACCOUNTTYPE WHERE TYPE_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, typeId);
+			
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			accountType = rs.getString(1);
+			connect.commit();
+			
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return accountType;
 	}
 	
 	public double getBalance(int accountId){
@@ -176,5 +241,8 @@ public class DAOCustomerImpl implements DAOCustomer{
 		
 		return newBalance;
 	}
+
+
+
 		
 }

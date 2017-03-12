@@ -2,6 +2,7 @@ package com.revature.dao;
 
 import java.util.ArrayList;
 
+import com.revature.pojo.Account;
 import com.revature.pojo.User;
 
 public interface DAOCustomer {
@@ -11,6 +12,10 @@ public interface DAOCustomer {
 	int applyForAccount(int userId, int actId, int typeId);
 	
 	ArrayList<String> loginCustomer(String un, String pw);
+	
+	ArrayList<Account> getAccounts(int userId);
+	
+	public String getAccountType(int typeId); 
 	
 	double getBalance(int accountId);
 	
