@@ -23,7 +23,7 @@ public class FactoryConnection {
 			pUrl = prop.getProperty("url");
 			pUname = prop.getProperty("uname");
 			pPword = prop.getProperty("pword");
-			System.out.println(pUrl + " " + pUname + " " + pPword);
+			System.out.println("\nChecking Username ? ? ?");
 		}catch (FileNotFoundException e) {
 			e.printStackTrace();
 			System.out.println("Properties file is not found!");

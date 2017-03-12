@@ -22,11 +22,7 @@ x
 *********************************************************************************************************
 */
 package com.revature.bankingapp;
-//test
 
-import java.io.BufferedReader;
-
-import java.io.FileReader;
 //import java.util.Random;
 import java.util.Scanner;
 import org.apache.log4j.Logger;
@@ -62,7 +58,8 @@ public class Customer extends Person {
 *	@ CONSTRUCTOR WITH ARGUMENTS FOR PERSON
 *********************************************************************************************************
 */	
-	public Customer(String firstName, String lastName, String username, String password) {
+	public Customer(String firstName, String lastName, String username, String password, 
+			int checkingAccountNumber, int savingsAccountNumber) {
 		super(firstName, lastName, username, password);
 	}
 	
@@ -132,7 +129,20 @@ public class Customer extends Person {
 	public static void addNewPerson(int i) {
 		try {
 			in = new Scanner(System.in); //Creating input stream
+			int checkingAccountNumber = 0;
+			int savingsAccountNumber = 0;
 			//User prompts and getting values
+			if (i == 3){
+				System.out.println("What kind of account would you like to open?\n1. Checking or 2. Savings");
+				String accountType = in.nextLine();
+				if (accountType.equals("1")){
+					checkingAccountNumber = 1;
+					savingsAccountNumber = 0;
+				} else {
+					checkingAccountNumber = 0;
+					savingsAccountNumber = 2;
+				}
+			}
 			System.out.println("\nEnter in your first name: ");
 			String firstName = in.nextLine();
 			System.out.println("Enter in your last name: ");
@@ -145,11 +155,12 @@ public class Customer extends Person {
 				username = in.nextLine();
 				valid = DAOImpl.verifyInfo(username);
 			}
+			System.out.println("\nUsername Approved:)");
 			System.out.println("\nEnter in a password: ");
 			String password = in.nextLine();
 			
 			//Assigning respective values entered into a Customer object
-			Customer c = new Customer(firstName, lastName, username, password);
+			Customer c = new Customer(firstName, lastName, username, password, checkingAccountNumber, savingsAccountNumber);
 			if(i == 1)
 				c.setRole(1); //default is 3 for customer, so if it is an admin 10
 			if (i == 2)
@@ -181,20 +192,24 @@ public class Customer extends Person {
 		
 		//User prompt for Checking or Savings account
 		System.out.print("\nSelect the type of account you wish to open" + "\n1. Checking or 2. Savings: ");
-		String accountChoice = in.nextLine();  //Getting input
+		int accountChoice = Integer.parseInt(in.nextLine());  //Getting input
 		System.out.println();		
 		
 		//Getting the existing checking/saving account number
-		if (accountChoice.equals("1"))
-			c.setCheckingAccountNumber(1);
-		else
-			c.setSavingsAccountNumber(2);
+		if (accountChoice == 1 && c.getCheckingAccountNumber()==1){
+			System.out.println("You already have a checking account\n");
+		}
+		else if (accountChoice == 2 && c.getSavingsAccountNumber() == 2){
+			System.out.println("\nYou already have a savings account\n");
+		}
+		else {
+			DAOImpl.makeAccount(c, accountChoice); //sent to database
+		}
 		
-		CustomerFile.newPersonToFile(c); //appending to current text file
 		l.trace("NEW ACCOUNT CREATED FOR " + (c.getFirstName().toUpperCase() + " "
-				+ c.getLastName().toUpperCase() + " ACCOUNT#: " + (accountChoice.equals("1")? 
+				+ c.getLastName().toUpperCase() + " ACCOUNT#: " + (accountChoice == 1? 
 						c.getCheckingAccountNumber() : c.getSavingsAccountNumber())));
-		
+	}
 		//Checking to see if customer already has the type of account, if so, they cannot open another one, if they 
 		//don't have one a random number of 8 digits is created and entered into the text file
 		
@@ -216,38 +231,44 @@ public class Customer extends Person {
 				valid = CustomerFile.verifyInfo(arrayPosition, s);
 			}*/
 			//CustomerFile.updateRecord(c); //deleting current record from text file
-	}
+
 /**
 *********************************************************************************************************
 * @METHOD TO DEPOSIT MONEY THE RESPECTIVE ACCOUNT SELECTED
 *********************************************************************************************************
 */
 	public static void accountDeposit(Customer c) {
-		System.out.print(
-				"\nSelect the type of account you wish to" + " deposit money into:\n1. Checking or 2. Savings: ");
-		int depositChoice = Integer.parseInt(in.nextLine()); //User entry for what kind of account
-		double depositBal = 0.0;
+		System.out.println("\nSelect the type of account you wish to deposit money into:"
+				+ "\n1. Checking or 2. Savings: ");
+		int accountType = Integer.parseInt(in.nextLine()); //User entry for what kind of account
+		double amount = 0.0;
 		
 		//Assigning what is currently in the account balance
-		depositBal += (depositChoice == 1 ? c.getCheckingBalance() : c.getSavingsBalance()); 
-		CustomerFile.updateRecord(c); //deleting line in text file
-		System.out.print("\nEnter in the amount to deposit into the account: ");
-		double depositAmount = Double.parseDouble(in.nextLine());
-		depositBal += depositAmount; //summing the balance with the amount deposited
-		if (depositChoice == 1) {
-			c.setCheckingBalance(depositBal);
-		} else {
-			c.setSavingsBalance(depositBal);
+		System.out.println(accountType + " " + c.getCheckingAccountNumber() + " " + c.getSavingsAccountNumber());
+		amount += (accountType == 1 ? c.getCheckingBalance() : c.getSavingsBalance());
+		if (accountType == 1 && c.getCheckingAccountNumber() != 0 ||accountType == 2 && c.getSavingsAccountNumber() != 0){
+			System.out.println("\nEnter in the amount to deposit into the account: ");
+			double depositAmount = Double.parseDouble(in.nextLine());
+			amount += depositAmount; //summing the balance with the amount deposited
+			if (accountType == 1) {
+				c.setCheckingBalance(amount);
+			} else {
+				c.setSavingsBalance(amount);
+			}
+			DAOImpl.accountTransaction(c, accountType, amount);
+		
+			System.out.println();
+			l.trace("DEPOSIT FOR " + (c.getFirstName().toUpperCase() + " "
+				+ c.getLastName().toUpperCase() + " ACCOUNT#: " + (accountType == 1 ? 
+				c.getCheckingAccountNumber() : c.getSavingsAccountNumber()) + " IN THE AMOUNT OF: "
+				+ depositAmount + " CURRENT BALANCE: " + (accountType == 1 ? 
+				c.getCheckingBalance() : c.getSavingsBalance())));
+		} 
+		else {
+			System.out.println(accountType == 1 ? "\nYou do not currently have a checking account" : "\nYou do "
+					+ "not currently have a savings account");
 		}
-		CustomerFile.newPersonToFile(c); //sent to file
-		CustomerFile.newPersonToFile(c); //sent to file
-		System.out.println();
-		l.trace("DEPOSIT FOR " + (c.getFirstName().toUpperCase() + " "
-			+ c.getLastName().toUpperCase() + " ACCOUNT#: " + (depositChoice == 1 ? 
-			c.getCheckingAccountNumber() : c.getSavingsAccountNumber()) + " IN THE AMOUNT OF: "
-			+ depositAmount + " CURRENT BALANCE: " + (depositChoice == 1 ? 
-			c.getCheckingBalance() : c.getSavingsBalance())));
-		}
+	}
 		
 /**
 *********************************************************************************************************
@@ -255,37 +276,43 @@ public class Customer extends Person {
 *********************************************************************************************************
  */
 	public static void accountWithdraw(Customer c) {
-		System.out.print(
-				"\nSelect the type of account you wish to withdraw money from:\n1. Checking or 2. Savings: ");
-		int withdrawChoice = Integer.parseInt(in.nextLine()); //User entry for what kind of account
-		System.out.println("\nYou have $" + (withdrawChoice == 1 ? c.getCheckingBalance(): c.getSavingsBalance())
-				+ " in your account");
-		double withdrawBal = 0.0;
+		System.out.println("\nSelect the type of account you wish to withdraw money from:"
+				+ "\n1. Checking or 2. Savings: ");
+		int accountType = Integer.parseInt(in.nextLine()); //User entry for what kind of account
+		double amount = 0.0;
 		
 		//Assigning what is currently in the account balance
-		withdrawBal += (withdrawChoice == 1 ? c.getCheckingBalance() : c.getSavingsBalance()); 
-		CustomerFile.updateRecord(c); //deleting line in text file
-		double withdrawAmount = 0.0;
-		do {
-			System.out.print("\nEnter in the amount to withdraw from the account,\n"
-					+ "if you have no money or want to exit withdraw enter 0: "); //user prompt
-			withdrawAmount = Double.parseDouble(in.nextLine()); 
-			withdrawBal -= withdrawAmount; //summing the balance with the amount deposited
-		}while (withdrawBal < 0);
+		System.out.println(accountType + " " + c.getCheckingAccountNumber() + " " + c.getSavingsAccountNumber());
+		amount += (accountType == 1 ? c.getCheckingBalance() : c.getSavingsBalance());
+		System.out.println(amount);
+		if (accountType == 1 && c.getCheckingAccountNumber() != 0 ||accountType == 2 && c.getSavingsAccountNumber() != 0){
+			System.out.println("\nEnter in the amount to withdraw from the account: ");
+			double withdrawAmount = Double.parseDouble(in.nextLine());
+			amount -= withdrawAmount; //summing the balance with the amount deposited
+			while (amount < 0){
+				System.out.println("Insuffiect funds! Try again or enter 0: ");
+				withdrawAmount = Double.parseDouble(in.nextLine());
+				amount -= withdrawAmount; //summing the balance with the amount deposited
+			} 
+			
+			if (accountType == 1) {
+				c.setCheckingBalance(amount);
+			} else {
+				c.setSavingsBalance(amount);
+			}
+			DAOImpl.accountTransaction(c, accountType, amount);
 		
-		if (withdrawChoice == 1) {
-			c.setCheckingBalance(withdrawBal);
-		} else {
-			c.setSavingsBalance(withdrawBal);
+			System.out.println();
+			l.trace("WITHDRAW FROM " + (c.getFirstName().toUpperCase() + " "
+				+ c.getLastName().toUpperCase() + " ACCOUNT#: " + (accountType == 1 ? 
+				c.getCheckingAccountNumber() : c.getSavingsAccountNumber()) + " IN THE AMOUNT OF: "
+				+ withdrawAmount + " CURRENT BALANCE: " + (accountType == 1 ? 
+				c.getCheckingBalance() : c.getSavingsBalance())));
+		} 
+		else {
+			System.out.println(accountType == 1 ? "\nYou do not currently have a checking account" : "\nYou do "
+					+ "not currently have a savings account");
 		}
-		CustomerFile.newPersonToFile(c); //sent to file
-		System.out.println();
-		l.trace("WITHDRAW FOR " + (c.getFirstName().toUpperCase() + " "
-				+ c.getLastName().toUpperCase() + " ACCOUNT#: " + (withdrawChoice == 1 ? 
-						c.getCheckingAccountNumber() : c.getSavingsAccountNumber()) + " IN THE AMOUNT OF: "
-						+ withdrawAmount + " CURRENT BALANCE: " + (withdrawChoice == 1 ? 
-								c.getCheckingBalance() : c.getSavingsBalance())));
-
 	}
 /**
 ********************************************************************************************************
@@ -293,15 +320,17 @@ public class Customer extends Person {
 *********************************************************************************************************
  */
 	public static void viewAccountInfo(Customer c) {
-		String s = c.toString();  //Creating string object of customer
-		String[] arr = s.split(":"); //splitting it into an array
-		
+		System.out.println(c.getApproved());	
 		//Printing out the customers information
-		System.out.println("\nFirst Name: " + arr[2] + "\nLast Name: " + arr[3] + "\nUsername: " + arr[0]
-				+ "\nPassword: " + arr[1] + "\nEmail: " + arr[4] + "\nAccountLevel: " + arr[5] + "\nApproved Account: "
-				+ (arr[6] == "true" ? "Yes" : "No") + "\nChecking Account Number:: " + arr[7]
-				+ "\nSavings Account Number: " + arr[8] + "\nChecking Account Balance: " + arr[9]
-				+ "\nSavings Account Balance: " + arr[10]);
+		System.out.println("\nUserID: " + c.getUserID() + "\nFirst Name: " + c.getFirstName() 
+			+ "\nLast Name: " + c.getLastName() + "\nUsername: " + c.getUserName()
+			+ "\nPassword: " + c.getPassword()
+			+ "\nRole: " + c.getRole() 
+			+ "\nStatus: " + (c.getApproved()==1?"Pending":"Approved")
+			+ "\nChecking Account: " + (c.getCheckingAccountNumber()==1?"Yes":"No")
+			+ "\nSavings Account: " + (c.getSavingsAccountNumber()==2?"Yes":"No")
+			+ "\nChecking Balance: " + (c.getCheckingAccountNumber()==1?c.getCheckingBalance():"No") 
+			+ "\nSavings Balance: " + (c.getSavingsAccountNumber()==2?c.getSavingsBalance():"No"));
 	}
 /**	
 *********************************************************************************************************
@@ -309,7 +338,7 @@ public class Customer extends Person {
 *********************************************************************************************************
  */
 	public static void viewBalance(Customer c) {
-		System.out.print("\nSelect the type of account you wish to" + " see a balance for:\n1. Checking or 2. Savings: ");
+		System.out.println("\nSelect the type of account you wish to" + " see a balance for:\n1. Checking or 2. Savings: ");
 		int balanceChoice = Integer.parseInt(in.nextLine());
 		System.out.println("\n$" + (balanceChoice == 1 ? c.getCheckingBalance() : c.getSavingsBalance() + "0" ));
 	}
@@ -322,43 +351,40 @@ public class Customer extends Person {
 		
 		String again = null;
 		do {              //Loop to run until customer is finished updating things
-			System.out.print("\nEdit Personal Information Menu\n1. First Name\n2. Last Name"
+			System.out.println("\nEdit Personal Information Menu\n1. First Name\n2. Last Name"
 					+ "\n3. Password\n4. Exit\nSelect Option: ");
 			int myEditsChoice = Integer.parseInt(in.nextLine());
 			
 			switch (myEditsChoice) { //Base on selection will determine which case gets ran
 			case 1:
-				CustomerFile.updateRecord(c);  //line deleted from text file
-				System.out.print("\nEnter in your new first name: ");
+				System.out.println("\nEnter in your new first name: ");
 				String firstName = in.nextLine();
 				String fName = c.getFirstName();
 				String lName = c.getLastName();
 				c.setFirstName(firstName);
-				CustomerFile.newPersonToFile(c); //newline entered
+				DAOImpl.changePersonalInfo(myEditsChoice, c);; //newline entered
 				System.out.println();
 				l.trace("FIRST NAME CHANGE FOR " + fName.toUpperCase() + " " + lName.toUpperCase()
 				+ " to " + c.getFirstName().toUpperCase());
 				break;
 			case 2:
-				CustomerFile.updateRecord(c);
-				System.out.print("\nEnter in your new last name: ");
+				System.out.println("\nEnter in your new last name: ");
 				String lastName = in.nextLine();
 				String fName1 = c.getFirstName();
 				String lName1 = c.getLastName();
 				c.setLastName(lastName);
-				CustomerFile.newPersonToFile(c);
+				DAOImpl.changePersonalInfo(myEditsChoice, c);; //newline entered
 				System.out.println();
 				l.trace("LAST NAME CHANGE FOR " + fName1.toUpperCase() + " " + lName1.toUpperCase()
 					+ " to " + c.getLastName().toUpperCase());
 				break;
 			case 3:
-				CustomerFile.updateRecord(c);
-				System.out.print("\nEnter in your new password name: ");
+				System.out.println("\nEnter in your new password name: ");
 				String password = in.nextLine();
 				String fName3 = c.getFirstName();
 				String lName3 = c.getLastName();
 				c.setPassword(password);
-				CustomerFile.newPersonToFile(c);
+				DAOImpl.changePersonalInfo(myEditsChoice, c);; //newline entered
 				System.out.println();
 				l.trace("PASSWORD CHANGE FOR " + fName3.toUpperCase() + " " + lName3.toUpperCase()
 				+ " to " + c.getPassword().toUpperCase());				
@@ -370,56 +396,15 @@ public class Customer extends Person {
 				editPersonalInfo(c);
 				break;
 			}
-			System.out.print("\n'y' - Return to Edit Menu, 'n' - go back to Accounts Menu: ");
+			System.out.println("\nReturn to Edit Menu, \n'y' or 'n': ");
 			again = in.nextLine(); //user input for running it again
 			again.toLowerCase();
 		}while(again.equals("y"));
 		Menus.accountMenu(c);
 	}
-/**	
-*********************************************************************************************************
-* @METHOD USED TO TAKE THE ONE LINE OF TEXT AND PUT IT INTO A CUSTOMER OBJECT
-*********************************************************************************************************
- */
-	public static Customer setCustomerInfo(String[] sArr){
-		Customer c = new Customer();
-		
-		//Sets all of the fields for a Customer object from a line in the text file
-		c.setUserID(Integer.parseInt(sArr[0]));
-		c.setFirstName(sArr[1]);
-		c.setLastName(sArr[2]);
-		c.setUserName(sArr[3]);
-		c.setPassword(sArr[4]);
-		c.setRole(Integer.parseInt(sArr[5]));
-		c.setApproved(Integer.parseInt(sArr[6]));
-		c.setCheckingAccountNumber(Integer.parseInt(sArr[7]));
-		c.setSavingsAccountNumber(Integer.parseInt(sArr[8]));
-		c.setCheckingBalance(Double.parseDouble(sArr[9]));
-		c.setSavingsBalance(Double.parseDouble(sArr[10]));
-		return c;
-	}
-/**	
-*********************************************************************************************************
-* @METHOD TO GET ONE LINE FROM THE TEXT DOCUMENT
-*********************************************************************************************************
- */
-	public static Customer getCustomerLine(){
-		BufferedReader br = null;
-		Customer c = new Customer();
-		
-		try {
-			br = new BufferedReader(new FileReader("person.txt"));
-			String readIn = br.readLine();  //reads the line in
-			String[] sArr = readIn.split(":"); //splits the line into an array
-			c = Customer.setCustomerInfo(sArr); //calls method to put into a Customer object
-		}catch (Exception e){
-			e.getStackTrace();
-		} 
-		return c;
-	}
 }
 /**
-*********************************************************************************************************
+	*********************************************************************************************************
 *										END CLASS CUSTOMER
 *********************************************************************************************************
 */

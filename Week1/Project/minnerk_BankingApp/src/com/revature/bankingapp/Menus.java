@@ -134,10 +134,10 @@ public class Menus {
 */
 	public static void loginMenu(int i) {
 		Customer c = null;
-		boolean verify = true;
+		boolean verify = false;
 		String username = null;
 		try {
-			while (verify){
+			while (!verify){
 				System.out.println("\nIf you have just applied for your account, please wait for approval, otherwise\n"
 						+ "\nEnter in a valid username: "); //prompt
 				username = in.nextLine(); //get value
@@ -146,7 +146,6 @@ public class Menus {
 				verify = DAOImpl.loginVerification(username, password, i);
 			} 
 			c = DAOImpl.getPersonInfo(username);
-			System.out.println("After login!");
 			switch(i){
 			case 1:
 				break;
@@ -174,7 +173,7 @@ public class Menus {
 			+ "\n2. View All Customers\n3. View Customer Info\n\nSelect an option from the above Menu: ");
 		String selection = in.nextLine();
 		while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3")){
-			System.out.print("Invalid Entry! Enter an option from 1 - 3: ");
+			System.out.println("Invalid Entry! Enter an option from 1 - 3: ");
 			selection = in.nextLine();
 		}
 		switch (selection){
