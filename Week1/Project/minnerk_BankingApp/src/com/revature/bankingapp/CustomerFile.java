@@ -128,13 +128,7 @@ public class CustomerFile {
 	// Method to verify the user login of an individual
 	public static Customer verifyLogin(String s1, String s2, int i) {
 
-		BufferedReader br = null;
-		Customer c = null;
-		try {
-			br = new BufferedReader(new FileReader("person.txt"));
-			String s = br.readLine();
-
-			// Finds the specific info and sets all of the variables in
+		//	Finds the specific info and sets all of the variables in
 			// a customer based on what is in the string array
 			while (s != null) {
 				String[] sArr = s.split(":");
@@ -149,7 +143,6 @@ public class CustomerFile {
 					else
 						c = Customer.setCustomerInfo(sArr);
 				}
-				s = br.readLine();
 			}
 			if (c.getFirstName() == null) { // if it is not found, displays
 											// message and restarts LoginMenus
@@ -170,19 +163,7 @@ public class CustomerFile {
 		}
 		return c;
 	}
-/**
-*********************************************************************************************************
-*	@ METHOD TO VERIFY A USER ID DOES NOT ALREADY EXIST
-*********************************************************************************************************
-*/	
-	
 }
-		
-	
-			
-			
-	
-
 /**
 *********************************************************************************************************
 *  										END CLASS CUSTOMERFILE

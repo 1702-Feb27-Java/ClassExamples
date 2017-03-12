@@ -102,12 +102,13 @@ CREATE OR REPLACE TRIGGER accttrigger
     END;
 /
 -- PROCEDURES
-CREATE OR REPLACE PROCEDURE insert_new_person(fname IN VARCHAR2, lname IN VARCHAR2, uname IN VARCHAR2, pw IN VARCHAR2)
+-- INSERT NEW PERSON
+CREATE OR REPLACE PROCEDURE insert_new_person(fname IN VARCHAR2, lname IN VARCHAR2, uname IN VARCHAR2, pw IN VARCHAR2, role IN NUMBER)
 IS
     newid NUMBER(10);
     new_acctid NUMBER(10);
 BEGIN
-    INSERT INTO USERS (FIRSTNAME, LASTNAME, USERNAME, PW) VALUES (fname, lname, uname, pw);
+    INSERT INTO USERS (FIRSTNAME, LASTNAME, USERNAME, PW, ROLEID) VALUES (fname, lname, uname, pw, role);
     COMMIT;   
     SELECT USERID INTO newid FROM USERS WHERE USERNAME = uname;
     INSERT INTO ACCOUNTS(RESOLVERID) VALUES(1);
@@ -116,13 +117,20 @@ BEGIN
     INSERT INTO CUSTOMERACCOUNTS (USERID, ACCTID) VALUES (newid, new_acctid);
 END;
 /
-truncate table users
-truncate table accounts
-truncate table customeraccounts
+
+
+
+
+truncate table users;
+truncate table accounts;
+truncate table customeraccounts;
 call insert_new_person('Keith','Minner', 'minncomm','m1ssw0rd');
 
 
-
+SELECT USERID, FIRSTNAME, LASTNAME, USERNAME, PW, ROLEID, TYPEID, BALANCE FROM USERS u 
+INNER JOIN CUSTOMERACCOUNTS ca ON u.USERID=ca.USERID 
+INNER JOIN ACCOUNTS a ON ca.ACCTID=a.ACCTID
+WHERE USERNAME='minncomm';
 
 
 

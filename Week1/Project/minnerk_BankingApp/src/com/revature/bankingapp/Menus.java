@@ -23,7 +23,10 @@
 package com.revature.bankingapp;
 
 import java.util.Scanner;
+
 import org.apache.log4j.Logger;
+
+import com.revature.dao.DAOImpl;
 /**
 *********************************************************************************************************
 ** @CLASS MENUS
@@ -130,13 +133,20 @@ public class Menus {
 *********************************************************************************************************
 */
 	public static void loginMenu(int i) {
+		Customer c = null;
+		boolean verify = false;
+		String username = null;
 		try {
-			System.out.println("\nLog-in Menu: ");
-			System.out.println("\nEnter in your username: "); //prompt
-			String username = in.nextLine(); //get value
-			System.out.println("\nEnter in your password: "); //prompt
-			String password = in.nextLine(); //get value
-			Customer c = CustomerFile.verifyLogin(username, password, i);  //call to method to verify values
+				System.out.println("\nLog-in Menu: ");
+			while (!verify){
+				System.out.println("\nEnter in your username: "); //prompt
+				username = in.nextLine(); //get value
+				System.out.println("\nEnter in your password: "); //prompt
+				String password = in.nextLine(); //get value
+				verify = DAOImpl.loginVerification(username, password, i);
+			} 
+			c = DAOImpl.getPersonInfo(username);
+			System.out.println("After login!");
 			switch(i){
 			case 1:
 				break;

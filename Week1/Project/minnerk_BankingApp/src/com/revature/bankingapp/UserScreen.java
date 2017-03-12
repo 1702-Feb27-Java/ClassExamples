@@ -32,11 +32,7 @@ import com.revature.dao.DAOImpl;
 public class UserScreen {
 
 	public static void main(String[] args) {
-		//Menus.displayMainMenu();
-		Customer c = new Customer("Ted", "Bundy", "t", "t");
-		DAOImpl.insertData(c);
-		
-		
+		Menus.displayMainMenu();
 	}	
 }
 

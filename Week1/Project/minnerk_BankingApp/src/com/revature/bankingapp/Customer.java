@@ -145,7 +145,7 @@ public class Customer extends Person {
 				username = in.nextLine();
 				valid = DAOImpl.verifyInfo(username);
 			}
-			System.out.println("Enter in a password: ");
+			System.out.println("\nEnter in a password: ");
 			String password = in.nextLine();
 			
 			//Assigning respective values entered into a Customer object
@@ -155,13 +155,13 @@ public class Customer extends Person {
 			if (i == 2)
 				c.setRole(2); //employee is a 2		
 			DAOImpl.insertData(c);  //Calling method to send data to text file
-			
-			
-			
+				
 			System.out.println();
 			l.trace("NEW SERVICE CREATED FOR " + (c.getFirstName().toUpperCase()
 					+ " " + c.getLastName().toUpperCase()));
-			Menus.loginMenu(i);
+			System.out.println("\nAccount in pending status for approval, please allow 1 business\n"
+					+ "day for processing.  If it has been more than one day without contact,\n"
+					+ "please contact a bank representative");
 		} catch (Exception e) {
 			e.printStackTrace();				
 		} finally {
@@ -171,7 +171,6 @@ public class Customer extends Person {
 				e.printStackTrace();
 			}
 		}
-		
 	}
 /**
 *********************************************************************************************************
