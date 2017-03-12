@@ -134,12 +134,12 @@ public class Menus {
 */
 	public static void loginMenu(int i) {
 		Customer c = null;
-		boolean verify = false;
+		boolean verify = true;
 		String username = null;
 		try {
-				System.out.println("\nLog-in Menu: ");
-			while (!verify){
-				System.out.println("\nEnter in your username: "); //prompt
+			while (verify){
+				System.out.println("\nIf you have just applied for your account, please wait for approval, otherwise\n"
+						+ "\nEnter in a valid username: "); //prompt
 				username = in.nextLine(); //get value
 				System.out.println("\nEnter in your password: "); //prompt
 				String password = in.nextLine(); //get value

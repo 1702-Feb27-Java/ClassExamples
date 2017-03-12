@@ -55,25 +55,34 @@ public class DAOImpl {
 	}
 		
 	public static boolean loginVerification(String s1, String s2, int i) {
+		
+		
 		try (Connection connect = FactoryConnection.getConnection();){
 			connect.setAutoCommit(false);
 			
-			String sql = "SELECT u.USERNAME, u.PW, u.ROLEID FROM USERS u INNER JOIN CUSTOMERACCOUNTS ca ON u.USERID=ca.USERID INNER JOIN ACCOUNTS a ON ca.ACCTID=a.ACCTID WHERE USERNAME=?";
+			String sql = "SELECT u.USERNAME, u.PW, u.ROLEID, a.STATUSID FROM USERS u INNER JOIN CUSTOMERACCOUNTS ca ON u.USERID=ca.USERID INNER JOIN ACCOUNTS a ON ca.ACCTID=a.ACCTID WHERE USERNAME=?";
 			PreparedStatement ps = connect.prepareStatement(sql);
 			ps.setString(1, s1);
 			ResultSet rs = ps.executeQuery();
 						
 			while (rs.next()){
-				if(s1.equals(rs.getString(1)) && s2.equals(rs.getString(2)) && rs.getInt(3) == i);{
-					connect.commit();
-					connect.close();
-					return true;	
+				System.out.println(s1 + " " + s2 + " " + i + " " + 2);
+				System.out.println(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3) + " " + rs.getInt(4));
+				String uname = rs.getString(1);
+				String password = rs.getString(2);
+				int role = rs.getInt(3);
+				int status = rs.getInt(4);
+				
+				
+				if(s1.equals(uname) && s2.equals(password) && role == i && status == 2){
+					return false;
 				}
+
 			}			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 	
 	public static Customer getPersonInfo(String s){
