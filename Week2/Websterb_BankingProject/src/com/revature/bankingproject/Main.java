@@ -484,31 +484,33 @@ public class Main {
 			
 			switch(response){
 			case 1://view customer accounts
-				Employee employee = new Employee();
-				//get array list of customer's accounts tied to employee
-				ArrayList<String[]> customerAccounts = employee.viewCustomerAccounts(employeeId);
-				
-				//display list in visual way
-				for(int i = 0; i < customerAccounts.size(); i++){
-					String[] customerStringArray = customerAccounts.get(i);
-					if((!(customerStringArray[0].equals("savings"))) && (!(customerStringArray[0].equals("checking"))))
-							System.out.println("-------------------------------");
-					System.out.println(customerStringArray[0] + " " + customerStringArray[1]);
+				ArrayList<Account> accounts = new ArrayList<Account>();
+				accounts = serveEmp.getAccounts(employeeId);
+				boolean actFound = false;
+				String accountType;
+				String statusType;
+				System.out.println("");
+				for(Account act : accounts){
+					accountType = serveCust.getAccountType(act.getTypeId());
+					statusType = serveCust.getStatusType(act.getStatusId());
+					System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " 
+							+ act.getBalance() + " (" + statusType + ")\n");
+					actFound = true;
 				}
-				if(customerAccounts.size() == 0){
-					System.out.println("\nNo Accounts found.");
+				if(!actFound){
+					System.out.println("\nAccounts not found.");
 				}
 				System.out.println("-------------------------------");
 				employeeLoggedInMenu(employeeId, sc);
 				break;
 			case 2://see customer's account applications to approve/decline
-				ArrayList<Account> accounts = serveEmp.getUnapprovedAccounts();
+				ArrayList<Account> accounts2 = serveEmp.getUnapprovedAccounts();
 				System.out.println("Enter account number that you would like to approve!");
 				System.out.println("-------------------------------------------------");
-				String accountType;
-				String statusType;
+				String accountType2;
+				String statusType2;
 				
-				for(Account act : accounts){
+				for(Account act : accounts2){
 					accountType = serveCust.getAccountType(act.getTypeId());
 					statusType = serveCust.getStatusType(act.getStatusId());
 					System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " 
@@ -522,19 +524,19 @@ public class Main {
 					break;
 				}
 				
-				boolean actFound = false;
+				boolean actFound2 = false;
 				System.out.println("Aprove or Decline?");
 				System.out.println("-------------------------------------------------");
-				for(Account act : accounts){
-					accountType = serveCust.getAccountType(act.getTypeId());
-					statusType = serveCust.getStatusType(act.getStatusId());
+				for(Account act : accounts2){
+					accountType2 = serveCust.getAccountType(act.getTypeId());
+					statusType2 = serveCust.getStatusType(act.getStatusId());
 					if(act.getAccountId() == accountSelect){
-						System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " 
-								+ act.getBalance() + " (" + statusType + ")\n");
-						actFound = true;
+						System.out.println("Account #" + act.getAccountId() + "(" + accountType2 +"): " 
+								+ act.getBalance() + " (" + statusType2 + ")\n");
+						actFound2 = true;
 					}
 				}
-				if(actFound){
+				if(actFound2){
 					System.out.println("Press 2 to Approve");
 					System.out.println("Press 3 to Decline");
 					int action = Integer.parseInt(sc.readLine());

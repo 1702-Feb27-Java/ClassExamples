@@ -57,5 +57,8 @@ public class EmployeeService {
 		
 	}
 
-
+	public ArrayList<Account> getAccounts(int empId){
+		ArrayList<Account> accounts = daoEmp.getAccounts(empId);
+		return accounts;
+	}
 }

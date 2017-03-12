@@ -163,5 +163,43 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		
 		return confirmation;
 	}
+
+
+	
+	@Override
+	public ArrayList<Account> getAccounts(int empId) {
+		ArrayList<Account> accounts = new ArrayList<Account>();
+		
+		try (Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "SELECT * FROM ACCOUNT WHERE RESOLVER_ID = ? ";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, empId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				Account ac = new Account();
+				
+				ac.setAccountId(rs.getInt(1));
+				ac.setTypeId(rs.getInt(2));
+				ac.setBalance(rs.getDouble(3));
+				ac.setStatusId(rs.getInt(4));
+				ac.setResolverId(rs.getInt(5));
+				accounts.add(ac);
+				
+				ac = null;
+			}
+			connect.commit();
+			
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return accounts;
+	}
 	
 }

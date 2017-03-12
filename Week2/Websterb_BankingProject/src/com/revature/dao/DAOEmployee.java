@@ -15,6 +15,6 @@ public interface DAOEmployee {
 	
 	public boolean setResolverId(int empId, int actId);
 	
-	ArrayList<Account> getAccounts();
+	ArrayList<Account> getAccounts(int empId);
 	
 }
