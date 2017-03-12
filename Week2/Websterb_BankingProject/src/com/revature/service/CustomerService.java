@@ -10,6 +10,11 @@ public class CustomerService {
 
 	static DAOCustomerImpl daoCust = new DAOCustomerImpl();
 	
+	/**
+	 * Check if username exists
+	 * @param un
+	 * @return
+	 */
 	public boolean doesUsernameExist(String un){
 		ArrayList<User> users = new ArrayList<User>();
 		users = daoCust.getAllUsers();
@@ -23,6 +28,14 @@ public class CustomerService {
 		return false;
 	}
 	
+	/**
+	 * Try to add customer to DB
+	 * @param fn
+	 * @param ln
+	 * @param un
+	 * @param pw
+	 * @return
+	 */
 	public boolean addCustomer(String fn, String ln, String un, String pw){
 		if(!doesUsernameExist(un)){
 			daoCust.addCustomer(fn, ln, un, pw);
@@ -33,6 +46,13 @@ public class CustomerService {
 		}
 	}
 	
+	/**
+	 * Add account to DB with pending status
+	 * @param userId
+	 * @param actId
+	 * @param typeId
+	 * @return
+	 */
 	public boolean applyForAccount(int userId, int actId, int typeId){
 		if((daoCust.applyForAccount(userId, actId, typeId)) == 0){
 			return false;
@@ -42,6 +62,9 @@ public class CustomerService {
 		}
 	}
 	
+	/**
+	 * Try to Login as customer
+	 */
 	public int loginCustomer(String username, String password){
 		int customerId = 0;//0 = no username found
 		int dbCustId = 0;
@@ -66,12 +89,18 @@ public class CustomerService {
 		return customerId;
 	}
 	
-
+	
+	/**
+	 * Admin login as customer
+	 */
 	public int loginCustomer(String un){
 		int customerId = daoCust.loginCustomer(un);
 		return customerId;
 	}
 	
+	/**
+	 * Get all accounts of user
+	 */
 	public ArrayList<Account> getAccounts(int userId){
 		ArrayList<Account> accounts = daoCust.getAccounts(userId);
 		return accounts;

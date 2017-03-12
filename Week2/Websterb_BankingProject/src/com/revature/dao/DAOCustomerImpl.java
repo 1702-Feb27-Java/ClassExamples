@@ -13,6 +13,14 @@ import com.revature.util.ConnectionUtil;
 
 public class DAOCustomerImpl implements DAOCustomer{
 
+	/**
+	 * Try to add customer to DB
+	 * @param fn
+	 * @param ln
+	 * @param un
+	 * @param pw
+	 * @return
+	 */
 	@Override
 	public int addCustomer(String fn, String ln, String un, String pw) {
 		int numRows = 0; 
@@ -38,6 +46,9 @@ public class DAOCustomerImpl implements DAOCustomer{
 		
 	}
 
+	/**
+	 * Gets all users in DB
+	 */
 	@Override
 	public ArrayList<User> getAllUsers() {
 		ArrayList<User> users  = new ArrayList<User>();
@@ -68,6 +79,13 @@ public class DAOCustomerImpl implements DAOCustomer{
 		return users;
 	}
 
+	/**
+	 * Add account to DB with pending status
+	 * @param userId
+	 * @param actId
+	 * @param typeId
+	 * @return
+	 */
 	@Override
 	public int applyForAccount(int userId, int actId, int typeId) {
 		int numRows = 0;
@@ -94,6 +112,9 @@ public class DAOCustomerImpl implements DAOCustomer{
 		return numRows;
 	}
 
+	/**
+	 * Try to Login as customer
+	 */
 	@Override
 	public ArrayList<String> loginCustomer(String un, String pw) {
 		ArrayList<String> customer= new ArrayList<String>();
@@ -127,6 +148,9 @@ public class DAOCustomerImpl implements DAOCustomer{
 		return customer;
 	}
 
+	/**
+	 * Admin login as customer
+	 */
 	public int loginCustomer(String un){
 		int customerId = 0;
 		
@@ -152,6 +176,9 @@ public class DAOCustomerImpl implements DAOCustomer{
 		return customerId;
 	}
 	
+	/**
+	 * Get all accounts of user
+	 */
 	@Override
 	public ArrayList<Account> getAccounts(int userId) {
 		ArrayList<Account> accounts = new ArrayList<Account>();
@@ -191,6 +218,11 @@ public class DAOCustomerImpl implements DAOCustomer{
 		return accounts;
 	}
 	
+	/**
+	 * Uses lookup table to get accountType String
+	 * @param typeId
+	 * @return
+	 */
 	@Override
 	public String getAccountType(int typeId) {
 		String accountType = "";
@@ -217,6 +249,9 @@ public class DAOCustomerImpl implements DAOCustomer{
 		return accountType;
 	}
 	
+	/**
+	 * Uses lookup table to get status String
+	 */
 	@Override
 	public String getStatus(int statusId) {
 		String statusType = "";
@@ -243,6 +278,11 @@ public class DAOCustomerImpl implements DAOCustomer{
 		return statusType;
 	}
 	
+	/**
+	 * Gets balance for account 
+	 * @param accountId
+	 * @return
+	 */
 	public double getBalance(int accountId){
 		double balance = 0;
 		
@@ -269,6 +309,9 @@ public class DAOCustomerImpl implements DAOCustomer{
 		return balance;
 	}
 
+	/**
+	 * Sets balance for account
+	 */
 	@Override
 	public double setBalance(int accountId, double balance) {
 		double newBalance = 0;

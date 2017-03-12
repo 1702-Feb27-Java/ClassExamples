@@ -12,6 +12,14 @@ import com.revature.util.ConnectionUtil;
 
 public class DAOEmployeeImpl implements DAOEmployee{
 
+	/**
+	 * Tries to add employee to DB
+	 * @param fn
+	 * @param ln
+	 * @param un
+	 * @param pw
+	 * @return
+	 */
 	@Override
 	public int addEmployee(String fn, String ln, String un, String pw) {
 		int numRows = 0; 
@@ -37,6 +45,12 @@ public class DAOEmployeeImpl implements DAOEmployee{
 	}
 
 	
+	/**
+	 * Tries to log in as employee
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	@Override
 	public ArrayList<String> loginEmployee(String un, String pw) {
 		ArrayList<String> employee= new ArrayList<String>();
@@ -72,6 +86,10 @@ public class DAOEmployeeImpl implements DAOEmployee{
 
 
 
+	/**
+	 * Gets all accounts that are unapproved
+	 * @return
+	 */
 	@Override
 	
 	public ArrayList<Account> getUnapprovedAccounts() {
@@ -111,6 +129,12 @@ public class DAOEmployeeImpl implements DAOEmployee{
 
 
 
+	/**
+	 * Edit the status of an account to approved/denied
+	 * @param actId
+	 * @param statusId
+	 * @return
+	 */
 	@Override
 	public boolean editAccountStatus(int actId, int statusId) {
 		boolean editConfirm = false;
@@ -138,6 +162,12 @@ public class DAOEmployeeImpl implements DAOEmployee{
 
 
 
+	/**
+	 * set the resolver field for when you approve/decline account
+	 * @param empId
+	 * @param actId
+	 * @return
+	 */
 	public boolean setResolverId(int empId, int actId){
 		boolean confirmation = false;
 		
@@ -167,6 +197,11 @@ public class DAOEmployeeImpl implements DAOEmployee{
 
 
 	
+	/**
+	 * Get accounts based on your employee id
+	 * @param empId
+	 * @return
+	 */
 	@Override
 	public ArrayList<Account> getAccounts(int empId) {
 		ArrayList<Account> accounts = new ArrayList<Account>();
@@ -203,6 +238,12 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		return accounts;
 	}
 	
+	/**	 
+	 * Login as admin
+	 * @param un
+	 * @param pw
+	 * @return
+	 */
 	public boolean adminLogin(String un, String pw){
 		boolean confirmation = false;
 		
