@@ -5,14 +5,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import javax.security.auth.login.AccountNotFoundException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
 import com.revature.dao.DAOEmployeeImpl;
 import com.revature.pojo.Account;
-import com.revature.pojo.User;
 import com.revature.service.CustomerService;
 import com.revature.service.EmployeeService;
 
@@ -49,7 +48,7 @@ public class Main {
 			int response = Integer.parseInt(sc.readLine()); 
 			
 			switch (response) {
-			case 1:
+			case 1://create customer account
 				if(createCustomerAccountOption(sc)){
 					System.out.println("Customer Account Created.");
 					mainMenuOption(sc);
@@ -59,15 +58,14 @@ public class Main {
 					mainMenuOption(sc);
 				}
 				break;
-			case 2:
+			case 2://login to customer account
 				int customerLoginResult = 0;
 				
 				while(customerLoginResult == 0 || customerLoginResult == -1)
 					customerLoginResult = customerLoginOption(sc);
 				customerLoggedInMenu(customerLoginResult, sc);
 				break;
-			case 3:
-				//presents options for creating account
+			case 3://create employee account
 				if(createEmployeeAccountOption(sc)){
 					System.out.println("Employee Account Created.");
 					mainMenuOption(sc);
@@ -77,14 +75,14 @@ public class Main {
 					mainMenuOption(sc);
 				}
 				break;
-			case 4:
+			case 4://login to employee account
 				int employeeLoginResult = 0;
 				
 				while(employeeLoginResult == 0 || employeeLoginResult == 1)
 					employeeLoginResult = employeeLoginOption(sc);
 				employeeLoggedInMenu(employeeLoginResult, sc);
 				break;
-			case 5:
+			case 5://login to admin 
 				boolean adminLoginResult = false;
 				
 				while(!adminLoginResult){
@@ -130,7 +128,7 @@ public class Main {
 		String username = "";
 		String password = "";
 		try
-		{
+		{// get customer account info
 			System.out.println("Customer Sign Up Page");
 			System.out.println("-----------------------");
 			System.out.println("Enter first name:");
@@ -219,7 +217,7 @@ public class Main {
 			int response = Integer.parseInt(sc.readLine());
 			
 			switch(response){
-			case 1://create savings
+			case 1://apply for savings
 				if(serveCust.applyForAccount(customerId, 1, 1)){
 					System.out.println("Applied for Savings Account.");
 					customerLoggedInMenu(customerId, sc);
@@ -230,7 +228,7 @@ public class Main {
 					customerLoggedInMenu(customerId, sc);
 					break;
 				}
-			case 2://create checking
+			case 2://apply for checking
 				if(serveCust.applyForAccount(customerId, 1, 2)){
 					System.out.println("Applied for Checking Account.");
 					customerLoggedInMenu(customerId, sc);
@@ -249,6 +247,7 @@ public class Main {
 				if(accounts.size() == 0){
 					System.out.println("No Active Accounts");
 				}
+				//get all accounts based on customerid
 				for(Account act : accounts){
 					accountType = serveCust.getAccountType(act.getTypeId());
 					System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " + act.getBalance());
@@ -260,7 +259,7 @@ public class Main {
 					customerLoggedInMenu(customerId, sc);
 					break;
 				}
-				
+				//go into individual account
 				boolean actFound = false;
 				System.out.println("What would you like to do with your account?");
 				System.out.println("-------------------------------------------------");
@@ -270,7 +269,7 @@ public class Main {
 						System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " + act.getBalance() +"\n");
 						actFound = true;
 					}
-				}
+				}//if account you entered is there, do something
 				if(actFound){
 					System.out.println("Press 1 to Deposit");
 					System.out.println("Press 2 to Withdraw");
@@ -322,54 +321,6 @@ public class Main {
 			l.error(e);
 			System.out.println(e);
 		}		
-	}
-	
-	/**
-	 * Deposit money into account type specified in loggedinmenu
-	 * @param customerId foreign key for customer account
-	 * @param sc input scanner 
-	 * @param accountType savings or checking picked by customer
-	 */
-	public static void depositMoney(int customerId, BufferedReader sc, String accountType){
-		Customer depositMoney = new Customer();
-		int amount = 0;
-		
-		try{
-			System.out.println("How much money do you want to deposit?");
-			amount = Integer.parseInt(sc.readLine());
-		}
-		catch(IOException e){
-			l.error(e);
-			System.out.println("IO Exception");
-		}
-		
-		int newBalance = depositMoney.depositMoney(customerId, accountType, amount);
-		l.info("deposited money");
-		System.out.println("New Balance: $" + newBalance);
-	}
-	
-	/**
-	 * Withdraw money from account type specified in logginmenu
-	 * @param customerId foreign key for customer account
-	 * @param sc input scanner
-	 * @param accountType savings or checking picked by customer
-	 */
-	public static void withdrawMoney(int customerId, BufferedReader sc, String accountType){
-		Customer withdrawMoney = new Customer();
-		int amount = 0;
-		
-		try{
-			System.out.println("How much money do you want to withdraw?");
-			amount = Integer.parseInt(sc.readLine());
-		}
-		catch(IOException e){
-			l.error(e);
-			System.out.println("IO Exception");
-		}
-		
-		int newBalance = withdrawMoney.withdrawMoney(customerId, accountType, amount);
-		l.info("Withdrew money");
-		System.out.println("New Balance: $" + newBalance);
 	}
 
 	/**
@@ -499,16 +450,16 @@ public class Main {
 				String accountType2;
 				String statusType2;
 				
-				for(Account act : accounts2){
-					accountType = serveCust.getAccountType(act.getTypeId());
-					statusType = serveCust.getStatusType(act.getStatusId());
-					System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " 
-								+ act.getBalance() + " (" + statusType + ")");
+				for(Account act2 : accounts2){
+					accountType2 = serveCust.getAccountType(act2.getTypeId());
+					statusType2 = serveCust.getStatusType(act2.getStatusId());
+					System.out.println("Account #" + act2.getAccountId() + "(" + accountType2 +"): " 
+								+ act2.getBalance() + " (" + statusType2 + ")");
 				}				
 				System.out.println("-------------------------------------------------");
 				System.out.println("Press 0 to go back.");
-				int accountSelect = Integer.parseInt(sc.readLine());
-				if(accountSelect == 0){
+				int accountSelect2 = Integer.parseInt(sc.readLine());
+				if(accountSelect2 == 0){
 					employeeLoggedInMenu(employeeId, sc);
 					break;
 				}
@@ -516,12 +467,12 @@ public class Main {
 				boolean actFound2 = false;
 				System.out.println("Aprove or Decline?");
 				System.out.println("-------------------------------------------------");
-				for(Account act : accounts2){
-					accountType2 = serveCust.getAccountType(act.getTypeId());
-					statusType2 = serveCust.getStatusType(act.getStatusId());
-					if(act.getAccountId() == accountSelect){
-						System.out.println("Account #" + act.getAccountId() + "(" + accountType2 +"): " 
-								+ act.getBalance() + " (" + statusType2 + ")\n");
+				for(Account act2 : accounts2){
+					accountType2 = serveCust.getAccountType(act2.getTypeId());
+					statusType2 = serveCust.getStatusType(act2.getStatusId());
+					if(act2.getAccountId() == accountSelect2){
+						System.out.println("Account #" + act2.getAccountId() + "(" + accountType2 +"): " 
+								+ act2.getBalance() + " (" + statusType2 + ")\n");
 						actFound2 = true;
 					}
 				}
@@ -530,15 +481,15 @@ public class Main {
 					System.out.println("Press 3 to Decline");
 					int action = Integer.parseInt(sc.readLine());
 					if(action == 2){
-						serveEmp.editAccountStatus(accountSelect, action);
-						serveEmp.setResolverId(employeeId, accountSelect);
+						serveEmp.editAccountStatus(accountSelect2, action);
+						serveEmp.setResolverId(employeeId, accountSelect2);
 						System.out.println("Account successfully approved.");
 						employeeLoggedInMenu(employeeId, sc);
 						break;
 					}
 					else if(action == 3){
-						serveEmp.editAccountStatus(accountSelect, action);
-						serveEmp.setResolverId(employeeId, accountSelect);
+						serveEmp.editAccountStatus(accountSelect2, action);
+						serveEmp.setResolverId(employeeId, accountSelect2);
 						System.out.println("Account denied.");
 						employeeLoggedInMenu(employeeId, sc);
 						break;
@@ -555,8 +506,7 @@ public class Main {
 					break;
 				}
 			case 3:
-				Employee calculate = new Employee();
-				calculate.calculator(sc);
+				calculator();
 				employeeLoggedInMenu(employeeId, sc);
 				break;
 			case 4: 
@@ -577,32 +527,7 @@ public class Main {
 			System.out.println(e);
 		}
 	}
-	
-	/**
-	 * Calls get account applications and prints out the results
-	 * @param sc input reader
-	 */
-	public static void approveAccountApplications(BufferedReader sc){
-		Employee employee = new Employee();
-		String[] application = employee.getAccountApplications(sc);
-		
-		if(application[0].equals("")){
-			System.out.println("No accounts to approve.");
-		}
-		else{
-			if(application[2].equals("true")){
-				//prints out results of approved
-				System.out.println(application[0] + " account " + application[1] + " approved!");
-				l.info("customer approved");
-			}
-			else if(application[2].equals("false")){
-				//prints out results of declined
-				System.out.println(application[0] + " account " + application[1] + " declined!");
-				l.info("customer denied");
-			}
-		}
-	}
-	
+
 	/**
 	 * Tries to log in as admin, calling admin class, then returning true or false
 	 * @param sc input scanner
@@ -632,7 +557,7 @@ public class Main {
 	}
 	
 	/**
-	 * Retrieve customerid from data teid to username input
+	 * Retrieve and login as customer from data tied to username input
 	 * @param sc input scanner
 	 */
 	public static void viewCustomerAccounts(BufferedReader sc){
@@ -654,4 +579,58 @@ public class Main {
 		}
 	}
  	
+	public static void calculator(){
+			System.out.println("   Tiny Calculator " );
+			System.out.println("  -----------------");
+			System.out.println("|   7   8   9   /  |");
+			System.out.println("|   4   5   6   x  |");
+			System.out.println("|   1   2   3   -  |");
+			System.out.println("|   0   .   +   =  |");
+			System.out.println("  -----------------\n");
+			System.out.println("Type your operations (Parentheses are okay)");
+			
+			boolean calculateMore = true;
+			while(calculateMore){
+				
+				String calculateString = "5 * 50 3 / 3 1*10";
+				findMultiplications( calculateString );
+				
+				calculateMore = false;
+			}
+	}
+	
+    public static void findMultiplications( String calculateString ) {
+
+        Pattern multiplicationPattern = Pattern.compile( "\\d+\\s*\\|/|*|-|+|\\s*\\d+" );
+
+        Matcher multiplicationMather = multiplicationPattern.matcher( calculateString );
+
+        while ( multiplicationMather.find() ) {
+        	if(multiplicationMather.group().length() != 0){
+        		multiplicationMather.group().trim();
+                int int1 = multiplicationMather.start();
+                int int2 = multiplicationMather.end();
+                
+                System.out.println(int1 +" " + int2);
+        	}
+
+
+        }
+    }	
+		
+    static int add(int int1, int int2) {
+        return int1 + int2;
+    }
+    static int subtract(int int1, int int2) {
+        return int1 - int2;
+    }
+    static int multiply(int int1, int int2) {
+        return int1 * int2;
+    }
+    static int divide(int int1, int int2) {
+        return int1 / int2;
+    }
+	    
+	
+	
 }
