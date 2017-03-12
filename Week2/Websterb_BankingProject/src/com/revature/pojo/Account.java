@@ -1,28 +1,36 @@
 package com.revature.pojo;
 
 public class Account {
-	int accountId, statusId, resolverId, typeId;
+	int accountId, typeId, statusId, resolverId;
 	double balance;
-
-	public Account(int accountId, int typeId, double balance, int statusId, int resolverId) {
+	
+	public Account(int accountId, int typeId, int statusId, int resolverId, double balance) {
 		super();
 		this.accountId = accountId;
+		this.typeId = typeId;
 		this.statusId = statusId;
 		this.resolverId = resolverId;
 		this.balance = balance;
-		this.typeId = typeId;
 	}
-
+	
 	public Account(){
 		
 	}
-	
+
 	public int getAccountId() {
 		return accountId;
 	}
 
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
+	}
+
+	public int getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 
 	public int getStatusId() {
@@ -49,20 +57,12 @@ public class Account {
 		this.balance = balance;
 	}
 
-	public int getTypeId() {
-		return typeId;
-	}
-
-	public void setTypeId(int typeId) {
-		this.typeId = typeId;
-	}
-
 	@Override
 	public String toString() {
-		return "Account [accountId=" + accountId + ", statusId=" + statusId + ", resolverId=" + resolverId
-				+ ", balance=" + balance + ", typeId=" + typeId + "]";
+		return "Account [accountId=" + accountId + ", typeId=" + typeId + ", statusId=" + statusId + ", resolverId="
+				+ resolverId + ", balance=" + balance + "]";
 	}
 	
 	
-
+	
 }

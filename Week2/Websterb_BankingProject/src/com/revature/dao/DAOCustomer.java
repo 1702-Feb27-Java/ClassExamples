@@ -17,6 +17,8 @@ public interface DAOCustomer {
 	
 	public String getAccountType(int typeId); 
 	
+	public String getStatus(int statusId);
+	
 	double getBalance(int accountId);
 	
 	double setBalance(int accountId, double balance);

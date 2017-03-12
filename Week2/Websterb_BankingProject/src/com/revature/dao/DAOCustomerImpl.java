@@ -191,6 +191,32 @@ public class DAOCustomerImpl implements DAOCustomer{
 		return accountType;
 	}
 	
+	@Override
+	public String getStatus(int statusId) {
+		String statusType = "";
+		
+		try (Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "SELECT status FROM STATUS WHERE STATUS_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, statusId);
+			
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			statusType = rs.getString(1);
+			connect.commit();
+			
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return statusType;
+	}
+	
 	public double getBalance(int accountId){
 		double balance = 0;
 		

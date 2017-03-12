@@ -72,6 +72,11 @@ public class CustomerService {
 		String actType = daoCust.getAccountType(typeId);
 		return actType;
 	}
+
+	public String getStatusType(int statusId){
+		String statusType = daoCust.getStatus(statusId);
+		return statusType;
+	}
 	
 	public double depositMoney(int accountId, double amount){
 		double balance = 0;
@@ -82,7 +87,8 @@ public class CustomerService {
 		
 		return balance;
 	}
-	public double withdrawMoney(int accountId, double amount){
+	
+public double withdrawMoney(int accountId, double amount){
 		double balance = 0;
 		
 		balance = daoCust.getBalance(accountId);

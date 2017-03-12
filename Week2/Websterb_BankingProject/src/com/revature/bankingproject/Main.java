@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.revature.dao.DAOEmployeeImpl;
 import com.revature.pojo.Account;
+import com.revature.pojo.User;
 import com.revature.service.CustomerService;
 import com.revature.service.EmployeeService;
 
@@ -26,12 +27,12 @@ public class Main {
 		BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
 		mainMenuOption(br);
 		DAOEmployeeImpl daoEmp = new DAOEmployeeImpl();
-		int accountId = 2;
-/*		String fn = "employee2";
+/*		int accountId = 2;
+		String fn = "employee2";
 		String ln = "lastname2";
 		String un = "empBen2";
 		String pw = "pass";
-		System.out.println(serveEmp.loginEmployee(un, pw));*/
+		System.out.println(serveEmp.getUnapprovedAccounts());*/
 		//System.out.println(accountId);
 		//serve.getAccounts(accountId);
 	}
@@ -494,8 +495,25 @@ public class Main {
 				employeeLoggedInMenu(employeeId, sc);
 				break;
 			case 2://see customer's account applications to approve/decline
-				approveAccountApplications(sc);
-				employeeLoggedInMenu(employeeId, sc);
+				ArrayList<Account> accounts = serveEmp.getUnapprovedAccounts();
+				System.out.println("Enter account number that you would like to approve!");
+				System.out.println("-------------------------------------------------");
+				String accountType;
+				String statusType;
+				
+				for(Account act : accounts){
+					accountType = serveCust.getAccountType(act.getTypeId());
+					statusType = serveCust.getStatusType(act.getStatusId());
+					System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " 
+								+ act.getBalance() + " (" + statusType + ")");
+				}				
+				System.out.println("-------------------------------------------------");
+				System.out.println("Press 1 to go back.");
+				int accountSelect = Integer.parseInt(sc.readLine());
+				if(accountSelect == 1){
+					employeeLoggedInMenu(employeeId, sc);
+					break;
+				}
 				break;
 			case 3:
 				Employee calculate = new Employee();

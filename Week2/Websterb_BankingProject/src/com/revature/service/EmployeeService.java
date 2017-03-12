@@ -2,8 +2,8 @@ package com.revature.service;
 
 import java.util.ArrayList;
 
-import com.revature.dao.DAOEmployee;
 import com.revature.dao.DAOEmployeeImpl;
+import com.revature.pojo.Account;
 
 public class EmployeeService {
 	static CustomerService serve = new CustomerService();
@@ -39,4 +39,11 @@ public class EmployeeService {
 		}
 		return employeeId;
 	}
+
+	public ArrayList<Account> getUnapprovedAccounts(){
+		ArrayList<Account> accounts = new ArrayList<Account>();
+		accounts = daoEmp.getUnapprovedAccounts();
+		return accounts;
+	};
+
 }

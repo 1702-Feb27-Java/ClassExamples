@@ -2,9 +2,12 @@ package com.revature.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.revature.pojo.Account;
 import com.revature.util.ConnectionUtil;
 
 public class DAOEmployeeImpl implements DAOEmployee{
@@ -67,4 +70,45 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		return employee;
 	}
 
+
+
+	@Override
+	public ArrayList<Account> getUnapprovedAccounts() {
+		ArrayList<Account> accounts = new ArrayList<Account>();
+		
+		try (Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "SELECT * FROM ACCOUNT"
+					+ " WHERE STATUS_ID = 1";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				Account ac = new Account();
+				
+				ac.setAccountId(rs.getInt(1));
+				ac.setTypeId(rs.getInt(2));
+				ac.setBalance(rs.getDouble(3));
+				ac.setStatusId(rs.getInt(4));
+				ac.setResolverId(rs.getInt(5));
+				accounts.add(ac);
+				
+				ac = null;
+			}
+			connect.commit();
+			
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return accounts;
+	}
+
+
+
+	
 }
