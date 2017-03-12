@@ -27,11 +27,11 @@ public class Main {
 		mainMenuOption(br);
 		DAOEmployeeImpl daoEmp = new DAOEmployeeImpl();
 		int accountId = 2;
-		String fn = "employee2";
+/*		String fn = "employee2";
 		String ln = "lastname2";
 		String un = "empBen2";
 		String pw = "pass";
-		System.out.println(serveEmp.addEmployee(fn, ln, un, pw));
+		System.out.println(serveEmp.loginEmployee(un, pw));*/
 		//System.out.println(accountId);
 		//serve.getAccounts(accountId);
 	}
@@ -66,7 +66,7 @@ public class Main {
 			case 3:
 				//presents options for creating account
 				if(createEmployeeAccountOption(sc)){
-					System.out.println("Customer Account Created.");
+					System.out.println("Employee Account Created.");
 					mainMenuOption(sc);
 				}
 				else{
@@ -77,7 +77,7 @@ public class Main {
 			case 4:
 				int employeeLoginResult = 0;
 				
-				while(employeeLoginResult == 0)
+				while(employeeLoginResult == 0 || employeeLoginResult == 1)
 					employeeLoginResult = employeeLoginOption(sc);
 				employeeLoggedInMenu(employeeLoginResult, sc);
 				break;
@@ -421,39 +421,23 @@ public class Main {
 	 */
 	public static int employeeLoginOption(BufferedReader sc){
 		int employeeLoggedInId = 0;
-		
 		try{
 			String username, password;
 			System.out.println("Enter username: ");
 			username = sc.readLine();
 			System.out.println("Enter password: ");
 			password = sc.readLine();
-			
-			//tries to login with username and password input
-			Employee loginEmployee = new Employee();
-			String employeeLoginResult = loginEmployee.login(username, password);
-			
-			//check if login result is password incorrect
-			if((employeeLoginResult.equals("Password incorrect."))){
-				System.out.println(employeeLoginResult);
-				employeeLoggedInId = 0;
+			int result = serveEmp.loginEmployee(username, password);
+			if(result == 0){
+				employeeLoggedInId = result;
+				System.out.println("Username or password incorrect.");
 			}
-			//check if login result is username not found
-			else if((employeeLoginResult.equals("Username not found."))){
-				System.out.println(employeeLoginResult);
-				employeeLoggedInId = 0;
-			}
-			//check if login result are exceptions
-			else if((employeeLoginResult.equals("General Exception"))){
-				System.out.println("General Exception");
-				employeeLoggedInId = 0;
-			}
-			else if((employeeLoginResult.equals("IO Exception"))){
-				System.out.println("IO Exception");
-				employeeLoggedInId = 0;
+			else if(result == 1){
+				employeeLoggedInId = result;
+				System.out.println("Username or password incorrect");
 			}
 			else{
-				employeeLoggedInId = Integer.parseInt(employeeLoginResult);//save customerId
+				employeeLoggedInId = result;
 			}
 		}
 		catch(IOException e){
@@ -464,6 +448,7 @@ public class Main {
 			l.error(e);
 			System.out.println(e);
 		}
+		l.info("Employee Logged in");
 		return employeeLoggedInId;
 		
 	}

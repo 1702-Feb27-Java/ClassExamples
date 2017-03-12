@@ -41,6 +41,7 @@ public class CustomerService {
 			return true;
 		}
 	}
+	
 	public int loginCustomer(String username, String password){
 		int customerId = 0;//0 = no username found
 		int dbCustId = 0;
