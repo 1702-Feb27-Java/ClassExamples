@@ -257,11 +257,13 @@ public class Main {
 				System.out.println("Enter account number that you would like to enter!");
 				System.out.println("-------------------------------------------------");
 				String accountType;
-				
+				if(accounts.size() == 0){
+					System.out.println("No Active Accounts");
+				}
 				for(Account act : accounts){
 					accountType = serveCust.getAccountType(act.getTypeId());
 					System.out.println("Account #" + act.getAccountId() + "(" + accountType +"): " + act.getBalance());
-				}				
+				}			
 				System.out.println("-------------------------------------------------");
 				System.out.println("Press 1 to go back.");
 				int accountSelect = Integer.parseInt(sc.readLine());
@@ -534,12 +536,12 @@ public class Main {
 					System.out.println("Press 3 to Decline");
 					int action = Integer.parseInt(sc.readLine());
 					if(action == 2){
-						System.out.println(serveEmp.editAccountStatus(accountSelect, action));
+						serveEmp.editAccountStatus(accountSelect, action);
 						employeeLoggedInMenu(employeeId, sc);
 						break;
 					}
 					else if(action == 3){
-						System.out.println(serveEmp.editAccountStatus(accountSelect, action));
+						serveEmp.editAccountStatus(accountSelect, action);
 						employeeLoggedInMenu(employeeId, sc);
 						break;
 					}

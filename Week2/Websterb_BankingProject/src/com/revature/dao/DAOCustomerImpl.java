@@ -136,7 +136,8 @@ public class DAOCustomerImpl implements DAOCustomer{
 			
 			String sql = "SELECT * FROM ACCOUNT, CUSTOMERACCOUNTS"
 					+ " WHERE ACCOUNT.account_id = CUSTOMERACCOUNTS.account_id"
-					+ " and CUSTOMERACCOUNTS.user_id = ?";
+					+ " and CUSTOMERACCOUNTS.user_id = ?"
+					+ " and ACCOUNT.status_id = 2";
 			
 			PreparedStatement ps = connect.prepareStatement(sql);
 			ps.setInt(1, userId);
