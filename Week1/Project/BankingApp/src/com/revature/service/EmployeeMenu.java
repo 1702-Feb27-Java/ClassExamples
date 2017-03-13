@@ -5,19 +5,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
 import java.util.List;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
+import com.revature.dao.DAOAccountImp;
+import com.revature.pojo.AccountClass;
 
 public class EmployeeMenu {
 
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static DAOAccountImp daoAccount = new DAOAccountImp();
 	// prints menu for employee
 	// takes user input and implement functionality
 	public static void functionality() {
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			int emMenuInput = Integer.parseInt(br.readLine());
 
@@ -54,34 +54,14 @@ public class EmployeeMenu {
 	public static void viewPending() {
 
 		try {
-			BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
-			BufferedReader br = new BufferedReader(new FileReader("customeraccounts.txt"));
-
-			String thisLine;
-
-			// this array stores all the
-			String[] lineArr = null;
-
-			// this array stores the id of all new/pending customer accounts
-			// to approve an account, the first char ('n') of the id string will
-			// be removed
-			List<String> pendingAcc = new ArrayList();
-
-			while ((thisLine = br.readLine()) != null) {
-				lineArr = thisLine.split(":");
-				if (lineArr[0].charAt(0) == 'n') { // if the id has an n as its
-													// first char
-					pendingAcc.add(thisLine); // we store it in the pending
-												// accounts array
-				}
-			}
-			br.close();
-
+			ArrayList<AccountClass> pendingAcc = new ArrayList<AccountClass>();
+			pendingAcc = daoAccount.getAccountsByStatus(1);
+			
 			if (pendingAcc.size() != 0) {
 				System.out.println("There are the current accounts pending for approval.");
-				System.out.println(pendingAcc);
+				pendingAcc.forEach(System.out::println);
 				System.out.println("Would you like to approve the new accounts? Press 1 for YES and 2 for NO");
-				int yesOrNo = Integer.parseInt(b.readLine());
+				int yesOrNo = Integer.parseInt(br.readLine());
 
 				switch (yesOrNo) {
 
@@ -116,27 +96,16 @@ public class EmployeeMenu {
 	public static void viewAll() {
 
 		try {
-			BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
-			BufferedReader br = new BufferedReader(new FileReader("customeraccounts.txt"));
-
-			String thisLine;
-
-			// this array stores all accounts
-			List<String> allAcc = new ArrayList();
-
-			while ((thisLine = br.readLine()) != null) {
-				allAcc.add(thisLine);
-			}
+			ArrayList<AccountClass> allAcc = new ArrayList<AccountClass>();
+			allAcc = daoAccount.getAllAccounts();
 			
-			br.close();
-
 			System.out.println("These are all the customer accounts.");
-			System.out.println(allAcc);
+			allAcc.forEach(System.out::println);
 			
 			System.out.println("---------------------------");
 			System.out.println("Press 1 to return to the previous menu.");
 			
-			int confirm = Integer.parseInt(b.readLine());
+			int confirm = Integer.parseInt(br.readLine());
 			
 			switch (confirm) {
 			case 1: // yes
@@ -161,21 +130,24 @@ public class EmployeeMenu {
 	//method to approve new accounts
 	public static void approve() {
 
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			
+		try {			
 			// self-explanatory
 			System.out.println("---------------------------");
 			System.out.println("Please enter the id of the customer you want to approve: ");
 
 			// set the id (must include the n) to value
-			String ID = br.readLine();
+			int id = Integer.parseInt(br.readLine());
+			
+			ArrayList<AccountClass> pendingAcc = new ArrayList<AccountClass>();
+			
+			pendingAcc = daoAccount.getAccountsByUserID(id);
 
 			System.out.println("Approving now...");
 			
-			// calls the edit ID method
-			ReplaceClass.editID(ID);
-
+			for (AccountClass a : pendingAcc){
+				daoAccount.updateStatus(a, 2, 2);
+			}
+			
 			System.out.println("Approval complete. Returning to the employee menu.");
 			MenuClass.showEmployeeMenu();
 			EmployeeMenu.functionality();

@@ -8,14 +8,15 @@ import com.revature.pojo.UserClass;
 public interface DAOAccount {
 	
 	// add
-	public void addAccount(AccountClass ac, int customerID);
+	public void addAccount(int accountType, UserClass uc);
 	
 	// update 
 	public void updateBalance(AccountClass ac, double balance);
-	public void updateStatus(AccountClass ac, int status);
+	public void updateStatus(AccountClass ac, int status, int resolver);
 	
 	// read
 	ArrayList<AccountClass> getAllAccounts();
 	ArrayList<AccountClass> getAccountsByUserID(int id);
+	ArrayList<AccountClass> getAccountsByStatus(int status);
 	AccountClass getAccountByID(int accountID);  // used for balance update
 }

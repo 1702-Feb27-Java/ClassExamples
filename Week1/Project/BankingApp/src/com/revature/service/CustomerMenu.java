@@ -4,16 +4,25 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
 
+import com.revature.dao.DAOAccountImp;
+import com.revature.dao.DAOUserImp;
+import com.revature.pojo.AccountClass;
+import com.revature.pojo.UserClass;
+
 public class CustomerMenu {
-	
+
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static DAOUserImp daoUser = new DAOUserImp();
+	static DAOAccountImp daoAccount = new DAOAccountImp();
+
 	// this method implements functionality for a customer menu
 	// takes user input
 	public static void functionality(String username) {
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			int cMenuInput = Integer.parseInt(br.readLine());
 
@@ -55,83 +64,70 @@ public class CustomerMenu {
 
 	// method for check balance
 	public static void checkBalance(String username) {
+		UserClass currentUser = new UserClass();
+		currentUser = daoUser.getUserByUsername(username);
 
-		try {
-			BufferedReader br = new BufferedReader(new FileReader("customeraccounts.txt"));
+		ArrayList<AccountClass> allUserAccounts = new ArrayList<AccountClass>();
+		allUserAccounts = daoAccount.getAccountsByUserID(currentUser.getUserID());
 
-			String thisLine;
-			String hashCh = null;
-			String hashSav = null;
-
-			// make a hashtable for checking and savings balance depending on the user
-			while ((thisLine = br.readLine()) != null) {
-				String[] lineArr = thisLine.split(":");
-
-				if (lineArr[3].equals(username)) {
-					hashCh = lineArr[5].substring(1, lineArr[5].length());
-					hashSav = lineArr[6].substring(1, lineArr[6].length());
-				}
-			}
-
-			System.out.println("You currently have " + hashCh + " dollars in your checking and " + hashSav + " dollars in your savings accounts.");
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.println("These are all your accounts and balances.");
+		allUserAccounts.forEach(System.out::println);
 
 	}
-	
+
 	// deposit method for the customer
-	public static void deposit(String username){
-		System.out.println("You have chosen to deposit. Which account do you want to deposit in?");
-		System.out.println("1. Checking");
-		System.out.println("2. Savings");
-		Scanner sc = new Scanner(System.in);
-				
+	public static void deposit(String username) {
+
+		UserClass currentUser = new UserClass();
+		currentUser = daoUser.getUserByUsername(username);
+
+		ArrayList<AccountClass> allUserAccounts = new ArrayList<AccountClass>();
+		allUserAccounts = daoAccount.getAccountsByUserID(currentUser.getUserID());
+
 		try {
+			System.out.println("You have chosen to deposit. Enter the id of the account you want to deposit in.");
+			int accountID;
+
+			accountID = Integer.parseInt(br.readLine());
+
+			AccountClass currentAccount = new AccountClass();
+			currentAccount = daoAccount.getAccountByID(accountID);
 			
-			int input = sc.nextInt();
-			// this reads the amount the user wants to change
-			BufferedReader data = new BufferedReader(new FileReader("customeraccounts.txt"));
-			
-			// username and checking balance pairs
-			Hashtable<String, String> containsCh = new Hashtable<String, String>();
-			// username and savings balance pairs
-			Hashtable<String, String> containsSav = new Hashtable<String, String>();
-			
-			String s;
-			
-			// lets store username and checking and savings balance
-			while ((s = data.readLine()) != null){
-				containsCh.put(username, s.split(":")[5]);
-				containsSav.put(username, s.split(":")[6]);
+			if (currentAccount.getStatusID() == 1){
+				System.out.println("We're sorry, but your account hasn't been approved. Returning you to the previous menu.");
+				MenuClass.showCustomerMenu();
+				CustomerMenu.functionality(username);
 			}
+
+			System.out.println("How much would you like to deposit?");
+			double amount = Double.parseDouble(br.readLine());
 			
-			double amount;
+			// add old balance and new balance together
+			double balance = currentAccount.getBalance() + amount;
+			
+			// then we call the DAO Account method to update balance
+			daoAccount.updateBalance(currentAccount, balance);
+			
+			System.out.println("Deposit success. Would you like to deposit in another account?");
+			System.out.println("1. Yes");
+			System.out.println("2. No");
+			
+			int input = Integer.parseInt(br.readLine());
 			
 			switch(input){
-			case 1: // checking deposit
-				System.out.println("How much would you like to deposit?");
-				amount = sc.nextDouble();
-				
-				// calls the overloaded method
-				// method args are (String, String, double)
-				
-				//System.out.println(oldAmount);
-				ReplaceClass.deposit(username, "c", amount);
+			case 1: // yes
+				deposit(username);
 				break;
-			case 2: // savings deposit
-				System.out.println("How much would you like to deposit?");
-				amount = sc.nextDouble();
-				ReplaceClass.deposit(username, "s", amount);				
+			case 2: // no
+				System.out.println("Returning you to the previous menu.");
+				MenuClass.showCustomerMenu();
+				CustomerMenu.functionality(username);
 				break;
 			default:
 				System.out.println("You cannot make that selection. Try again.");
 				break;
 			}
 
-			
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -139,58 +135,67 @@ public class CustomerMenu {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
-	
-	
+
 	// withdraw method for the customer
-	public static void withdraw(String username){
-		System.out.println("You have chosen to withdraw. Which account do you want to withdraw from?");
-		System.out.println("1. Checking");
-		System.out.println("2. Savings");
-		Scanner sc = new Scanner(System.in);
-				
+	public static void withdraw(String username) {
+
+		UserClass currentUser = new UserClass();
+		currentUser = daoUser.getUserByUsername(username);
+
+		ArrayList<AccountClass> allUserAccounts = new ArrayList<AccountClass>();
+		allUserAccounts = daoAccount.getAccountsByUserID(currentUser.getUserID());
+
 		try {
+			System.out.println("You have chosen to withdraw. Enter the id of the account you want to withdraw from.");
+			int accountID;
+
+			accountID = Integer.parseInt(br.readLine());
+
+			AccountClass currentAccount = new AccountClass();
+			currentAccount = daoAccount.getAccountByID(accountID);
 			
-			int input = sc.nextInt();
-			// this reads the amount the user wants to change
-			BufferedReader data = new BufferedReader(new FileReader("customeraccounts.txt"));
+			if (currentAccount.getStatusID() == 1){
+				System.out.println("We're sorry, but your account hasn't been approved. Returning you to the previous menu.");
+				MenuClass.showCustomerMenu();
+				CustomerMenu.functionality(username);
+			}
+
+			System.out.println("How much would you like to withdraw?");
+			double amount = Double.parseDouble(br.readLine());
 			
-			// username and checking balance pairs
-			Hashtable<String, String> containsCh = new Hashtable<String, String>();
-			// username and savings balance pairs
-			Hashtable<String, String> containsSav = new Hashtable<String, String>();
+			// subtract new amount from old amount
+			double balance = currentAccount.getBalance() - amount;
 			
-			String s;
-			
-			// lets store username and checking and savings balance
-			while ((s = data.readLine()) != null){
-				containsCh.put(username, s.split(":")[5]);
-				containsSav.put(username, s.split(":")[6]);
+			if (balance < 0){
+				System.out.println("You do not have enough balance to withdraw. Try again.");
+				withdraw(username);
 			}
 			
-			double amount;
+			// then we call the DAO Account method to update balance
+			daoAccount.updateBalance(currentAccount, balance);
+			
+			System.out.println("Withdrawal success. Would you like to withdraw from another account?");
+			System.out.println("1. Yes");
+			System.out.println("2. No");
+			
+			int input = Integer.parseInt(br.readLine());
 			
 			switch(input){
-			case 1: // checking withdraw
-				System.out.println("How much would you like to withdraw?");
-				amount = sc.nextDouble();
-				
-				// calls the overloaded method
-				// method args are (String, String, double)
-				
-				ReplaceClass.withdraw(username, "c", amount);
+			case 1: // yes
+				withdraw(username);
 				break;
-			case 2: // savings withdraw
-				System.out.println("How much would you like to withdraw?");
-				amount = sc.nextDouble();
-				ReplaceClass.withdraw(username, "s", amount);				
+			case 2: // no
+				System.out.println("Returning you to the previous menu.");
+				MenuClass.showCustomerMenu();
+				CustomerMenu.functionality(username);
 				break;
 			default:
 				System.out.println("You cannot make that selection. Try again.");
 				break;
 			}
 
-			
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -199,4 +204,5 @@ public class CustomerMenu {
 			e.printStackTrace();
 		}
 	}
+
 }

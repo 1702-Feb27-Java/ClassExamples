@@ -18,7 +18,9 @@ public interface DAOUser {
 	
 	// read
 	ArrayList<UserClass> getAllUsers();
+	UserClass getUserByID(int id);
 	UserClass getUserByUsername(String username);
-	Hashtable<String, String> getUsernamePW(String username);  // this is for login authentication
+	Hashtable<String, String> getUsernamePW();
+	
 
 }

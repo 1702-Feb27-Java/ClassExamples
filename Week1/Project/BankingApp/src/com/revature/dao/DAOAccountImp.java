@@ -18,7 +18,7 @@ public class DAOAccountImp implements DAOAccount {
 	PreparedStatement getAll;
 
 	@Override
-	public void addAccount(AccountClass ac, int customerID) {
+	public void addAccount(int accountType, UserClass uc) {
 		// TODO Auto-generated method stub
 
 		try (Connection connect = ConnectionClass.getConnection();) {
@@ -27,11 +27,11 @@ public class DAOAccountImp implements DAOAccount {
 
 			newAccount = connect.prepareCall("CALL addAccounts(?, ?)");
 
-			newAccount.setInt(1, ac.getTypeID());
-			newAccount.setInt(2, customerID);
+			newAccount.setInt(1, accountType);
+			newAccount.setInt(2, uc.getUserID());
 
 			newAccount.execute();
-			System.out.println("Success! You've added a new account.");
+			System.out.println("Congrats!");
 			connect.commit();
 
 		} catch (SQLException e) {
@@ -42,48 +42,45 @@ public class DAOAccountImp implements DAOAccount {
 	@Override
 	public void updateBalance(AccountClass ac, double balance) {
 		// TODO Auto-generated method stub
-		try (Connection connect = ConnectionClass.getConnection();){
+		try (Connection connect = ConnectionClass.getConnection();) {
 			// TODO Auto-generated method stub
 			connect.setAutoCommit(false);
 
-			updateBalance = connect
-					.prepareStatement("UPDATE Accounts SET balance = ? WHERE account_id = ?");
-			
+			updateBalance = connect.prepareStatement("UPDATE Accounts SET balance = ? WHERE account_id = ?");
+
 			updateBalance.setDouble(1, balance);
 			updateBalance.setInt(2, ac.getAccountID());
 
-			
 			updateBalance.executeUpdate();
 			System.out.println("Success! You've updated the balance.");
 			connect.commit();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	@Override
-	public void updateStatus(AccountClass ac, int status) {
+	public void updateStatus(AccountClass ac, int status, int resolver) {
 		// TODO Auto-generated method stub
-		
-		try (Connection connect = ConnectionClass.getConnection();){
+
+		try (Connection connect = ConnectionClass.getConnection();) {
 			// TODO Auto-generated method stub
 			connect.setAutoCommit(false);
 
-			updateStatus = connect
-					.prepareStatement("UPDATE Accounts SET status_id = ? WHERE account_id = ?");
-			
-			updateStatus.setDouble(1, status);
-			updateStatus.setInt(2, ac.getAccountID());
+			updateStatus = connect.prepareStatement("UPDATE Accounts SET status_id = ?, , resolver_id = ?, WHERE account_id = ?");
 
-			
+			updateStatus.setInt(1, status);
+			updateStatus.setInt(2, resolver);
+			updateStatus.setInt(3, ac.getAccountID());
+
 			updateStatus.executeUpdate();
 			System.out.println("Success! You've updated the status of this account.");
 			connect.commit();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	@Override
@@ -118,7 +115,6 @@ public class DAOAccountImp implements DAOAccount {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		allAccounts.forEach(System.out::println);
 		return allAccounts;
 	}
 
@@ -133,7 +129,7 @@ public class DAOAccountImp implements DAOAccount {
 			String sql = "SELECT ac.ACCOUNT_ID,ac.TYPE_ID, ac.BALANCE, ac.STATUS_ID, ac.RESOLVER_ID FROM Accounts ac INNER JOIN CustomerAccounts ca ON  ac.account_id = ca.acct_id AND ca.customer_id = ?";
 			getAll = connect.prepareStatement(sql);
 			getAll.setInt(1, id);
-			
+
 			ResultSet rs = getAll.executeQuery();
 
 			while (rs.next()) {
@@ -154,23 +150,22 @@ public class DAOAccountImp implements DAOAccount {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		accountsByID.forEach(System.out::println);
 		return accountsByID;
 	}
 
 	@Override
 	public AccountClass getAccountByID(int accountID) {
 		// TODO Auto-generated method stub
-		
+
 		AccountClass ac = new AccountClass();
-		
+
 		try (Connection connect = ConnectionClass.getConnection();) {
 			connect.setAutoCommit(false);
 
 			String sql = "SELECT * FROM Accounts WHERE account_id = ?";
 			getAccount = connect.prepareStatement(sql);
 			getAccount.setInt(1, accountID);
-			
+
 			ResultSet rs = getAccount.executeQuery();
 
 			while (rs.next()) {
@@ -181,6 +176,41 @@ public class DAOAccountImp implements DAOAccount {
 				ac.setStatusID(rs.getInt(4));
 				ac.setResolverID(rs.getInt(5));
 
+			}
+
+			connect.commit();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ac;
+	}
+
+	@Override
+	public ArrayList<AccountClass> getAccountsByStatus(int status) {
+		// TODO Auto-generated method stub
+		ArrayList<AccountClass> ac = new ArrayList<AccountClass>();
+
+		try (Connection connect = ConnectionClass.getConnection();) {
+			connect.setAutoCommit(false);
+
+			String sql = "SELECT * FROM Accounts WHERE status_id = ?";
+			getAccount = connect.prepareStatement(sql);
+			getAccount.setInt(1, status);
+
+			ResultSet rs = getAccount.executeQuery();
+
+			while (rs.next()) {
+				AccountClass account = new AccountClass();
+
+				account.setAccountID(rs.getInt(1));
+				account.setTypeID(rs.getInt(2));
+				account.setBalance(rs.getInt(3));
+				account.setStatusID(rs.getInt(4));
+				account.setResolverID(rs.getInt(5));
+				
+				ac.add(account);
+				account = null;
 			}
 
 			connect.commit();

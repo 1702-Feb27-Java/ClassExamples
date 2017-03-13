@@ -20,7 +20,7 @@ public class MenuClass {
 	}
 
 	// log in menu that takes user input as to what type of account it is
-	public static void showLogInMenu() {
+		public static void showLogInMenu() {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int logInMenuInput = 0;

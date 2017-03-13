@@ -1,17 +1,22 @@
 package com.revature.service;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+
+import com.revature.dao.DAOAccountImp;
+import com.revature.dao.DAOUserImp;
+import com.revature.pojo.AccountClass;
+import com.revature.pojo.UserClass;
 
 // everything in an admin menu
 
 public class AdminMenu {
 	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static DAOAccountImp daoAccount = new DAOAccountImp();
+	static DAOUserImp daoUser = new DAOUserImp();
 	// this makes the menu functional and take inputs from the user
 	public static void functionality() {
 
@@ -59,27 +64,21 @@ public class AdminMenu {
 	public static void editAccount() {
 
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("customeraccounts.txt"));
-
-			String thisLine;
-			// this array stores all accounts read from the file
-			List<String> allAcc = new ArrayList();
-			while ((thisLine = br.readLine()) != null) {
-				allAcc.add(thisLine);
-			}
-			br.close();
+			ArrayList<UserClass> allUsers = new ArrayList<UserClass>();
+			allUsers = daoUser.getAllUsers();
 
 			// print all customer accounts
 			System.out.println("These are all the customer accounts.");
-			System.out.println(allAcc);
+			allUsers.forEach(System.out::println);
 			System.out.println("Please enter the id of the customer you wish to edit");
 
-			BufferedReader bre = new BufferedReader(new InputStreamReader(System.in));
-			String IDToEdit = bre.readLine();
+			int id = Integer.parseInt(br.readLine());
 			// store this id
 
+			UserClass currentUser = new UserClass();
+			currentUser = daoUser.getUserByID(id);
 			// calls what to edit method
-			whatToEdit(IDToEdit);
+			whatToEdit(currentUser, id);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -91,11 +90,9 @@ public class AdminMenu {
 
 	}
 
-	public static void whatToEdit(String IDToEdit) {
+	public static void whatToEdit(UserClass uc, int id) {
 
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			
+		try {			
 			// shows what admin can edit
 			MenuClass.showEditMenu();
 			int input = Integer.parseInt(br.readLine());
@@ -109,13 +106,14 @@ public class AdminMenu {
 				String firstName = br.readLine();
 				
 				// calls method to edit
-				ReplaceClass.editFirstName(IDToEdit, firstName);
+				daoUser.updateFirstName(uc, firstName);
+				
 				System.out.println("Success, you have edited the customer's first name.");
 				System.out.println("Would you like to edit something else? 1 for YES and 2 for NO");
 				input2 = Integer.parseInt(br.readLine());
 				switch(input2){
 				case 1: // yes
-					whatToEdit(IDToEdit);
+					whatToEdit(uc, id);
 					break;
 				case 2: // no
 					System.out.println("Returning you to the admin menu.");
@@ -129,13 +127,14 @@ public class AdminMenu {
 			case 2: // last name
 				System.out.println("What would you like to replace the last name with?");
 				String lastName = br.readLine();
-				ReplaceClass.editLastName(IDToEdit, lastName);
+
+				daoUser.updateLastName(uc, lastName);
 				System.out.println("Success, you have edited the customer's last name.");
 				System.out.println("Would you like to edit something else? 1 for YES and 2 for NO");
 				input2 = Integer.parseInt(br.readLine());
 				switch(input2){
 				case 1: // yes
-					whatToEdit(IDToEdit);
+					whatToEdit(uc, id);
 					break;
 				case 2: // no
 					System.out.println("Returning you to the admin menu.");
@@ -149,13 +148,14 @@ public class AdminMenu {
 			case 3: // username
 				System.out.println("What would you like to replace the username with?");
 				String username = br.readLine();
-				ReplaceClass.editUsername(IDToEdit, username);
-				System.out.println("Success, you have edited the customer's last name.");
+
+				daoUser.updateUsername(uc, username);
+				System.out.println("Success, you have edited the customer's username.");
 				System.out.println("Would you like to edit something else? 1 for YES and 2 for NO");
 				input2 = Integer.parseInt(br.readLine());
 				switch(input2){
 				case 1: // yes
-					whatToEdit(IDToEdit);
+					whatToEdit(uc, id);
 					break;
 				case 2: // no
 					System.out.println("Returning you to the admin menu.");
@@ -170,13 +170,14 @@ public class AdminMenu {
 			case 4: // password
 				System.out.println("What would you like to replace the password with?");
 				String password = br.readLine();
-				ReplaceClass.editPassword(IDToEdit, password);
-				System.out.println("Success, you have edited the customer's last name.");
+				
+				daoUser.updatePassword(uc, password);
+				System.out.println("Success, you have edited the customer's password.");
 				System.out.println("Would you like to edit something else? 1 for YES and 2 for NO");
 				input2 = Integer.parseInt(br.readLine());
 				switch(input2){
 				case 1: // yes
-					whatToEdit(IDToEdit);
+					whatToEdit(uc, id);
 					break;
 				case 2: // no
 					System.out.println("Returning you to the admin menu.");
@@ -210,41 +211,21 @@ public class AdminMenu {
 	public static void viewPending() {
 
 		try {
-			BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
-			BufferedReader br = new BufferedReader(new FileReader("customeraccounts.txt"));
-
-			String thisLine;
-
-			// this array stores all the
-			String[] lineArr = null;
-
-			// this array stores the id of all new/pending customer accounts
-			// to approve an account, the first char ('n') of the id string will
-			// be removed
-			List<String> pendingAcc = new ArrayList();
-
-			while ((thisLine = br.readLine()) != null) {
-				lineArr = thisLine.split(":");
-				if (lineArr[0].charAt(0) == 'n') { // if the id has an n as its
-													// first char
-					pendingAcc.add(thisLine); // we store it in the pending
-												// accounts array
-				}
-			}
-
+			ArrayList<AccountClass> pendingAcc = new ArrayList<AccountClass>();
+			pendingAcc = daoAccount.getAccountsByStatus(1);
+			
 			if (pendingAcc.size() != 0) {
 				System.out.println("There are the current accounts pending for approval.");
-				System.out.println(pendingAcc);
+				pendingAcc.forEach(System.out::println);
 				System.out.println("Would you like to approve the new accounts? Press 1 for YES and 2 for NO");
-				int yesOrNo = Integer.parseInt(b.readLine());
+				int yesOrNo = Integer.parseInt(br.readLine());
 
-				// dflsdfs
 				switch (yesOrNo) {
 
 				case 1: // yes we will approve
 					approve();
 					break;
-				case 2: // no and it will exit to employee menu
+				case 2: // no and it will exit to admin menu
 					MenuClass.showAdminMenu();
 					AdminMenu.functionality();
 					break;
@@ -261,39 +242,28 @@ public class AdminMenu {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NumberFormatException e2) {
+		}catch (NumberFormatException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 
 	}
-	
 
-	// view all accounts including pending accounts
+	// method to view all accounts, pending or not
 	public static void viewAll() {
 
 		try {
-			BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
-			BufferedReader br = new BufferedReader(new FileReader("customeraccounts.txt"));
-
-			String thisLine;
-			String[] lineArr = null;
-
-			// this array stores all accounts
-			List<String> allAcc = new ArrayList();
-
-			while ((thisLine = br.readLine()) != null) {
-				allAcc.add(thisLine);
-			}
-
+			ArrayList<AccountClass> allAcc = new ArrayList<AccountClass>();
+			allAcc = daoAccount.getAllAccounts();
+			
 			System.out.println("These are all the customer accounts.");
-			System.out.println(allAcc);
-
+			allAcc.forEach(System.out::println);
+			
 			System.out.println("---------------------------");
 			System.out.println("Press 1 to return to the previous menu.");
-
-			int confirm = Integer.parseInt(b.readLine());
-
+			
+			int confirm = Integer.parseInt(br.readLine());
+			
 			switch (confirm) {
 			case 1: // yes
 				MenuClass.showAdminMenu();
@@ -307,33 +277,35 @@ public class AdminMenu {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NumberFormatException e2) {
+		}catch (NumberFormatException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 
 	}
-	
-	// approve pending accounts
 
+	//method to approve new accounts
 	public static void approve() {
 
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			BufferedReader data = new BufferedReader(new FileReader("customeraccounts.txt"));
-
+		try {			
+			// self-explanatory
 			System.out.println("---------------------------");
 			System.out.println("Please enter the id of the customer you want to approve: ");
 
 			// set the id (must include the n) to value
-			String ID = br.readLine();
+			int id = Integer.parseInt(br.readLine());
+			
+			ArrayList<AccountClass> pendingAcc = new ArrayList<AccountClass>();
+			
+			pendingAcc = daoAccount.getAccountsByUserID(id);
 
 			System.out.println("Approving now...");
-
-			// calls the edit id method to approve accounts
-			ReplaceClass.editID(ID);
-
-			System.out.println("Approval complete. Returning to the employee menu.");
+			
+			for (AccountClass a : pendingAcc){
+				daoAccount.updateStatus(a, 2, 1);
+			}
+			
+			System.out.println("Approval complete. Returning to the admin menu.");
 			MenuClass.showAdminMenu();
 			AdminMenu.functionality();
 
@@ -344,7 +316,6 @@ public class AdminMenu {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-
 	}
-
+	
 }
