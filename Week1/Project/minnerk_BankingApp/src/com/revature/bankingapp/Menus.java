@@ -169,7 +169,9 @@ public class Menus {
 */	
 	//Method that displays a menu for an Employee
 	public static void employeeMenu(){
-		System.out.println("Employee Menu\n\n1. Approve Accounts"
+		String again = null;
+		do{
+			System.out.println("\nAccess Granted\n\nEmployee Menu\n\n1. Approve Accounts"
 			+ "\n2. View All Customers\n3. View Customer Info\n\nSelect an option from the above Menu: ");
 		String selection = in.nextLine();
 		while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3")){
@@ -187,6 +189,11 @@ public class Menus {
 				Employee.accessCustomerInfo();
 				break;
 			}
+			System.out.println("\nWould you like to return to the Employee Menu?\n"
+					+ "'y' or 'n'");
+			again = in.nextLine();
+			again.toLowerCase();
+		} while (again.equals("y"));
 	}
 			
 /**
@@ -200,7 +207,7 @@ public class Menus {
 		String selection = null;
 
 		do {
-			System.out.print("\nAccount Menu\n1. Open an Account\n2. View Account Info "
+			System.out.print("\nAccess Granted\n\nAccount Menu\n1. Open an Account\n2. View Account Info "
 					+ "\n3. Make a Deposit\n4. Make a Withdraw\n5. Check Balance "
 					+ "\n6. Change Personal Info\n7. Exit Program\nSelect an option"
 					+ " from the above Menu: ");

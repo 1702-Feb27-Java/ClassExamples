@@ -22,15 +22,11 @@
 */
 package com.revature.bankingapp;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
@@ -57,21 +53,31 @@ public class Employee extends Person {
 
 	public static void approveAccounts() {
 		
-		System.out.println("\nAccount Approval: \nWhat type of accounts would you like to approve?\n1. Checking or 2. Savings ");
-		int type = Integer.parseInt(in.nextLine());
-	
 		Customer c = new Customer();
-	
+		
 		try (Connection connect = FactoryConnection.getConnection();){
 			connect.setAutoCommit(false);
-			String sql = "SELECT u.USERID, u.FIRSTNAME, u.LASTNAME, u.USERNAME, u.PW, u.ROLEID, a.STATUSID, a.TYPEID, a.BALANCE FROM USERS u INNER JOIN CUSTOMERACCOUNTS ca ON u.USERID=ca.USERID INNER JOIN ACCOUNTS a ON ca.ACCTID=a.ACCTID WHERE TYPEID=?";
+			String sql = "SELECT u.USERID, u.FIRSTNAME, u.LASTNAME, u.USERNAME, u.PW, u.ROLEID, a.STATUSID, a.TYPEID, a.BALANCE FROM USERS u INNER JOIN CUSTOMERACCOUNTS ca ON u.USERID=ca.USERID INNER JOIN ACCOUNTS a ON ca.ACCTID=a.ACCTID WHERE STATUSID=?";
 			PreparedStatement ps = connect.prepareStatement(sql);
-			ps.setInt(1, type);
+			ps.setInt(1, 1);
 			ResultSet rs = ps.executeQuery();
-			System.out.println("test2");
+
+			String sql1 = "Call update_status (?, ?)";
+			CallableStatement cs = connect.prepareCall(sql1);
 			while (rs.next()){
 				c = DAOImpl.formatSet(rs, c);
 				System.out.println(c.toString());
+				System.out.println("Would you like to approve this account?\n'y' or 'n': ");
+				String approve = in.nextLine();
+				if (approve.equals("y")){
+					cs.setInt(1, c.getUserID());
+					cs.setInt(2, 2);
+					cs.execute();				
+				} else {
+					cs.setInt(1, c.getUserID());
+					cs.setInt(2, 3);
+					cs.execute();				
+				}
 			}
 			connect.close();
 		} catch (SQLException e) {
@@ -159,11 +165,28 @@ public class Employee extends Person {
 *********************************************************************************************************
 */
 	public static void accessCustomerInfo() {
+		Scanner in = new Scanner(System.in);
+		System.out.println("\nEnter in the Customer's id number to edit there information: ");
+		int customerId = Integer.parseInt(in.nextLine());
 		
-		System.out.println("\nThis capability is currently under construction");
-	
+		Customer c = new Customer();
+		
+		try (Connection connect = FactoryConnection.getConnection();){
+			connect.setAutoCommit(false);
+			String sql = "SELECT u.USERID, u.FIRSTNAME, u.LASTNAME, u.USERNAME, u.PW, u.ROLEID, a.STATUSID, a.TYPEID, a.BALANCE FROM USERS u INNER JOIN CUSTOMERACCOUNTS ca ON u.USERID=ca.USERID INNER JOIN ACCOUNTS a ON ca.ACCTID=a.ACCTID WHERE u.USERID=?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, customerId);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()){
+				c = DAOImpl.formatSet(rs, c);
+			}
+			Menus.accountMenu(c);
+			in.close();
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
 	}
-	
 }
 
 /**
