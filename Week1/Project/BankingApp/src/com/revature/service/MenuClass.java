@@ -50,10 +50,11 @@ public class MenuClass {
 		System.out.println("--------------------------------");
 		System.out.println("Welcome back, Revature customer!");
 		System.out.println("Menu options:");
-		System.out.println("1. Check balance");
-		System.out.println("2. Deposit");
-		System.out.println("3. Withdraw");
-		System.out.println("4. Back to main menu");
+		System.out.println("1. Open accounts");
+		System.out.println("2. Check balance");
+		System.out.println("3. Deposit");
+		System.out.println("4. Withdraw");
+		System.out.println("5. Back to main menu");
 	}
 
 	public static void showEmployeeMenu() {

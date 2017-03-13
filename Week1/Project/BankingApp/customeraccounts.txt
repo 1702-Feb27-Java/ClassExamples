@@ -1,3 +1,0 @@
-a2c05a42:barry:allen:barrya:run:c0.0:s0.0
-ea42a300:notclark:notkent:notsuperman:metropolis2:c100.0:s-50.0
-n3fe2a54c:Diana:Prince:wonderwoman:1234:c0.0:s0.0

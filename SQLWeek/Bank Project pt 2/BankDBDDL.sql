@@ -64,6 +64,41 @@ CREATE TABLE CustomerAccounts(
  CONSTRAINT PK_CUSTOMERACCOUNTS PRIMARY KEY(customer_id, acct_id)
 );
 
+CREATE TABLE LogsUsers (
+  log_id NUMBER,
+  log_time TIMESTAMP,
+  log_operation VARCHAR2(60),
+  log_user_id NUMBER,
+  
+  -- for logging changes in the Users table
+  oldFirstName VARCHAR2(25),
+  newFirstName VARCHAR2(25),
+  oldLastName VARCHAR2(25),
+  newLastName VARCHAR2(25),
+  oldUname VARCHAR2(25),
+  newUname VARCHAR2(25),
+  oldPW VARCHAR2(25),
+  newPW VARCHAR2(25),
+  
+  CONSTRAINT PK_LOGSUSERS PRIMARY KEY(log_id)
+);
+
+CREATE TABLE LogsAccounts (
+  log_id NUMBER,
+  log_time TIMESTAMP,
+  log_operation VARCHAR2(60),
+  log_account_id NUMBER,
+  
+  -- for logging changes in the Accounts table
+  oldBalance NUMBER(12,2),
+  newBalance NUMBER(12,2),
+  oldStatus NUMBER,
+  newStatus NUMBER,
+  oldResolver NUMBER,
+  newResolver NUMBER,
+  
+  CONSTRAINT PK_LOGSACCOUNTS PRIMARY KEY(log_id)
+);
 
 /******************************************************************************
 CREATE FOREIGN KEY CONSTRAINTS

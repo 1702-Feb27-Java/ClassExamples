@@ -16,6 +16,7 @@ import com.revature.pojo.UserClass;
 public class CustomerMenu {
 
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static UserClass createdUser = new UserClass();
 	static DAOUserImp daoUser = new DAOUserImp();
 	static DAOAccountImp daoAccount = new DAOAccountImp();
 
@@ -28,23 +29,27 @@ public class CustomerMenu {
 
 			// depending on user choice, implement stuff
 			switch (cMenuInput) {
-			case 1:
+			case 1: // open accounts
+				createdUser = daoUser.getUserByUsername(username);
+				makeChSav();
+				break;
+			case 2:
 				// check balance
 				checkBalance(username);
 				MenuClass.showCustomerMenu();
 				CustomerMenu.functionality(username);
 				break;
-			case 2: // deposit
+			case 3: // deposit
 				deposit(username);
 				MenuClass.showCustomerMenu();
 				CustomerMenu.functionality(username);
 				break;
-			case 3: // withdraw
+			case 4: // withdraw
 				withdraw(username);
 				MenuClass.showCustomerMenu();
 				CustomerMenu.functionality(username);
 				break;
-			case 4:
+			case 5:
 				MenuClass.showMainMenu();
 				MainMenu.functionality();
 				break;
@@ -202,6 +207,74 @@ public class CustomerMenu {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	
+	public static void makeChSav() {
+		int input;
+
+		try {
+
+			System.out.println("What account would you like to make today?");
+			System.out.println("1. Checking");
+			System.out.println("2. Savings");
+			input = Integer.parseInt(br.readLine());
+
+			switch (input) {
+			case 1: // checking
+				input = 0;
+				daoAccount.addAccount(1, createdUser);
+				System.out.println("---------------------------");
+				System.out.println("Checking account created. It is currently pending approval.");
+				System.out.println("Would you like to make another account?");
+				System.out.println("1. Yes");
+				System.out.println("2. No");
+				input = Integer.parseInt(br.readLine());
+				
+				switch(input){
+				case 1: // yes
+					makeChSav();
+					break;
+				case 2: // no
+					System.out.println("Returning you to the main menu now...");
+					MenuClass.showMainMenu();
+					break;
+				default:
+					System.out.println("You cannot make that selection. Try again.");
+					break;
+				}
+				
+				break;
+			case 2: // savings
+				daoAccount.addAccount(2, createdUser);
+				System.out.println("---------------------------");
+				System.out.println("Savings account created. It is currently pending approval.");
+				System.out.println("Would you like to make another account?");
+				System.out.println("1. Yes");
+				System.out.println("2. No");
+				input = Integer.parseInt(br.readLine());
+				
+				switch(input){
+				case 1: // yes
+					makeChSav();
+					break;
+				case 2: // no
+					System.out.println("Returning you to the main menu now...");
+					MenuClass.showMainMenu();
+					break;
+				default:
+					System.out.println("You cannot make that selection. Try again.");
+					break;
+				}
+				break;
+			default:
+				System.out.println("You cannot make that selection. Try again.");
+				break;
+			}
+
+		} catch (IOException e) {
+			e.getStackTrace();
 		}
 	}
 
