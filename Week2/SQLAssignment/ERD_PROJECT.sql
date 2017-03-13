@@ -109,3 +109,13 @@ INSERT INTO status (status_id, status) VALUES (1, 'Pending');
 INSERT INTO status (status_id, status) VALUES (2, 'Declined');
 INSERT INTO status (status_id, status) VALUES (3, 'Approved');
 
+--Creating log table for transactions 
+-- will include timestamps of logs
+create table log_table
+(
+  user_id NUMBER,
+  when_date TIMESTAMP,
+  FOREIGN KEY(user_id)
+
+);
+
