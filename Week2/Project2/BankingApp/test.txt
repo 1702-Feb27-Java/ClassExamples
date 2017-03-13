@@ -1,0 +1,51 @@
+register
+Zack
+900
+Zack Stefan
+deposit checking
+apply checking
+apply savings
+logout
+login
+Bo$$
+123
+add
+Employee
+pass
+Employee 1
+logout
+login
+Employee
+pass
+view all
+view waiting
+approve
+Zack
+checking
+approve
+Zack
+savings
+logout
+login
+Zack
+900
+deposit checking
+900
+deposit checking
+i
+deposit savings
+8
+withdraw savings
+i
+withdraw savings
+9
+withdraw savings
+1
+withdraw checking
+10000
+withdraw checking
+800
+withdraw checking
+o
+logout
+exit
