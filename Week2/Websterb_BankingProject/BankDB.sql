@@ -232,14 +232,14 @@ from account, customeraccounts
 where account.account_id = customeraccounts.ACCOUNT_ID
 and customeraccounts.USER_ID = 2;
 /
-drop table customeraccounts;
+--drop table customeraccounts;
 /
-drop table account;
+--drop table account;
 /
-drop table users;
+--drop table users;
 /
-drop sequence account_seq;
+--drop sequence account_seq;
 /
-insert into Users(user_id, first_name, last_name, username, pass, role_id)
-values(1, 'admin', 'admin', 'admin', 'admin', 1);
+--insert into Users(user_id, first_name, last_name, username, pass, role_id)
+--values(1, 'admin', 'admin', 'admin', 'admin', 1);
 /
