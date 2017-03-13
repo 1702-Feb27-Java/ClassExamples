@@ -436,7 +436,7 @@ public class CommandParser {
 										" saving amount: $" + curr.getSavings());
 								}
 								else{
-									System.out.println("here is the User:\n" + curr.getUserName() +" " + curr.getPassword() );
+									System.out.println("here is the User:\n" + curr.getUserName() +" " + curr.getPassword() + " " + curr.getName() );
 								}
 								//input field to edit
 								System.out.println("enter field to edit: choose- checking, savings, userName, or password:");

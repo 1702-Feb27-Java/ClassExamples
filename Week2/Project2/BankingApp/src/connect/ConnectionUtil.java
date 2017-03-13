@@ -17,6 +17,11 @@ public class ConnectionUtil {
 	
 	////
 
+	/**
+	 * util method to connect to the database
+	 * @return the connection
+	 * @throws SQLException if connect fails
+	 */
 	public static Connection getConnection() throws SQLException{
 		///new
 		prop = new Properties();			

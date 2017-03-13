@@ -23,17 +23,17 @@ public class DatabaseConnect {
 	public ArrayList<BankMember> getAllBankMembers() {
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
-			//System.out.println("into the try");
+			//set statment
 			String sql = "SELECT * FROM USERS";
 			
 			PreparedStatement ps = connect.prepareStatement(sql);			
 			
 			ResultSet rs = ps.executeQuery();
+			//array to hold the search result
 			ArrayList<BankMember> temp = new ArrayList<BankMember>();
-			//System.out.println("into the try");
+			//while it has more results
 			while(rs.next()){
-//				System.out.println("here IN RS");
-//				System.out.println(rs.getString("PASS"));
+//				// stores info in a bankmember
 				BankMember n = new BankMember(null, Type.CUSTOMER);
 				n.setPassword(rs.getString("PASS"));
 				n.setName(rs.getString("FULL_NAME"));
@@ -95,7 +95,7 @@ public class DatabaseConnect {
 	public boolean isUNameAvalible(String str){
 		ArrayList<BankMember> cards = new ArrayList<BankMember>();
 		cards = this.getAllBankMembers();
-		
+		//if a bankmember has the username as the one im searching for the name isn't avalible
 		for(BankMember c : cards){
 			if(str.equals(c.getUserName())){
 				return false;
@@ -105,9 +105,9 @@ public class DatabaseConnect {
 	}
 	
 	/**
-	 * attemts to get the bankmember based on their userName
-	 * @param userName
-	 * @return
+	 * Attempts to get the bankmember based on their userName
+	 * @param userName the username to get
+	 * @return the bankmember with a matching username
 	 */
 	public BankMember getBankMember(String userName) {
 		try(Connection connect = ConnectionUtil.getConnection();){
@@ -121,6 +121,8 @@ public class DatabaseConnect {
 			
 			ResultSet rs = ps.executeQuery();
 			BankMember temp = new BankMember("null", Type.CUSTOMER);
+			
+			//gets the info
 			while(rs.next()){
 				temp.setName(rs.getString("FULL_NAME"));
 				temp.setUserName(rs.getString("USERNAME"));
@@ -138,6 +140,7 @@ public class DatabaseConnect {
 			
 			connect.commit();
 			connect.setAutoCommit(true);
+			//if its a customer i need more info
 			if(temp.getType() == Type.CUSTOMER){
 				temp.setChecking(this.getBalance(userName, 1));
 				temp.setSavings(this.getBalance(userName, 2));
@@ -154,6 +157,12 @@ public class DatabaseConnect {
 	}
 	
 	
+	/**
+	 * Searches the data base and gets the matching account balance
+	 * @param userName the user name to look for
+	 * @param typeAcc the account type to get 1 for checking 2 for savings
+	 * @return the account balance
+	 */
 	public int getBalance(String userName, int typeAcc){
 		
 		
@@ -187,6 +196,12 @@ public class DatabaseConnect {
 	}
 	
 	
+	/**
+	 * gets the stasus of the account from the database
+	 * @param userName username to look for
+	 * @param x the account type to get 1 for checking 2 for savings
+	 * @return the account status
+	 */
 	public Status getAccountStatus(String userName, int x){
 
 		try(Connection connect = ConnectionUtil.getConnection();){
@@ -223,6 +238,12 @@ public class DatabaseConnect {
 		return null;
 	}
 	
+	/**
+	 * sets the account status
+	 * @param userName the username
+	 * @param newStatus the new status to change too
+	 * @param typeAcc the type of account to change 1 if checking 2 if savings
+	 */
 	public void setAccountStatus(String userName, int newStatus, int typeAcc){
 		
 			int temp = 0;
@@ -253,6 +274,12 @@ public class DatabaseConnect {
 		
 	}
 	
+	/**
+	 * Sets the account balance
+	 * @param userName username to look for
+	 * @param newBalance the new balance to change to 
+	 * @param typeAcc if if checking 2 if savings
+	 */
 	public void setAccountBalance(String userName, int newBalance, int typeAcc){
 		
 		int temp = 0;
@@ -283,13 +310,15 @@ public class DatabaseConnect {
 	
 }
 	
-	
+	/**
+	 * prints all customers in the database
+	 */
 	public void printCustomers(){
 		ArrayList<BankMember> bm = this.getAllBankMembers();
 		
-		for(BankMember b : bm){
+		for(BankMember b : bm){	//search all members
 			b = this.getBankMember(b.getUserName());
-			if(b.getType() == Type.CUSTOMER){
+			if(b.getType() == Type.CUSTOMER){	//if its a customer print
 				b = this.getBankMember(b.getUserName());
 				System.out.println("UserName: " + b.getUserName() + " password: " + b.getPassword()
 				+ " Name: " + b.getName() + " Checking Status: " + b.getCheckingStatus() 
@@ -301,18 +330,21 @@ public class DatabaseConnect {
 	}
 	
 	
+	/**
+	 * prints everyone in the database
+	 */
 	public void printAll(){
 		ArrayList<BankMember> bm = this.getAllBankMembers();
-		
+		// search all members
 		for(BankMember b : bm){
 			b = this.getBankMember(b.getUserName());
-			if(b.getType() == Type.CUSTOMER){
+			if(b.getType() == Type.CUSTOMER){	//if its a custmer print info
 				
 				System.out.println(b.getType() + " " + b.getUserName() + " " + b.getPassword()
 				+ " " + b.getName() + " " + b.getCheckingStatus() 
 				+ " "  + b.getChecking() + " " + b.getSavingStatus() + " " + b.getSavings());
 			}
-			else{
+			else{ // if its not then print need info
 				System.out.println(b.getType() + " " + b.getUserName() + " " + b.getPassword() + " " + b.getName());
 			}
 		}
@@ -320,6 +352,9 @@ public class DatabaseConnect {
 		
 	}
 	
+	/**
+	 * prints customers that have applied in the database
+	 */
 	public void printApplied(){
 		ArrayList<BankMember> bm = this.getAllBankMembers();
 		
@@ -375,7 +410,7 @@ public class DatabaseConnect {
 
 	/**
 	 * CALLABLE STATEMENT
-	 *updates the username of the given username
+	 *updates the password of the given username
 	 */	
 	public int updatePass(String uName, String newPass) {
 		
@@ -406,7 +441,7 @@ public class DatabaseConnect {
 	
 	/**
 	 * CALLABLE STATEMENT
-	 *updates the username of the given username
+	 *adds a log with a message and timestamp to the database
 	 */	
 	public int addLog(String message) {
 		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());

@@ -15,13 +15,13 @@ CREATE TABLE LOGS
     
 );
 
-
+--log sequence for primary key
 CREATE SEQUENCE log_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1;
   /
- -- before insert on table of users select user sequence 
+ -- before insert on table of logs select from log sequence
 CREATE OR REPLACE TRIGGER log_trigger --name
 BEFORE INSERT ON LOGS --on event
 FOR EACH ROW --how often
@@ -31,12 +31,14 @@ BEGIN
   FROM dual;
 END;
 
+-- adds to the loging table
 CREATE OR REPLACE PROCEDURE addLog(time_stam in varchar2, mess in varchar2)
 IS
 BEGIN
     INSERT INTO LOGS (time_stamp, message) VALUES (time_stam, mess);
 END;
 
+-- testing calls
 call addLog('3/13/2017', 'second Message');
 select * from Logs;
 commit;
@@ -52,12 +54,7 @@ TRUNCATE TABLE LOGS;
 
 /
 --
-DROP TABLE ACCOUNTS;
-DROP TABLE CUSTOMERACCOUNTS;
-DROP TABLE ROLE;
-DROP TABLE STATUS;
 
-DROP TABLE USERS;
 
 CREATE TABLE Users
 (
@@ -139,6 +136,7 @@ BEGIN
 END;
 /
 
+----inserts into user and if it is a customer will add accounts checking and savings
 CREATE OR REPLACE PROCEDURE insertUser(full_name in varchar2, use_name in varchar2, pass_word in varchar2, role_id in number)
 IS
   id_num number;
@@ -146,7 +144,7 @@ IS
 BEGIN
      INSERT INTO USERS (FULL_NAME,pass,username,role_id) VALUES (full_name, pass_word, use_name, role_id);
      
-     IF role_id  < 2 THEN
+     IF role_id  < 2 THEN -- if its a customer
       ---CREATE CHECKING ACC
         SELECT MAX(USER_ID) INTO id_num 
         FROM USERS;       
@@ -172,6 +170,7 @@ END;
 call insertUser('Test','test', 'pass', 1);
 select * from users;
 
+--method for adding a checking account
 CREATE OR REPLACE PROCEDURE addChecking(use_name in varchar)
 IS
   id_num number;
@@ -196,9 +195,8 @@ END;
 
 /
 select * from users;
-INSERT INTO USERS  (FIRST_NAME,LAST_NAME,pass,username,role_id) 
-Values ('Zack', 'Stefan', '123', 'Zack105', 1);
 
+-- look up tables set up
 INSERT INTO ROLE(role_id, role) VALUES (1,'Customer');
 INSERT INTO ROLE(role_id, role) VALUES (2,'Employee');
 INSERT INTO ROLE(role_id, role) VALUES (3,'Admin');
@@ -211,14 +209,12 @@ SELECT * FROM ROLE;
 INSERT INTO ACCOUNTTYPE(account_type_id, account_type) VALUES (1,'Checking');
 INSERT INTO ACCOUNTTYPE(account_type_id, account_type) VALUES (2,'Savings');
 
+-- inserting the admin into the table IMPORTANT TO MAKE IT ALL WORK
 INSERT INTO USERS (FULL_NAME,pass,username,role_id) VALUES ('The BOSS', '123', 'Bo$$', 3);
-INSERT INTO USERS (FULL_NAME,LAST_NAME,pass,username,role_id) VALUES ('Zack stefan', ' ', '123', 'next', 1);
-DELETE FROM USERS WHERE USERNAME = 'Bo7$$';
 
-SELECT * FROM USERS;
-commit;
-call addChecking('yes');
 
+
+-- testing
 SELECT count(*) FROM ACCOUNTS;
 SELECT count(*) FROM CUSTOMERACCOUNTS;
 DELETE FROM USERS WHERE USERNAME = 'usernamee';
@@ -232,6 +228,8 @@ INSERT INTO CUSTOMERACCOUNTS(CUST_ID, ACCT_ID) VALUES (8, 3);
 
 SELECT * FROM CUSTOMERACCOUNTS;
 DELETE FROM USERS WHERE username = 'usernamee';
+--- end testing
+
 
 SELECT * FROM USERS ;
 commit;
@@ -254,6 +252,7 @@ AND USERS.USER_ID = CUSTOMERACCOUNTS.CUST_ID
 AND ACCOUNTS.ACCOUNT_ID = CUSTOMERACCOUNTS.ACCT_ID 
 AND ACCOUNTS.ACCOUNT_TYPE_ID = 1;
 
+--procedure for updating the balance of either a checking or savings account
 CREATE OR REPLACE PROCEDURE updateBalance(typeAcc in number, userName in varchar2, new_num in number)
 IS
 BEGIN
@@ -269,7 +268,8 @@ END;
 
 ----------------------
 
-
+-- procedure for updating the status of an account 
+-- used for applying and approving accounts
 CREATE OR REPLACE PROCEDURE updateAccountStatus(u_name in varchar2, new_status in number, type_acc in number)
 IS
 BEGIN
@@ -290,7 +290,7 @@ SELECT * FROM USERS;
 SELECT STATUS_ID FROM ACCOUNTS, USERS, CUSTOMERACCOUNTS WHERE ACCOUNTS.ACCOUNT_ID = CUSTOMERACCOUNTS.ACCT_ID AND CUSTOMERACCOUNTS.CUST_ID = USERS.USER_ID AND USERNAME = 'test acc' AND ACCOUNTS.ACCOUNT_TYPE_ID = 2;
 
 
-
+--updates the username
 CREATE OR REPLACE PROCEDURE updateUName(old_uname in varchar2, new_uname in varchar2)
 IS
 BEGIN
@@ -299,7 +299,7 @@ BEGIN
     WHERE USERNAME = old_uname;
 END;
 
-
+-- updates the password
 CREATE OR REPLACE PROCEDURE updatePass(uname in varchar2, new_pass in varchar2)
 IS
 BEGIN
@@ -308,7 +308,7 @@ BEGIN
     WHERE USERNAME = uname;
 END;
 
-
+--testing
 SELECT * FROM USERS;
 CALL updateUName('employee', 'employee UPDATED');
 CALL updatePass('employee UPDATED', 'new pass');
@@ -328,12 +328,12 @@ call updateBalance(1, 'test acc', 100);
 
 commit;
 
-
-SELECT BALANCE FROM ACCOUNTS, CUSTOMERACCOUNTS, USERS 
-  WHERE USERS.USERNAME = 'test acc' 
-  AND USERS.USER_ID = CUSTOMERACCOUNTS.CUST_ID 
-  AND ACCOUNTS.ACCOUNT_ID = CUSTOMERACCOUNTS.ACCT_ID 
-  AND ACCOUNTS.ACCOUNT_TYPE_ID = 2;
+--testing geting the balance
+--SELECT BALANCE FROM ACCOUNTS, CUSTOMERACCOUNTS, USERS 
+  --WHERE USERS.USERNAME = 'test acc' 
+ --AND USERS.USER_ID = CUSTOMERACCOUNTS.CUST_ID 
+ -- AND ACCOUNTS.ACCOUNT_ID = CUSTOMERACCOUNTS.ACCT_ID 
+ -- AND ACCOUNTS.ACCOUNT_TYPE_ID = 2;
 
 
 DELETE FROM ACCOUNTS WHERE ACCOUNT_ID = 3;
@@ -344,6 +344,7 @@ SELECT * FROM ACCOUNTS;
 SELECT * FROM CUSTOMERACCOUNTS;
 
 
+--- clean up
 commit;
 DELETE  FROM ACCOUNTS WHERE ACCOUNT_ID > 0;
 DELETE FROM USERS WHERE USER_ID > 2;
