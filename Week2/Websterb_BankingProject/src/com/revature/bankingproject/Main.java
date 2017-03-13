@@ -27,15 +27,6 @@ public class Main {
 		
 		BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
 		mainMenuOption(br);
-		DAOEmployeeImpl daoEmp = new DAOEmployeeImpl();
-/*		int accountId = 2;
-		String fn = "employee2";
-		String ln = "lastname2";
-		String un = "empBen2";
-		String pw = "pass";
-		System.out.println(serveEmp.getUnapprovedAccounts());*/
-		//System.out.println(accountId);
-		//serve.getAccounts(accountId);
 	}
 	
 	/**
