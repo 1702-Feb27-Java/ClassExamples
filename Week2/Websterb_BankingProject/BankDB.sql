@@ -243,3 +243,101 @@ and customeraccounts.USER_ID = 2;
 --insert into Users(user_id, first_name, last_name, username, pass, role_id)
 --values(1, 'admin', 'admin', 'admin', 'admin', 1);
 /
+drop table logsusers;
+/
+CREATE TABLE LogsUsers (
+  log_id NUMBER,
+  log_time TIMESTAMP,
+  log_operation VARCHAR2(60),
+  
+  -- for logging changes in the Users table
+  oldFirst_Name VARCHAR2(25),
+  newFirst_Name VARCHAR2(25),
+  oldLast_Name VARCHAR2(25),
+  newLast_Name VARCHAR2(25),
+  oldUsername VARCHAR2(25),
+  newUsername VARCHAR2(25),
+  oldpass VARCHAR2(25),
+  newpass VARCHAR2(25),
+  
+  CONSTRAINT PK_LOGSUSERS PRIMARY KEY(log_id)
+);
+/
+CREATE TABLE LogsAccount (
+  log_id NUMBER,
+  log_time TIMESTAMP,
+  log_operation VARCHAR2(60),
+  
+  -- for logging changes in the Users table
+  oldaccount_id number(10),
+  newaccount_id number(10),
+  oldtype_id number(10),
+  newtype_id number(10),
+  oldbalance number(10, 2),
+  newbalance number(10, 2),
+  oldstatus_id number(10),
+  newstatus_id number(10),
+  
+  CONSTRAINT PK_LOGSACCOUNT PRIMARY KEY(log_id)
+);
+/
+CREATE SEQUENCE user_log_seq
+  MINVALUE 1 
+  START WITH 1
+  INCREMENT BY 1;
+/
+CREATE SEQUENCE account_log_seq
+  MINVALUE 1 
+  START WITH 1
+  INCREMENT BY 1;
+/
+CREATE OR REPLACE TRIGGER user_log_trigger --name of the sequence
+  BEFORE INSERT ON  LogsUsers -- upon what event
+    FOR EACH ROW --how often 
+    BEGIN -- start what actually happens
+      SELECT user_log_seq.NEXTVAL
+      INTO :new.log_id
+      FROM dual;
+    END;
+/
+CREATE OR REPLACE TRIGGER account_log_trigger --name of the sequence
+  BEFORE INSERT ON  LogsAccount -- upon what event
+    FOR EACH ROW --how often 
+    BEGIN -- start what actually happens
+      SELECT account_log_seq.NEXTVAL
+      INTO :new.log_id
+      FROM dual;
+    END;
+/
+ CREATE OR REPLACE TRIGGER myUserTableAuditTrigger
+    AFTER INSERT OR DELETE OR UPDATE ON Users
+    FOR EACH ROW
+    BEGIN
+      IF INSERTING THEN
+      INSERT INTO LogsUsers (log_time, log_operation, newFirst_Name, newLast_Name, newUsername, newPass) 
+      VALUES (CURRENT_TIMESTAMP, 'Insert', :NEW.first_name, :NEW.last_name, :NEW.Username, :NEW.Pass);
+     ELSIF DELETING THEN
+        INSERT INTO LogsUsers (log_time, log_operation, newFirst_Name, newLast_Name, newUsername, newPass) 
+      VALUES (CURRENT_TIMESTAMP, 'Delete', :NEW.first_name, :NEW.last_name, :NEW.Username, :NEW.Pass);
+     ELSIF UPDATING THEN
+       INSERT INTO LogsUsers (log_time, log_operation, newFirst_Name, newLast_Name, newUsername, newPass) 
+      VALUES (CURRENT_TIMESTAMP, 'Update', :NEW.first_name, :NEW.last_name, :NEW.Username, :NEW.Pass);
+     END IF;
+   END;
+/
+ CREATE OR REPLACE TRIGGER myAccountTableAuditTrigger
+    AFTER INSERT OR DELETE OR UPDATE ON Account
+    FOR EACH ROW
+    BEGIN
+      IF INSERTING THEN
+      INSERT INTO LogsAccount (log_time, log_operation, newaccount_id, newtype_id, newbalance, newstatus_id) 
+      VALUES (CURRENT_TIMESTAMP, 'Insert', :NEW.account_id, :NEW.type_id, :NEW.balance, :NEW.status_id);
+     ELSIF DELETING THEN
+      INSERT INTO LogsAccount (log_time, log_operation, newaccount_id, newtype_id, newbalance, newstatus_id) 
+      VALUES (CURRENT_TIMESTAMP, 'Delete', :NEW.account_id, :NEW.type_id, :NEW.balance, :NEW.status_id);
+     ELSIF UPDATING THEN
+      INSERT INTO LogsAccount (log_time, log_operation, newaccount_id, newtype_id, newbalance, newstatus_id) 
+      VALUES (CURRENT_TIMESTAMP, 'Update', :NEW.account_id, :NEW.type_id, :NEW.balance, :NEW.status_id);
+     END IF;
+   END;
+/
