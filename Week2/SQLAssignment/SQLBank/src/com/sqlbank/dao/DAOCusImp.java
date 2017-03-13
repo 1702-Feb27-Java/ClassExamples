@@ -53,4 +53,29 @@ public class DAOCusImp implements DAOCus
 		return null;
 	}
 
+	@Override
+	public boolean updateAccount(Account a)
+	{
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			
+			//GETS COUNT OF USERS WITH SUCH NAME AND PASSWORD
+			String sql_count = "UPDATE ACCOUNTS SET BALANCE = ? WHERE ACCOUNT_ID= ?";
+			PreparedStatement ps = connect.prepareStatement(sql_count);
+			ps.setDouble(1, a.getAmount());
+			ps.setInt(2, a.getId());
+			int rs = ps.executeUpdate();
+			if (rs > 0)
+			{
+				return true;
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

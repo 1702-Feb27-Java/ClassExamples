@@ -15,4 +15,5 @@ public interface Service
 	Employee getEmployee (String uname);
 	Customer getCustomer (String uname);
 	boolean updateUsername (String old, String newOne);
+	boolean updatePassword (String old, String newOne);
 }

@@ -32,5 +32,16 @@ public class ServiceCusImp extends ServiceImplementation implements ServiceCus
 			}
 		}
 	}
+	@Override
+	public ArrayList<Account> accounts(Customer c)
+	{
+		return cusDao.viewCustomer(c);
+	}
+	@Override
+	public boolean updateBalance(Account a)
+	{
+		return cusDao.updateAccount(a);
+		
+	}
 
 }

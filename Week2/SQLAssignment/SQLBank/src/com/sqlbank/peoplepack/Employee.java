@@ -9,15 +9,15 @@ public class Employee extends People implements EmployeeServices
 		super(fname, lname, username, password, role);
 		// TODO Auto-generated constructor stub
 	}
-	public static void getMenu(Employee emp)
+	public void getMenu()
     {
-    	System.out.println("=========== WELCOME " + emp.getUsername()+ " ==========");
+    	System.out.println("=========== WELCOME " + this.getUsername()+ " ==========");
     	System.out.println("[1] VIEW ACCOUNTS");
     	System.out.println("[2] APPROVE ACCOUNTS");
     	System.out.println("[0] EXIT ");
     	System.out.println("Choose you option: ");
     }
-    public static void getOption(Customer c, String type)
+    public void getOption(Customer c, String type)
     {
     	System.out.println("----------- Account Approval ------------------");
     	System.out.println("[1] Approve "+ c.getUsername() + "'s " + type + " account[s]" );

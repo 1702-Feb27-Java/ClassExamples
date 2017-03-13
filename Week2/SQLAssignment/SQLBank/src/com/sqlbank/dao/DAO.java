@@ -59,6 +59,7 @@ public interface DAO
 	
 	//UPDATE USER
 	public boolean updateUsername (String old, String newOne);
+	public boolean updatePassword (String old, String newOne);
 	//UPDATE ACCOUNT 
 	//approve
 	

@@ -50,4 +50,8 @@ public class ServiceImplementation implements Service
 	{
 		return dao.updateUsername(old, newOne);
 	}
+	public boolean updatePassword(String old, String newOne)
+	{
+		return dao.updatePassword(old, newOne);
+	}
 }

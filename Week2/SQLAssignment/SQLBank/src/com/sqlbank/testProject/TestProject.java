@@ -1,12 +1,11 @@
 package com.sqlbank.testProject;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
+import com.sqlbank.bankaccount.Account;
 import com.sqlbank.peoplepack.Admin;
 import com.sqlbank.peoplepack.Customer;
 import com.sqlbank.peoplepack.Employee;
@@ -249,6 +248,74 @@ public class TestProject
 								else
 									System.out.println("USER NAME ALREADY IN USE PLEASE TRY AGAIN");
 							}
+							else if(opt2 == 2)
+							{
+								String newPass="";
+								System.out.println("ENTER NEW PASSWORD");
+								newPass=sc.next();
+								if (serve.updatePassword(check, newPass))
+										System.out.println("SUCCESS");
+								else
+									System.out.println("USER NAME ALREADY IN USE PLEASE TRY AGAIN");
+							}
+						}
+						else if (opt2 == 3)
+						{
+							Customer c = aServe.getCustomer(check);
+							c.accounts = new ArrayList<Account>(aServe.accounts(c));
+							System.out.println("==========================");
+							List<Integer> ids = new ArrayList<Integer> ();
+							for (Account x: c.accounts)
+							{
+								System.out.println(x.getId() +":$" + x.getAmount());
+								ids.add(x.getId());
+							}
+							System.out.println("==========================");
+							int opt3 =0;
+							System.out.println("Choose an account by id: ");
+							try
+							{
+								opt3 = sc.nextInt();
+							}
+							catch (InputMismatchException e)
+							{
+							sc.next();
+							System.out.println("\nEnter a valid account number");
+							}
+							double newBalance =0;
+							if(ids.contains(opt3))
+							{
+								System.out.println("ENTER NEW AMOUNT");
+								
+								try
+								{
+									newBalance = sc.nextDouble();
+								}
+								catch(InputMismatchException e)
+								{
+									sc.next();
+									System.out.println("Please enter a valid amount");
+								}
+								for ( int i =0; i < c.accounts.size(); i++)
+								{
+									if (c.accounts.get(i).getId() == opt3)
+									{
+										c.accounts.get(i).setAmount(newBalance);
+										if(aServe.updateBalance(c.accounts.get(i)))
+										{
+											System.out.println("SUCCESS");
+										}
+										else
+										{
+											System.out.println("ERROR");
+										}
+										break;
+									}
+								}
+							}
+							else
+								System.out.println("ENTER A VALID ACCOUNT ID");
+
 						}
 						break;
 					case 0:
@@ -269,6 +336,22 @@ public class TestProject
 	//================================================ EMPLOYEE STUFF ==========================================================================
 	public static boolean doEmployeeStuff(Employee em)
 	{
+		boolean heExit = false;
+		int opt = -1;
+		do
+		{
+			em.getMenu();
+			try
+			{
+				opt = sc.nextInt();
+			}
+			catch(InputMismatchException e)
+			{
+				
+			}
+			
+			
+		}while (opt < 0);
 		
 		return false;
 	}
