@@ -54,7 +54,7 @@ public class CommandParser {
 		while(continueRunning){ //run
 			if (currentAcc == null){ //we need to log in
 				System.out.println("*********************************************\n"
-									+ "Welcome to the Reva-Banking App\n*********************************************"
+									+ "Welcome to the Reva-Banking App Version 2.0\n*********************************************"
 						+ "\nType login register or exit");
 //				System.out.println("Welcome to the Revature Banking app!\nNew users type register to set up Username/Password. "
 //						+ "Returning users type login to continue to sign in screen, type exit to end session");
@@ -86,7 +86,8 @@ public class CommandParser {
 					db.addMember(newMember);
 					dc.addUser(newMember.getName(), newMember.getUserName(), newMember.getPassword(), Type.CUSTOMER);
 					currentAcc = newMember;
-					l.trace("registered " + newMember.getUserName());
+					dc.addLog("registered " + newMember.getUserName());
+					//l.trace("registered " + newMember.getUserName());
 					
 					break;	
 				case "login": //user is logging in
@@ -164,7 +165,8 @@ public class CommandParser {
 				
 				//set current user to null so a new user can log in
 				if(str.equals("logout")){
-					l.trace("logout by- " + currentAcc.getUserName());
+					dc.addLog("logout by- " + currentAcc.getUserName());
+					//l.trace("logout by- " + currentAcc.getUserName());
 					System.out.println("Have a nice day!");
 					currentAcc = null;
 				}
@@ -175,7 +177,8 @@ public class CommandParser {
 							if(currentAcc.getCheckingStatus() != Status.ACTIVE){ // don't apply if they already have one 
 								dc.setAccountStatus(currentAcc.getUserName(), 2, 1);
 								currentAcc.setCheckingStatus(Status.APPLIED);
-								l.trace("user " + currentAcc.getUserName() + " applied for a checking account");
+								dc.addLog("user " + currentAcc.getUserName() + " applied for a checking account");
+								//l.trace("user " + currentAcc.getUserName() + " applied for a checking account");
 								System.out.println("thank you for applying for a checking account");
 							}				
 							
@@ -184,7 +187,8 @@ public class CommandParser {
 							if (currentAcc.getSavingStatus() != Status.ACTIVE){ //don't apply if they have one
 								currentAcc.setSavingStatus(Status.APPLIED);
 								dc.setAccountStatus(currentAcc.getUserName(), 2, 2);
-								l.trace("user " + currentAcc.getUserName() + " applied for a saving account");
+								dc.addLog("user " + currentAcc.getUserName() + " applied for a saving account");
+								//l.trace("user " + currentAcc.getUserName() + " applied for a saving account");
 								System.out.println("Thank you for applying for a savings account");
 							}
 							
@@ -192,13 +196,15 @@ public class CommandParser {
 						else if (str.equals("help")){ //prints out customer commands
 							System.out.println("Commands for Customers: apply checking, apply savings,"
 									+ " deposit savings, deposit checking, withdraw savings, withdraw checking");
-							l.trace("user " + currentAcc.getUserName() + " displayed help");
+							dc.addLog("user " + currentAcc.getUserName() + " displayed help");
+							//l.trace("user " + currentAcc.getUserName() + " displayed help");
 						}
 						else if (str.equals("deposit checking")){ //they want to deposit 
 							
 							if(currentAcc.getCheckingStatus() != Status.ACTIVE){ //if they don't have an account don't let them
 								System.out.println("ERROR CHECKING ACCOUNT NOT APPROVED");
-								l.trace("INVALID ACCESS TO UNAPPROVED CHECKING ACCOUNT by " + currentAcc.getUserName());
+								dc.addLog("INVALID ACCESS TO UNAPPROVED CHECKING ACCOUNT by " + currentAcc.getUserName());
+								//l.trace("INVALID ACCESS TO UNAPPROVED CHECKING ACCOUNT by " + currentAcc.getUserName());
 								break;
 							}
 							System.out.println("Enter amount to deposit");
@@ -216,13 +222,15 @@ public class CommandParser {
 							//update the account total
 							currentAcc.setChecking(currentAcc.getChecking() + in.intValue());
 							dc.setAccountBalance(currentAcc.getUserName(), currentAcc.getChecking(), 1);
-							l.trace("user " + currentAcc.getUserName() + " added $" + in.intValue() + " to checking account");
+							dc.addLog("user " + currentAcc.getUserName() + " added $" + in.intValue() + " to checking account");
+							//l.trace("user " + currentAcc.getUserName() + " added $" + in.intValue() + " to checking account");
 							System.out.println("Current Checking amount $" + currentAcc.getChecking());
 						}
 						else if (str.equals("deposit savings")){ //they want to deposit to savings
 							if(currentAcc.getSavingStatus() != Status.ACTIVE){ //if they don't have an account dont let them
 								System.out.println("ERROR SAVINGS ACCOUNT NOT APPROVED");
-								l.trace("INVALID ACCESS TO UNAPPROVED SAVINGS ACCOUNT by " + currentAcc.getUserName());
+								dc.addLog("INVALID ACCESS TO UNAPPROVED SAVINGS ACCOUNT by " + currentAcc.getUserName());
+								//l.trace("INVALID ACCESS TO UNAPPROVED SAVINGS ACCOUNT by " + currentAcc.getUserName());
 								break;
 							}
 							System.out.println("Enter amount to deposit");
@@ -234,19 +242,22 @@ public class CommandParser {
 								in = new Integer(str);
 							}catch(NumberFormatException e){
 								System.out.println("ERROR INCORRECTLY FORMATED DEPOSIT:" + str);
-								l.trace("INCORRECLTY FORMATED DEPOSIT by " + currentAcc.getUserName() + " -" + str);
+								//l.trace("INCORRECLTY FORMATED DEPOSIT by " + currentAcc.getUserName() + " -" + str);
+								dc.addLog("INCORRECLTY FORMATED DEPOSIT by " + currentAcc.getUserName() + " -" + str);
 								break;
 							}
 							//update account
 							currentAcc.setSavings(currentAcc.getSavings() + in.intValue());
 							dc.setAccountBalance(currentAcc.getUserName(), currentAcc.getSavings(), 2);
 							System.out.println("Current Savings amount $" + currentAcc.getSavings());
-							l.trace("user " + currentAcc.getUserName() + " added $" + in.intValue() + " to savings account");
+							dc.addLog("user " + currentAcc.getUserName() + " added $" + in.intValue() + " to savings account");
+							//l.trace("user " + currentAcc.getUserName() + " added $" + in.intValue() + " to savings account");
 						}
 						else if (str.equals("withdraw savings")){ 
 							if(currentAcc.getSavingStatus() != Status.ACTIVE){ //if they don't have an account
 								System.out.println("ERROR SAVING ACCOUNT NOT APPROVED");
-								l.trace("INVALID ACCESS TO UNAPPROVED SAVINGS ACCOUNT by " + currentAcc.getUserName());
+								dc.addLog("INVALID ACCESS TO UNAPPROVED SAVINGS ACCOUNT by " + currentAcc.getUserName());
+								//l.trace("INVALID ACCESS TO UNAPPROVED SAVINGS ACCOUNT by " + currentAcc.getUserName());
 								break;
 							}
 							System.out.println("Enter amount to withdraw");
@@ -257,27 +268,31 @@ public class CommandParser {
 							try{
 								in = new Integer(str);
 							}catch(NumberFormatException e){
-								l.trace("INCORRECLTY FORMATED DEPOSIT by " + currentAcc.getUserName() + " -" + str);
+								//l.trace("INCORRECLTY FORMATED DEPOSIT by " + currentAcc.getUserName() + " -" + str);
+								dc.addLog("INCORRECLTY FORMATED DEPOSIT by " + currentAcc.getUserName() + " -" + str);
 								System.out.println("ERROR INCORRECTLY FORMATED WITHDRAW:" + str);
 								break;
 							}
 							
 							//make sure they don't withdraw more than they have
 							if(in > currentAcc.getSavings()){
-								l.trace("User " + currentAcc.getUserName() + " tried to withdraw too much from savings account");
+								dc.addLog("User " + currentAcc.getUserName() + " tried to withdraw too much from savings account");
+								//l.trace("User " + currentAcc.getUserName() + " tried to withdraw too much from savings account");
 								System.out.println("ERROR WITHDRAW AMMOUNT EXCEEDS CURRENT TOTAL");
 								break;
 							}
 							//update the account
 							currentAcc.setSavings(currentAcc.getSavings() - in.intValue());
 							dc.setAccountBalance(currentAcc.getUserName(), currentAcc.getSavings(), 2);
-							l.trace("user " + currentAcc.getUserName() + "withdrew $" + in.intValue() + " to savings account");
+							//l.trace("user " + currentAcc.getUserName() + "withdrew $" + in.intValue() + " to savings account");
+							dc.addLog("user " + currentAcc.getUserName() + "withdrew $" + in.intValue() + " to savings account");
 							System.out.println("Current Savings amount $" + currentAcc.getSavings());
 						}
 						else if(str.equals("withdraw checking")){ 
 							//currentAcc.setCheckingStatus(Status.ACTIVE);
 							if(currentAcc.getCheckingStatus() != Status.ACTIVE){ //if they don't have an account
-								l.trace("INVALID ACCESS TO UNAPPROVED CHECKING ACCOUNT by " + currentAcc.getUserName());
+								//l.trace("INVALID ACCESS TO UNAPPROVED CHECKING ACCOUNT by " + currentAcc.getUserName());
+								dc.addLog("INVALID ACCESS TO UNAPPROVED CHECKING ACCOUNT by " + currentAcc.getUserName());
 								System.out.println("ERROR CHECKING ACCOUNT NOT APPROVED");
 								break;
 							}
@@ -289,35 +304,41 @@ public class CommandParser {
 							try{
 								in = new Integer(str);
 							}catch(NumberFormatException e){
-								l.trace("INCORRECLTY FORMATED DEPOSIT by " + currentAcc.getUserName() + " -" + str);
+								//l.trace("INCORRECLTY FORMATED DEPOSIT by " + currentAcc.getUserName() + " -" + str);
+								dc.addLog("INCORRECLTY FORMATED DEPOSIT by " + currentAcc.getUserName() + " -" + str);
 								System.out.println("ERROR INCORRECTLY FORMATED WITHDRAW:" + str);
 								break;
 							}
 							//make sure they don't withdraw more than they have
 							if(in > currentAcc.getChecking()){
 								System.out.println("ERROR WITHDRAW AMMOUNT EXCEEDS CURRENT TOTAL");
-								l.trace("User " + currentAcc.getUserName() + " tried to withdraw too much from checking account");
+								dc.addLog("User " + currentAcc.getUserName() + " tried to withdraw too much from checking account");
+								//l.trace("User " + currentAcc.getUserName() + " tried to withdraw too much from checking account");
 								break;
 							}
 							//update the account
 							currentAcc.setChecking(currentAcc.getChecking() - in.intValue());
 							dc.setAccountBalance(currentAcc.getUserName(), currentAcc.getChecking(), 1);
 							System.out.println("Current Checking amount $" + currentAcc.getChecking());
-							l.trace("user " + currentAcc.getUserName() + "withdrew $" + in.intValue() + " from checking account");
+							dc.addLog("user " + currentAcc.getUserName() + "withdrew $" + in.intValue() + " from checking account");
+							//l.trace("user " + currentAcc.getUserName() + "withdrew $" + in.intValue() + " from checking account");
 						}
 						else{ //wrong command typed
-							l.trace("user- " + currentAcc.getUserName() + "entered invalid command");
+							//l.trace("user- " + currentAcc.getUserName() + "entered invalid command");
+							dc.addLog("user- " + currentAcc.getUserName() + "entered invalid command");
 							System.out.println("ERRROR INVAILD COMMAND: " + str);
 						}
 						
 						break;
 					case EMPLOYEE: //employee is logged in
 						if(str.equals("view all")){ //view all customer accounts
-							l.trace("Employee " + currentAcc.getUserName() + " viewed all customers");
+							//l.trace("Employee " + currentAcc.getUserName() + " viewed all customers");
+							dc.addLog("Employee " + currentAcc.getUserName() + " viewed all customers");
 							dc.printCustomers();
 						}
 						else if(str.equals("view waiting")){ //view all customer accounts with an application for an account
-							l.trace("Employee " + currentAcc.getUserName() + " viewed all customer applications");
+							dc.addLog("Employee " + currentAcc.getUserName() + " viewed all customer applications");
+							//l.trace("Employee " + currentAcc.getUserName() + " viewed all customer applications");
 							dc.printApplied();
 						}
 						else if (str.equals("approve")){ //lets the employee approve accounts
@@ -341,13 +362,15 @@ public class CommandParser {
 								curr.setSavingStatus(Status.ACTIVE);
 								dc.setAccountStatus(curr.getUserName(), 3, 2);
 								System.out.println("approved savings account");
-								l.trace("Employee " + currentAcc.getUserName() + " approved a customers savings account");
+								dc.addLog("Employee " + currentAcc.getUserName() + " approved a customers savings account");
+								//l.trace("Employee " + currentAcc.getUserName() + " approved a customers savings account");
 							} 
 							else if(str.equals("checking")) {
 								curr.setCheckingStatus(Status.ACTIVE);
 								dc.setAccountStatus(curr.getUserName(), 3, 1);
 								System.out.println("approved checking account");
-								l.trace("Employee " + currentAcc.getUserName() + " approved a customers checking account");
+								dc.addLog("Employee " + currentAcc.getUserName() + " approved a customers checking account");
+								//l.trace("Employee " + currentAcc.getUserName() + " approved a customers checking account");
 								}
 							else {
 								System.out.println("ERROR: " + str);
@@ -358,16 +381,19 @@ public class CommandParser {
 						}
 						else if(str.equals("help")){ //prints out valid commands
 							l.trace("Employee " + currentAcc.getUserName() + " viewed help");
+							dc.addLog("Employee " + currentAcc.getUserName() + " viewed help");
 							System.out.println("commands for employee's are view all, view waiting, approve");
 						}
 						else{ //prints error if a command is typed that isn't valid
-							l.trace("Employee " + currentAcc.getUserName() + " used an invalid command");
+							//l.trace("Employee " + currentAcc.getUserName() + " used an invalid command");
+							dc.addLog("Employee " + currentAcc.getUserName() + " used an invalid command");
 							System.out.println("ERRROR INVALID COMMAND " + str);
 						}
 						break;
 					case ADMIN: //if the user is the admin
 						if (str.equals("view all")){ //views every account
-							l.trace("Admin " + currentAcc.getUserName() + " viewed all accounts");
+							//l.trace("Admin " + currentAcc.getUserName() + " viewed all accounts");
+							dc.addLog("Admin " + currentAcc.getUserName() + " viewed all accounts");
 							dc.printAll();
 						}
 						else if(str.equals("add")){ //adds an employee to the database
@@ -392,7 +418,8 @@ public class CommandParser {
 							curr.setName(str);
 							db.addMember(curr);
 							dc.addUser(curr.getName(), curr.getUserName(), curr.getPassword(), Type.EMPLOYEE);
-							l.trace("Admin " + currentAcc.getUserName() + " added new Employee " + curr.getUserName());
+							dc.addLog("Admin " + currentAcc.getUserName() + " added new Employee " + curr.getUserName());
+							//l.trace("Admin " + currentAcc.getUserName() + " added new Employee " + curr.getUserName());
 							
 							
 						}
@@ -479,7 +506,8 @@ public class CommandParser {
 								else{
 									System.out.println("ERROR INVAILD COMMAND " + str);
 								}
-								l.trace("Admin " + currentAcc.getUserName() + " edited the account of " + curr.getUserName());
+								dc.addLog("Admin " + currentAcc.getUserName() + " edited the account of " + curr.getUserName());
+								//l.trace("Admin " + currentAcc.getUserName() + " edited the account of " + curr.getUserName());
 							}
 							else{
 								System.out.println("Error user name doesn't exist");
@@ -488,11 +516,13 @@ public class CommandParser {
 							
 						}
 						else if(str.equals("help")){
-							l.trace("Admin" + currentAcc.getUserName() + " viewed help");
+							//l.trace("Admin" + currentAcc.getUserName() + " viewed help");
+							dc.addLog("Admin" + currentAcc.getUserName() + " viewed help");
 							System.out.println("commands for admin: view all, add, edit");
 						}
 						else{
-							l.trace("Admin " + currentAcc.getUserName() + " used an invalid command");
+							dc.addLog("Admin " + currentAcc.getUserName() + " used an invalid command");
+							//l.trace("Admin " + currentAcc.getUserName() + " used an invalid command");
 							System.out.println("ERRROR INVALID COMMAND " + str);
 						}
 						break;
