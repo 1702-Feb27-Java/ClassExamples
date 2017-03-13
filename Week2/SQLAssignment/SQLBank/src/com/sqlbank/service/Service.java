@@ -3,6 +3,7 @@ package com.sqlbank.service;
 import com.sqlbank.peoplepack.Admin;
 import com.sqlbank.peoplepack.Customer;
 import com.sqlbank.peoplepack.Employee;
+import com.sqlbank.peoplepack.People;
 
 public interface Service
 {
@@ -13,4 +14,5 @@ public interface Service
 	Admin getAdmin (String uname);
 	Employee getEmployee (String uname);
 	Customer getCustomer (String uname);
+	boolean updateUsername (String old, String newOne);
 }

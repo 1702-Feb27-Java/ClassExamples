@@ -158,7 +158,7 @@ public class TestProject
 	//================================================ GET USERNAME TO VIEW ================================================================
 	public static String getName()
 	{
-		System.out.println("ENTER THE USERNAME YOU WANT TO VIEW: ");
+		System.out.println("ENTER THE USERNAME: ");
 		return sc.next();
 	}
 	
@@ -191,18 +191,65 @@ public class TestProject
 						}
 						break;
 					case 3: //CERTAIN ACCOUNT//
-						boolean worked = false;
+						int worked = 0;
 						String check = getName();
 						worked = aServe.viewAaccount(check);
-						if(!worked)
+						if(worked <1)
 						{
 							System.out.println("USER DOES NOT EXIST TRY AGAIN");
 						}
 						heExit = false;
 						
 						break;
-					case 4: //CERTAIN ACCOUNT//
+					case 4: //EDIT ACCOUNT//
 						heExit = false;
+						worked = 0;
+						check = getName();
+						worked = aServe.viewAaccount(check);
+						if(worked < 1)
+						{
+							System.out.println("USER DOES NOT EXIST TRY AGAIN");
+							break;
+						}
+						//GET WHAT THEY WANT TO CHANGE
+						int opt2=0;
+						switch (worked)
+						{
+							case 1:
+								ad.getEditMenu(serve.getAdmin(check));
+								break;
+							case 2:
+								ad.getEditMenu(serve.getEmployee(check));
+								break;
+							case 3:
+								ad.getEditMenu(serve.getCustomer(check));
+								break;
+						}
+						try
+						{
+							opt2 = sc.nextInt();
+						}
+						catch(InputMismatchException e)
+						{
+							sc.next();
+							System.out.println("\nEnter a valid number");
+						}
+						if (opt2 > 0 && opt2 < 3)
+						{
+							if(opt2 == 1)
+							{
+								String newName="";
+								System.out.println("ENTER NEW USERNAME");
+								newName=sc.next();
+								if(aServe.isUsernameValid(newName))
+								{
+									if (serve.updateUsername(check, newName))
+										System.out.println("SUCCESS");
+								}
+								else
+									System.out.println("USER NAME ALREADY IN USE PLEASE TRY AGAIN");
+							}
+						}
 						break;
 					case 0:
 						heExit = true;

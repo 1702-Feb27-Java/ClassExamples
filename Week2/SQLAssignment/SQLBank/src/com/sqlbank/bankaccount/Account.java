@@ -2,12 +2,21 @@ package com.sqlbank.bankaccount;
 
 public class Account
 {
+	private int id;
 	private double amount;
     private String type;
     private String status;
     private String resolver;
 
-    public final double getAmount()
+    public final int getId()
+	{
+		return id;
+	}
+	public final void setId(int id)
+	{
+		this.id = id;
+	}
+	public final double getAmount()
 	{
 		return amount;
 	}
@@ -62,5 +71,15 @@ public class Account
 		}
 		return false;	
 	}
+	public Account(int id, double amount, String type, String status, String resolver)
+	{
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.type = type;
+		this.status = status;
+		this.resolver = resolver;
+	}
+	
 }
 

@@ -285,4 +285,34 @@ public class DAOImplementation implements DAO
 		return res_count;
 	}
 
+	//======================================== UPDATE USERNAME SINCE EVERYONE CAN DO THAT ========================================================
+	/**
+	 * @param old := old username
+	 * @param newOne := new username
+	 * 
+	 */
+	@Override
+	public boolean updateUsername(String old, String newOne)
+	{
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			
+			//GETS COUNT OF USERS WITH SUCH NAME AND PASSWORD
+			String sql_count = "UPDATE USERS SET USERNAME = ? WHERE USERNAME= ?";
+			PreparedStatement ps = connect.prepareStatement(sql_count);
+			ps.setString(1, newOne);
+			ps.setString(2, old);
+			int rs = ps.executeUpdate();
+			if (rs > 0)
+			{
+				return true;
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

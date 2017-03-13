@@ -35,8 +35,16 @@ public class Admin extends People implements AdminServices
     	System.out.println("------------------ EDIT " + cus.getUsername() +"------------------");
     	System.out.println("[1] CHANGE USERNAME");
     	System.out.println("[2] CHANGE PASSWORD");
-    	System.out.println("[3] CHANGE CHECKING BALANCE");
-    	System.out.println("[4] CHANGE SAVINGS BALANCE");
+    	System.out.println("[3] CHANGE AN ACCOUNT BALANCE");
+    	System.out.println("[0] EXIT");
+    	System.out.print("Choose your option: ");
+    }
+    public void getEditMenu2(Customer cus)
+    {
+    	System.out.println("------------------ EDIT " + cus.getUsername() +" ACCOUNT------------------");
+    	System.out.println("[1] CHANGE USERNAME");
+    	System.out.println("[2] CHANGE PASSWORD");
+    	System.out.println("[3] CHANGE AN ACCOUNT BALANCE");
     	System.out.println("[0] EXIT");
     	System.out.print("Choose your option: ");
     }

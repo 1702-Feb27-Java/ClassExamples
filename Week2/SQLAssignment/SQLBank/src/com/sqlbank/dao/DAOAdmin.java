@@ -11,7 +11,7 @@ public interface DAOAdmin extends DAO
 {
 	
 	//VIEW ACCOUNTS OF OTHER TYPES OF PEOPLE
-	Customer viewAccount (Customer cus);
+	//Customer viewAccount (Customer cus);
 	//--VIEW ALL ACCOUNTS
 	ArrayList<People> viewAccounts();
 	

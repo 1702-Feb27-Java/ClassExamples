@@ -8,7 +8,7 @@ import com.sqlbank.peoplepack.Customer;
 import com.sqlbank.peoplepack.Employee;
 import com.sqlbank.peoplepack.People;
 
-public class ServiceAdminImp extends ServiceImplementation implements ServiceAdmin
+public class ServiceAdminImp extends ServiceCusImp implements ServiceAdmin
 {
 
 	static DAOAdminImp adDao = new DAOAdminImp();
@@ -18,7 +18,7 @@ public class ServiceAdminImp extends ServiceImplementation implements ServiceAdm
 		return adDao.viewAccounts();
 	}
 	@Override
-	public boolean viewAaccount(String username)
+	public int viewAaccount(String username)
 	{
 		int usertype = 0;
 		Employee e;
@@ -31,21 +31,24 @@ public class ServiceAdminImp extends ServiceImplementation implements ServiceAdm
 			{
 				ad = adDao.returnAd(username);
 				ad.viewMyAccount();
+				return 1;
 			}
 			else if (usertype == 2)
 			{
 				e = adDao.returnEm(username);
 				e.viewMyAccount();
+				return 2;
 			}
 			else if (usertype == 3)
 			{
 				cus = adDao.returnCus(username);
+				ServiceCusImp s = new ServiceCusImp();
+				s.viewAccount(cus);
+				return 3;
 			}
-			return true;
 		}
-		return false;
+		return 0;
 		// TODO Auto-generated method stub
 		
 	}
-
 }

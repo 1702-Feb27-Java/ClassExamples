@@ -7,7 +7,7 @@ import com.sqlbank.peoplepack.People;
 public interface ServiceAdmin extends Service
 {
 	ArrayList<People> viewAccounts ();
-	boolean viewAaccount(String username);
+	int viewAaccount(String username);
 	
 	
 }

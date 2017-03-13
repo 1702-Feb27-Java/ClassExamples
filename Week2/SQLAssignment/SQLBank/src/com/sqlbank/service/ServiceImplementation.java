@@ -4,6 +4,7 @@ import com.sqlbank.dao.DAOImplementation;
 import com.sqlbank.peoplepack.Admin;
 import com.sqlbank.peoplepack.Customer;
 import com.sqlbank.peoplepack.Employee;
+import com.sqlbank.peoplepack.People;
 
 public class ServiceImplementation implements Service
 {
@@ -44,5 +45,9 @@ public class ServiceImplementation implements Service
 	public boolean createNewCus(String name, String uname, String pword)
 	{
 		return dao.addUser(name, uname, pword);
+	}
+	public boolean updateUsername(String old, String newOne)
+	{
+		return dao.updateUsername(old, newOne);
 	}
 }

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.sqlbank.bankaccount.Account;
 import com.sqlbank.peoplepack.Admin;
 import com.sqlbank.peoplepack.Customer;
 import com.sqlbank.peoplepack.Employee;
@@ -15,12 +16,13 @@ import com.sqlbank.util.ConnectionUtil;
 
 public class DAOAdminImp extends DAOImplementation implements DAOAdmin
 {
-	@Override
-	public Customer viewAccount(Customer cus)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public Customer viewAccount(Customer cus)
+//	{
+//		
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public ArrayList<People> viewAccounts()

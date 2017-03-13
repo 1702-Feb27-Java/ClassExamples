@@ -58,7 +58,7 @@ public interface DAO
 	Customer returnCus (String uname);
 	
 	//UPDATE USER
-	
+	public boolean updateUsername (String old, String newOne);
 	//UPDATE ACCOUNT 
 	//approve
 	
