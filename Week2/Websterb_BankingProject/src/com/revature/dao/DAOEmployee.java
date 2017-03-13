@@ -58,6 +58,6 @@ public interface DAOEmployee {
 	 * @param pw
 	 * @return
 	 */
-	public boolean adminLogin(String un, String password);
+	public String adminLogin(String un, String password);
 	
 }

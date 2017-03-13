@@ -105,7 +105,12 @@ public class EmployeeService {
 	 * @return
 	 */
 	public boolean loginAdmin(String un, String pw){
-		boolean loginResult = daoEmp.adminLogin(un, pw);
-		return loginResult;
+		String password = daoEmp.adminLogin(un, pw);
+		if(pw.equals(password)){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }

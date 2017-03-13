@@ -244,34 +244,31 @@ public class DAOEmployeeImpl implements DAOEmployee{
 	 * @param pw
 	 * @return
 	 */
-	public boolean adminLogin(String un, String pw){
-		boolean confirmation = false;
+	public String adminLogin(String un, String pw){
+		String password = "";
 		
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
 			
-			String sql = "CALL LOGINADMIN(?, ?, ?)";
+			String sql = "CALL LOGINADMIN(?, ?)";
 			CallableStatement cs = connect.prepareCall(sql);
 			
-			cs.registerOutParameter(1, java.sql.Types.INTEGER);
-			cs.setString(2, un);
-			cs.setString(3, pw);
+			cs.setString(1, un);
+			cs.registerOutParameter(2, java.sql.Types.VARCHAR);
 		
 			cs.execute();
 			
-			int adminId = cs.getInt(1);
+			password = cs.getString(2);
+			System.out.println(password);
 			
 			connect.commit();	
-
-			if(adminId != 0){
-				confirmation = true;
-			}
+			
 			
 		}
 		catch(SQLException e){
 			e.printStackTrace(); 	
 		}
 		
-		return confirmation;
+		return password;
 	}
 }
