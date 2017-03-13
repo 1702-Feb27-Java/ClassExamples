@@ -127,10 +127,13 @@ public class Customer extends Person {
 *********************************************************************************************************
 */	
 	public static void addNewPerson(int i) {
+		
+		int checkingAccountNumber = 0;
+		int savingsAccountNumber = 0;
+		
 		try {
 			in = new Scanner(System.in); //Creating input stream
-			int checkingAccountNumber = 0;
-			int savingsAccountNumber = 0;
+			
 			//User prompts and getting values
 			if (i == 3){
 				System.out.println("What kind of account would you like to open?\n1. Checking or 2. Savings");

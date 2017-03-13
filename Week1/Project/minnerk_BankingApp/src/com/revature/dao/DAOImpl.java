@@ -105,7 +105,7 @@ public class DAOImpl {
 		return c;
 	}
 		
-	private static Customer formatSet(ResultSet rs, Customer c) {
+	public static Customer formatSet(ResultSet rs, Customer c) {
 		
 		try {
 			c.setUserID(rs.getInt(1));

@@ -73,6 +73,7 @@ INSERT INTO Type (TYPEID, TYPE) VALUES (0,'None');
 INSERT INTO Type (TYPEID, TYPE) VALUES (2,'Checking');
 INSERT INTO Type (TYPEID, TYPE) VALUES (3,'Savings');
 -------------------------------------------------------------------------------
+-- SEQUENCES AND TRIGGERS
 CREATE SEQUENCE user_seq
     MINVALUE 1
     START WITH 1
@@ -87,16 +88,16 @@ CREATE OR REPLACE TRIGGER user_trigger
         FROM dual;
     END;
 /
-CREATE SEQUENCE acctseq
+CREATE SEQUENCE acct_seq
     MINVALUE 1
     START WITH 1
     INCREMENT BY 1;
 /
-CREATE OR REPLACE TRIGGER accttrigger 
+CREATE OR REPLACE TRIGGER acct_trigger 
     BEFORE INSERT ON ACCOUNTS 
     FOR EACH ROW 
     BEGIN  
-        SELECT acctseq.NEXTVAL
+        SELECT acct_seq.NEXTVAL
         INTO :new.acctid
         FROM dual;
     END;
@@ -140,6 +141,28 @@ BEGIN
         WHERE u.USERID=uid AND a.TYPEID=atype);
         COMMIT;
     END;
+
+CREATE OR REPLACE PROCEDURE get_all_records(type IN NUMBER)
+IS
+    results VARCHAR2(100);
+BEGIN
+    SELECT u.USERID, u.FIRSTNAME, u.LASTNAME, u.USERNAME, u.PW, u.ROLEID, 
+    a.STATUSID, a.TYPEID, a.BALANCE FROM USERS u
+    INNER JOIN CUSTOMERACCOUNTS ac ON u.USERID=ac.USERID
+    INNER JOIN ACCOUNTS a ON ac.ACCTID=a.ACCTID 
+    WHERE a.TYPEID=type;
+END; 
+
+
+
+
+
+
+
+
+
+
+
 
 truncate table users;
 truncate table accounts;
