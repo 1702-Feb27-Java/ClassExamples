@@ -17,5 +17,5 @@ public interface DAOAccount {
 	// read
 	ArrayList<AccountClass> getAllAccounts();
 	ArrayList<AccountClass> getAccountsByUserID(int id);
-
+	AccountClass getAccountByID(int accountID);  // used for balance update
 }

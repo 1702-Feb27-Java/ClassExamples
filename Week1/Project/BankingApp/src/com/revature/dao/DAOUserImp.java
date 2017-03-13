@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
 
 import com.revature.connection.ConnectionClass;
 import com.revature.pojo.UserClass;
@@ -13,7 +15,7 @@ import com.revature.pojo.UserClass;
 public class DAOUserImp implements DAOUser {
 
 	CallableStatement insert;
-	PreparedStatement updateFirst, updateLast, updateUname, updatePW, getByID;
+	PreparedStatement updateFirst, updateLast, updateUname, updatePW, getByID, getByUser;
 	PreparedStatement getAll;
 
 	@Override
@@ -46,7 +48,7 @@ public class DAOUserImp implements DAOUser {
 	}
 
 	@Override
-	public void updateFirstName(int id, String f) {
+	public void updateFirstName(UserClass uc, String f) {
 		// TODO Auto-generated method stub
 		try (Connection connect = ConnectionClass.getConnection();){
 			// TODO Auto-generated method stub
@@ -56,7 +58,7 @@ public class DAOUserImp implements DAOUser {
 					.prepareStatement("UPDATE Users SET firstname = ? WHERE user_id = ?");
 			
 			updateFirst.setString(1, f);
-			updateFirst.setInt(2, 3);
+			updateFirst.setInt(2, uc.getUserID());
 						
 			updateFirst.executeUpdate();
 			System.out.println("Success! You've updated the first name.");
@@ -173,7 +175,7 @@ public class DAOUserImp implements DAOUser {
 	}
 
 	@Override
-	public UserClass getUserByID(int id) {
+	public UserClass getUserByUsername(String username) {
 		// TODO Auto-generated method stub
 		
 		UserClass user = new UserClass();
@@ -181,11 +183,11 @@ public class DAOUserImp implements DAOUser {
 		try (Connection connect = ConnectionClass.getConnection();){
 			connect.setAutoCommit(false);
 			
-			String sql = "SELECT * FROM Users WHERE user_id = ?";
-			getByID = connect.prepareStatement(sql);
-			getByID.setInt(1, id);
+			String sql = "SELECT * FROM Users WHERE uname = ?";
+			getByUser = connect.prepareStatement(sql);
+			getByUser.setString(1, username);
 			
-			ResultSet rs = getByID.executeQuery();
+			ResultSet rs = getByUser.executeQuery();
 			
 			while (rs.next()){
 				
@@ -207,4 +209,30 @@ public class DAOUserImp implements DAOUser {
 		return user;
 	}
 
+	@Override
+	public Hashtable<String, String> getUsernamePW(String username) {
+		// TODO Auto-generated method stub
+		
+		Hashtable<String,String> logIn = new Hashtable<String,String>();
+		
+		try (Connection connect = ConnectionClass.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "SELECT * FROM Users WHERE uname = ?";
+			getByUser = connect.prepareStatement(sql);
+			getByUser.setString(1, username);
+			
+			ResultSet rs = getByUser.executeQuery();
+			
+			while (rs.next()){
+				logIn.put(rs.getString(4), rs.getString(5));
+			}
+
+			connect.commit();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return logIn;
+	}
 }

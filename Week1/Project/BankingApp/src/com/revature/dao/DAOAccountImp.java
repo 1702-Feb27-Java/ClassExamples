@@ -14,7 +14,7 @@ import com.revature.pojo.UserClass;
 public class DAOAccountImp implements DAOAccount {
 
 	CallableStatement newAccount;
-	PreparedStatement updateBalance, updateStatus;
+	PreparedStatement updateBalance, updateStatus, getAccount;
 	PreparedStatement getAll;
 
 	@Override
@@ -156,6 +156,39 @@ public class DAOAccountImp implements DAOAccount {
 		}
 		accountsByID.forEach(System.out::println);
 		return accountsByID;
+	}
+
+	@Override
+	public AccountClass getAccountByID(int accountID) {
+		// TODO Auto-generated method stub
+		
+		AccountClass ac = new AccountClass();
+		
+		try (Connection connect = ConnectionClass.getConnection();) {
+			connect.setAutoCommit(false);
+
+			String sql = "SELECT * FROM Accounts WHERE account_id = ?";
+			getAccount = connect.prepareStatement(sql);
+			getAccount.setInt(1, accountID);
+			
+			ResultSet rs = getAccount.executeQuery();
+
+			while (rs.next()) {
+
+				ac.setAccountID(rs.getInt(1));
+				ac.setTypeID(rs.getInt(2));
+				ac.setBalance(rs.getInt(3));
+				ac.setStatusID(rs.getInt(4));
+				ac.setResolverID(rs.getInt(5));
+
+			}
+
+			connect.commit();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ac;
 	}
 
 }

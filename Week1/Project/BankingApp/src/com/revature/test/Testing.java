@@ -25,8 +25,7 @@ public class Testing {
 //		
 		AccountClass dummyA = new AccountClass();
 //		dummyA.setTypeID(1);
-		daoA.updateStatus(6, 2);
-//		
+
 //		daoA.getAccountsByUserID(4);
 
 	}
