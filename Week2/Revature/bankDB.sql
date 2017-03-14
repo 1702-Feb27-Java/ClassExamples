@@ -24,6 +24,15 @@ CREATE TABLE Status
 
     PRIMARY KEY(status_id)
 );
+/
+CREATE TABLE logtype
+(
+    logtype_id number,
+    type varchar(20),
+
+    PRIMARY KEY(logtype_id)
+);
+/
 /*==================================================================
     
 /*==================================================================
@@ -41,7 +50,7 @@ CREATE TABLE Users
     PRIMARY KEY(user_id),
     FOREIGN KEY (role_id) REFERENCES Role(role_id)
 );
-
+/
 CREATE TABLE Accounts
 (
     account_id NUMBER,
@@ -55,6 +64,16 @@ CREATE TABLE Accounts
     FOREIGN KEY(status_id) REFERENCES Status(status_id),
     FOREIGN KEY(resolver) REFERENCES Users(user_id)
 );
+/
+CREATE TABLE LOGS
+(
+  log_id NUMBER,
+  logtype_id NUMBER,
+  msg VARCHAR2(1000),
+  
+  FOREIGN KEY(logtype_id) REFERENCES logtype
+);
+/
 /*==================================================================
 
 /*==================================================================
@@ -87,6 +106,11 @@ CREATE SEQUENCE account_seq
   START WITH 1
   INCREMENT BY 1;
  / 
+ CREATE SEQUENCE log_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+ / 
 /*=================================================================*/
 
 /*==================================================================
@@ -110,7 +134,7 @@ CREATE OR REPLACE TRIGGER user_trigger
 
 CREATE OR REPLACE TRIGGER account_trigger
 --WHAT EVEN SHOULD THIS TRIGGER HAPPEN
-  BEFORE INSERT ON Account
+  BEFORE INSERT ON AccountS
   --HOW OFTER
   FOR EACH ROW
   --START WHAT ACTUALLY HAPPENS
@@ -123,10 +147,29 @@ CREATE OR REPLACE TRIGGER account_trigger
     FROM dual;
   END;
   /
+  
+CREATE OR REPLACE TRIGGER log_trigger
+--WHAT EVEN SHOULD THIS TRIGGER HAPPEN
+  BEFORE INSERT ON logs
+  --HOW OFTER
+  FOR EACH ROW
+  --START WHAT ACTUALLY HAPPENS
+  BEGIN
+  --SELECT USER SE
+    SELECT log_seq.NEXTVAL
+  --NEW USER ID
+    INTO :new.log_id
+  --DUMMY TABLE
+    FROM dual;
+  END;
+  /
 /*=================================================================*/
 
 INSERT INTO USERS(FIRST_NAME, LAST_NAME, username, pw, role_id) VALUES
 ('Marco', 'Tobon', 'mt', '123', 1);
+INSERT INTO USERS(FIRST_NAME, LAST_NAME, username, pw, role_id) VALUES
+('Marco', 'Tobon', 'jaun', 'oneonone', 2);
+commit;
 
 /*==================================================================
                     POPULATE THE LOOKUP TABLES
@@ -143,5 +186,66 @@ INSERT INTO ACCOUNT_TYPE (type_id, ac_type) VALUES (3, 'Joint');
 
 --POPULATE STATUS TYPE LOOKUP TABLE
 INSERT INTO STATUS (status_id, status) VALUES (1, 'Pending');
-INSERT INTO STATUS (status_id, status) VALUES (1, 'Declined');
-INSERT INTO STATUS (status_id, status) VALUES (1, 'Approved');
+INSERT INTO STATUS (status_id, status) VALUES (2, 'Declined');
+INSERT INTO STATUS (status_id, status) VALUES (3, 'Approved');
+/
+SELECT account_seq.CURRVAL FROM DUAL;
+SELECT USER_seq.CURRVAL FROM DUAL;
+/
+
+--=============================================================================
+--===PROCEDURE MY JAVA PROGRAM WILL CALL
+--===========================================================================
+CREATE OR REPLACE PROCEDURE add_account
+IS
+  nextVal NUMBER(10);
+  currVal NUMBER(10);
+  BEGIN
+    INSERT INTO ACCOUNTS (TYPE_id, BALANCE, STATUS_ID) 
+    VALUES (1, 0.01, 1);
+    SELECT account_seq.currval into nextVal FROM DUAL;
+    SELECT user_seq.CURRVAL into currVal FROM DUAL;
+
+    INSERT INTO CUSTOMER_ACCOUNTS VALUES (currval, nextVal);
+  END;
+/
+--======================================================================
+--PROCEDURE TO ADD ACCOUNTS, AND CREATE CUSTOMER ACCOUNTS AS WELL
+CREATE OR REPLACE PROCEDURE cus_acc_proc (UID IN NUMBER, TYPE IN NUMBER)
+IS
+  nextVal NUMBER(10);
+  BEGIN
+    INSERT INTO ACCOUNTS (TYPE_id, BALANCE, STATUS_ID) 
+    VALUES (type, 0.01, 1);
+    SELECT account_seq.currval into nextVal FROM DUAL;
+    INSERT INTO CUSTOMER_ACCOUNTS VALUES (uid, nextVal);
+    END;
+/
+INSERT INTO USERS(FIRST_NAME, USERNAME, PW) VALUES ('ABC', 'ABC', 'ABC');
+CALL ADD_ACCOUNT();
+/
+
+  SELECT E2.*, a.account_id, a.balance, at.AC_TYPE, s.STATUS  FROM USERS E2 
+    INNER JOIN customer_accounts c ON
+      c.user_id = E2.USER_ID
+    INNER JOIN accounts a ON
+      a.ACCOUNT_ID = c.ACCOUNT_ID
+    INNER JOIN account_type at ON
+      at.TYPE_ID = a.TYPE_ID
+    INNER JOIN status s ON
+      a.status_id = s.status_id
+    WHERE a.status_id = 1;
+/
+SELECT a.account_id, a.balance, at.AC_TYPE, s.status, u2.username
+          FROM ACCOUNTS a
+          INNER JOIN  account_type at ON
+            at.type_id = a.type_id
+          INNER JOIN status s ON
+            s.status_id = a.status_id
+          INNER JOIN customer_accounts cs ON
+            cs.account_id = a.account_id 
+          INNER JOIN users u2 ON
+            u2.user_id = cs.user_id
+          WHERE u2.username = 'john'
+          AND s.status = 'Approved';
+/
