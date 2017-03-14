@@ -1,0 +1,125 @@
+CREATE TABLE flash_cards (
+ f_id number(10) primary key,
+ f_question varchar2(4000),
+ f_answer varchar2(4000)
+ );
+
+/
+CREATE SEQUENCE fc_seq
+  START WITH 1
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER fc_seq_trigger
+  BEFORE INSERT ON flash_cards
+    FOR EACH ROW
+  BEGIN
+    SELECT fc_seq.NEXTVAL INTO :new.f_id FROM dual;
+  END;
+/
+
+INSERT INTO flash_cards VALUES ('', 'What is DB normalization?', 'Tons of fun');
+INSERT INTO flash_cards VALUES ('', 'How are you today?', 'Doing fine');
+
+select * from flash_cards;
+
+CREATE OR REPLACE PROCEDURE procTest
+IS
+BEGIN
+ SYS.DBMS_OUTPUT.PUT_LINE('console output example');
+END procTest;
+
+CALL procTest();
+
+CREATE OR REPLACE PROCEDURE insertFlash(someQ in varchar2, someA in varchar2)
+IS
+BEGIN
+ INSERT INTO flash_cards VALUES ('', someQ, someA);
+END;
+/
+
+commit;
+CALL insertFlash('test', 'worked');
+
+UPDATE flash_cards SET f_answer = 'Hi'
+WHERE f_id = 4;
+UPDATE flash_cards SET f_question = 'hello?'
+WHERE f_id = 3;
+
+CREATE OR REPLACE PROCEDURE getAnswer(question in varchar2, answer out varchar2)
+IS
+BEGIN
+ SELECT f_answer INTO answer FROM flash_cards WHERE UPPER(f_question) = UPPER(question);
+END;
+
+select * from flash_cards;
+
+DECLARE 
+output varchar2(4000);
+inputvar varchar2(4000);
+BEGIN
+ select f_question into inputvar from flash_cards where f_id = 3;
+ getAnswer(inputvar, output);
+ DBMS_output.put_line('ANSWER IS: ' || output); -- || concatenates strings
+END;
+
+-- IN: data passed into the procedure through IN variables. they are not received back from the call
+-- OUT: returned out of the procedure, does not take in data
+-- IN OUT: pass in data, and data can be altereda dn returned
+CREATE OR REPLACE PROCEDURE getFlashCursor(outCursor OUT sys_refcursor)
+IS
+-- newVar number(10);
+BEGIN
+ OPEN outCursor FOR
+ SELECT * FROM flash_cards;
+END;
+
+DECLARE
+ cursorVar sys_refcursor;
+ fcID flash_cards.f_id%TYPE;
+ fcQ flash_cards.f_question%TYPE;
+ fcA flash_cards.f_answer%TYPE;
+BEGIN
+ getFlashCursor(cursorVar);
+ LOOP
+  FETCH cursorVar INTO fcID, fcQ, fcA;
+  EXIT WHEN cursorVar%NOTFOUND;
+  DBMS_output.put_line('|' || fcID || '|' || fcQ || '|' || fcA || '|');
+  END LOOP;
+END;
+
+
+CREATE OR REPLACE FUNCTION getMaxID
+RETURN number
+IS
+theMax number(10);
+BEGIN
+SELECT MAX(f_id) into theMax FROM flash_cards;
+RETURN theMax;
+END getMaxID;
+
+DECLARE
+maximum number(10);
+BEGIN
+maximum := getMaxId();
+dbms_output.put_line(maximum);
+END;
+
+CREATE OR REPLACE FUNCTION highNum(num1 in number, num2 in number, num3 in number)
+RETURN number
+IS
+currMax number(10);
+BEGIN
+  currMax := num1;
+  IF num2 > num1 THEN
+    currMax := num2;
+  END IF;
+  IF num3 >= num2 THEN
+    currMax := num3;
+  END IF;
+RETURN currMax;
+END highNum;
+
+BEGIN
+dbms_output.put_line(highNum(2,5,60));
+END;
