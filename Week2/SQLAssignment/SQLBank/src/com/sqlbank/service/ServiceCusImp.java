@@ -49,5 +49,24 @@ public class ServiceCusImp extends ServiceImplementation implements ServiceCus
 		}
 		return false;
 	}
+	@Override
+	public ArrayList<Account >getValidAccounts(Customer c)
+	{
+		// TODO Auto-generated method stub
+		ArrayList<Account> accs = cusDao.viewAccounts(c);
+		if(accs.isEmpty() || accs == null)
+		{
+			System.out.println("NO VALID ACCOUNTS");
+		}
+		else
+		{
+			for (Account x: accs)
+			{
+				x.printAccount();
+			}
+			
+		}
+		return accs;
+	}
 
 }

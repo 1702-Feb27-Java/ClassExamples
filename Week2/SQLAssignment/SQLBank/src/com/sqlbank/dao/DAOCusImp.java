@@ -53,8 +53,7 @@ public class DAOCusImp implements DAOCus
 		{
 			e.printStackTrace();
 		}
-		
-		return null;
+		return accounts;
 	}
 	@Override
 	public boolean updateAccountBalance(Account a)
@@ -101,5 +100,47 @@ public class DAOCusImp implements DAOCus
 			e.printStackTrace();
 		}
 		return false;	
+	}
+	@Override
+	public ArrayList<Account> viewAccounts(Customer c)
+	{
+		ArrayList<Account> accounts= new ArrayList<Account>();
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String sql = "SELECT a.account_id, a.balance, at.AC_TYPE, s.status, u2.username "
+							+ " FROM ACCOUNTS a"
+							+ " INNER JOIN  account_type at ON"
+							+ " at.type_id = a.type_id"
+							+ " INNER JOIN status s ON"
+							+ " s.status_id = a.status_id"
+							+ " INNER JOIN customer_accounts cs ON"
+							+ " cs.account_id = a.account_id "
+							+ " INNER JOIN users u2 ON"
+							+ " u2.user_id = cs.user_id"
+							+ " WHERE u2.username = ?"
+							+ " AND s.status = 'Approved'";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setString(1, c.getUsername());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				Account a = new Account(
+						rs.getInt(1),
+						rs.getDouble(2),
+						rs.getString(3),
+						rs.getString(4),
+						rs.getString(5));
+				accounts.add(a);
+			}
+			connect.commit();
+			return accounts;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return accounts;
 	}
 }

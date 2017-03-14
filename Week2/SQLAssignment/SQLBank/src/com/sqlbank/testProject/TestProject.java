@@ -560,12 +560,52 @@ public class TestProject
 				else if ( opt == 5) //DEPOSIT 
 				{
 					heExit = false;
+					int acc_id =0;
+					ArrayList<Account> vAccounts = cServe.getValidAccounts(cus);
+					if(vAccounts.isEmpty())
+					{
+						System.out.println("CANNOT DEPOSIT NO ACTIVE ACCOUNTS");
+					}
+					else
+					{
+						System.out.println("Choose and account by id: ");
+						System.out.println("Anything else will return to menu");
+						try
+						{
+							acc_id = sc.nextInt();
+						} catch (InputMismatchException e)
+						{
+							System.out.println("INVALID ENTRY");
+							// TODO: handle exception
+						}
+
+					}
 					
 				}
 				else if ( opt == 6) //WITHDRAW 
 				{
+					int acc_id =0;
 					heExit = false;
-					
+					ArrayList<Account> vAccounts = cServe.getValidAccounts(cus);
+					if(vAccounts.isEmpty())
+					{
+						System.out.println("CANNOT WITHDRAW NO ACTIVE ACCOUNTS");
+					}
+					else
+					{
+						System.out.println("Choose and account by id: ");
+						System.out.println("Anything else will return to menu");
+						try
+						{
+							acc_id = sc.nextInt();
+						} catch (InputMismatchException e)
+						{
+							System.out.println("INVALID ENTRY");
+							// TODO: handle exception
+						}
+
+					}
+						
 				}
 				else if (opt == 0)
 				{
