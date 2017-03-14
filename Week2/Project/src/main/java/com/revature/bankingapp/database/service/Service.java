@@ -2,12 +2,14 @@ package com.revature.bankingapp.database.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.revature.bankingapp.database.dao.Dao;
 import com.revature.bankingapp.database.dao.IDao;
 import com.revature.bankingapp.database.model.Account;
 import com.revature.bankingapp.database.model.AccountStatus;
 import com.revature.bankingapp.database.model.AccountType;
+import com.revature.bankingapp.database.model.LogLevel;
 import com.revature.bankingapp.database.model.Role;
 import com.revature.bankingapp.database.model.User;
 
@@ -27,9 +29,20 @@ public class Service implements IDao{
 	public final static Integer CHECKING = 1;
 	public final static Integer SAVINGS = 2;
 	
+	public final static Integer FATAL_ID = 1;
+	public final static Integer ERROR_ID = 2;
+	public final static Integer WARN_ID = 3;
+	public final static Integer INFO_ID = 4;
+	public final static Integer DEBUG_ID = 5;
+	public final static Integer TRACE_ID = 6;
+	
+	public final Map<Integer, LogLevel> logLevels;
 	
 	private Service(){
-		
+		logLevels = new TreeMap<Integer, LogLevel>();
+		for (LogLevel level : this.getLogLevels()){
+			logLevels.put(level.getLogLevelId(),  level);
+		}
 	}
 	
 	public static Service getInstance(){
@@ -39,6 +52,32 @@ public class Service implements IDao{
 		
 		return instance;
 	}
+	
+	public LogLevel getFatalLogLevel(){
+		return logLevels.get(FATAL_ID);
+	}
+	
+	public LogLevel getErrorLogLevel(){
+		return logLevels.get(ERROR_ID);
+	}
+	
+	public LogLevel getWarnLogLevel(){
+		return logLevels.get(WARN_ID);
+	}
+
+	public LogLevel getInfoLogLevel(){
+		return logLevels.get(INFO_ID);
+	}
+	
+	public LogLevel getDebugLevel(){
+		return logLevels.get(DEBUG_ID);
+	}
+	
+	public LogLevel getTraceLevel(){
+		return logLevels.get(TRACE_ID);
+	}
+	
+	
 	
 	public Role getAdminRole(){
 		return this.getUserRoles().get(Service.ADMIN);
@@ -218,5 +257,16 @@ public class Service implements IDao{
 	public List<User> getAllUsers() {
 		// TODO Auto-generated method stub
 		return Dao.getInstance().getAllUsers();
+	}
+
+	@Override
+	public List<LogLevel> getLogLevels() {
+		return Dao.getInstance().getLogLevels();
+	}
+
+	@Override
+	public void log(String message, LogLevel level, Integer userId) {
+		Dao.getInstance().log(message, level, userId);
+		
 	}
 }

@@ -69,8 +69,8 @@ public class CreateAccountMenu  implements IMenu {
 		Service.getInstance().createNewAccount(user, account);
 		
 		System.out.println("Thank you, your account is now created and is pending approving.");
-		Logging.info(String.format("Customer ID: %d Name: %s is creating new account with ID: %d", user.getUserId(), user.getUsername(), account.getAccountId()));
-		return null; //TODO: readd this when done new CustomerMenu(user);
+		Logging.info(String.format("Customer ID: %d Name: %s is creating new account with name: %s", user.getUserId(), user.getUsername(), account.getAccountName()), user.getUserId());
+		return new CustomerMenu(user);
 	}
 
 }

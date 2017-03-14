@@ -93,7 +93,6 @@ public class AccountMenu implements IMenu {
 			//goes back to the main menu screen for the user
 			if(input.equals("q")){
 				if(user.getRole().equals(Service.getInstance().getUserRoles().get(Service.CUSTOMER))){
-					
 					menu = new CustomerMenu(user);
 					isValidOption = true;
 					
@@ -110,7 +109,7 @@ public class AccountMenu implements IMenu {
 			// approves account if allowed to approve account
 			if(canApprove && input.equals("a")){
 				System.out.println("Account is now Approve");
-				Logging.info(String.format("%s ID: %d Name %s has approved account # %d",user.getRole().getRole(),  user.getUserId(), user.getUsername(), account.getAccountId()));
+				Logging.info(String.format("%s ID: %d Name %s has approved account # %d",user.getRole().getRole(),  user.getUserId(), user.getUsername(), account.getAccountId()), user.getUserId());
 				account.setStatus(Service.getInstance().getAccountStatuses().get(Service.APPROVED));;
 				isValidOption = true;
 			}
@@ -134,12 +133,12 @@ public class AccountMenu implements IMenu {
 							// updates the account's balance, if not overdrawing
 							if(amountToWithdraw > account.getBalance()){
 								System.out.println("You do not have enough to withdraw that amount.");
-								Logging.warn(String.format("%s ID: %d Name: %s tried to withdraw more then they had on Account %d",user.getRole().getRole(),  user.getUserId(), user.getUsername(), account.getAccountId()));
+								Logging.warn(String.format("%s ID: %d Name: %s tried to withdraw more then they had on Account %d",user.getRole().getRole(),  user.getUserId(), user.getUsername(), account.getAccountId()), user.getUserId());
 								
 								isValidOption = true;
 							} else {
 								System.out.println(String.format("You have withdrawed %.2f", amountToWithdraw));
-								Logging.info(String.format("%s ID: %d Name: %s withdrawed %.2f from Account %d",user.getRole().getRole(), user.getUserId(), user.getUsername(), amountToWithdraw, account.getAccountId()));
+								Logging.info(String.format("%s ID: %d Name: %s withdrawed %.2f from Account %d",user.getRole().getRole(), user.getUserId(), user.getUsername(), amountToWithdraw, account.getAccountId()), user.getUserId());
 								account.setBalance(account.getBalance() - amountToWithdraw);
 								isValidOption = true;
 							}
@@ -161,7 +160,7 @@ public class AccountMenu implements IMenu {
 							
 							// updates the account's balance
 							System.out.println(String.format("You have deposited %.2f", amountToDeposit));
-							Logging.info(String.format("%s ID: %d Name: %s deposited %.2f into Account %n", user.getRole().getRole(), user.getUserId(), user.getUsername(), amountToDeposit, account.getAccountId()));
+							Logging.info(String.format("%s ID: %d Name: %s deposited %.2f into Account %n", user.getRole().getRole(), user.getUserId(), user.getUsername(), amountToDeposit, account.getAccountId()), user.getUserId());
 							account.setBalance(account.getBalance() + amountToDeposit);
 							isValidOption = true;
 						}			
@@ -175,7 +174,9 @@ public class AccountMenu implements IMenu {
 			} else {
 				//updates account and menu
 				Account updatedAccount = Service.getInstance().updateAndReturnAccount(account);
-				menu = new AccountMenu(user, updatedAccount);
+				if (menu == null)
+					//updates menu for account depsoit and withdraw
+					menu = new AccountMenu(user, updatedAccount);
 			}
 			
 		}

@@ -75,7 +75,7 @@ public class LoginMenu implements IMenu {
 			User c = Dao.getInstance().getUser(username);
 			if (c != null){
 				if (c.getPassword().equals(password)){
-					Logging.info(String.format("Logging in %s : %s id:%d", c.getRole().getRole(), c.getUsername(), c.getUserId()));
+					Logging.info(String.format("Logging in %s : %s id:%d", c.getRole().getRole(), c.getUsername(), c.getUserId()), c.getUserId());
 					
 					if(c.getRole().equals(Service.getInstance().getCustomerRole())){
 						n = new CustomerMenu(c);
@@ -88,7 +88,7 @@ public class LoginMenu implements IMenu {
 			
 			//login failed
 			if(n == null){
-				Logging.warn("Failed login for username: " + username);
+				Logging.warn("Failed login for username: " + username, 0);
 				System.out.println("Invalid Creditials");
 			}
 		}
@@ -159,7 +159,7 @@ public class LoginMenu implements IMenu {
 		User customer = new User("firstname", "lastname", username, password, Service.getInstance().getCustomerRole());
 		customer = Service.getInstance().saveAndReturnNewUser(customer);
 		
-		Logging.info("Created new User. " + customer.getUsername() + " id: " + customer.getUserId());
+		Logging.info("Created new User. " + customer.getUsername() + " id: " + customer.getUserId(), customer.getUserId());
 		
 		//retrieves newly made user's menu
 		return new CustomerMenu(customer);

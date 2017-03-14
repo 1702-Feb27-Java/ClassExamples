@@ -166,7 +166,7 @@ public class EmployeeMenu extends UserMenu {
 		User employee = new User("firstname", "lastname", username, password, Service.getInstance().getEmployeeRole());
 		employee = Service.getInstance().saveAndReturnNewUser(employee);
 		
-		Logging.info("Created new Employee. " + employee.getUsername() + " id: " + employee.getUserId());
+		Logging.info("Created new Employee. " + employee.getUsername() + " id: " + employee.getUserId(), employee.getUserId());
 		
 		
 	}

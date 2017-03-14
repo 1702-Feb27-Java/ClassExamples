@@ -316,6 +316,7 @@ public class AccountMenuTest {
 		Scanner scan = new Scanner(s);
 		menu.openMenu(scan);
 		
+		
 		approvedAccount = Service.getInstance().getAccount(approvedAccount.getAccountId());
 		assertEquals(bal, approvedAccount.getBalance(), 0.009);
 	}

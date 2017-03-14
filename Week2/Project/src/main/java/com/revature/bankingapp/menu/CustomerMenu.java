@@ -67,7 +67,7 @@ public class CustomerMenu extends UserMenu {
 							menuToReturn = new AccountMenu(this.user, account);
 							validOption = true;
 						} else {
-							Logging.error(String.format("Customer tried to access account #%d but it didn't exist", n));
+							Logging.warn(String.format("Customer tried to access account #%d but it didn't exist", n), user.getUserId());
 						}
 					}
 				} catch (NumberFormatException e) {
