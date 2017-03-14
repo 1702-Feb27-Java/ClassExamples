@@ -49,8 +49,13 @@ public class Customer extends People implements CustomerServices
 	   System.out.println("[0] EXIT");
 	   System.out.println("Choose an option: ");
     }
-    public void updateAccount(String type)
+    public void signAccount()
     {
+    	System.out.println("================ CHOSE ACCOUNT TYPE =========================");
+    	System.out.println("[1] SIGN UP FOR SAVINGS ACCOUNT");
+    	System.out.println("[2] SIGN UP FOR CHECKING ACCOUNT");
+    	System.out.println("[0] EXIT");
+    	System.out.println("Choose an option: ");
 
     }
     //CONSTRUCTORS =============================================================

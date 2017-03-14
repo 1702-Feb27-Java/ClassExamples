@@ -10,6 +10,7 @@ public interface ServiceCus extends Service
 	public void viewAccount(Customer c);
 	public ArrayList<Account> accounts (Customer c);
 	public boolean updateBalance (Account a);
+	public boolean applyAccount(Customer c, int type);
 	
 	
 }

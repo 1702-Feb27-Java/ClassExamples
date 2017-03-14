@@ -17,6 +17,7 @@ import com.sqlbank.service.ServiceCusImp;
 import com.sqlbank.service.ServiceEmpImp;
 import com.sqlbank.service.ServiceImplementation;
 import org.apache.log4j.Logger;
+import org.w3c.dom.CDATASection;
 
 public class TestProject
 {
@@ -527,8 +528,43 @@ public class TestProject
 							System.out.println("SUCCESS");
 					}
 				}
-				else if ( opt == 4)
+				else if ( opt == 4) //SIGN UP
 				{
+					heExit = false;
+					int acctype =0;
+					cus.signAccount();
+					try
+					{
+						acctype = sc.nextInt();
+					}
+					catch (InputMismatchException e)
+					{
+						sc.next();
+						System.out.println("ENTER A VALID DIGIT");
+					}
+					if( acctype == 1)
+					{
+						if(cServe.applyAccount (cus, 1))
+						{
+							System.out.println("SUCCESS");
+						}
+					}
+					else if (acctype == 2)
+					{
+						if(cServe.applyAccount (cus, 2))
+						{
+							System.out.println("SUCCESS");
+						}
+					}
+				}
+				else if ( opt == 5) //DEPOSIT 
+				{
+					heExit = false;
+					
+				}
+				else if ( opt == 6) //WITHDRAW 
+				{
+					heExit = false;
 					
 				}
 				else if (opt == 0)

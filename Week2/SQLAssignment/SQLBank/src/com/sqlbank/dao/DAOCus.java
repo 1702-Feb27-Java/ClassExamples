@@ -9,4 +9,5 @@ public interface DAOCus
 {
 	public ArrayList<Account> viewCustomer(Customer c);
 	public boolean updateAccountBalance(Account a);
+	public boolean applyAccount(Customer c, int type);
 }

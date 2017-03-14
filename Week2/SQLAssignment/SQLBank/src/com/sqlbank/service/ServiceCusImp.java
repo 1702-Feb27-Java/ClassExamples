@@ -37,5 +37,17 @@ public class ServiceCusImp extends ServiceImplementation implements ServiceCus
 	{
 		return cusDao.updateAccountBalance(a);
 	}
+	public boolean applyAccount(Customer c, int type)
+	{
+		if ( type == 1)
+		{
+			return cusDao.applyAccount(c, 1);
+		}
+		else if ( type == 2)
+		{
+			return cusDao.applyAccount(c, 2);
+		}
+		return false;
+	}
 
 }
