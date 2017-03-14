@@ -150,12 +150,15 @@ public class Menus {
 			c = DAOImpl.getPersonInfo(username);
 			switch(i){
 			case 1:
+				System.out.println("\nAccess Granted");
 				employeeMenu(c, i);
 				break;
 			case 2:
+				System.out.println("\nAccess Granted");
 				employeeMenu(c, i); //calls employee menu if verification is valid
 				break;
 			case 3:
+				System.out.println("\nAccess Granted");
 				accountMenu(c); //calls next menu if verification of is valid
 				break;
 			}
@@ -174,8 +177,8 @@ public class Menus {
 	public static void employeeMenu(Customer c, int i){
 		String again = null;
 		do{
-			System.out.println("\nAccess Granted\n\nEmployee Menu\n\n1. Approve Accounts"
-			+ "\n2. View All Customers\n3. View Customer Info\n4. Exit\n\nSelect an option from the above Menu: ");
+			System.out.println("\nEmployee Menu\n\n1. Approve Accounts"
+			+ "\n2. View All Customers\n3. Edit Customer Info\n4. Exit\n\nSelect an option from the above Menu: ");
 		String selection = in.nextLine();
 		while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3") && !selection.equals("4")){
 			System.out.println("Invalid Entry! Enter an option from 1 - 3: ");
@@ -270,7 +273,7 @@ public class Menus {
 				System.out.println("\nEnter in the account password to create an Admin Account: ");
 				enteredPassword = in.nextLine();
 			} while (!enteredPassword.equals(adminPassword));
-		}in.close();
+		}
 	}
 }
 /**

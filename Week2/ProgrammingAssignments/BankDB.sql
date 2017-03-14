@@ -34,14 +34,13 @@ typeid NUMBER,
 type VARCHAR2(25),
 CONSTRAINT p_typeid PRIMARY KEY(typeid)
 );
-
 CREATE TABLE Accounts 
 (
 accountid NUMBER,
 typeid NUMBER DEFAULT 1,
 balance NUMBER(12,2) DEFAULT 0 CHECK (balance >= 0),
 statusid NUMBER DEFAULT 1,
-resolverid NUMBER,
+resolverid NUMBER DEFAULT 0,
 CONSTRAINT pk_accountid PRIMARY KEY(accountid),
 FOREIGN KEY(typeid) REFERENCES Type(typeid)
 ON DELETE CASCADE,
@@ -65,7 +64,8 @@ ON DELETE CASCADE
 CREATE TABLE USERSLOG(
 userlogid NUMBER,
 operation VARCHAR2(10),
-time_stamp DATE DEFAULT SYSTIMESTAMP,
+usersid NUMBER,
+time_stamp TIMESTAMP DEFAULT SYSTIMESTAMP,
 OldFirstName VARCHAR2(25),
 NewFirstName VARCHAR2(25),
 OldLastName VARCHAR2(25),
@@ -78,7 +78,8 @@ CONSTRAINT pk_userlogid PRIMARY KEY(userlogid)
 CREATE TABLE ACCOUNTSLOG(
 accountlogid NUMBER,
 operation VARCHAR2(10),
-time_stamp DATE DEFAULT SYSTIMESTAMP,
+accountid NUMBER,
+time_stamp TIMESTAMP DEFAULT SYSTIMESTAMP,
 OldTypeID VARCHAR2(25),
 NewTypeID VARCHAR2(25),
 OldBalance VARCHAR2(25),
@@ -88,6 +89,17 @@ NewStatusID VARCHAR2(25),
 OldResolverID VARCHAR2(25),
 NewResolverID VARCHAR2(25),
 CONSTRAINT pk_accountlogid PRIMARY KEY(accountlogid)
+);
+
+CREATE TABLE CustomerAccountsLog
+(
+userlogid NUMBER,
+accountlogid NUMBER,
+PRIMARY KEY(userlogid, accountlogid),
+FOREIGN KEY(userlogid) REFERENCES Userslog(userlogid)
+ON DELETE CASCADE,
+FOREIGN KEY(accountlogid) REFERENCES Accountslog(accountlogid)
+ON DELETE CASCADE
 );
 ------------------------------------------------------------------------------------------------------------------------------------
 -- LOOKUP TABLES - INSERTS
@@ -169,35 +181,35 @@ CREATE OR REPLACE TRIGGER accountslog_trigger
  FOR EACH ROW
  BEGIN
     IF INSERTING THEN
-        INSERT INTO USERSLOG (userlogid, operation, NewFirstName, NewLastName, NewPassword)
-        VALUES(NULL,'INSERT', :NEW.FIRSTNAME, :NEW.LASTNAME, :NEW.PW);
+        INSERT INTO USERSLOG (userlogid, operation, usersid, NewFirstName, NewLastName, NewPassword)
+        VALUES(NULL, 'INSERT', :NEW.USERID, :NEW.FIRSTNAME, :NEW.LASTNAME, :NEW.PW);
     ELSIF DELETING THEN
-        INSERT INTO USERSLOG(userlogid, operation, oldFirstName, OldLastName, OldPassword)
-        VALUES (NULL, 'DELETE', :OLD.FIRSTNAME, :OLD.LASTNAME, :OLD.PW);
+        INSERT INTO USERSLOG(userlogid, operation, usersid, oldFirstName, OldLastName, OldPassword)
+        VALUES (NULL, 'DELETE', :OLD.USERID, :OLD.FIRSTNAME, :OLD.LASTNAME, :OLD.PW);
     ELSIF UPDATING THEN
-        INSERT INTO USERSLOG (userlogid, operation, oldFirstName, OldLastName, OldPassword, 
-            NewFirstName, NewLastName, NewPassword) VALUES (NULL, 'UPDATE', :OLD.FIRSTNAME, :OLD.LASTNAME,
+        INSERT INTO USERSLOG (userlogid, operation, usersid, oldFirstName, OldLastName, OldPassword, 
+            NewFirstName, NewLastName, NewPassword) VALUES (NULL, 'UPDATE', :NEW.USERID, :OLD.FIRSTNAME, :OLD.LASTNAME,
             :OLD.PW, :NEW.FIRSTNAME, :NEW.LASTNAME, :NEW.PW);
     END IF;        
  END;
  / -- ACCOUNTS LOG TRANSACTIONS
- CREATE OR REPLACE TRIGGER accounts_log_trigger   
+ CREATE OR REPLACE TRIGGER accounts_log_trigger  
  AFTER INSERT OR DELETE OR UPDATE ON ACCOUNTS
  FOR EACH ROW
  BEGIN
     IF INSERTING THEN
-        INSERT INTO ACCOUNTSLOG (accountlogid, operation, NewTypeID, NewBalance, NewStatusID, NewResolverID)
-        VALUES(NULL,'INSERT', :NEW.TYPEID, :NEW.BALANCE, :NEW.STATUSID, :NEW.RESOLVERID);
+        INSERT INTO ACCOUNTSLOG (accountlogid, operation, accountid, NewTypeID, NewBalance, NewStatusID, NewResolverID)
+        VALUES(NULL,'INSERT', :NEW.ACCTID, :NEW.TYPEID, :NEW.BALANCE, :NEW.STATUSID, :NEW.RESOLVERID);
     ELSIF DELETING THEN
-        INSERT INTO ACCOUNTSLOG(accountlogid, operation, OldTypeID, OldBalance, OldStatusID, OldResolverID)
-        VALUES (NULL, 'DELETE', :OLD.TYPEID, :OLD.BALANCE, :OLD.STATUSID, :OLD.RESOLVERID);
+        INSERT INTO ACCOUNTSLOG(accountlogid,  operation, accountid, OldTypeID, OldBalance, OldStatusID, OldResolverID)
+        VALUES (NULL, 'DELETE', :OLD.ACCTID, :OLD.TYPEID, :OLD.BALANCE, :OLD.STATUSID, :OLD.RESOLVERID);
     ELSIF UPDATING THEN
-        INSERT INTO ACCOUNTSLOG (accountlogid, operation, OldTypeID, OldBalance, OldStatusID, OldResolverID,
-            NewTypeID, NewBalance, NewStatusID, NewResolverID) VALUES (NULL, 'UPDATE', :OLD.TYPEID, :OLD.BALANCE,
+        INSERT INTO ACCOUNTSLOG (accountlogid, operation, accountid, OldTypeID, OldBalance, OldStatusID, OldResolverID,
+            NewTypeID, NewBalance, NewStatusID, NewResolverID) VALUES (NULL, 'UPDATE', :NEW.ACCTID, :OLD.TYPEID, :OLD.BALANCE,
             :OLD.STATUSID, :OLD.RESOLVERID, :NEW.TYPEID, :NEW.BALANCE, :NEW.STATUSID, :NEW.RESOLVERID);
     END IF;        
  END;
- /
+ / 
  -------------------------------------------------------------------------------------------------------------------------------------
 -- PROCEDURES
 -------------------------------------------------------------------------------------------------------------------------------------
@@ -286,3 +298,4 @@ BEGIN
     SELECT MAX(ACCTID) INTO newid FROM ACCOUNTS;
     INSERT INTO CUSTOMERACCOUNTS (USERID, ACCTID) VALUES (uid, newid);
 END;
+/
