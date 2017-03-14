@@ -6,16 +6,17 @@
 * 
 * PURPOSE: ALLOW A USER TO SIGN UP FOR A BANKING SERVICE TO INCLUDE A CHECKING AND / OR SAVINGS ACCOUNT
 * WITH THE CAPABILITIES TO DEPOSIT, WITHDRAW, VIEW AND EDIT PERSONAL INFORMATION.  AN EMPLOYEE CAN
-* VIEW CUSTOMER INFORMATION AND APPROVE ACCOUNTS.
+* VIEW CUSTOMER INFORMATION, APPROVE ACCOUNTS, AND EDIT CUSTOMER INFO.  ADDITIONALLY AN ADMIN CAN 
+* APPROVE CUSTOMER ACCOUNTS.
 *========================================================================================================
 *										PROJECT FILES
 *
-* Customer.java					Menus.java
-* CustomerClassTest.java			MenusClassTest.java
-* CustomerFile.java				Person.java
-* CustomerFileTest.java			PersonClassTest.java	
-* Employee.java					UserScreen.java
-* EmployeeClassTest.java			UserScreenTest.java
+* Customer.java				MenusClassTest.java	
+* DAOImpl.java				Person.java			
+* Employee.java				PersonClassTest.java			
+* EmployeeClassTest.java	UserScreen.java	
+* Menus.java				UserScreenTest.java	
+
 *========================================================================================================
 *										PACKAGE & IMPORT FILES
 *********************************************************************************************************
@@ -88,12 +89,11 @@ public class MenusClassTest {
 	
 	@Test
 	public void employeeMenu() {
-		Menus.employeeMenu();
+		Menus.employeeMenu(null, 0);
 	}
 	
 	@Test
 	public void accountMenu() {
-		Customer c = Customer.getCustomerLine();
-		Menus.accountMenu(c);
+		
 	}
 }

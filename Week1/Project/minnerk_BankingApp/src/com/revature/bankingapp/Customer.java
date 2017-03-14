@@ -1,22 +1,22 @@
 /**
 *********************************************************************************************************
-x
 * TITLE: MINNCOMM BANKING APPLICATION
 * FILENAME: Customer.java
 * PROGRAMMER: KEITH MINNER
 * 
 * PURPOSE: ALLOW A USER TO SIGN UP FOR A BANKING SERVICE TO INCLUDE A CHECKING AND / OR SAVINGS ACCOUNT
 * WITH THE CAPABILITIES TO DEPOSIT, WITHDRAW, VIEW AND EDIT PERSONAL INFORMATION.  AN EMPLOYEE CAN
-* VIEW CUSTOMER INFORMATION AND APPROVE ACCOUNTS.
+* VIEW CUSTOMER INFORMATION, APPROVE ACCOUNTS, AND EDIT CUSTOMER INFO.  ADDITIONALLY AN ADMIN CAN 
+* APPROVE CUSTOMER ACCOUNTS.
 *========================================================================================================
 *										PROJECT FILES
 *
-* Customer.java					Menus.java
-* CustomerClassTest.java			MenusClassTest.java
-* CustomerFile.java				Person.java
-* CustomerFileTest.java			PersonClassTest.java	
-* Employee.java					UserScreen.java
-* EmployeeClassTest.java			UserScreenTest.java
+* Customer.java				MenusClassTest.java	
+* DAOImpl.java				Person.java			
+* Employee.java				PersonClassTest.java			
+* EmployeeClassTest.java	UserScreen.java	
+* Menus.java				UserScreenTest.java	
+
 *========================================================================================================
 *										PACKAGE & IMPORT FILES
 *********************************************************************************************************
@@ -134,27 +134,15 @@ public class Customer extends Person {
 		try {
 			in = new Scanner(System.in); //Creating input stream
 			
-			//User prompts and getting values
-			if (i == 3){
-				System.out.println("What kind of account would you like to open?\n1. Checking or 2. Savings");
-				String accountType = in.nextLine();
-				if (accountType.equals("1")){
-					checkingAccountNumber = 1;
-					savingsAccountNumber = 0;
-				} else {
-					checkingAccountNumber = 0;
-					savingsAccountNumber = 2;
-				}
-			}
 			System.out.println("\nEnter in your first name: ");
 			String firstName = in.nextLine();
-			System.out.println("Enter in your last name: ");
+			System.out.println("\nEnter in your last name: ");
 			String lastName = in.nextLine();
-			System.out.println("Enter in a username: ");
+			System.out.println("\nEnter in a username: ");
 			String username = in.nextLine();
 			boolean valid = DAOImpl.verifyInfo(username);
 			while(valid){
-				System.out.println("That user name is already taken, please try another one: ");
+				System.out.println("\nThat user name is already taken, please try another one: ");
 				username = in.nextLine();
 				valid = DAOImpl.verifyInfo(username);
 			}
@@ -247,7 +235,6 @@ public class Customer extends Person {
 		double amount = 0.0;
 		
 		//Assigning what is currently in the account balance
-		System.out.println(accountType + " " + c.getCheckingAccountNumber() + " " + c.getSavingsAccountNumber());
 		amount += (accountType == 1 ? c.getCheckingBalance() : c.getSavingsBalance());
 		if (accountType == 1 && c.getCheckingAccountNumber() != 0 ||accountType == 2 && c.getSavingsAccountNumber() != 0){
 			System.out.println("\nEnter in the amount to deposit into the account: ");
@@ -272,7 +259,6 @@ public class Customer extends Person {
 					+ "not currently have a savings account");
 		}
 	}
-		
 /**
 *********************************************************************************************************
 * @METHOD TO WITHDRAW MONEY THE RESPECTIVE ACCOUNT SELECTED
@@ -285,9 +271,8 @@ public class Customer extends Person {
 		double amount = 0.0;
 		
 		//Assigning what is currently in the account balance
-		System.out.println(accountType + " " + c.getCheckingAccountNumber() + " " + c.getSavingsAccountNumber());
 		amount += (accountType == 1 ? c.getCheckingBalance() : c.getSavingsBalance());
-		System.out.println(amount);
+		System.out.println("Current Balance: $" + amount);
 		if (accountType == 1 && c.getCheckingAccountNumber() != 0 ||accountType == 2 && c.getSavingsAccountNumber() != 0){
 			System.out.println("\nEnter in the amount to withdraw from the account: ");
 			double withdrawAmount = Double.parseDouble(in.nextLine());
@@ -332,8 +317,8 @@ public class Customer extends Person {
 			+ "\nStatus: " + (c.getApproved()==1?"Pending":"Approved")
 			+ "\nChecking Account: " + (c.getCheckingAccountNumber()==1?"Yes":"No")
 			+ "\nSavings Account: " + (c.getSavingsAccountNumber()==2?"Yes":"No")
-			+ "\nChecking Balance: " + (c.getCheckingAccountNumber()==1?c.getCheckingBalance():"No") 
-			+ "\nSavings Balance: " + (c.getSavingsAccountNumber()==2?c.getSavingsBalance():"No"));
+			+ "\nChecking Balance: " + (c.getCheckingAccountNumber()==1?"$" + c.getCheckingBalance():"No") 
+			+ "\nSavings Balance: " + (c.getSavingsAccountNumber()==2?"$" + c.getSavingsBalance():"No"));
 	}
 /**	
 *********************************************************************************************************
@@ -407,7 +392,7 @@ public class Customer extends Person {
 	}
 }
 /**
-	*********************************************************************************************************
+*********************************************************************************************************
 *										END CLASS CUSTOMER
 *********************************************************************************************************
 */

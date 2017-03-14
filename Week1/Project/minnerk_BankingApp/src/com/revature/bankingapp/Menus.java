@@ -6,16 +6,17 @@
 * 
 * PURPOSE: ALLOW A USER TO SIGN UP FOR A BANKING SERVICE TO INCLUDE A CHECKING AND / OR SAVINGS ACCOUNT
 * WITH THE CAPABILITIES TO DEPOSIT, WITHDRAW, VIEW AND EDIT PERSONAL INFORMATION.  AN EMPLOYEE CAN
-* VIEW CUSTOMER INFORMATION AND APPROVE ACCOUNTS.
+* VIEW CUSTOMER INFORMATION, APPROVE ACCOUNTS, AND EDIT CUSTOMER INFO.  ADDITIONALLY AN ADMIN CAN 
+* APPROVE CUSTOMER ACCOUNTS.
 *========================================================================================================
 *										PROJECT FILES
 *
-* Customer.java					Menus.java
-* CustomerClassTest.java			MenusClassTest.java
-* CustomerFile.java				Person.java
-* CustomerFileTest.java			PersonClassTest.java	
-* Employee.java					UserScreen.java
-* EmployeeClassTest.java			UserScreenTest.java
+* Customer.java				MenusClassTest.java	
+* DAOImpl.java				Person.java			
+* Employee.java				PersonClassTest.java			
+* EmployeeClassTest.java	UserScreen.java	
+* Menus.java				UserScreenTest.java	
+
 *========================================================================================================
 *										PACKAGE & IMPORT FILES
 *********************************************************************************************************
@@ -86,16 +87,17 @@ public class Menus {
 				Customer.addNewPerson(3); //Create Customer
 				break;
 			case "2":
+				newEmployee(selection);
 				Customer.addNewPerson(2); //Create Employee
 				break;
 			case "3":
+				newEmployee(selection);
 				Customer.addNewPerson(1); //Create Admin
 				break;
 			case "4":
 				break;
 			}
-							
-	}
+}
 /**
 ********************************************************************************************************
 *  @METHOD TO DISPLAY TYPE OF ACCOUNT TO CREATE MENU
@@ -148,9 +150,10 @@ public class Menus {
 			c = DAOImpl.getPersonInfo(username);
 			switch(i){
 			case 1:
+				employeeMenu(c, i);
 				break;
 			case 2:
-				employeeMenu(); //calls employee menu if verification is valid
+				employeeMenu(c, i); //calls employee menu if verification is valid
 				break;
 			case 3:
 				accountMenu(c); //calls next menu if verification of is valid
@@ -168,25 +171,27 @@ public class Menus {
 *********************************************************************************************************
 */	
 	//Method that displays a menu for an Employee
-	public static void employeeMenu(){
+	public static void employeeMenu(Customer c, int i){
 		String again = null;
 		do{
 			System.out.println("\nAccess Granted\n\nEmployee Menu\n\n1. Approve Accounts"
-			+ "\n2. View All Customers\n3. View Customer Info\n\nSelect an option from the above Menu: ");
+			+ "\n2. View All Customers\n3. View Customer Info\n4. Exit\n\nSelect an option from the above Menu: ");
 		String selection = in.nextLine();
-		while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3")){
+		while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3") && !selection.equals("4")){
 			System.out.println("Invalid Entry! Enter an option from 1 - 3: ");
 			selection = in.nextLine();
 		}
 		switch (selection){
 			case "1":
-				Employee.approveAccounts();
+				Employee.approveAccounts(c, i);
 				break;
 			case "2":
 				Employee.pullAccounts();
 				break;
 			case "3":
 				Employee.accessCustomerInfo();
+				break;
+			case "4":
 				break;
 			}
 			System.out.println("\nWould you like to return to the Employee Menu?\n"
@@ -195,7 +200,6 @@ public class Menus {
 			again.toLowerCase();
 		} while (again.equals("y"));
 	}
-			
 /**
 *********************************************************************************************************
 ** @METHOD TO DISPLAY THE ACCOUNT MENU 
@@ -243,6 +247,30 @@ public class Menus {
 			System.out.println("\nReturn to Account Menu?\n'y' or 'n': "); //prompt to run again
 			again = in.nextLine();
 		} while (again.equals("y")); //if y run again, otherwise exit
+	}
+/**
+*********************************************************************************************************
+** @METHOD TO ADD A NEW EMPLOYEE OR ADMIN TO THE APPLICATION
+*********************************************************************************************************
+*/	
+	public static void newEmployee(String s){
+		Scanner in = new Scanner(System.in);
+		String customerPassword = "emp"; //static password for new employees
+		String adminPassword = "admin"; //static password for new admins
+		String enteredPassword = null; //entered password for individual signing up for respective service
+		
+		if (s.equals("2")){ //Employee loop to be able to create a new account if true
+			do {
+				System.out.println("\nEnter in the account password to create an Employee Account: ");
+				enteredPassword = in.nextLine();
+			} while (!enteredPassword.equals(customerPassword));
+		} 
+		else {
+			do { //Admin loop to be able to create a new account if true
+				System.out.println("\nEnter in the account password to create an Admin Account: ");
+				enteredPassword = in.nextLine();
+			} while (!enteredPassword.equals(adminPassword));
+		}in.close();
 	}
 }
 /**

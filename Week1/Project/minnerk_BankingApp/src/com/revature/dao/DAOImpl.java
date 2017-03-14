@@ -1,3 +1,26 @@
+/**
+*********************************************************************************************************
+* TITLE: MINNCOMM BANKING APPLICATION
+* FILENAME: DAOImpl.java
+* PROGRAMMER: KEITH MINNER
+* 
+* PURPOSE: ALLOW A USER TO SIGN UP FOR A BANKING SERVICE TO INCLUDE A CHECKING AND / OR SAVINGS ACCOUNT
+* WITH THE CAPABILITIES TO DEPOSIT, WITHDRAW, VIEW AND EDIT PERSONAL INFORMATION.  AN EMPLOYEE CAN
+* VIEW CUSTOMER INFORMATION, APPROVE ACCOUNTS, AND EDIT CUSTOMER INFO.  ADDITIONALLY AN ADMIN CAN 
+* APPROVE CUSTOMER ACCOUNTS.
+*========================================================================================================
+*										PROJECT FILES
+*
+* Customer.java				MenusClassTest.java	
+* DAOImpl.java				Person.java			
+* Employee.java				PersonClassTest.java			
+* EmployeeClassTest.java	UserScreen.java	
+* Menus.java				UserScreenTest.java	
+
+*========================================================================================================
+*										PACKAGE & IMPORT FILES
+*********************************************************************************************************
+*/
 package com.revature.dao;
 
 import java.sql.CallableStatement;
@@ -8,15 +31,23 @@ import java.sql.SQLException;
 
 import com.revature.bankingapp.Customer;
 import com.revature.util.FactoryConnection;
-
+/**
+********************************************************************************************************
+*										CLASS DAOIMPL
+*********************************************************************************************************
+ */
 public class DAOImpl {
-
+	
+/**
+*********************************************************************************************************
+*	@METHOD TO INSERT DATA INTO THE DB
+*********************************************************************************************************
+*/	
 	public static int insertData(Customer c) {
-		// TODO Auto-generated method stub
 		try (Connection connect = FactoryConnection.getConnection();){
 			connect.setAutoCommit(false);
-			String sql = "CALL insert_new_person(?, ?, ?, ?, ?)";
-			CallableStatement cs = connect.prepareCall(sql);
+			String sql = "CALL insert_new_person(?, ?, ?, ?, ?)"; //calls procedure from db to enter
+			CallableStatement cs = connect.prepareCall(sql);		//user specifics
 			cs.setString(1, c.getFirstName());
 			cs.setString(2, c.getLastName());
 			cs.setString(3, c.getUserName());
@@ -31,14 +62,18 @@ public class DAOImpl {
 		}
 			return 0;
 	}
-	
+/**
+*********************************************************************************************************
+*	@METHOD THAT VERIFYS THE USERNAME FOR UNIQUE
+*********************************************************************************************************
+*/		
 	public static boolean verifyInfo(String s) {
 
 		try (Connection connect = FactoryConnection.getConnection();){
 			connect.setAutoCommit(false);
 			
-			String sql = "SELECT USERNAME FROM USERS WHERE USERNAME=?";
-			PreparedStatement ps = connect.prepareStatement(sql);
+			String sql = "SELECT USERNAME FROM USERS WHERE USERNAME=?"; //prep'd statement to check to		
+			PreparedStatement ps = connect.prepareStatement(sql);		//make sure the username is unique
 			ps.setString(1, s);
 			ResultSet rs = ps.executeQuery();
 						
@@ -54,7 +89,11 @@ public class DAOImpl {
 		}
 		return false;
 	}
-		
+/**
+*********************************************************************************************************
+*	@METHOD THAT VERIFIES AN INDIVIDUALS LOGIN INTO THE SYSTEM
+*********************************************************************************************************
+*/			
 	public static boolean loginVerification(String s1, String s2, int i) {
 		
 		
@@ -62,7 +101,7 @@ public class DAOImpl {
 			connect.setAutoCommit(false);
 			
 			String sql = "SELECT u.USERNAME, u.PW, u.ROLEID, a.STATUSID FROM USERS u INNER JOIN CUSTOMERACCOUNTS ca ON u.USERID=ca.USERID INNER JOIN ACCOUNTS a ON ca.ACCTID=a.ACCTID WHERE USERNAME=?";
-			PreparedStatement ps = connect.prepareStatement(sql);
+			PreparedStatement ps = connect.prepareStatement(sql);  //statement to verify a users login info
 			ps.setString(1, s1);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()){
@@ -82,14 +121,18 @@ public class DAOImpl {
 		}
 		return false;
 	}
-	
+/**
+*********************************************************************************************************
+*	@ METHOD THAT GETS THE INDIVIDUALS INFORMATION FROM THE DB
+*********************************************************************************************************
+*/		
 	public static Customer getPersonInfo(String s){
 		Customer c = new Customer();
 		try (Connection connect = FactoryConnection.getConnection();){
 			connect.setAutoCommit(false);
 			
 			String sql = "SELECT u.USERID, u.FIRSTNAME, u.LASTNAME, u.USERNAME, u.PW, u.ROLEID, a.STATUSID, a.TYPEID, a.BALANCE FROM USERS u INNER JOIN CUSTOMERACCOUNTS ca ON u.USERID=ca.USERID INNER JOIN ACCOUNTS a ON ca.ACCTID=a.ACCTID WHERE USERNAME=?";
-			PreparedStatement ps = connect.prepareStatement(sql);
+			PreparedStatement ps = connect.prepareStatement(sql); //statement to get all data on user
 			ps.setString(1, s);
 			ResultSet rs = ps.executeQuery();
 			
@@ -99,15 +142,18 @@ public class DAOImpl {
 			}
 			connect.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 		return c;
 	}
-		
+/**
+*********************************************************************************************************
+*	@METHOD THAT GETS THE INFORMATION FOR A INDIVIDUAL AND RETURNS IT TO CALLED METHOD
+*********************************************************************************************************
+*/			
 	public static Customer formatSet(ResultSet rs, Customer c) {
 		
-		try {
+		try {  //putting all the customer info in one method so it can be called by more than one fx
 			c.setUserID(rs.getInt(1));
 			c.setFirstName(rs.getString(2));
 			c.setLastName(rs.getString(3));
@@ -124,17 +170,19 @@ public class DAOImpl {
 			else if (rs.getInt(8) == 2)
 				c.setSavingsBalance(rs.getDouble(9));	
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return c;
 	}
-	
+/**
+*********************************************************************************************************
+*	@METHOD TO CHANGE THE PERSONAL INFORMATION OF A PERSON
+*********************************************************************************************************
+*/		
 	public static int changePersonalInfo(int i, Customer c){
-		// TODO Auto-generated method stub
 		try (Connection connect = FactoryConnection.getConnection();){
 			connect.setAutoCommit(false);
-			String sql = "CALL updatename(?, ?, ?)";
+			String sql = "CALL update_personal_info(?, ?, ?)"; //call to procedure in db to update personal info
 			CallableStatement cs = connect.prepareCall(sql);
 			
 			if (i == 1){
@@ -156,7 +204,11 @@ public class DAOImpl {
 		}
 		return 0;
 	}
-	
+/**
+*********************************************************************************************************
+*	@METHOD TO MAKE A CHECKING OR SAVINGS ACCOUNT
+*********************************************************************************************************
+*/		
 	public static int makeAccount(Customer c, int i){
 		
 		Connection connect = FactoryConnection.getConnection();
@@ -164,10 +216,9 @@ public class DAOImpl {
 		try {
 			connect.setAutoCommit(false);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String sql = "CALL make_account(?, ?)";
+		String sql = "CALL make_account(?, ?)";  //call to create an account checking/savings
 			try {
 				CallableStatement cs = connect.prepareCall(sql);
 				cs.setInt(1, i);
@@ -176,22 +227,24 @@ public class DAOImpl {
 				connect.commit();
 				connect.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
 			return 0;
 	}
-	
+/**
+*********************************************************************************************************
+*	@METHOD TO WITHDRAW OR DEPOSIT MONEY INTO AN ACCOUNT CHECKING/SAVINGS
+*********************************************************************************************************
+*/		
 	public static int accountTransaction(Customer c, int accountType, double amount){
 		
 		Connection connect = FactoryConnection.getConnection();
 		try {
 			connect.setAutoCommit(false);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String sql = "CALL account_transaction(?, ?, ?)";
+		String sql = "CALL account_transaction(?, ?, ?)";  //call to enter a withdraw or deposit to db
 			try {
 				CallableStatement cs = connect.prepareCall(sql);
 				cs.setInt(1, c.getUserID());
@@ -201,18 +254,14 @@ public class DAOImpl {
 				connect.commit();
 				connect.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
 			return 0;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 }
+/**
+*********************************************************************************************************
+*										END CLASS DAOIMPL
+*********************************************************************************************************
+*/
 

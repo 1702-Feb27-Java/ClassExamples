@@ -6,16 +6,17 @@
 * 
 * PURPOSE: ALLOW A USER TO SIGN UP FOR A BANKING SERVICE TO INCLUDE A CHECKING AND / OR SAVINGS ACCOUNT
 * WITH THE CAPABILITIES TO DEPOSIT, WITHDRAW, VIEW AND EDIT PERSONAL INFORMATION.  AN EMPLOYEE CAN
-* VIEW CUSTOMER INFORMATION AND APPROVE ACCOUNTS.
+* VIEW CUSTOMER INFORMATION, APPROVE ACCOUNTS, AND EDIT CUSTOMER INFO.  ADDITIONALLY AN ADMIN CAN 
+* APPROVE CUSTOMER ACCOUNTS.
 *========================================================================================================
 *										PROJECT FILES
 *
-* Customer.java					Menus.java
-* CustomerClassTest.java			MenusClassTest.java
-* CustomerFile.java				Person.java
-* CustomerFileTest.java			PersonClassTest.java	
-* Employee.java					UserScreen.java
-* EmployeeClassTest.java			UserScreenTest.java
+* Customer.java				MenusClassTest.java	
+* DAOImpl.java				Person.java			
+* Employee.java				PersonClassTest.java			
+* EmployeeClassTest.java	UserScreen.java	
+* Menus.java				UserScreenTest.java	
+
 *========================================================================================================
 *										PACKAGE & IMPORT FILES
 *********************************************************************************************************
@@ -50,32 +51,39 @@ public class Employee extends Person {
 	public Employee() {
 
 	}
-
-	public static void approveAccounts() {
+/**
+*********************************************************************************************************
+* @METHOD TO ALLOW AN EMPLOYEE TO APPROVE CUSTOMER ACCOUNTS AND ADMIN THE EMPLOYEE ACCOUNTS
+*********************************************************************************************************
+*/
+	public static void approveAccounts(Customer c, int i) {
 		
-		Customer c = new Customer();
+		 int resolver = c.getUserID();
 		
-		try (Connection connect = FactoryConnection.getConnection();){
-			connect.setAutoCommit(false);
-			String sql = "SELECT u.USERID, u.FIRSTNAME, u.LASTNAME, u.USERNAME, u.PW, u.ROLEID, a.STATUSID, a.TYPEID, a.BALANCE FROM USERS u INNER JOIN CUSTOMERACCOUNTS ca ON u.USERID=ca.USERID INNER JOIN ACCOUNTS a ON ca.ACCTID=a.ACCTID WHERE STATUSID=?";
+		try (Connection connect = FactoryConnection.getConnection();){ //getting a connection
+			connect.setAutoCommit(false); //turning off auto commit until end of function
+			String sql = "SELECT u.USERID, u.FIRSTNAME, u.LASTNAME, u.USERNAME, u.PW, u.ROLEID, a.STATUSID, a.TYPEID, a.BALANCE FROM USERS u INNER JOIN CUSTOMERACCOUNTS ca ON u.USERID=ca.USERID INNER JOIN ACCOUNTS a ON ca.ACCTID=a.ACCTID WHERE STATUSID=? AND ROLEID=?";
 			PreparedStatement ps = connect.prepareStatement(sql);
 			ps.setInt(1, 1);
+			ps.setInt(2, i+1);
 			ResultSet rs = ps.executeQuery();
 
-			String sql1 = "Call update_status (?, ?)";
+			String sql1 = "Call update_status (?, ?, ?)";  //call to procedure to update the status of people
 			CallableStatement cs = connect.prepareCall(sql1);
 			while (rs.next()){
 				c = DAOImpl.formatSet(rs, c);
 				System.out.println(c.toString());
-				System.out.println("Would you like to approve this account?\n'y' or 'n': ");
+				System.out.println("Would you like to approve this account?\n'y' or 'n': "); //user option to approve or deny account
 				String approve = in.nextLine();
 				if (approve.equals("y")){
-					cs.setInt(1, c.getUserID());
-					cs.setInt(2, 2);
+					cs.setInt(1, c.getUserID()); //setting variables for the called procedure
+					cs.setInt(2, 2);			//for userid, status to approved, and resolved
+					cs.setInt(3, resolver);
 					cs.execute();				
 				} else {
 					cs.setInt(1, c.getUserID());
 					cs.setInt(2, 3);
+					cs.setInt(3, resolver);
 					cs.execute();				
 				}
 			}
@@ -87,7 +95,7 @@ public class Employee extends Person {
 	}			
 /**
 *********************************************************************************************************
-* @METHOD TO PULL ALL CUSTOMER ACCOUNTS
+* @METHOD TO PULL ALL CUSTOMER ACCOUNTS AND DISPLAY THEM TO THE SCREEN
 *********************************************************************************************************
 */
 	public static void pullAccounts() {
