@@ -23,12 +23,7 @@ public class ServiceCusImp extends ServiceImplementation implements ServiceCus
 			c.printAccount();
 			for (Account x: accs)
 			{
-				System.out.println("ACCOUNTS =====================");
-				System.out.println("\tAccount Id: " + x.getId());
-				System.out.println("\t\tType: " + x.getType());
-				System.out.println("\t\t\tBalance: " + x.getAmount());
-				System.out.println("\t\t\tStatus: " + x.getStatus());
-				System.out.println("\t\t\tResolver: " + x.getResolver());
+				x.printAccount();
 			}
 		}
 	}
@@ -40,8 +35,7 @@ public class ServiceCusImp extends ServiceImplementation implements ServiceCus
 	@Override
 	public boolean updateBalance(Account a)
 	{
-		return cusDao.updateAccount(a);
-		
+		return cusDao.updateAccountBalance(a);
 	}
 
 }

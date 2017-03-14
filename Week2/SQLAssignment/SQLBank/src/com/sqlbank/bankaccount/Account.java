@@ -71,6 +71,15 @@ public class Account
 		}
 		return false;	
 	}
+	public void printAccount()
+	{
+		System.out.println("ACCOUNTS =====================");
+		System.out.println("\tAccount Id: " + this.getId());
+		System.out.println("\t\tType: " + this.getType());
+		System.out.println("\t\t\tBalance: " + this.getAmount());
+		System.out.println("\t\t\tStatus: " + this.getStatus());
+		System.out.println("\t\t\tResolver: " + this.getResolver());
+	}
 	public Account(int id, double amount, String type, String status, String resolver)
 	{
 		super();

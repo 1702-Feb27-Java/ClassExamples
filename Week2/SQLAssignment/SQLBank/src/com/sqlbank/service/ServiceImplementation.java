@@ -14,6 +14,10 @@ public class ServiceImplementation implements Service
 	public int isUserValid(String uname, String pword)
 	{
 		int res = dao.checkUser(uname, pword);
+		if (res == 1)
+		{
+			res =dao.checkType(uname);
+		}
 		return res;
 	}
 	

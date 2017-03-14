@@ -1,8 +1,10 @@
 package com.sqlbank.testProject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import com.sqlbank.bankaccount.Account;
@@ -11,6 +13,8 @@ import com.sqlbank.peoplepack.Customer;
 import com.sqlbank.peoplepack.Employee;
 import com.sqlbank.peoplepack.People;
 import com.sqlbank.service.ServiceAdminImp;
+import com.sqlbank.service.ServiceCusImp;
+import com.sqlbank.service.ServiceEmpImp;
 import com.sqlbank.service.ServiceImplementation;
 import org.apache.log4j.Logger;
 
@@ -19,6 +23,8 @@ public class TestProject
 	static Scanner sc = new Scanner(System.in);
 	static ServiceImplementation serve = new ServiceImplementation();
 	static ServiceAdminImp aServe = new ServiceAdminImp();
+	static ServiceEmpImp eServe = new ServiceEmpImp();
+	static ServiceCusImp cServe = new ServiceCusImp();
 	static final Logger l = Logger.getRootLogger();
 
 	public static void startBank()
@@ -80,7 +86,7 @@ public class TestProject
 			password = sc.next();
 		
 			result = serve.isUserValid(username, password);
-			if(result > 1)
+			if(result > 4 || result < 0)
 			{
 				l.error("DATABASE RETURNED MULTIPLE USERS WITH SAME USERNAME/PASSWORD");
 				System.out.println("Error in Database");
@@ -111,13 +117,17 @@ public class TestProject
 				l.trace("EMPLOYEE IS LOGGED IN");
 				System.out.println("Employee");
 				Employee em = serve.getEmployee(username);
-				doEmployeeStuff(em);
+				do{
+					heExit =doEmployeeStuff(em);
+				}while (!heExit);
 				break;
 			case 3:
 				l.trace("CUSTOMER IS LOGGED IN");
 				System.out.println("Customer");
 				Customer cus = serve.getCustomer(username);
-				doCustomerStuff(cus);
+				do{
+					heExit=doCustomerStuff(cus);
+				}while (!heExit);
 				break;
 		}
 	}
@@ -255,8 +265,6 @@ public class TestProject
 								newPass=sc.next();
 								if (serve.updatePassword(check, newPass))
 										System.out.println("SUCCESS");
-								else
-									System.out.println("USER NAME ALREADY IN USE PLEASE TRY AGAIN");
 							}
 						}
 						else if (opt2 == 3)
@@ -344,22 +352,199 @@ public class TestProject
 			try
 			{
 				opt = sc.nextInt();
+				
 			}
 			catch(InputMismatchException e)
 			{
+				System.out.println("Please enter a valid integer option");
+			}
+			if(opt == 1)
+			{
+				heExit= false;
+				ArrayList<Customer> myCus = new ArrayList<Customer>(eServe.viewMyCustomers(em.getUsername()));
+				if(myCus.isEmpty())
+				{
+					System.out.println("YOU HAVE NOT APPROVED ANY CUSTOMERS");
+				}
+				else
+				{
+					for (Customer x : myCus)
+					{
+						System.out.println("----------------- CUSTOMER --------------------");
+						x.printAccount();
+						for (Account a : x.accounts)
+						{
+							a.printAccount();
+						}
+						System.out.println("-------------------------------------------------");
+					}
+				}
 				
 			}
-			
-			
+			else if (opt == 2)
+			{
+				heExit= false;
+				ArrayList<Customer> pendingCus = new ArrayList<>(eServe.getPending());
+				Map <Integer, Integer> account_users = new HashMap<Integer, Integer> () ;
+				if (pendingCus.isEmpty())
+				{
+					System.out.println("THERE ARE NOT PENDING ACCOUNTS ");
+				}
+				else
+				{
+					List<Integer> ids = new ArrayList<>();
+					for (int i = 0; i < pendingCus.size(); i++)
+					{
+						System.out.println("----------------- PENDING CUSTOMER --------------------");
+						Customer x = pendingCus.get(i);
+						x.printAccount();
+						for (Account a : x.accounts)
+						{
+							a.printAccount();
+							
+							account_users.put(a.getId(), i);
+							ids.add(a.getId());
+						}
+					}
+					System.out.println("-------------------------------------------------");
+					int opt3 =0;
+					System.out.println("Choose an account by id: ");
+					System.out.println("OR 0 TO EXIT");
+					try
+					{
+						opt3 = sc.nextInt();
+					}
+					catch (InputMismatchException e)
+					{
+					sc.next();
+					System.out.println("\nEnter a valid account number");
+					}
+					if(ids.contains(opt3))
+					{
+						for ( Account x: pendingCus.get(account_users.get(opt3)).accounts)
+						{
+							Customer c =  pendingCus.get(account_users.get(opt3));
+							//APPROVE OR DECLINE
+							int option = 0;
+							em.getOption(pendingCus.get(account_users.get(opt3)), x.getType());
+							try
+							{
+								option = sc.nextInt();
+							}
+							catch (InputMismatchException e)
+							{
+								sc.next();
+								System.out.println("INVALID OPTION");	
+							}
+							
+							if (x.getId() == opt3)
+							{
+								if (option == 1)
+								{
+									x.setResolver(em.getUsername());
+									x.setStatus("Approved");
+									if(eServe.updateAccount(x.getId(), em.getId(), 3))
+									{
+										System.out.println("SUCCESS");
+									}
+								}
+								else if (option == 2)
+								{
+									x.setResolver(em.getUsername());
+									x.setStatus("Declined");
+									if(eServe.updateAccount(x.getId(), em.getId(), 2))
+									{
+										System.out.println("SUCCESS");
+									}
+								}
+							}
+							
+						}
+						
+					}
+					else if (opt3 == 0)
+					{
+						break;
+					}
+					else
+					{
+						System.out.println("INVALID ACCOUNT ID");
+					}
+				}
+			}
+			else if(opt == 0)
+			{
+				heExit = true;
+			}
+			else
+				System.out.println("\nNOT A VALID OPTION");
 		}while (opt < 0);
 		
-		return false;
+		return heExit;
 	}
 	//================================================ CUSTOMER STUFF ==========================================================================
 	public static boolean doCustomerStuff(Customer cus)
 	{
-		
-		return false;
+		boolean heExit = false;
+		int opt = -1;
+		do
+		{
+			cus.getMenu();
+			try
+			{
+				opt = sc.nextInt();
+				if (opt == 1)
+				{
+					heExit = false;
+					cServe.viewAccount(cus);
+				}
+				else if (opt == 2)
+				{
+					heExit = false;
+					String newName="";
+					System.out.println("ENTER NEW USERNAME");
+					newName=sc.next();
+					if(cServe.isUsernameValid(newName))
+					{
+						if (serve.updateUsername(cus.getUsername(), newName))
+						{
+							cus.setUsername(newName);
+							System.out.println("SUCCESS");
+						}
+					}
+					else
+						System.out.println("USER NAME ALREADY IN USE PLEASE TRY AGAIN");	
+				}
+				else if (opt == 3 )
+				{
+					heExit = false;
+					String newPass="";
+					System.out.println("ENTER NEW PASSWORD");
+					newPass=sc.next();
+					if (serve.updatePassword(cus.getUsername(), newPass))
+					{
+							cus.setPassword(newPass);
+							System.out.println("SUCCESS");
+					}
+				}
+				else if ( opt == 4)
+				{
+					
+				}
+				else if (opt == 0)
+				{
+					heExit = true;
+				}
+			}
+			catch(InputMismatchException e)
+			{
+				sc.next();
+				System.out.println("Please enter a valid option");
+			}
+			
+			
+		}while(opt < 0);
+		return heExit;
 	}
 	//==================================== MAIN METHOD =======================================================================================
 	public static void main(String[] args)

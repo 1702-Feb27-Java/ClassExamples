@@ -14,7 +14,6 @@ import com.sqlbank.util.ConnectionUtil;
 
 public class DAOCusImp implements DAOCus
 {
-
 	@Override
 	public ArrayList<Account> viewCustomer(Customer c)
 	{
@@ -52,9 +51,8 @@ public class DAOCusImp implements DAOCus
 		
 		return null;
 	}
-
 	@Override
-	public boolean updateAccount(Account a)
+	public boolean updateAccountBalance(Account a)
 	{
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{

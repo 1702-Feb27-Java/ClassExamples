@@ -4,9 +4,9 @@ import com.sqlbank.bankservices.EmployeeServices;
 
 public class Employee extends People implements EmployeeServices
 {
-    public Employee(String fname, String lname, String username, String password, String role)
+    public Employee(int id, String fname, String lname, String username, String password, String role)
 	{
-		super(fname, lname, username, password, role);
+		super(id, fname, lname, username, password, role);
 		// TODO Auto-generated constructor stub
 	}
 	public void getMenu()

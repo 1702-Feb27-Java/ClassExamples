@@ -60,15 +60,4 @@ public interface DAO
 	//UPDATE USER
 	public boolean updateUsername (String old, String newOne);
 	public boolean updatePassword (String old, String newOne);
-	//UPDATE ACCOUNT 
-	//approve
-	
-	//GET BALANCE 
-	//only one to get either checking or savings
-	
-	//UDPATE BALANCE
-	//only one to change either checking or savings 
-	// and one for depositing or withdrawing
-	
-	//
 }

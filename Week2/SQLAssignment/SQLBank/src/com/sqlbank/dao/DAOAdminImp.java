@@ -46,7 +46,7 @@ public class DAOAdminImp extends DAOImplementation implements DAOAdmin
 					role = nrs.getString(1);
 				}
 				
-				person = new People(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), role);
+				person = new People(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), role);
 				users.add(person);
 			}
 			connect.commit();

@@ -2,11 +2,22 @@ package com.sqlbank.peoplepack;
 
 public class People
 {
-    private String fname;
+	private int id;
+	private String fname;
     private String lname;
     private String username;
     private String password;
     private String role; 
+    public final int getId()
+	{
+		return id;
+	}
+
+	public final void setId(int id)
+	{
+		this.id = id;
+	}
+
     
     public String getRole()
 	{
@@ -68,9 +79,10 @@ public class People
 		System.out.println("\t\tPASSWORD: " + this.getPassword());
     }
 
-	public People(String fname, String lname, String username, String password, String role)
+	public People(int id, String fname, String lname, String username, String password, String role)
 	{
 		super();
+		this.id = id;
 		this.fname = fname;
 		this.lname = lname;
 		this.username = username;

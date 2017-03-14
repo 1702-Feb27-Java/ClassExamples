@@ -8,5 +8,5 @@ import com.sqlbank.peoplepack.Customer;
 public interface DAOCus
 {
 	public ArrayList<Account> viewCustomer(Customer c);
-	public boolean updateAccount(Account a);
+	public boolean updateAccountBalance(Account a);
 }

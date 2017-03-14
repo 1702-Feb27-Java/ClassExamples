@@ -15,9 +15,9 @@ public class Admin extends People implements AdminServices
 {
     //FROM THE PEOPLE CLASS ====================================================
     
-    public Admin(String fname, String lname, String username, String password, String role)
+    public Admin(int id, String fname, String lname, String username, String password, String role)
 	{
-		super(fname, lname, username, password, role);
+		super(id, fname, lname, username, password, role);
 		// TODO Auto-generated constructor stub
 	}
 	public void getMenu()

@@ -40,12 +40,17 @@ public class DAOImplementation implements DAO
 			
 			if(rs == 1)
 			{
+				String sql = "{Call add_account()}";
+				CallableStatement cs = connect.prepareCall(sql);
+				cs.executeUpdate();
+				connect.commit();
 				return true;
 			}
 		
 		}
 		catch(SQLIntegrityConstraintViolationException e )
 		{
+			e.printStackTrace();
 			System.out.println("USER ALREADY EXISTS");
 			return false;
 		}
@@ -166,6 +171,7 @@ public class DAOImplementation implements DAO
 			if(rs.next())
 			{
 				ad = new Admin (
+						rs.getInt(1),
 						rs.getString(2),
 						rs.getString(3),
 						rs.getString(4),
@@ -204,6 +210,7 @@ public class DAOImplementation implements DAO
 			if(rs.next())
 			{
 				ad = new Employee (
+						rs.getInt(1),
 						rs.getString(2),
 						rs.getString(3),
 						rs.getString(4),
@@ -241,6 +248,7 @@ public class DAOImplementation implements DAO
 			if(rs.next())
 			{
 				ad = new Customer (
+						rs.getInt(1),
 						rs.getString(2),
 						rs.getString(3),
 						rs.getString(4),
@@ -256,9 +264,6 @@ public class DAOImplementation implements DAO
 		return null;
 	}
 
-	
-	
-	
 	//===================================== GETS THE ROLE OF THE PERSON PASSED IN ============================================
 	@Override
 	public int checkType(String uname)
