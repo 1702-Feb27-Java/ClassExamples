@@ -18,7 +18,7 @@ public class UserDAOImpl implements UserDAO {
 		
 		try(Connection con = new ConnectionUtil().getConnection();) {
 			 
-			int id = user.getRole_id();
+			int id = user.getUser_id();
 			String fname = user.getFirstname();
 			String lname = user.getLastname();
 			String usrname = user.getUsername();
