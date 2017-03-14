@@ -1,5 +1,6 @@
 package com.revature.banking2.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,20 @@ import com.revature.banking2.pojo.User;
 import com.revature.banking2.util.ConnectionUtil;
 
 public class AccountDaoImpl implements AccountDao {
+	
+	@Override
+	public void addAccount(User user, Account.Type type) {
+		try (Connection connection = ConnectionUtil.getConnection()) {
+			String insertSql = "CALL CREATE_ACCOUNT_FOR_CUSTOMER(?, ?)";
+			CallableStatement createAccountForCustomer = connection.prepareCall(insertSql);
+			createAccountForCustomer.setInt("userId", user.getId());
+			createAccountForCustomer.setInt("accountType", type.getId());
+			createAccountForCustomer.executeUpdate();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@Override
 	public void updateAccount(Account account) {

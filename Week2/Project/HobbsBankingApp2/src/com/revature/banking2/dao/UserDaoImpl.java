@@ -33,13 +33,14 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public void updateUser(User user) {
 		try (Connection connection = ConnectionUtil.getConnection()) {
-			String updateSql = "UPDATE Users SET first_name = ?, last_name = ?, username = ?, pw = ? WHERE user_id = ?";
+			String updateSql = "UPDATE Users SET first_name = ?, last_name = ?, username = ?, pw = ?, role_id = ? WHERE user_id = ?";
 			PreparedStatement updateStatement = connection.prepareStatement(updateSql);
 			updateStatement.setString(1, user.getFirstName());
 			updateStatement.setString(2, user.getLastName());
 			updateStatement.setString(3, user.getUsername());
 			updateStatement.setString(4, user.getPassword());
-			updateStatement.setInt(5, user.getId());
+			updateStatement.setInt(5, user.getRole().getId());
+			updateStatement.setInt(6, user.getId());
 			updateStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

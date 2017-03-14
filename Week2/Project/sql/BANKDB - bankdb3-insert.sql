@@ -17,3 +17,10 @@ INSERT INTO Status (status_id, status) VALUES (3, 'Denied');
 INSERT INTO Account_Type (type_id, type) VALUES (1, 'Checking');
 INSERT INTO Account_Type (type_id, type) VALUES (2, 'Savings');
 
+
+---- populate log levels of bankdb
+INSERT INTO log_level (level_id, log_level) VALUES (1, 'DEBUG');
+INSERT INTO log_level (level_id, log_level) VALUES (2, 'INFO');
+INSERT INTO log_level (level_id, log_level) VALUES (3, 'WARN');
+INSERT INTO log_level (level_id, log_level) VALUES (4, 'ERROR');
+INSERT INTO log_level (level_id, log_level) VALUES (5, 'FATAL');

@@ -1,5 +1,7 @@
 package com.revature.banking2.pojo;
 
+import com.revature.banking2.pojo.User.Role;
+
 public class Account {
 	
 	/**
@@ -32,6 +34,16 @@ public class Account {
             }
             return null;
         }
+		
+		public static Type getType(String type) {
+			Type[] types = Type.values();
+			for(int i = 0; i < types.length; i++) {
+				if (types[i].toString().equals(type)) {
+					return types[i];
+				}
+			}
+			return null;
+		}
 	}
 	
 	/**
@@ -64,6 +76,16 @@ public class Account {
             }
             return null;
         }
+		
+		public static Status getStatus(String status) {
+			Status[] statuses = Status.values();
+			for(int i = 0; i < statuses.length; i++) {
+				if (statuses[i].toString().equals(status)) {
+					return statuses[i];
+				}
+			}
+			return null;
+		}
 	}
 	
 	private Integer id;

@@ -7,6 +7,8 @@ import com.revature.banking2.pojo.User;
 
 public interface AccountService {
 	
+	void createAccount(User user, Account.Type type);
+	
 	void updateAccount(Account account);
 
 	ArrayList<Account> getAccounts(User user);

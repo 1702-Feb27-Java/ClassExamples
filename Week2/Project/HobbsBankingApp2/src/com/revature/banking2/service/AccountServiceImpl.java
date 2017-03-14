@@ -16,6 +16,10 @@ public class AccountServiceImpl implements AccountService {
 		accountDao = new AccountDaoImpl();
 	}
 	
+	public void createAccount(User user, Account.Type type) {
+		accountDao.addAccount(user, type);
+	}
+	
 	public void updateAccount(Account account) {
 		accountDao.updateAccount(account);
 	}

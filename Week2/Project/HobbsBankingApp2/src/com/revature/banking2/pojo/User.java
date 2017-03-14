@@ -1,5 +1,7 @@
 package com.revature.banking2.pojo;
 
+import com.revature.banking2.pojo.Account.Status;
+
 public class User {
 
 	public enum Role {
@@ -13,6 +15,28 @@ public class User {
 		
 		public int getId() {
 			return this.id;
+		}
+		
+		public static Role getRole(int id)
+        {
+            Role[] roles = Role.values();
+            for(int i = 0; i < roles.length; i++)
+            {
+                if(roles[i].id  == id) {
+                	return roles[i];
+                }
+            }
+            return null;
+        }
+		
+		public static Role getRole(String role) {
+			Role[] roles = Role.values();
+			for(int i = 0; i < roles.length; i++) {
+				if (roles[i].toString().equals(role)) {
+					return roles[i];
+				}
+			}
+			return null;
 		}
 	}
 	
@@ -31,6 +55,15 @@ public class User {
 	
 	/**
 	 * 
+	 * @param name
+	 * @return true if the name is valid
+	 */
+	public static boolean isValidName(String name) {
+		return name.matches("[A-Za-z']*");
+	}
+	
+	/**
+	 * 
 	 * @param username
 	 * @return true if the username is valid
 	 */
@@ -45,6 +78,13 @@ public class User {
 	 */
 	public static boolean isValidPassword(String password) {
 		return password.matches("[A-Za-z0-9_!@#$%^&*()-]*");
+	}
+	
+	public static boolean isValidRole(String role) {
+		if (Role.getRole(role) != null) {
+			return true;
+		}
+		return false;
 	}
 	
 	public void copyUser(User original) {

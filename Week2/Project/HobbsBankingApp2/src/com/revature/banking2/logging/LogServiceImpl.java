@@ -4,19 +4,19 @@ import com.revature.banking2.logging.Log.Level;
 
 public class LogServiceImpl implements LogService {
 	
+	private static LogDao logDao;
 	private static LogService logService;
 	
 	private Log.Level defaultLevel;
 	
 	private LogServiceImpl() {
+		logDao = new LogDaoImpl();
 		defaultLevel = Log.Level.debug;
 	}
 
 	@Override
 	public void log(Level level, String message) {
-		LogDao logger = new LogDaoImpl();
-		
-		logger.addLog(level, message);
+		logDao.addLog(level, message);
 	}
 
 	@Override

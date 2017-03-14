@@ -39,6 +39,7 @@ public class AdminMenu implements Menu {
 	public void displayMainMenu() {
 		boolean run = true;
 		do {
+			System.out.println("Admin Main Menu:");
 			System.out.println("(1) Sign in\n(2) Create account\n(3) Exit");
 			System.out.println("Select an option:");
 			String option = "";
@@ -134,7 +135,6 @@ public class AdminMenu implements Menu {
 				option = Controller.getInput();
 			}
 			while (!option.equals("1") && !option.equals("2") && !option.equals("3") && !option.equals("4") && !option.equals("5") && !option.equals("6") && !option.equals("7"));
-			System.out.println(option);
 			
 			if (option.equals("1")) {
 				displayBankAccountsMenu();
@@ -203,7 +203,6 @@ public class AdminMenu implements Menu {
 				option = Controller.getInput();
 			}
 			while (!option.equals("1") && !option.equals("2") && !option.equals("3") && !option.equals("4") && !option.equals("5") && !option.equals("6"));
-			System.out.println(option);
 			
 			if (option.equals("1")) {
 				displayChangeUsernameMenu();
@@ -307,16 +306,25 @@ public class AdminMenu implements Menu {
 				System.out.println(State.getState().getAccounts().get(i));
 				System.out.println("(" + (i+1) + ") Edit bank account#" + (i+1));
 			}
+			System.out.println("(A) Add bank account");
 			System.out.println("(Q) Quit");
 			System.out.println("Select an option:");
 			String option = "";
 			do {
 				option = Controller.getInput();
 			}
-			while (!option.equalsIgnoreCase("q") && !option.matches("[0-9]*") && (Integer.parseInt(option)-1) >= State.getState().getAccounts().size());
+			while (!option.equalsIgnoreCase("a") && !option.equalsIgnoreCase("q") && !option.matches("[0-9]*") && (Integer.parseInt(option)-1) >= State.getState().getAccounts().size());
 			
 			if (option.equals("q")) {
 				accounts = false;
+			}
+			else if (option.equals("a")) {
+				do {
+					System.out.println("The kind of account (checking | savings):");
+					option = Controller.getInput();
+				}
+				while (!option.equals(Account.Type.checking.toString()) && !option.equals(Account.Type.savings.toString()));
+				handleCreateBankAccount(Account.Type.getType(option));
 			}
 			else {
 				State.getState().setWorkingAccountIndex(Integer.parseInt(option) > 0 ? Integer.parseInt(option)-1 : 0);
@@ -325,7 +333,7 @@ public class AdminMenu implements Menu {
 		}
 		while (accounts);
 	}
-	
+
 	public void displayBankAccountMenu() {
 		System.out.println("Editing account#" + State.getState().getWorkingAccountIndex() + " (" + State.getState().getAccounts().get(State.getState().getWorkingAccountIndex())+ ")");
 		//System.out.println(State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()));
@@ -338,7 +346,6 @@ public class AdminMenu implements Menu {
 				option = Controller.getInput();
 			}
 			while (!option.equals("1") && !option.equals("2") && !option.equals("3"));
-			System.out.println(option);
 			
 			if (option.equals("1")) {
 				displayBalanceMenu();
@@ -366,7 +373,6 @@ public class AdminMenu implements Menu {
 				option = Controller.getInput();
 			}
 			while (!option.equals("1") && !option.equals("2") && !option.equals("3") && !option.equals("4"));
-			System.out.println(option);
 			
 			if (option.equals("1")) {
 				handleSetApproval(Account.Status.pending);
@@ -428,12 +434,18 @@ public class AdminMenu implements Menu {
 		while (balance);
 	}
 	
+	private void handleCreateBankAccount(Account.Type type) {
+		System.out.println("Creating " + type + " account...");
+		accountService.createAccount(State.getState().getWorkingUser(), type);
+		System.out.println("Created");
+	}
+	
 	private void handleWithdraw(double amount) {
 		State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()).setBalance(
 				State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()).getBalance() - amount);
 		accountService.updateAccount(State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()));
 		
-		logger.log("withdrew " + amount + " into " + State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()));
+		logger.log("withdrew " + amount + " from " + State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()));
 	}
 
 	private void handleDeposit(double amount) {
@@ -447,6 +459,8 @@ public class AdminMenu implements Menu {
 	private void handleSetApproval(Account.Status status) {
 		State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()).setStatus(status);
 		accountService.updateAccount(State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()));
+		
+		logger.log("set " + status + " status to " + State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()));
 	}
 
 	private void handleDiscardChanges() {
@@ -458,7 +472,6 @@ public class AdminMenu implements Menu {
 	private void handleCommitChanges() {
 		System.out.println("Saving changes to " + State.getState().getWorkingUser() + "...");
 		State.getState().getUsers().get(State.getState().getWorkingUserIndex()).copyUser(State.getState().getWorkingUser());
-		UserDao userDao = new UserDaoImpl();
 		switch (State.getState().getWorkingUser().getRole()) {
 		case admin:
 			userService.updateAdmin(State.getState().getUsers().get(State.getState().getWorkingUserIndex()));
@@ -471,21 +484,53 @@ public class AdminMenu implements Menu {
 			break;
 		}
 		System.out.println("Saved");
+		
+		logger.log("saved changes to " + State.getState().getUsers().get(State.getState().getWorkingAccountIndex()));
 	}
 
 	private void displayChangeRoleMenu() {
-		// TODO Auto-generated method stub
+		String role = "", option="";
+		System.out.println("Enter new role for " + State.getState().getUsers().get(State.getState().getWorkingUserIndex())  + " (admin | employee | customer): )");
+		do {
+			option = Controller.getInput();
+		}
+		while (!User.isValidRole(option));
+		System.out.println("New role entered");
+		role = option;
 		
+		State.getState().getWorkingUser().setRole(User.Role.getRole(role));
+		
+		System.out.println("Role set");
 	}
 
 	private void displayChangeLastNameMenu() {
-		// TODO Auto-generated method stub
+		String lastName = "", option="";
+		System.out.println("Enter new last name for " + State.getState().getUsers().get(State.getState().getWorkingUserIndex())  + " (alphanumeric characters and apostrophes are permitted: )");
+		do {
+			option = Controller.getInput();
+		}
+		while (!User.isValidName(option));
+		System.out.println("New last name entered");
+		lastName = option;
 		
+		State.getState().getWorkingUser().setFirstName(lastName);
+		
+		System.out.println("Last name set");
 	}
 
 	private void displayChangeFirstNameMenu() {
-		// TODO Auto-generated method stub
+		String firstName = "", option="";
+		System.out.println("Enter new first name for " + State.getState().getUsers().get(State.getState().getWorkingUserIndex())  + " (alphanumeric characters and apostrophes are permitted: )");
+		do {
+			option = Controller.getInput();
+		}
+		while (!User.isValidName(option));
+		System.out.println("New first name entered");
+		firstName = option;
 		
+		State.getState().getWorkingUser().setFirstName(firstName);
+		
+		System.out.println("First name set");
 	}
 
 	private void displayChangePasswordMenu() {
@@ -494,7 +539,7 @@ public class AdminMenu implements Menu {
 		do {
 			option = Controller.getInput();
 		}
-		while (!User.isValidPassword(password));
+		while (!User.isValidPassword(option));
 		System.out.println("User password entered");
 		password = option;
 		
@@ -510,7 +555,7 @@ public class AdminMenu implements Menu {
 		do {
 			option = Controller.getInput();
 		}
-		while (!User.isValidUsername(username));
+		while (!User.isValidUsername(option));
 		System.out.println("New username entered");
 		username = option;
 		
@@ -546,7 +591,7 @@ public class AdminMenu implements Menu {
 				login = true;
 				State.getState().setUser(State.getState().getUsers().get(adminIndex));
 				System.out.println("Logged in");
-				logger.log(State.getState().getUsers().get(adminIndex).getUsername() + " logged in. role: " + State.getState().getUsers().get(adminIndex).getRole());
+				logger.log(State.getState().getUsers().get(adminIndex).getUsername() + " logged in. Role: " + State.getState().getUsers().get(adminIndex).getRole());
 			}
 			else {
 				System.out.println("Did not find user");
@@ -557,7 +602,9 @@ public class AdminMenu implements Menu {
 	}
 	
 	private void handleLogout() {
-		
+		logger.log(State.getState().getUser().getUsername() + " logged out. Role: " + State.getState().getUser().getRole());
+		//TODO: clear state...
+		System.out.println("Logged out");
 	}
 	
 	private void handleCreateAccount() { 
@@ -601,7 +648,7 @@ public class AdminMenu implements Menu {
 	
 	@Override
 	public void open() {
-		System.out.println("Revature Banking App\nadmin menu");
+		System.out.println("Revature Banking App");
 		
 		displayMainMenu();
 	}

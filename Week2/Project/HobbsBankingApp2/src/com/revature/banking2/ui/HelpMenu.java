@@ -1,9 +1,8 @@
 package com.revature.banking2.ui;
 
 public class HelpMenu implements Menu {
-
-	@Override
-	public void open() {
+	
+	public void displayHelp() {
 		System.out.println("Revature Banking App man page:\n" +
 				"\n" +
 				"SYNOPSIS\n" +
@@ -27,6 +26,11 @@ public class HelpMenu implements Menu {
 				"AUTHOR\n" +
 				"Michael Hobbs" +
 				"\n");
+	}
+
+	@Override
+	public void open() {
+		displayHelp();
 	}
 
 }
