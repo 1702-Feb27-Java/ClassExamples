@@ -51,25 +51,16 @@ public class Account
 	
 	public boolean withdraw(double amount)
 	{
-		if (this.getStatus().equals("Approved"))
+		if (amount > this.getAmount() || (this.getAmount() - amount) == 0)
 		{
-			if (amount > this.getAmount())
-			{
-				return false;
-			}
-			this.setAmount(this.getAmount() + (-1* amount));
-			return true;
+			return false;
 		}
-		return false;
+		this.setAmount(this.getAmount() + (-1* amount));
+		return true;
 	}
-	public boolean deposit(double amount)
+	public void deposit(double amount)
 	{
-		if (this.getStatus().equals("Approved"))
-		{
-			this.setAmount(this.getAmount() + amount);
-			return true;
-		}
-		return false;	
+		this.setAmount(this.getAmount() + amount);
 	}
 	public void printAccount()
 	{

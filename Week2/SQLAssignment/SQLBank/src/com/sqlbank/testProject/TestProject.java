@@ -578,9 +578,25 @@ public class TestProject
 							System.out.println("INVALID ENTRY");
 							// TODO: handle exception
 						}
-
+						for(Account x : vAccounts)
+						{
+							if (x.getId() == acc_id)
+							{
+								double amnt = 0;
+								System.out.println("Enter amount to deposit");
+								try
+								{
+									amnt = sc.nextDouble();
+								}
+								catch(InputMismatchException e)
+								{
+									System.out.println("Enter a valid amount");
+								}
+								x.deposit(amnt);
+								cServe.updateBalance(x);
+							}
+						}
 					}
-					
 				}
 				else if ( opt == 6) //WITHDRAW 
 				{
@@ -603,9 +619,31 @@ public class TestProject
 							System.out.println("INVALID ENTRY");
 							// TODO: handle exception
 						}
-
+						for(Account x : vAccounts)
+						{
+							if (x.getId() == acc_id)
+							{
+								double amnt = 0;
+								System.out.println("Enter amount to withdraw");
+								try
+								{
+									amnt = sc.nextDouble();
+								}
+								catch(InputMismatchException e)
+								{
+									System.out.println("Enter a valid amount");
+								}
+								if (x.withdraw(amnt))
+								{
+									cServe.updateBalance(x);
+								}
+								else
+								{
+									System.out.println("INSUFFICIENT FUNDS");
+								}
+							}
+						}
 					}
-						
 				}
 				else if (opt == 0)
 				{
