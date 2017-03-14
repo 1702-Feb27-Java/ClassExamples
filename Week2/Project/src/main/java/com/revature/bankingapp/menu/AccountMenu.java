@@ -68,7 +68,7 @@ public class AccountMenu implements IMenu {
 		
 		//Show account information
 		System.out.println(String.format("Account Name: %s", account.getAccountName()));
-		System.out.println(String.format("Account Type: %s", account.getAccountType()));
+		System.out.println(String.format("Account Type: %s", account.getAccountType().getType()));
 		System.out.println(String.format("Account Status: %s", account.getStatus().getStatus()));
 		System.out.println(String.format("Balance: %.2f", account.getBalance()));
 		
@@ -76,6 +76,7 @@ public class AccountMenu implements IMenu {
 		if(canEdit){
 			System.out.println("w: Withraw");
 			System.out.println("d: Deposit");
+			System.out.println("n: Grant User access to account");
 		}
 		
 		// show if allowed to approve account 
@@ -87,7 +88,7 @@ public class AccountMenu implements IMenu {
 		boolean isValidOption = false;
 		IMenu menu = null;
 		while(menu == null){
-			System.out.print("Please enter your option.");
+			System.out.print("Please enter your option: ");
 			String input = scan.nextLine();
 			
 			//goes back to the main menu screen for the user
@@ -117,6 +118,27 @@ public class AccountMenu implements IMenu {
 			
 			//Requires access to edit this before it can withdraw and deposit this.
 			if(canEdit){
+				//user wants to give another user access to this account
+				if(input.equals("n")){
+					System.out.print("Please input the username you to grant access to: ");
+					String username = scan.nextLine();
+					User grantedUser = Service.getInstance().getUser(username);
+					if (grantedUser != null && grantedUser.getRole().equals(Service.getInstance().getCustomerRole())){
+						Boolean b = Service.getInstance().addUserToAccount(grantedUser, this.account);
+						Service.getInstance().log(String.format("User id: %d added User %d to access to Account %d", this.user.getUserId(), grantedUser.getUserId(), this.account.getAccountId()), Service.getInstance().getInfoLogLevel(), this.user.getUserId());
+						if (b){
+							isValidOption = true;
+							System.out.println("Granted Access");
+						} else {
+							isValidOption = true;
+							System.out.println("Unable to grant access.");
+						}
+					} else {
+						System.out.println("User does not exist");
+						isValidOption = true;
+					}
+				}
+				
 				//user wants to withdraw
 				if(input.equals("w")){
 					Double amountToWithdraw = null;
@@ -150,7 +172,7 @@ public class AccountMenu implements IMenu {
 				if(input.equals("d")){
 					Double amountToDeposit = null;
 					do{
-						System.out.print("Please enter how much you want to withdraw: ");
+						System.out.print("Please enter how much you want to deposit: ");
 						amountToDeposit = Util.getDoubleFromScanner(scan);
 						if(amountToDeposit == null || amountToDeposit < 0){
 							System.out.println("Not a valid number.");
@@ -175,7 +197,7 @@ public class AccountMenu implements IMenu {
 				//updates account and menu
 				Account updatedAccount = Service.getInstance().updateAndReturnAccount(account);
 				if (menu == null)
-					//updates menu for account depsoit and withdraw
+					//updates menu for account deposit and withdraw
 					menu = new AccountMenu(user, updatedAccount);
 			}
 			

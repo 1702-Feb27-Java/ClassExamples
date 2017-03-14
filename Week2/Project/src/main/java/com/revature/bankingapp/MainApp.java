@@ -17,7 +17,10 @@ public class MainApp {
 			 * it will save any time a menu changes  
 			 */
 			do{
-				menu = menu.openMenu(scan);				
+				menu = menu.openMenu(scan);
+				System.out.println("");
+				System.out.println("-------------------------");
+				System.out.println("");
 			} while(menu != null);
 		
 	}

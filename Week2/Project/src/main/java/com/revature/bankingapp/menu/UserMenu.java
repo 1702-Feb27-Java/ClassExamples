@@ -15,7 +15,7 @@ public abstract class UserMenu implements IMenu{
 	protected void printAccounts(List<Account> accounts) {
 		
 		for (Account account: accounts){
-			System.out.println(String.format("%d: %s %s", account.getAccountId(), account.getAccountName(), account.getStatus()));
+			System.out.println(String.format("%d: %s %s", account.getAccountId(), account.getAccountName(), account.getStatus().getStatus()));
 		}
 	}
 

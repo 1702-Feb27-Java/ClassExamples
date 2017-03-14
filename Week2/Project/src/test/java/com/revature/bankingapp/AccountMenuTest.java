@@ -23,6 +23,7 @@ public class AccountMenuTest {
 
 	private static final String CUSTOMERS_FILENAME = "customers.txt";
 	User customer;
+	User customer2;
 	User employee;
 	User admin;
 	Account account;
@@ -31,10 +32,13 @@ public class AccountMenuTest {
 	@Before
 	public void setUp() throws Exception {
 		customer = new User("firstname", "lastname", "aamt", "password", Service.getInstance().getCustomerRole());
+		customer2 = new User("firstname", "lastname", "aamttwo", "password", Service.getInstance().getCustomerRole());
+		
 		employee = new User("firstname", "lastname", "eamt", "password", Service.getInstance().getEmployeeRole());
 		admin = new User("firstname", "lastname", "adamt", "password", Service.getInstance().getAdminRole());
 		
 		customer = Service.getInstance().saveAndReturnNewUser(customer);
+		customer2 = Service.getInstance().saveAndReturnNewUser(customer2);
 		employee = Service.getInstance().saveAndReturnNewUser(employee);
 		admin = Service.getInstance().saveAndReturnNewUser(admin);
 		
@@ -83,6 +87,7 @@ public class AccountMenuTest {
 	@After 
 	public void tearDown() throws Exception {
 		Service.getInstance().deleteUser(customer);
+		Service.getInstance().deleteUser(customer2);
 		Service.getInstance().deleteUser(employee);
 		Service.getInstance().deleteUser(admin);
 		Service.getInstance().deleteAccount(account);
@@ -440,6 +445,37 @@ public class AccountMenuTest {
 		menu.openMenu(scan);
 		account = Service.getInstance().getAccount(account.getAccountId());
 		assertEquals(account.getStatus(), Service.getInstance().getApprovedStatus());
+	}
+	
+	@Test
+	/**
+	 * Test when a customer adds another customer to access the account.
+	 */
+	public void testCustomerGrantAccess(){
+		String s = new String("n\n"
+				+ "aamttwo\n");
+		
+		AccountMenu menu = new AccountMenu(customer, this.approvedAccount);
+		menu.openMenu(new Scanner(s));
+		
+		List<Account> a = Service.getInstance().getAccountFromUser(customer);
+		List<Account> b = Service.getInstance().getAccountFromUser(Service.getInstance().getUser("aamttwo"));
+		
+		assertEquals(1, b.size());
+	}
+	
+	@Test
+	public void testCustomerGrantAccessToEmployee(){
+		String s = new String("n\n"
+				+ "employee\n");
+		
+		AccountMenu menu = new AccountMenu(customer, this.approvedAccount);
+		menu.openMenu(new Scanner(s));
+		
+		List<Account> a = Service.getInstance().getAccountFromUser(customer);
+		List<Account> b = Service.getInstance().getAccountFromUser(Service.getInstance().getUser("eamt"));
+		
+		assertEquals(0, b.size());
 	}
 	
 }
