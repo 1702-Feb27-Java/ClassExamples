@@ -16,7 +16,8 @@ public class Service
 		User userTemp = new User();
 		userTemp = dao.getUserByUsername(user);
 		dao.deposit(user, dep);
-		System.out.println("Money Deposited! New Balance: " + userTemp.getAccountBalance());
+		userTemp = dao.getUserByUsername(user);
+		System.out.println("Money Deposited!");
 	}
 	
 	public void accountWithdrawl(String user, double wit)
@@ -24,12 +25,13 @@ public class Service
 		User userTemp = new User();
 		userTemp = dao.getUserByUsername(user);
 		dao.withdrawl(user, wit);
-		System.out.println("Money Withdrew! New Balance: " + userTemp.getAccountBalance());
+		userTemp = dao.getUserByUsername(user);
+		System.out.println("Money Withdrew!");
 	}
 	
 	public User viewCertainAccountForAdmin(String username)
 	{
-		User admin = new Admin();
+		User admin = new User();
 		admin = dao.getUserByUsername(username);
 		return admin;
 	}
@@ -45,9 +47,16 @@ public class Service
 	{
 		ArrayList<User> tempArray = new ArrayList();
 		tempArray = dao.getAllUsers();
+		String[] strTemp = new String[tempArray.size()];
+		int count = 0;
 		for(User u: tempArray)
 		{
-			u.toString();
+			strTemp[count] = u.toString();
+			count++;
+		}
+		for(int i = 0; i < strTemp.length; i++)
+		{
+			System.out.println(strTemp[i]);
 		}
 	}
 	
@@ -87,9 +96,16 @@ public class Service
 	{
 		ArrayList<Account> temp = new ArrayList();
 		temp = dao.getPending();
+		String[] strTemp = new String[temp.size()];
+		int counts = 0;
 		for(Account a : temp)
 		{
-			a.toString();
+			strTemp[counts] = a.toString();
+			counts++;
+		}
+		for(int j = 0; j < strTemp.length; j++)
+		{
+			System.out.println(strTemp[j]);
 		}
 		return temp;
 	}

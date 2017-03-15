@@ -15,7 +15,6 @@ public class ConnectionUtil
 	private static String pUrl, pUname, pPword;
 	public static Connection getConnection() throws SQLException
 	{
-		prop = new Properties();
 		try
 		{
 			fis = new FileInputStream("DBProp.properties");
@@ -24,6 +23,7 @@ public class ConnectionUtil
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		prop = new Properties();
 		try
 		{
 			prop.load(fis);
@@ -32,11 +32,12 @@ public class ConnectionUtil
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		System.out.println("Test");
 		pUrl = prop.getProperty("url");
 		pUname = prop.getProperty("uname");
 		pPword = prop.getProperty("pword");
-		System.out.println(pUrl + " " + pUname + " " + pPword);
+		//System.out.println(pUrl + " " + pUname + " " + pPword);
 		return DriverManager.getConnection(pUrl, pUname, pPword);
 	}
 }

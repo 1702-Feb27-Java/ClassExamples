@@ -6,7 +6,7 @@ import com.revature.bankingapp.BankingAppX.account.Account;
 
 public class User
 {
-	String firstName, lastName, userName, password;
+	String firstName, lastName, userName, password, adminPin;
 	int role, userid;
 
 	Account account = new Account();
@@ -123,6 +123,16 @@ public class User
 	public void setAccountUsername()
 	{
 		this.account.setUsername(userName);
+	}
+	
+	public String getAdminPin()
+	{
+		return adminPin;
+	}
+
+	public void setAdminPin(String adminPin)
+	{
+		this.adminPin = adminPin;
 	}
 	
 	@Override

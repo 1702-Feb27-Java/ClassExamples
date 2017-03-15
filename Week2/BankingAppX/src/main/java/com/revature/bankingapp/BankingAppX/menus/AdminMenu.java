@@ -1,11 +1,12 @@
 package com.revature.bankingapp.BankingAppX.menus;
 
-import java.util.*;
+import java.util.Scanner;
 import com.revature.bankingapp.BankingAppX.admin.Admin;
+import com.revature.bankingapp.BankingAppX.users.User;
 
 public class AdminMenu
 {
-	static Admin admin = new Admin();
+	static User admin = new User();
 	static Scanner scan = new Scanner(System.in);
 	static String username, password, adminPin;
 	
@@ -45,12 +46,12 @@ public class AdminMenu
 		adminPin = scan.next();
 	}
 	
-	public static Admin getAdmin()
+	public static User getAdmin()
 	{
 		return admin;
 	}
 
-	public static void setAdmin(Admin admin)
+	public static void setAdmin(User admin)
 	{
 		AdminMenu.admin = admin;
 	}
@@ -85,7 +86,7 @@ public class AdminMenu
 		AdminMenu.adminPin = adminPin;
 	}
 
-	public static Admin getAdminObject()
+	public static User getAdminObject()
 	{
 		return admin;
 	}

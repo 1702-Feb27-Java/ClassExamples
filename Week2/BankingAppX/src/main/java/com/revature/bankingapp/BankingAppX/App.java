@@ -16,7 +16,7 @@ public class App
     public static void main( String[] args ) throws NoSuchFieldException, SecurityException
     {
     	Service serv = new Service();
-    	ArrayList<Admin> adminList = new ArrayList();
+    	ArrayList<User> adminList = new ArrayList();
     	ArrayList<User> employeeList = new ArrayList();
     	ArrayList<User> customerList = new ArrayList();
     	boolean programActive = true;
@@ -45,10 +45,9 @@ public class App
     				break;
     			case 2:
     				AdminMenu.adminLogin();
-    				User temp = new Admin();
-    				Admin admi = new Admin();
+    				User temp = new User();
     				temp = serv.viewCertainAccountForAdmin(AdminMenu.getUsername());
-    				adminList.add(admi);
+    				adminList.add(temp);
     				if(adminList.get(0).getUserName().equals(AdminMenu.getUsername()) && adminList.get(0).getPassword().equals(AdminMenu.getPassword()) 
     						&& adminList.get(0).getAdminPin().equals(AdminMenu.getAdminPin()))
     				{
@@ -99,7 +98,19 @@ public class App
     						int check = scan.nextInt();
     						if(check == 1)
     						{
-    							ArrayList<Account> accs = serv.viewPendingAccounts();
+    							ArrayList<Account> accs = new ArrayList();
+    							accs = serv.viewPendingAccounts();
+    							String[] strArr = new String[accs.size()];
+    							int count = 0;
+    							for(Account a : accs)
+    							{
+    								strArr[count] = a.toString();
+    								count++;
+    							}
+    							for(int x = 0; x < strArr.length; x++)
+    							{
+    								System.out.println(strArr[x]);
+    							}
     							System.out.println("Would you like to validate the pending accounts?");
     							System.out.println("Please enter 1 for yes, and 2 for no.");
     							int checked = scan.nextInt();
@@ -146,6 +157,8 @@ public class App
     			case 1:
     				CustomerMenu.custCreate();
     				customerList.add(CustomerMenu.getUser());
+    				serv.addUser(customerList.get(0).getFirstName(), customerList.get(0).getLastName(), customerList.get(0).getUserName(), 
+    						customerList.get(0).getPassword(), customerList.get(0).getRole());
     				serv.addAccount(CustomerMenu.getUser());
     				break;
     			case 2:
@@ -170,14 +183,16 @@ public class App
     								System.out.println("How much would you like to deposit");
     								double dep = scan.nextDouble();
     								serv.accountDeposit(CustomerMenu.getUsername(), dep);
-    								System.out.println("Your balance is: " + customerList.get(0).getAccountBalance());
+    								User u = serv.viewCertainAccount(CustomerMenu.getUsername());
+    								System.out.println("Your balance is: " + (u.getAccountBalance() + dep));
     							}
     							else if(option == 2)
     							{
     								System.out.println("How much would you like to withdrawl");
     								double with = scan.nextDouble();
     								serv.accountWithdrawl(CustomerMenu.getUsername(), with);
-    								System.out.println("Your balance is: " + customerList.get(0).getAccountBalance());
+    								User u = serv.viewCertainAccount(CustomerMenu.getUsername());
+    								System.out.println("Your balance is: " + (u.getAccountBalance() - with));
     							}
     							else if(option == 3)
     							{

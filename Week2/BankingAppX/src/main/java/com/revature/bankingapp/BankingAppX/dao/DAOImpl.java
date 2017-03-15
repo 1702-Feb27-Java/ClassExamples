@@ -21,8 +21,8 @@ public class DAOImpl implements DAO
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{
 			connect.setAutoCommit(false);
-			String sql = "INSERT INTO USER (first_name, last_name, username, pw, role_id) "
-					+ "VALUES ('?', '?', '?', '?', ?)";
+			String sql = "INSERT INTO USERS (first_name, last_name, username, pw, role_id, adminpin) "
+					+ "VALUES (?, ?, ?, ?, ?, null)";
 			PreparedStatement ps = connect.prepareStatement(sql);
 			ps.setString(1, firstname);
 			ps.setString(2, lastname);
@@ -48,8 +48,8 @@ public class DAOImpl implements DAO
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{
 			connect.setAutoCommit(false);
-			String sql = "INSERT INTO USER (first_name, last_name, username, pw, role_id, adminpin) "
-					+ "VALUES ('?', '?', '?', '?', ?, '?')";
+			String sql = "INSERT INTO USERS (first_name, last_name, username, pw, role_id, adminpin) "
+					+ "VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = connect.prepareStatement(sql);
 			ps.setString(1, firstname);
 			ps.setString(2, lastname);
@@ -171,7 +171,7 @@ public class DAOImpl implements DAO
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{
 			connect.setAutoCommit(false);
-			String sql = "SELECT * FROM USERS WHERE username = '?'";
+			String sql = "SELECT * FROM USERS WHERE username = ?";
 			PreparedStatement ps = connect.prepareStatement(sql);
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
@@ -234,7 +234,7 @@ public class DAOImpl implements DAO
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{
 			connect.setAutoCommit(false);
-			String sql = "SELECT * FROM USERS WHERE username = '?'";
+			String sql = "SELECT * FROM USERS WHERE username = ?";
 			PreparedStatement ps = connect.prepareStatement(sql);
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
@@ -247,11 +247,13 @@ public class DAOImpl implements DAO
 				user.setUserName(rs.getString(4));
 				user.setPassword(rs.getString(5));
 				user.setRole(rs.getInt(6));
+				user.setAdminPin(rs.getString(7));
 			}
-			user.setAccountBalance(user.getAccountBalance() + bal);
+			double tempdep = user.getAccountBalance() + bal;
+			user.setAccountBalance(tempdep);
 			String sql2 = "UPDATE ACCOUNTS SET balance = ? where account_id = ?";
 			PreparedStatement ps2 = connect.prepareStatement(sql2);
-			ps2.setDouble(1, user.getAccountBalance());
+			ps2.setDouble(1, tempdep);
 			ps2.setInt(2, user.getUserID());
 			numRows = ps2.executeUpdate();
 			connect.commit();
@@ -270,7 +272,7 @@ public class DAOImpl implements DAO
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{
 			connect.setAutoCommit(false);
-			String sql = "SELECT * FROM USERS WHERE username = '?'";
+			String sql = "SELECT * FROM USERS WHERE username = ?";
 			PreparedStatement ps = connect.prepareStatement(sql);
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
@@ -283,11 +285,13 @@ public class DAOImpl implements DAO
 				user.setUserName(rs.getString(4));
 				user.setPassword(rs.getString(5));
 				user.setRole(rs.getInt(6));
+				user.setAdminPin(rs.getString(7));
 			}
-			user.setAccountBalance(user.getAccountBalance() - bal);
+			double tempwith = user.getAccountBalance() - bal;
+			user.setAccountBalance(tempwith);
 			String sql2 = "UPDATE ACCOUNTS SET balance = ? where account_id = ?";
 			PreparedStatement ps2 = connect.prepareStatement(sql2);
-			ps2.setDouble(1, user.getAccountBalance());
+			ps2.setDouble(1, tempwith);
 			ps2.setInt(2, user.getUserID());
 			numRows = ps2.executeUpdate();
 			connect.commit();
