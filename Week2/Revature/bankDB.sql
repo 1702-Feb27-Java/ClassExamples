@@ -178,16 +178,21 @@ commit;
 INSERT INTO ROLE (ROLE_ID, role) VALUES (1, 'Admin');
 INSERT INTO ROLE (ROLE_ID, role) VALUES (2, 'Employee');
 INSERT INTO ROLE (ROLE_ID, role) VALUES (3, 'Customer');
-
+/
 --POPULATE ACCOUNT TYPE LOOKUP TABLE
 INSERT INTO ACCOUNT_TYPE (type_id, ac_type) VALUES (1, 'Savings');
 INSERT INTO ACCOUNT_TYPE (type_id, ac_type) VALUES (2, 'Checking');
 INSERT INTO ACCOUNT_TYPE (type_id, ac_type) VALUES (3, 'Joint');
-
+/
 --POPULATE STATUS TYPE LOOKUP TABLE
 INSERT INTO STATUS (status_id, status) VALUES (1, 'Pending');
 INSERT INTO STATUS (status_id, status) VALUES (2, 'Declined');
 INSERT INTO STATUS (status_id, status) VALUES (3, 'Approved');
+/
+--POPULATE STATUS TYPE LOOKUP TABLE
+INSERT INTO LOGTYPE (LOGTYPE_ID, TYPE) VALUES (1, 'Error');
+INSERT INTO LOGTYPE (LOGTYPE_ID, TYPE) VALUES (2, 'Warning');
+INSERT INTO LOGTYPE (LOGTYPE_ID, TYPE) VALUES (3, 'Info');
 /
 SELECT account_seq.CURRVAL FROM DUAL;
 SELECT USER_seq.CURRVAL FROM DUAL;
@@ -224,7 +229,7 @@ IS
 INSERT INTO USERS(FIRST_NAME, USERNAME, PW) VALUES ('ABC', 'ABC', 'ABC');
 CALL ADD_ACCOUNT();
 /
-
+--====================== PENDING ACCOUNTS
   SELECT E2.*, a.account_id, a.balance, at.AC_TYPE, s.STATUS  FROM USERS E2 
     INNER JOIN customer_accounts c ON
       c.user_id = E2.USER_ID
@@ -236,6 +241,7 @@ CALL ADD_ACCOUNT();
       a.status_id = s.status_id
     WHERE a.status_id = 1;
 /
+--====================== ACCOUNTS OF USERS THAT IS APPROVED
 SELECT a.account_id, a.balance, at.AC_TYPE, s.status, u2.username
           FROM ACCOUNTS a
           INNER JOIN  account_type at ON
@@ -249,3 +255,17 @@ SELECT a.account_id, a.balance, at.AC_TYPE, s.status, u2.username
           WHERE u2.username = 'john'
           AND s.status = 'Approved';
 /
+--==================== ACCOTNS AND PENDING 
+SELECT a.account_id, a.balance, at.AC_TYPE, s.status, a.resolver
+							 FROM ACCOUNTS a
+							 INNER JOIN  account_type at ON
+							 at.type_id = a.type_id
+							 INNER JOIN status s ON
+							 s.status_id = a.status_id
+               INNER JOIN customer_accounts cs ON
+							 cs.account_id = a.account_id
+							 INNER JOIN users u2 ON
+							 u2.user_id = cs.user_id
+							 WHERE u2.username = 'janee';
+/
+select u.username from users u 
