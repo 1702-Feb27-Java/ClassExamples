@@ -1,7 +1,7 @@
 /**
 *********************************************************************************************************
 * TITLE: MINNCOMM BANKING APPLICATION
-* FILENAME: UserScreenTest.java
+* FILENAME: CustomerFileTest.java
 * PROGRAMMER: KEITH MINNER
 * 
 * PURPOSE: ALLOW A USER TO SIGN UP FOR A BANKING SERVICE TO INCLUDE A CHECKING AND / OR SAVINGS ACCOUNT
@@ -28,14 +28,18 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.revature.bankingapp.UserScreen;
+import com.revature.bankingapp.Customer;
+import com.revature.bankingapp.CustomerFile;
 
 /**
  * @author Keith
  *
  */
-public class UserScreenTest {
+//*******************************************************************************************************
 
+public class CustomerFileTest {
+
+	Customer c = Customer.getCustomerLine();
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -65,9 +69,36 @@ public class UserScreenTest {
 	}
 
 	@Test
-	public void test() {
-		String[] s = {"Test"};
-		UserScreen.main(s);
+	public void testNewPersonToFile() {
+		CustomerFile.newPersonToFile(c);
 	}
+
+	@Test
+	public void testUpdateRecord() {
+		CustomerFile.updateRecord(c);
+	}
+	
+	@Test
+	public void testVerifyLogin() {
+		String s1 = "k";
+		String s2 = "m";
+		int i = 0;
+		CustomerFile.verifyLogin(s1, s2, i);
+	}
+	
+	@Test
+	public void testVerifyInfo1() {
+		String s = "test";
+		int i = 1;
+		CustomerFile.verifyInfo(i, s);
+	}
+	
+	@Test
+	public void testVerifyInfo2() {
+		String s = "test";
+		int i = 0;
+		CustomerFile.verifyInfo(i, s);
+	}
+
 
 }
