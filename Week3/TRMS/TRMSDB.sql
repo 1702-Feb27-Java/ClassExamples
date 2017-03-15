@@ -1,3 +1,4 @@
+/*
 DROP TABLE EmployeeMessage;
 /
 DROP TABLE ReimbAttach;
@@ -28,7 +29,7 @@ DROP TABLE Urgent;
 /
 DROP TABLE Approval_step;
 /
-
+*/
 --Create Lookup Tables--
 CREATE TABLE ROLE
 (
