@@ -72,6 +72,33 @@ public class UserDAOImpl implements UserDAO {
 		return 0;
 	}
 
+	@Override
+	public int ValidateUser(String user_name, String Password) {
+		
+		try(Connection connect = ConnectionUtil.getConnection(); ) {
+		
+			String sql = "SELECT ROLE_ID, USERNAME, PASSWORD from USERS WHERE USERNAME = '"+ user_name +"' and password = '"+ Password +"'";
+			
+			Statement statement = connect.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			//System.out.println("here");
+			
+			while(rs.next() ) {
+				return rs.getInt(1);
+				
+			}
+			
+			
+		}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
+		
+	}
+
 	
 
 	

@@ -8,8 +8,15 @@ public class Users {
 	private String username;
 	private String password;
 	private int role_id;
+	public Accounts a;
 	
 	//constructors
+	public Users() {
+		//this.user_id = 0;
+		//this.Firstname = "";
+		//this
+	}
+	
 	public Users(int user_id, String firstname, String lastname, String username, String password, int role_id) {
 		super();
 		this.user_id = user_id;

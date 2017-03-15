@@ -34,7 +34,7 @@ public class AccountDAOImpl implements AccountDAO {
 				String sql = "INSERT INTO ACCOUNTS(TYPE_ID, BALANCE, STATUS_ID, RESOLVER) VALUES('" + 1 + "', '" + 0.01 + "', '" + 1 + "', '" + usr.getUser_id() + "')";
 				Statement statement = con.createStatement();
 				int numRowsAffected = statement.executeUpdate(sql);
-				System.out.println("Num Rows Affected: " + numRowsAffected);
+				//System.out.println("Num Rows Affected: " + numRowsAffected);
 				//"', '" + usr.getUser_id() + "')";
 				//"')";
 				//System.out.println(usr.getUser_id());
@@ -45,7 +45,7 @@ public class AccountDAOImpl implements AccountDAO {
 				String sql = "INSERT INTO ACCOUNTS(TYPE_ID, BALANCE, STATUS_ID, RESOLVER) VALUES('" + 2 + "', '" + 0.01 + "', '" + 1 + "', '" + usr.getUser_id() + "')";
 				Statement statement = con.createStatement();
 				int numRowsAffected = statement.executeUpdate(sql);
-				System.out.println("Num Rows Affected: " + numRowsAffected);
+				//System.out.println("Num Rows Affected: " + numRowsAffected);
 				
 			}
 			
@@ -54,7 +54,7 @@ public class AccountDAOImpl implements AccountDAO {
 				String sql = "INSERT INTO ACCOUNTS(TYPE_ID, BALANCE, STATUS_ID, RESOLVER) VALUES('" + 3 + "', '" + 0.01 + "', '" + 1 + "', '" + usr.getUser_id() + "')";
 				Statement statement = con.createStatement();
 				int numRowsAffected = statement.executeUpdate(sql);
-				System.out.println("Num Rows Affected: " + numRowsAffected);
+				//System.out.println("Num Rows Affected: " + numRowsAffected);
 				
 			}
 			
@@ -67,21 +67,42 @@ public class AccountDAOImpl implements AccountDAO {
 	}
 
 	@Override
-	public void ViewAccountInfo(Users usr) {
-		//passing the username from the user
+	public Users ViewAccountInfo(Users usr) {
+		
 		try(Connection con = new ConnectionUtil().getConnection();) {
-			
+			Users this_user = new Users();
 			//table may be a join on both accounts and customer
-			//String sql = "SELECT USER_ID, ACCOUNT_ID FROM CUSTOMER_ACCOUNTS WHERE USER_ID = " + number_id +  " ' and Account_id = ' " + Account_id;
-			//Statement statement = con.createStatement();
-			//int numRowsAffected = statement.executeUpdate(sql);
+			String sql = "Select users.firstname, users.lastname, users.username, accounts.balance, account_type.type, accounts.account_id, accounts.resolver, accounts.status_id, accounts.type_id from Users"
+						+ " join customer_accounts"
+						+ " on users.user_id = customer_accounts.USER_ID"
+						+ " join ACCOUNTS on ACCOUNTS.ACCOUNT_ID = customer_accounts.ACCOUNT_ID"
+						+ " join account_type on accounts.type_id = account_type.type_id"
+						+ " where Users.USERNAME = + ?";
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, usr.getUsername() );
+			ResultSet numRS = statement.executeQuery();
+			
+			while ( numRS.next() ) {
+				System.out.println("First Name: " + numRS.getString(1));
+				System.out.println("Last Name: " + numRS.getString(2));
+				System.out.println("User Name: " + numRS.getString(3));
+				System.out.println("Account Balance: " + numRS.getDouble(4));
+				//System.out.println("Account type: " + numRS.getString(1));
+				
+				this_user.setFirstname(numRS.getString(1));
+				this_user.setLastname(numRS.getString(2));
+				this_user.setUsername(numRS.getString(3));
+				this_user.a = new Accounts(numRS.getInt(6), numRS.getInt(9), numRS.getInt(4), numRS.getInt(8), numRS.getInt(7));
+			}
+			
+			return this_user;
 			
 		} catch(SQLException e) {
 			
 			e.printStackTrace();
 		}
 			
-			
+		return null;
 	}
 		
 }

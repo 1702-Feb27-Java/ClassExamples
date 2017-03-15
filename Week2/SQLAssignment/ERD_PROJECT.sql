@@ -77,8 +77,8 @@ create or replace trigger account_trigger
   INTO:new.Account_id
   from dual;
 END;
-
 / 
+drop trigger user_trigger;
 CREATE OR REPLACE TRIGGER user_trigger
 --when this trigger is activated before inserting into users
   BEFORE INSERT ON users
@@ -95,7 +95,8 @@ CREATE OR REPLACE TRIGGER user_trigger
 END;
 /
 
-INSERT INTO users (firstname, lastname, username, PASSWORD, role_id) values('Nicholas', 'Perez', 'nperez', 'opeth4life', 1);
+INSERT INTO users (USER_ID, firstname, lastname, username, PASSWORD, role_id) values(1, 'Nicholas', 'Perez', 'nperez', 'opeth4life', 1);
+INSERT INTO users (USER_ID, firstname, lastname, username, PASSWORD, role_id) values(2, 'john', 'smith', 'jsmith', 'password', 2);
 
 INSERT into role (role, role_id) values ( 'Admin', 1);
 INSERT into role (role, role_id) values ( 'Employee', 2);
@@ -113,9 +114,12 @@ INSERT INTO status (status_id, status) VALUES (3, 'Approved');
 -- will include timestamps of logs
 create table log_table
 (
-  user_id NUMBER,
+  user_id NUMBER
   when_date TIMESTAMP,
-  FOREIGN KEY(user_id)
-
+  FOREIGN KEY(user_id),
 );
-
+--joining a singular account from three different tables
+Select users.firstname, users.lastname, users.username, accounts.balance, account_type.type from Users
+join Accounts
+on users.firstname = 'peter'
+join account_type on accounts.type_id = account_type.type_id;
