@@ -72,7 +72,7 @@ public class Employee extends Person {
 			CallableStatement cs = connect.prepareCall(sql1);
 			while (rs.next()){
 				c = DAOImpl.formatSet(rs, c);
-				System.out.println(c.toString());
+				System.out.println("Name: " + c.getFirstName() + " " + c.getLastName());
 				System.out.println("Would you like to approve this account?\n'y' or 'n': "); //user option to approve or deny account
 				String approve = in.nextLine();
 				if (approve.equals("y")){
