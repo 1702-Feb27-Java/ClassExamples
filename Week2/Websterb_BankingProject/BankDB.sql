@@ -69,6 +69,8 @@ CREATE TABLE CustomerAccounts
 );
 
 -------sequences----------
+--drop sequence user_seq;
+--drop sequence account_seq;
 CREATE SEQUENCE user_seq
   MINVALUE 1 
   START WITH 1
@@ -225,26 +227,17 @@ BEGIN
   WHERE ACCOUNT_ID = actId;
 END;
 /
-select * from users;
-/
-select *
-from account, customeraccounts 
-where account.account_id = customeraccounts.ACCOUNT_ID
-and customeraccounts.USER_ID = 2;
-/
 --drop table customeraccounts;
-/
+
 --drop table account;
-/
+
 --drop table users;
-/
+
 --drop sequence account_seq;
-/
+
 --insert into Users(user_id, first_name, last_name, username, pass, role_id)
 --values(1, 'admin', 'admin', 'admin', 'admin', 1);
-/
-drop table logsusers;
-/
+
 CREATE TABLE LogsUsers (
   log_id NUMBER,
   log_time TIMESTAMP,
