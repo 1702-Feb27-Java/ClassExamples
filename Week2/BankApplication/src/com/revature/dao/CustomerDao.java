@@ -27,6 +27,7 @@ public class CustomerDao {
 	 */
 	public int addCustomer(String firstName, String lastName, String username, String password) {
 		int roleid = 3;
+		int statusid=3;
 		int numRows = 0;
 		try (Connection connect = ConnectionUtil.getConnection();) {
 			connect.setAutoCommit(false);
@@ -112,6 +113,7 @@ public class CustomerDao {
 	 * 
 	 */
 	public void openAnAccount(int userid, int typeId) {
+		
 		int statusid = 3;
 		try (Connection connect = ConnectionUtil.getConnection();) {
 			connect.setAutoCommit(false);
@@ -146,7 +148,7 @@ public class CustomerDao {
 			rs = cs.executeQuery();
 			while (rs.next()) {
 
-				System.out.printf("Account id: %d, Account Type : %s balance: %f \n", rs.getInt(1), rs.getString(2),
+				System.out.printf("Account id: %d, Account Type : %s balance: %f", rs.getInt(1), rs.getString(2),
 						rs.getDouble(3));
 
 			}
@@ -159,11 +161,17 @@ public class CustomerDao {
 	}
 	
 	public void deposit(int accountId, double amount) {
+		// get the account number
+		// get the status
+		if(checkStatus(accountId)==3){
+			System.out.println("this account is still pending");
+			return;
+		}
 		try (Connection connect = ConnectionUtil.getConnection();) {
 			connect.setAutoCommit(false);
 			String sql = "update accounts set balance = ? where account_id = ?";
 			CallableStatement ps = connect.prepareCall(sql);
-
+				
 			double total = getBalance(accountId);
 			total += amount;
 			ps.setDouble(1, total);
@@ -217,8 +225,13 @@ public class CustomerDao {
 	
 	
 	public void withdraw(int accountId, double amount) {
+		if(checkStatus(accountId)==3){
+			System.out.println("this account is still pending");
+			return;
+		}
 		try (Connection connect = ConnectionUtil.getConnection();) {
 			connect.setAutoCommit(false);
+			
 			String sql = " update accounts set balance=? where account_id=?";
 			CallableStatement ps = connect.prepareCall(sql);
 
@@ -230,7 +243,6 @@ public class CustomerDao {
 			ps.executeUpdate();
 
 			connect.getAutoCommit();
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -246,7 +258,6 @@ public class CustomerDao {
 			CallableStatement ps = connect.prepareCall(sql);
 			ps.setDouble(1, userid);
 			ps.executeQuery();
-			
 			roleid=ps.getInt(2);
 			connect.getAutoCommit();
 
@@ -256,7 +267,30 @@ public class CustomerDao {
 		}
 		return roleid;
 		
-		
 	}
+	
+	
+	
+	public int checkStatus(int accountId){
+		int status=0;
+		try (Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "SELECT status_id FROM accounts WHERE account_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, accountId);
+			
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			status= rs.getInt(1);
+			connect.commit();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return status;
 
+}
 }

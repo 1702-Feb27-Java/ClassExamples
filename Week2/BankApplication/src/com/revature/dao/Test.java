@@ -6,10 +6,11 @@ public class Test {
 
 	EmployeeDAO emp= new EmployeeDAO();
 	//emp.seeAllCustomersAccounts();
-	emp.approveAccount(101);
-	CustomerDao cust= new CustomerDao();
-	int x=cust.getRoleid(128);
+	//emp.getRoleid(162);
+	//emp.deleteCustomer(128);
+	int x=emp.checkStatus(102);
 	System.out.println(x);
+	
 	}
 
 }
