@@ -238,6 +238,6 @@ begin
   iUs:=iUser;
   dbms_output.put_line('User registered');
   insert into users values('',fName,lName,iUser,iPwd,iRole); 
-  insert into logs values('',timeS,'REG_USER',iUs,'USERS','','');
+  insert into logs values('',timeS,'REG_USER',iUs,'USERS',iRole,'');
 end;
 /
