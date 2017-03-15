@@ -31,13 +31,25 @@ public class AccountDaoImpl implements AccountDao {
 	@Override
 	public void updateAccount(Account account) {
 		try (Connection connection = ConnectionUtil.getConnection()) {
-			String updateSql = "UPDATE ACCOUNTS SET type_id = ?, balance = ?, status_id = ? WHERE account_id = ?";
-			PreparedStatement updateStatement = connection.prepareStatement(updateSql);
-			updateStatement.setInt(1, account.getType().getId());
-			updateStatement.setDouble(2, account.getBalance());
-			updateStatement.setInt(3, account.getStatus().getId());
-			//updateStatement.setInt(4, account.getResolverId());
-			updateStatement.setInt(4, account.getId());
+			String updateSql;
+			PreparedStatement updateStatement;
+			if (account.getResolverId() == null) {
+				updateSql = "UPDATE ACCOUNTS SET type_id = ?, balance = ?, status_id = ? WHERE account_id = ?";
+				updateStatement = connection.prepareStatement(updateSql);
+				updateStatement.setInt(1, account.getType().getId());
+				updateStatement.setDouble(2, account.getBalance());
+				updateStatement.setInt(3, account.getStatus().getId());
+				updateStatement.setInt(4, account.getId());
+			}
+			else {
+				updateSql = "UPDATE ACCOUNTS SET type_id = ?, balance = ?, status_id = ?, resolver_id = ? WHERE account_id = ?";
+				updateStatement = connection.prepareStatement(updateSql);
+				updateStatement.setInt(1, account.getType().getId());
+				updateStatement.setDouble(2, account.getBalance());
+				updateStatement.setInt(3, account.getStatus().getId());
+				updateStatement.setInt(4, account.getResolverId());
+				updateStatement.setInt(5, account.getId());
+			}
 			updateStatement.executeUpdate();
 		}
 		catch (SQLException e) {

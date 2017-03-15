@@ -98,7 +98,7 @@ public class AdminMenu implements Menu {
 	public void displayCustomersMenu() {
 		userService.getCustomers();
 		
-		System.out.println("View customers:");
+		System.out.println("Viewing customers:");
 		boolean customers = true;
 		do {
 			for (int i = 0; i < State.getState().getUsers().size(); i++) {
@@ -261,7 +261,7 @@ public class AdminMenu implements Menu {
 	public void displayAdminMenu() {
 		boolean admin = true;
 		do {
-			System.out.println("(1) Edit username\n(2) Edit password\n(3) Edit first name\n(4) Edit last name\n(5)Edit role\n(6)Commit changes and Exit\n(7)Discard changes and Exit");
+			System.out.println("(1) Edit username\n(2) Edit password\n(3) Edit first name\n(4) Edit last name\n(5) Edit role\n(6) Commit changes and Exit\n(7) Discard changes and Exit");
 			System.out.println("Select an option:");
 			String option = "";
 			do {
@@ -298,13 +298,15 @@ public class AdminMenu implements Menu {
 	public void displayBankAccountsMenu() {
 		accountService.getAccounts(State.getState().getWorkingUser());
 		System.out.println(State.getState().getWorkingUser());
-		System.out.println("Editing bank accounts");
+		System.out.println("Editing bank accounts:");
 		
 		boolean accounts = true;
 		do {
-			for (int i = 0; i < State.getState().getAccounts().size(); i++) {
-				System.out.println(State.getState().getAccounts().get(i));
-				System.out.println("(" + (i+1) + ") Edit bank account#" + (i+1));
+			if (State.getState().getAccounts() != null) {
+				for (int i = 0; i < State.getState().getAccounts().size(); i++) {
+					System.out.println(State.getState().getAccounts().get(i));
+					System.out.println("(" + (i+1) + ") Edit bank account#" + (i+1));
+				}
 			}
 			System.out.println("(A) Add bank account");
 			System.out.println("(Q) Quit");
@@ -335,7 +337,7 @@ public class AdminMenu implements Menu {
 	}
 
 	public void displayBankAccountMenu() {
-		System.out.println("Editing account#" + State.getState().getWorkingAccountIndex() + " (" + State.getState().getAccounts().get(State.getState().getWorkingAccountIndex())+ ")");
+		System.out.println("Editing account#" + State.getState().getWorkingAccountIndex() + " (" + State.getState().getAccounts().get(State.getState().getWorkingAccountIndex())+ "):");
 		//System.out.println(State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()));
 		boolean account = true;
 		do {
@@ -441,24 +443,31 @@ public class AdminMenu implements Menu {
 	}
 	
 	private void handleWithdraw(double amount) {
+		System.out.println("Withdrawing " + amount + "...");
 		State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()).setBalance(
 				State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()).getBalance() - amount);
 		accountService.updateAccount(State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()));
+		System.out.println("Withdrew " + amount);
 		
 		logger.log("withdrew " + amount + " from " + State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()));
 	}
 
 	private void handleDeposit(double amount) {
+		System.out.println("Depositing " + amount + "...");
 		State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()).setBalance(
 				State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()).getBalance() + amount);
 		accountService.updateAccount(State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()));
+		System.out.println("Deposited " + amount);
 		
 		logger.log("deposited " + amount + " into " + State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()));
 	}
 
 	private void handleSetApproval(Account.Status status) {
+		System.out.println("Setting status to " + status + "...");
 		State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()).setStatus(status);
+		State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()).setResolverId(State.getState().getUser().getId());
 		accountService.updateAccount(State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()));
+		System.out.println("Set status to " + status);
 		
 		logger.log("set " + status + " status to " + State.getState().getAccounts().get(State.getState().getWorkingAccountIndex()));
 	}
@@ -513,7 +522,7 @@ public class AdminMenu implements Menu {
 		System.out.println("New last name entered");
 		lastName = option;
 		
-		State.getState().getWorkingUser().setFirstName(lastName);
+		State.getState().getWorkingUser().setLastName(lastName);
 		
 		System.out.println("Last name set");
 	}
@@ -598,7 +607,6 @@ public class AdminMenu implements Menu {
 			}
 		}
 		while (!login);
-		
 	}
 	
 	private void handleLogout() {
@@ -616,7 +624,7 @@ public class AdminMenu implements Menu {
 			option = Controller.getInput();
 		}
 		while (!User.isValidUsername(option));
-		System.out.println("User account entered: " + option);
+		System.out.println("Admin username entered: " + option);
 		username = option;
 		
 		// get password.
@@ -625,25 +633,36 @@ public class AdminMenu implements Menu {
 			option = Controller.getInput();
 		}
 		while (!User.isValidPassword(option));
-		System.out.println("User password entered");
+		System.out.println("Admin password entered");
 		password = option;
 		
 		// get first name.
-		firstName = "aoeu";
+		System.out.println("Enter first name for " + username + " (alphanumeric characters and apostrophes are permitted):");
+		do {
+			option = Controller.getInput();
+		}
+		while (!User.isValidName(option));
+		System.out.println("Admin first name entered: " + option);
+		firstName = option;
 		
 		// get last name.
-		lastName = "hts";
+		System.out.println("Enter last name for " + username + " (alphanumeric characters and apostrophes are permitted):");
+		do {
+			option = Controller.getInput();
+		}
+		while (!User.isValidName(option));
+		System.out.println("Admin last name entered: " + option);
+		lastName = option;
 		
 		System.out.println("Creating account...");
-		
 		userService.addAdmin(username, password, firstName, lastName);
-		
 		System.out.println("Created account");
 			
+		logger.log("Created admin: User [username=" + username + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + "]");
 	}
 	
 	private void handleExit() {
-		
+		System.out.println("Exiting...");
 	}
 	
 	@Override
