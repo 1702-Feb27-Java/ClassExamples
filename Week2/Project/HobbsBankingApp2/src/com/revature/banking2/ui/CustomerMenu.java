@@ -199,7 +199,7 @@ public class CustomerMenu implements Menu {
 	
 	private void displayChangeUsernameMenu() {
 		String username = "", option="";
-		System.out.println("Enter new username for " + State.getState().getUsers().get(State.getState().getWorkingUserIndex())  + " (alphanumeric characters and _ are permitted): ");
+		System.out.println("Enter new username for " + State.getState().getUser()  + " (alphanumeric characters and _ are permitted): ");
 		do {
 			option = Controller.getInput();
 		}
@@ -214,7 +214,7 @@ public class CustomerMenu implements Menu {
 	
 	private void displayChangePasswordMenu() {
 		String password = "", option="";
-		System.out.println("Enter new password for " + State.getState().getUsers().get(State.getState().getWorkingUserIndex()) + " (alphanumeric characters, _, -, and special characters are permitted): ");
+		System.out.println("Enter new password for " + State.getState().getUser() + " (alphanumeric characters, _, -, and special characters are permitted): ");
 		do {
 			option = Controller.getInput();
 		}
@@ -230,7 +230,7 @@ public class CustomerMenu implements Menu {
 	
 	private void displayChangeFirstNameMenu() {
 		String firstName = "", option="";
-		System.out.println("Enter new first name for " + State.getState().getUsers().get(State.getState().getWorkingUserIndex())  + " (alphanumeric characters and apostrophes are permitted: )");
+		System.out.println("Enter new first name for " + State.getState().getUser() + " (alphanumeric characters and apostrophes are permitted: )");
 		do {
 			option = Controller.getInput();
 		}
@@ -245,7 +245,7 @@ public class CustomerMenu implements Menu {
 	
 	private void displayChangeLastNameMenu() {
 		String lastName = "", option="";
-		System.out.println("Enter new last name for " + State.getState().getUsers().get(State.getState().getWorkingUserIndex())  + " (alphanumeric characters and apostrophes are permitted: )");
+		System.out.println("Enter new last name for " + State.getState().getUser()  + " (alphanumeric characters and apostrophes are permitted: )");
 		do {
 			option = Controller.getInput();
 		}
@@ -286,15 +286,15 @@ public class CustomerMenu implements Menu {
 	
 	private void handleCommitChanges() {
 		System.out.println("Saving changes to " + State.getState().getWorkingUser() + "...");
-		State.getState().getUsers().get(State.getState().getWorkingUserIndex()).copyUser(State.getState().getWorkingUser());
+		State.getState().getUser().copyUser(State.getState().getWorkingUser());
 		switch (State.getState().getWorkingUser().getRole()) {
 		case customer:
-			userService.updateCustomer(State.getState().getUsers().get(State.getState().getWorkingUserIndex()));
+			userService.updateCustomer(State.getState().getUser());
 			break;
 		}
 		System.out.println("Saved");
 		
-		logger.log("saved changes to " + State.getState().getUsers().get(State.getState().getWorkingAccountIndex()));
+		logger.log("saved changes to " + State.getState().getUser());
 	}
 	
 	private void handleDiscardChanges() {
@@ -375,8 +375,11 @@ public class CustomerMenu implements Menu {
 				user = option;
 				login = true;
 				State.getState().setUser(State.getState().getUsers().get(customerIndex));
+				User workingUser = new User();
+				workingUser.copyUser(State.getState().getUser());
+				State.getState().setWorkingUser(workingUser);
 				System.out.println("Logged in");
-				logger.log(State.getState().getUsers().get(customerIndex).getUsername() + " logged in. Role: " + State.getState().getUsers().get(customerIndex).getRole());
+				logger.log(State.getState().getUser().getUsername() + " logged in. Role: " + State.getState().getUser().getRole());
 			}
 			else {
 				System.out.println("Did not find user");
