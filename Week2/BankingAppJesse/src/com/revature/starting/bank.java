@@ -9,6 +9,6 @@ public class bank {
 
 	public void setC1(Customer c1) {
 		this.c1 = c1;
-	} 
+	}
 
 }
