@@ -137,22 +137,25 @@ public class EmployeeMenu {
 		try {			
 			// self-explanatory
 			System.out.println("---------------------------");
-			System.out.println("Please enter the id of the customer you want to approve: ");
+			System.out.println("Please enter the id of the account you want to approve: ");
 
 			// set the id 
 			int id = Integer.parseInt(br.readLine());
 		
 			// use the DAO method to get all accounts under a user
-			ArrayList<AccountClass> pendingAcc = new ArrayList<AccountClass>();
-			pendingAcc = daoAccount.getAccountsByUserID(id);
+//			ArrayList<AccountClass> pendingAcc = new ArrayList<AccountClass>();
+//			pendingAcc = daoAccount.getAccountsByUserID(id);
+//			System.out.println(pendingAcc);
 
 			System.out.println("Approving now...");
 			
-			for (AccountClass a : pendingAcc){
+			//for (AccountClass a : pendingAcc){
 				// update each account through a loop
 				// 2 (status to pending), and 2 (resolver id, aka an employee)
-				daoAccount.updateStatus(a, 2, 2);
-			}
+				daoAccount.updateStatus(id, 2, 2);
+				
+				
+			//}
 			
 			System.out.println("Approval complete. Returning to the employee menu.");
 			MenuClass.showEmployeeMenu();

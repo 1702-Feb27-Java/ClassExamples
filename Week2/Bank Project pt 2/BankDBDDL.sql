@@ -11,7 +11,7 @@ GRANT connect to bankdb;
 GRANT resource to bankdb;
 
 /******************************************************************************
-CREATE A TABLES
+CREATE TABLES
 ******************************************************************************/
 
 CREATE TABLE Role(
@@ -68,7 +68,6 @@ CREATE TABLE LogsUsers (
   log_id NUMBER,
   log_time TIMESTAMP,
   log_operation VARCHAR2(60),
-  log_user_id NUMBER,
   
   -- for logging changes in the Users table
   oldFirstName VARCHAR2(25),
@@ -87,7 +86,6 @@ CREATE TABLE LogsAccounts (
   log_id NUMBER,
   log_time TIMESTAMP,
   log_operation VARCHAR2(60),
-  log_account_id NUMBER,
   
   -- for logging changes in the Accounts table
   oldBalance NUMBER(12,2),

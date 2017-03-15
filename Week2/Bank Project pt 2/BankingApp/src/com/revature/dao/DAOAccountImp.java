@@ -67,7 +67,7 @@ public class DAOAccountImp implements DAOAccount {
 	}
 
 	@Override
-	public void updateStatus(AccountClass ac, int status, int resolver) {
+	public void updateStatus(int id, int status, int resolver) {
 		// TODO Auto-generated method stub
 
 		try (Connection connect = ConnectionClass.getConnection();) {
@@ -75,12 +75,12 @@ public class DAOAccountImp implements DAOAccount {
 			connect.setAutoCommit(false);
 
 			// calls a query to approve accounts
-			updateStatus = connect.prepareStatement("UPDATE Accounts SET status_id = ?, , resolver_id = ?, WHERE account_id = ?");
+			updateStatus = connect.prepareStatement("UPDATE Accounts SET status_id = ?, resolver_id = ? WHERE account_id = ?");
 
 			// sets variables into the statement
 			updateStatus.setInt(1, status);
 			updateStatus.setInt(2, resolver);
-			updateStatus.setInt(3, ac.getAccountID());
+			updateStatus.setInt(3, id);
 
 			updateStatus.executeUpdate();
 			System.out.println("Success! You've updated the status of this account.");

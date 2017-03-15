@@ -16,8 +16,8 @@ import com.revature.pojo.UserClass;
 public class DAOUserImp implements DAOUser {
 
 	// initialize statements here
-	CallableStatement insert;
-	PreparedStatement updateFirst, updateLast, updateUname, updatePW, getByID, getByUser;
+	CallableStatement insert, updateFirst;
+	PreparedStatement updateLast, updateUname, updatePW, getByID, getByUser;
 	PreparedStatement getAll;
 
 	@Override
@@ -58,7 +58,7 @@ public class DAOUserImp implements DAOUser {
 			connect.setAutoCommit(false);
 
 			// calls a statement to update the user's firstname
-			updateFirst = connect.prepareStatement("UPDATE Users SET firstname = ? WHERE user_id = ?");
+			updateFirst = connect.prepareCall("CALL updatefirstname(?,?)");
 
 			updateFirst.setString(1, f);
 			updateFirst.setInt(2, uc.getUserID());

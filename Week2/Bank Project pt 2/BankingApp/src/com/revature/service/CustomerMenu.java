@@ -277,6 +277,7 @@ public class CustomerMenu {
 				case 2: // no
 					System.out.println("Returning you to the main menu now...");
 					MenuClass.showMainMenu();
+					MainMenu.functionality();
 					break;
 				default:
 					System.out.println("You cannot make that selection. Try again.");
@@ -300,6 +301,7 @@ public class CustomerMenu {
 				case 2: // no
 					System.out.println("Returning you to the main menu now...");
 					MenuClass.showMainMenu();
+					MainMenu.functionality();
 					break;
 				default:
 					System.out.println("You cannot make that selection. Try again.");

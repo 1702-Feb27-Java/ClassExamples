@@ -78,7 +78,8 @@ CREATE OR REPLACE PROCEDURE addUser(fName IN VARCHAR2, lName IN VARCHAR2,
 uname IN VARCHAR2, pw IN VARCHAR2)
 IS
 BEGIN
-  INSERT INTO Users VALUES ('', fName, lName, uname, pw, 3); -- only add customers
+  INSERT INTO Users (firstname, lastname, uname, pw, role_id) 
+  VALUES (fName, lName, uname, pw, 3); -- only add customers
 END;
 /
 
@@ -92,6 +93,14 @@ BEGIN
   (customer_id, account_seq.CURRVAL);
 END;
 /
+
+CREATE OR REPLACE PROCEDURE updateFirstName (fName IN VARCHAR2, userid IN NUMBER)
+IS
+BEGIN
+  UPDATE Users SET firstname = fName WHERE user_id = userid;
+END;
+
+
 
 /******************************************************************************
 SEQUENCES/TRIGGERS/PROCEDURES FOR LOGGING
@@ -134,18 +143,18 @@ CREATE OR REPLACE TRIGGER log_account_seq_trigger
 CREATE OR REPLACE TRIGGER users_change
   AFTER INSERT OR UPDATE OR DELETE ON Users
     FOR EACH ROW
-  DECLARE currID NUMBER;
+  --DECLARE currID NUMBER;
   BEGIN
     SELECT user_seq.CURRVAL INTO currID FROM dual;
     IF INSERTING THEN
-      INSERT INTO LogsUsers (log_time, log_operation, log_user_id, newFirstName, newLastName, newUname, newPW) 
-      VALUES (CURRENT_TIMESTAMP, 'New', currID, :NEW.firstname, :NEW.lastname, :NEW.Uname, :NEW.PW);
+      INSERT INTO LogsUsers (log_time, log_operation, newFirstName, newLastName, newUname, newPW) 
+      VALUES (CURRENT_TIMESTAMP, 'New', :NEW.firstname, :NEW.lastname, :NEW.Uname, :NEW.PW);
     ELSIF DELETING THEN
-    INSERT INTO LogsUsers (log_time, log_operation, log_user_id, oldFirstName, oldLastName, oldUname, oldPW) 
-      VALUES (CURRENT_TIMESTAMP, 'Delete', currID, :OLD.firstname, :OLD.lastname, :OLD.Uname, :OLD.PW);
+    INSERT INTO LogsUsers (log_time, log_operation, oldFirstName, oldLastName, oldUname, oldPW) 
+      VALUES (CURRENT_TIMESTAMP, 'Delete', :OLD.firstname, :OLD.lastname, :OLD.Uname, :OLD.PW);
     ELSIF UPDATING THEN
-      INSERT INTO LogsUsers (log_time, log_operation, log_user_id, oldFirstName, oldLastName, oldUname, oldPW, newFirstName, newLastName, newUname, newPW) 
-      VALUES (CURRENT_TIMESTAMP, 'Update', currID, :OLD.firstname, :OLD.lastname, :OLD.Uname, :OLD.PW, :NEW.firstname, :NEW.lastname, :NEW.Uname, :NEW.PW);
+      INSERT INTO LogsUsers (log_time, log_operation, oldFirstName, oldLastName, oldUname, oldPW, newFirstName, newLastName, newUname, newPW) 
+      VALUES (CURRENT_TIMESTAMP, 'Update', :OLD.firstname, :OLD.lastname, :OLD.Uname, :OLD.PW, :NEW.firstname, :NEW.lastname, :NEW.Uname, :NEW.PW);
     END IF;
   END;
 /
@@ -154,18 +163,18 @@ CREATE OR REPLACE TRIGGER users_change
 CREATE OR REPLACE TRIGGER accounts_change
   AFTER INSERT OR UPDATE OR DELETE ON Accounts
     FOR EACH ROW
-  DECLARE currID NUMBER;
+  --DECLARE currID NUMBER;
   BEGIN
-    SELECT account_seq.CURRVAL INTO currID FROM dual;
+    --SELECT account_seq.CURRVAL INTO currID FROM dual;
     IF INSERTING THEN
-      INSERT INTO LogsAccounts (log_time, log_operation, log_account_id, newBalance, newStatus, newResolver) 
-      VALUES (CURRENT_TIMESTAMP, 'New', currID, :NEW.balance, :NEW.status_id, :NEW.resolver_id);
+      INSERT INTO LogsAccounts (log_time, log_operation, newBalance, newStatus, newResolver) 
+      VALUES (CURRENT_TIMESTAMP, 'New', :NEW.balance, :NEW.status_id, :NEW.resolver_id);
     ELSIF DELETING THEN
-    INSERT INTO LogsAccounts (log_time, log_operation, log_account_id, oldBalance, oldStatus, oldResolver) 
-      VALUES (CURRENT_TIMESTAMP, 'Delete', currID, :OLD.balance, :OLD.status_id, :OLD.resolver_id);
+    INSERT INTO LogsAccounts (log_time, log_operation, oldBalance, oldStatus, oldResolver) 
+      VALUES (CURRENT_TIMESTAMP, 'Delete', :OLD.balance, :OLD.status_id, :OLD.resolver_id);
     ELSIF UPDATING THEN
-      INSERT INTO LogsAccounts (log_time, log_operation, log_account_id, oldBalance, oldStatus, oldResolver, newBalance, newStatus, newResolver) 
-      VALUES (CURRENT_TIMESTAMP, 'Update', currID, :OLD.balance, :OLD.status_id, :OLD.resolver_id, :NEW.balance, :NEW.status_id, :NEW.resolver_id);
+      INSERT INTO LogsAccounts (log_time, log_operation, oldBalance, oldStatus, oldResolver, newBalance, newStatus, newResolver) 
+      VALUES (CURRENT_TIMESTAMP, 'Update', :OLD.balance, :OLD.status_id, :OLD.resolver_id, :NEW.balance, :NEW.status_id, :NEW.resolver_id);
     END IF;
   END;
 /

@@ -72,8 +72,9 @@ public class MenuClass {
 		System.out.println("Menu options:");
 		System.out.println("1. View pending account applications");
 		System.out.println("2. View all accounts");
-		System.out.println("3. Edit accounts");
-		System.out.println("4. Back to main menu");
+		System.out.println("3. View all users");
+		System.out.println("4. Edit accounts");
+		System.out.println("5. Back to main menu");
 	}
 
 	public static void accountTypeSelection(int accountType) {

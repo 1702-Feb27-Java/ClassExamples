@@ -13,10 +13,11 @@ import com.revature.pojo.UserClass;
 // everything in an admin menu
 
 public class AdminMenu {
-	
+
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static DAOAccountImp daoAccount = new DAOAccountImp();
 	static DAOUserImp daoUser = new DAOUserImp();
+
 	// this makes the menu functional and take inputs from the user
 	public static void functionality() {
 
@@ -24,7 +25,7 @@ public class AdminMenu {
 
 		try {
 			int aMenuInput = Integer.parseInt(br.readLine());
-			
+
 			// menu options selected by user and return to admin menu
 			switch (aMenuInput) {
 			case 1:
@@ -37,12 +38,16 @@ public class AdminMenu {
 				viewAll();
 				AdminMenu.functionality();
 				break;
-			case 3:
+			case 3: // view all users
+				viewAllUsers();
+				AdminMenu.functionality();
+				break;
+			case 4:
 				// edit accounts
 				editAccount();
 				AdminMenu.functionality();
 				break;
-			case 4:
+			case 5:
 				MenuClass.showMainMenu();
 				MainMenu.functionality();
 				break;
@@ -59,12 +64,12 @@ public class AdminMenu {
 			e2.printStackTrace();
 		}
 	}
-	
+
 	// edit account method, allows admin to edit customer info
 	public static void editAccount() {
 
 		try {
-			
+
 			// use the DAO method to get all users in the databse
 			ArrayList<UserClass> allUsers = new ArrayList<UserClass>();
 			allUsers = daoUser.getAllUsers();
@@ -95,7 +100,7 @@ public class AdminMenu {
 
 	public static void whatToEdit(UserClass uc, int id) {
 
-		try {			
+		try {
 			// shows what admin can edit
 			MenuClass.showEditMenu();
 			int input = Integer.parseInt(br.readLine());
@@ -107,14 +112,14 @@ public class AdminMenu {
 			case 1: // first name
 				System.out.println("What would you like to replace the first name with?");
 				String firstName = br.readLine();
-				
+
 				// calls DAO method to edit
 				daoUser.updateFirstName(uc, firstName);
-				
+
 				System.out.println("Success, you have edited the customer's first name.");
 				System.out.println("Would you like to edit something else? 1 for YES and 2 for NO");
 				input2 = Integer.parseInt(br.readLine());
-				switch(input2){
+				switch (input2) {
 				case 1: // yes
 					whatToEdit(uc, id);
 					break;
@@ -137,7 +142,7 @@ public class AdminMenu {
 				System.out.println("Success, you have edited the customer's last name.");
 				System.out.println("Would you like to edit something else? 1 for YES and 2 for NO");
 				input2 = Integer.parseInt(br.readLine());
-				switch(input2){
+				switch (input2) {
 				case 1: // yes
 					whatToEdit(uc, id);
 					break;
@@ -160,7 +165,7 @@ public class AdminMenu {
 				System.out.println("Success, you have edited the customer's username.");
 				System.out.println("Would you like to edit something else? 1 for YES and 2 for NO");
 				input2 = Integer.parseInt(br.readLine());
-				switch(input2){
+				switch (input2) {
 				case 1: // yes
 					whatToEdit(uc, id);
 					break;
@@ -177,14 +182,14 @@ public class AdminMenu {
 			case 4: // password
 				System.out.println("What would you like to replace the password with?");
 				String password = br.readLine();
-				
+
 				// calls DAO method to edit
 
 				daoUser.updatePassword(uc, password);
 				System.out.println("Success, you have edited the customer's password.");
 				System.out.println("Would you like to edit something else? 1 for YES and 2 for NO");
 				input2 = Integer.parseInt(br.readLine());
-				switch(input2){
+				switch (input2) {
 				case 1: // yes
 					whatToEdit(uc, id);
 					break;
@@ -223,8 +228,9 @@ public class AdminMenu {
 			// we store all accounts that are still pending, aka status_id = 1
 			ArrayList<AccountClass> pendingAcc = new ArrayList<AccountClass>();
 			pendingAcc = daoAccount.getAccountsByStatus(1);
-			
-			// if this arraylist is not empty, then there are no accounts pending
+
+			// if this arraylist is not empty, then there are no accounts
+			// pending
 			if (pendingAcc.size() != 0) {
 				System.out.println("There are the current accounts pending for approval.");
 				pendingAcc.forEach(System.out::println);
@@ -253,7 +259,7 @@ public class AdminMenu {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}catch (NumberFormatException e2) {
+		} catch (NumberFormatException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
@@ -267,15 +273,15 @@ public class AdminMenu {
 			// calls the DAO method to get all accounts in the database
 			ArrayList<AccountClass> allAcc = new ArrayList<AccountClass>();
 			allAcc = daoAccount.getAllAccounts();
-			
+
 			System.out.println("These are all the customer accounts.");
 			allAcc.forEach(System.out::println);
-			
+
 			System.out.println("---------------------------");
 			System.out.println("Press 1 to return to the previous menu.");
-			
+
 			int confirm = Integer.parseInt(br.readLine());
-			
+
 			switch (confirm) {
 			case 1: // yes
 				MenuClass.showAdminMenu();
@@ -289,36 +295,37 @@ public class AdminMenu {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}catch (NumberFormatException e2) {
+		} catch (NumberFormatException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 
 	}
 
-	//method to approve new accounts
+	// method to approve new accounts
 	public static void approve() {
 
-		try {			
+		try {
 			// self-explanatory
 			System.out.println("---------------------------");
-			System.out.println("Please enter the id of the customer you want to approve: ");
+			System.out.println("Please enter the id of the account you want to approve: ");
 
 			// set the id
 			int id = Integer.parseInt(br.readLine());
-			
-			// calls the DAO method to get accounts under one user
-			ArrayList<AccountClass> pendingAcc = new ArrayList<AccountClass>();
-			pendingAcc = daoAccount.getAccountsByUserID(id);
 
-			System.out.println("Approving now...");
-			
-			for (AccountClass a : pendingAcc){
-				// update accounts through a loop
-				// 2 updates status to approved, 1 is resolved id, aka the admin
-				daoAccount.updateStatus(a, 2, 1);
-			}
-			
+			// calls the DAO method to get accounts under one user
+			// ArrayList<AccountClass> pendingAcc = new
+			// ArrayList<AccountClass>();
+			// pendingAcc = daoAccount.getAccountsByUserID(id);
+			//
+			// System.out.println("Approving now...");
+			//
+			// for (AccountClass a : pendingAcc){
+			// update accounts through a loop
+			// 2 updates status to approved, 1 is resolved id, aka the admin
+			daoAccount.updateStatus(id, 2, 1);
+			// }
+
 			System.out.println("Approval complete. Returning to the admin menu.");
 			MenuClass.showAdminMenu();
 			AdminMenu.functionality();
@@ -331,5 +338,40 @@ public class AdminMenu {
 			e2.printStackTrace();
 		}
 	}
-	
+
+	public static void viewAllUsers() {
+		try {
+			ArrayList<UserClass> allUsers = new ArrayList<UserClass>();
+			
+			allUsers = daoUser.getAllUsers();
+			
+			System.out.println("These are all the users.");
+			
+			allUsers.forEach(System.out::println);
+
+			System.out.println("---------------------------");
+			System.out.println("Press 1 to return to the previous menu.");
+
+			int confirm = Integer.parseInt(br.readLine());
+
+			switch (confirm) {
+			case 1: // yes
+				MenuClass.showAdminMenu();
+				AdminMenu.functionality();
+				break;
+			default:
+				System.out.println("You cannot make that selection. Try again.");
+				break;
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NumberFormatException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+	}
+
 }

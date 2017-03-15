@@ -13,7 +13,7 @@ public interface DAOAccount {
 	
 	// update 
 	public void updateBalance(AccountClass ac, double balance);
-	public void updateStatus(AccountClass ac, int status, int resolver);
+	public void updateStatus(int id, int status, int resolver);
 	
 	// read
 	ArrayList<AccountClass> getAllAccounts();
