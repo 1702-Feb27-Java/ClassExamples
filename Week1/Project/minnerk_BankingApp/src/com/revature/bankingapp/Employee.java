@@ -6,27 +6,34 @@
 * 
 * PURPOSE: ALLOW A USER TO SIGN UP FOR A BANKING SERVICE TO INCLUDE A CHECKING AND / OR SAVINGS ACCOUNT
 * WITH THE CAPABILITIES TO DEPOSIT, WITHDRAW, VIEW AND EDIT PERSONAL INFORMATION.  AN EMPLOYEE CAN
-* VIEW CUSTOMER INFORMATION AND APPROVE ACCOUNTS.
+* VIEW CUSTOMER INFORMATION, APPROVE ACCOUNTS, AND EDIT CUSTOMER INFO.  ADDITIONALLY AN ADMIN CAN 
+* APPROVE CUSTOMER ACCOUNTS.
 *========================================================================================================
 *										PROJECT FILES
 *
-* Customer.java					Menus.java
-* CustomerClassTest.java			MenusClassTest.java
-* CustomerFile.java				Person.java
-* CustomerFileTest.java			PersonClassTest.java	
-* Employee.java					UserScreen.java
-* EmployeeClassTest.java			UserScreenTest.java
+* Customer.java				MenusClassTest.java	
+* DAOImpl.java				Person.java			
+* Employee.java				PersonClassTest.java			
+* EmployeeClassTest.java	UserScreen.java	
+* Menus.java				UserScreenTest.java	
+
 *========================================================================================================
 *										PACKAGE & IMPORT FILES
 *********************************************************************************************************
 */
 package com.revature.bankingapp;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
+
 import org.apache.log4j.Logger;
+
+import com.revature.dao.DAOImpl;
+import com.revature.util.FactoryConnection;
 /**
 *********************************************************************************************************
 *										@CLASS EMPLOYEE EXTENDS PERSON
@@ -44,104 +51,120 @@ public class Employee extends Person {
 	public Employee() {
 
 	}
-
-	public static void approveAccounts() {
-		
-		System.out.println("\nThis capability is currently under construction");
-
-/*		BufferedReader br = null;
-		Customer c = new Customer();
-		try {
-			br = new BufferedReader(new FileReader("person.txt"));
-			String s = br.readLine();
-
-			// Finds the specific info and sets all of the variables in
-			// a customer based on what is in the string array
-			while (s != null) {
-				String[] sArr = s.split(":");
-
-				if (sArr[6].equals("false")) { // approved member in person if
-												// false
-												// the below executes
-					c = Customer.setCustomerInfo(sArr);
-
-					// Prints out the current customer that has not been
-					// approved yet
-					// and provides the option to approve their account
-					System.out.println(c);
-					System.out.print(
-							"Would you like to approve the account for " + sArr[2] + " " + sArr[3] + " yes or n: ");
-					String answer = new String();
-					answer = in.nextLine();
-					if (answer.equals("y")) {
-						CustomerFile.updateRecord(c); // deleting line in text file
-						c.setApproved(true); // sets approved for the specific customer
-						CustomerFile.newPersonToFile(c); // Calling method to send to file
-						l.trace("ACCOUNT APPROVED FOR " + (c.getFirstName().toUpperCase() + " "
-								+ c.getLastName().toUpperCase()));
-						}
-
-					}
-				}
-			
-				s = br.readLine();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		} finally {
-			try {
-				if (br != null)
-					br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}*/
-	}
 /**
 *********************************************************************************************************
-* @METHOD TO PULL ALL CUSTOMER ACCOUNTS
+* @METHOD TO ALLOW AN EMPLOYEE TO APPROVE CUSTOMER ACCOUNTS AND ADMIN THE EMPLOYEE ACCOUNTS
+*********************************************************************************************************
+*/
+	public static void approveAccounts(Customer c, int i) {
+		
+		 int resolver = c.getUserID();
+		
+		try (Connection connect = FactoryConnection.getConnection();){ //getting a connection
+			connect.setAutoCommit(false); //turning off auto commit until end of function
+			String sql = "SELECT u.USERID, u.FIRSTNAME, u.LASTNAME, u.USERNAME, u.PW, u.ROLEID, a.STATUSID, a.TYPEID, a.BALANCE FROM USERS u INNER JOIN CUSTOMERACCOUNTS ca ON u.USERID=ca.USERID INNER JOIN ACCOUNTS a ON ca.ACCTID=a.ACCTID WHERE STATUSID=? AND ROLEID=?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, 1);
+			ps.setInt(2, i+1);
+			ResultSet rs = ps.executeQuery();
+
+			String sql1 = "Call update_status (?, ?, ?)";  //call to procedure to update the status of people
+			CallableStatement cs = connect.prepareCall(sql1);
+			while (rs.next()){
+				c = DAOImpl.formatSet(rs, c);
+				System.out.println(c.toString());
+				System.out.println("Would you like to approve this account?\n'y' or 'n': "); //user option to approve or deny account
+				String approve = in.nextLine();
+				if (approve.equals("y")){
+					cs.setInt(1, c.getUserID()); //setting variables for the called procedure
+					cs.setInt(2, 2);			//for userid, status to approved, and resolved
+					cs.setInt(3, resolver);
+					cs.execute();				
+				} else {
+					cs.setInt(1, c.getUserID());
+					cs.setInt(2, 3);
+					cs.setInt(3, resolver);
+					cs.execute();				
+				}
+			}
+			connect.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}			
+/**
+*********************************************************************************************************
+* @METHOD TO PULL ALL CUSTOMER ACCOUNTS AND DISPLAY THEM TO THE SCREEN
 *********************************************************************************************************
 */
 	public static void pullAccounts() {
 
-		BufferedReader br = null;
 		Customer c = new Customer();
-		try {
-			br = new BufferedReader(new FileReader("person.txt"));
-			String s = br.readLine();
+		
+		try (Connection connect = FactoryConnection.getConnection();){
+			connect.setAutoCommit(false);
+			String sql = "SELECT u.USERID, u.FIRSTNAME, u.LASTNAME, u.USERNAME, u.PW, u.ROLEID, a.STATUSID, a.TYPEID, a.BALANCE FROM USERS u INNER JOIN CUSTOMERACCOUNTS ca ON u.USERID=ca.USERID INNER JOIN ACCOUNTS a ON ca.ACCTID=a.ACCTID";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
 			System.out.println("\nCustomer List:\n" + 
-					String.format("%10s", "First") + " | " + String.format("%10s", "Last") + " | " + String.format("%10s", "UserID") +  
-					" | " + String.format("%10s", "Password") + " | " + String.format("%20s", "Email") + " | " + String.format("%12s", "Access Level") +
-					" | " + String.format("%10s", "Approved") + " | " + String.format("%12s", "Checking #") + " | " + String.format("%10s", "Savings #") +
-					" | " + String.format("%10s", "Chk Balance") + " | " + String.format("%10s", "Svg Balance"));
-			// Gets every customer in the file and puts it into the array list
+					String.format("%8s", "UserID") + " | " +  String.format("%15s", "First") + " | " + String.format("%15s", "Last") +  
+					" | " + String.format("%15s", "Username")+ " | " + String.format("%15s", "Password")  + " | " + String.format("%15s", "Role") +
+					" | " + String.format("%15s", "Status") + " | " + String.format("%12s", "Checking #") + " | " + String.format("%12s", "Savings #") +
+					" | " + String.format("%12s", "Chk Balance") + " | " + String.format("%12s", "Svg Balance"));
+			System.out.println("------------------------------------------------------------------------------"
+					+ "--------------------------------------------------------------------------------------------------------------------");
+			int role;
+			int approved;
+			String s1 = null;
+			String s2 = null;
 			
-			while (s != null) {
-				String[] sArr = s.split(":");
-				c = Customer.setCustomerInfo(sArr);
-								
-				System.out.println(String.format("%10s",c.getUserID())
-					+ " | " + String.format("%10s",c.getFirstName())				
-					+ " | " + String.format("%10s",c.getLastName()) 
-					+ " | " + String.format("%20s",c.getUserName())
-					+ " | " + String.format("%10s",c.getPassword())
- 					+ " | " + String.format("%12s",c.getRole())
-					+ " | " + String.format("%10s",c.getApproved())
-					+ " | " + String.format("%10s",c.getCheckingAccountNumber())
-					+ " | " + String.format("%10s",c.getSavingsAccountNumber()) 
-					+ " | " + String.format("%12s",c.getCheckingBalance())
-					+ " | " + String.format("%10s",c.getSavingsBalance())); 
-
-				s = br.readLine();
+			while (rs.next()){
+				c = DAOImpl.formatSet(rs, c);
+				role = c.getRole();
+				approved = c.getApproved();
+				
+				
+				switch(role){
+				case 1:
+					s1 = "Admin";
+					break;
+				case 2:
+					s1 = "Employee";
+					break;
+				case 3:
+					s1 = "Customer";
+					break;
+				}
+				
+				switch(approved){
+				case 1:
+					s1 = "Pending";
+					break;
+				case 2:
+					s1 = "Approved";
+					break;
+				case 3:
+					s1 = "Denied";
+					break;
+				}
+				
+				System.out.println(String.format("%8s",c.getUserID())
+						+ " | " + String.format("%15s",c.getFirstName())				
+						+ " | " + String.format("%15s",c.getLastName()) 
+						+ " | " + String.format("%15s",c.getUserName())
+						+ " | " + String.format("%15s",c.getPassword())
+						+ " | " + String.format("%15s", s1)
+						+ " | " + String.format("%15s", s2)
+						+ " | " + String.format("%12s",c.getCheckingAccountNumber())
+						+ " | " + String.format("%12s",c.getSavingsAccountNumber()) 
+						+ " | " + String.format("%12s",c.getCheckingBalance())
+						+ " | " + String.format("%12s",c.getSavingsBalance())); 
 			}
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		} finally {
-			try {
-				if (br != null)
-					br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			connect.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 /**
@@ -150,28 +173,28 @@ public class Employee extends Person {
 *********************************************************************************************************
 */
 	public static void accessCustomerInfo() {
+		Scanner in = new Scanner(System.in);
+		System.out.println("\nEnter in the Customer's id number to edit there information: ");
+		int customerId = Integer.parseInt(in.nextLine());
 		
-		System.out.println("\nThis capability is currently under construction");
-	
-	}
-		/*BufferedReader br = null;
 		Customer c = new Customer();
 		
-		try{
-			br = new BufferedReader(new FileReader("person.txt"));
-			c = Customer.getCustomerLine();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		} finally {
-			try {
-				if (br != null)
-					br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+		try (Connection connect = FactoryConnection.getConnection();){
+			connect.setAutoCommit(false);
+			String sql = "SELECT u.USERID, u.FIRSTNAME, u.LASTNAME, u.USERNAME, u.PW, u.ROLEID, a.STATUSID, a.TYPEID, a.BALANCE FROM USERS u INNER JOIN CUSTOMERACCOUNTS ca ON u.USERID=ca.USERID INNER JOIN ACCOUNTS a ON ca.ACCTID=a.ACCTID WHERE u.USERID=?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, customerId);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()){
+				c = DAOImpl.formatSet(rs, c);
 			}
-		} return c;
-	} 
-*/
+			Menus.accountMenu(c);
+			in.close();
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
 }
 
 /**
