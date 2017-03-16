@@ -1,3 +1,27 @@
+--DROP USER bankdb CASCADE;
+--
+--
+--/*******************************************************************************
+--   Create database
+--********************************************************************************/
+--CREATE USER bankdb
+--IDENTIFIED BY p4ssw0rd
+--DEFAULT TABLESPACE users
+--TEMPORARY TABLESPACE temp
+--QUOTA 10M ON users;
+--
+--GRANT connect to bankdb;
+--GRANT resource to bankdb;
+--GRANT create session TO bankdb;
+--GRANT create table TO bankdb;
+--GRANT create view TO bankdb;
+--
+--
+--
+--conn bankdb/p4ssw0rd
+
+---DROP ALL TABLES---
+
 --DROP SEQUENCE ACCOUNT_SEQ;
 --DROP SEQUENCE USER_SEQ;
 --DROP TABLE CUSTOMERACCOUNTS;
@@ -162,12 +186,6 @@ CREATE OR REPLACE PROCEDURE DECLINE(U_ID IN NUMBER, A_ID IN NUMBER)
       WHERE A_ID = A.ACCOUNT_ID;
     END;
 /
---insert into users (FIRST_NAME, LAST_NAME, username, pass, role_id) VALUES
---('Jonathan', 'Lee', 'dlwoaks', '123', 1);
---insert into users (FIRST_NAME, LAST_NAME, username, pass, role_id) VALUES
---('Ben', 'Webster', 'websterb', '234', 2);
---insert into users (FIRST_NAME, LAST_NAME, username, pass, role_id) VALUES
---('Moriarty', 'Keita', 'ask', '321', 1);
 
 insert into role(role_id, role) VALUES (1, 'Admin');
 insert into role(role_id, role) VALUES (2, 'Employee');
