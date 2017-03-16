@@ -42,3 +42,13 @@ INSERT INTO Events (eventId, eventName) VALUES (2,'Seminar');
 INSERT INTO Events (eventId, eventName) VALUES (3,'Certification');
 INSERT INTO Events (eventId, eventName) VALUES (4,'Technical training');
 
+---- Populating Departments names------------------------------------
+INSERT INTO Department (deptId, deptName) VALUES (1,'Java');
+INSERT INTO Department (deptId, deptName) VALUES (2,'C#');
+
+
+
+
+
+
+
