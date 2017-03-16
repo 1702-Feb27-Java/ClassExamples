@@ -29,6 +29,8 @@ DROP TABLE Urgent;
 /
 DROP TABLE Approval_step;
 /
+DROP SEQUENCE employee_seq;
+/
 */
 --Create Lookup Tables--
 CREATE TABLE ROLE
@@ -187,7 +189,7 @@ CREATE TABLE Employee
   employee_id NUMBER,
   role_id NUMBER NOT NULL,
   dept_id NUMBER NOT NULL,
-  supervisor_id number NOT NULL,
+  supervisor_id number,
   first_name varchar2(15) NOT NULL,
   last_name varchar2(15) NOT NULL,
   username varchar2(15) NOT NULL,
@@ -276,8 +278,20 @@ CREATE TABLE ReimbAttach
   CONSTRAINT attachm_id_fk FOREIGN KEY(attachment_id) REFERENCES Attachment(attachment_id)
 );
 /
-
-
+CREATE SEQUENCE  employee_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+/
+CREATE OR REPLACE TRIGGER employee_trigger
+    BEFORE INSERT ON  Employee -- upon what event
+    FOR EACH ROW --how often 
+    BEGIN -- start what actually happens
+      SELECT employee_seq.NEXTVAL
+      INTO :new.employee_id
+      FROM dual;
+    END;
+/
 
 
 
