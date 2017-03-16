@@ -194,8 +194,6 @@ CREATE TABLE Employee
   last_name varchar2(30) NOT NULL,
   username varchar2(30) UNIQUE NOT NULL,
   pass varchar2(30) NOT NULL,
-  phone varchar2(30) NOT NULL, 
-  email varchar2(30) NOT NULL,
   message NUMBER DEFAULT(0),
   
   CONSTRAINT emp_id_pk PRIMARY KEY(employee_id),
@@ -292,40 +290,42 @@ CREATE OR REPLACE TRIGGER employee_trigger
       FROM dual;
     END;
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
-  VALUES(1, 3, 1, 'BenCo', 'Head', 'benco', 'password', '1234567891', 'test@yahoo.com', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
+  VALUES(1, 3, 1, 'Mary', 'Conley', 'mConley', 'password', 0);
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
-  VALUES(1, 2, 1, 1, 'Benco', 'Supervisor', 'benco2', 'password', '0987646365', 'test5@gmail.com', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
+  VALUES(1, 2, 1, 1, 'William', 'Smith', 'wSmith', 'password', 0);
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
-  VALUES(1, 3, 2, 'Hr', 'Head', 'hr', 'password', '3222346465', 'test2@gmail.com', 0); 
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
+  VALUES(1, 3, 2, 'Donna', 'Downey', 'dDowney', 'password', 0); 
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
-  VALUES(1, 2, 2, 3, 'Hr', 'Supervisor', 'hr2', 'password', '3222346465', 'test2@gmail.com', 0); 
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
+  VALUES(1, 2, 2, 3, 'Frank', 'Jenkins', 'fJenkins', 'password', 0); 
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
-  VALUES(1, 3, 3, 'Accounting', 'Head', 'accounting', 'password', '3845060459', 'test3@gmail.edu', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
+  VALUES(1, 3, 3, 'Robert', 'Hallock', 'rHallock', 'password', 0);
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
-  VALUES(1, 2, 3, 5, 'Accounting', 'Supervisor', 'accounting2', 'password', '3845060459', 'test3@gmail.edu', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
+  VALUES(1, 2, 3, 5, 'John', 'Parker', 'jParker', 'password', 0);
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
-  VALUES(1, 3, 4, 'Marketing', 'Head', 'marketing', 'password', '0987646365', 'test4@yahoo.edu', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
+  VALUES(1, 3, 4, 'Chadwick', 'Pass', 'cPass', 'password', 0);
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
-  VALUES(1, 2, 4, 7, 'Marketing', 'Supervisor', 'marketing2', 'password', '0987646365', 'test4@yahoo.edu', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
+  VALUES(1, 2, 4, 7, 'Michael', 'Lin', 'mLin', 'password', 0);
 /
-CREATE OR REPLACE PROCEDURE insertEmployee(dept IN number, fn IN varchar2, ln IN varchar2, un IN varchar2,
-                                            pw IN varchar2, phone IN varchar2, email IN varchar2)
+CREATE OR REPLACE PROCEDURE loginEmployee(emp_id OUT number, un IN varchar2, pw OUT varchar2)
 IS
-  sup_id number;
+  employee_id number(10);
+  pas varchar2(20);
 BEGIN
-  SELECT EMPLOYEE_ID INTO sup_id FROM EMPLOYEE WHERE ROLE_ID = 2 AND DEPT_ID = dept;
-  INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
-  VALUES(1, 1, dept, sup_id, fn, ln, un, pw, phone, email, 0); 
-  COMMIT;
-END;
+  SELECT EMPLOYEE_ID, PASS into employee_id, pas
+  FROM EMPLOYEE
+  WHERE USERNAME = un
+  AND ROLE_ID = 1;
+  emp_id := employee_id;
+  pw := pas;
+END loginEmployee;
 /
 
 

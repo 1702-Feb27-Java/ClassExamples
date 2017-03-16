@@ -1,14 +1,14 @@
 package com.revature.main;
 
-import com.revature.dao.DAOEmployeeImpl;
+import com.revature.service.EmployeeService;
 
 public class Main {
 
-	static DAOEmployeeImpl daoEmp = new DAOEmployeeImpl();
+	static EmployeeService serveEmp = new EmployeeService();
 	public static void main(String[] args) {
 		
-		daoEmp.createEmployee(3, "Jon", "Lee", "jlee2", "password", "7146421889", "tacosnak@gmail.com");
-
+		System.out.println(serveEmp.loginEmployee("benwebsta", "password"));	
+		
 	}
 
 }
