@@ -8,11 +8,13 @@ import com.revature.util.ConnectionUtil;
 
 public class DAOEmployeeImpl implements DAOEmployee{
 
+	/**
+	 * Inserts base level employee and automatically assigns supervisor
+	 */
 	@Override
 	public boolean createEmployee(int dept, String firstName, String lastName, 
 			String username, String password, String phone, String email) {
 		boolean success = false;
-		int numRows = 0;
 		try (Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
 			
@@ -26,9 +28,9 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			cs.setString(6, phone);
 			cs.setString(7, email);
 			
-			numRows = cs.executeUpdate();
-			System.out.println(numRows);
+			cs.executeUpdate();
 			connect.commit();
+			success = true;
 		}
 		catch(SQLException e){
 			e.printStackTrace();
