@@ -28,3 +28,17 @@ CREATE TABLE Events(
   eventName VARCHAR2(65),
   CONSTRAINT PK_Events PRIMARY KEY (eventId)
 );
+
+
+--------------------- populating Roles tables---------------------
+INSERT INTO ROLE (ROLEID,role) VALUES (1,'employee');
+INSERT INTO ROLE (ROLEID,role) VALUES (2,'Direct Supervisor');
+INSERT INTO ROLE (ROLEID,role) VALUES (3,'Department Head');
+INSERT INTO ROLE (ROLEID,role) VALUES (4,'Benefits Coordinator');
+
+-------------------- Populating Events---------------------
+INSERT INTO Events (eventId, eventName) VALUES (1,'University Course');
+INSERT INTO Events (eventId, eventName) VALUES (2,'Seminar');
+INSERT INTO Events (eventId, eventName) VALUES (3,'Certification');
+INSERT INTO Events (eventId, eventName) VALUES (4,'Technical training');
+
