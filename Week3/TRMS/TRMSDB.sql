@@ -192,7 +192,7 @@ CREATE TABLE Employee
   supervisor_id number,
   first_name varchar2(30) NOT NULL,
   last_name varchar2(30) NOT NULL,
-  username varchar2(30) NOT NULL,
+  username varchar2(30) UNIQUE NOT NULL,
   pass varchar2(30) NOT NULL,
   phone varchar2(30) NOT NULL, 
   email varchar2(30) NOT NULL,
@@ -295,15 +295,28 @@ CREATE OR REPLACE TRIGGER employee_trigger
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
   VALUES(1, 3, 1, 'BenCo', 'Head', 'benco', 'password', '1234567891', 'test@yahoo.com', 0);
 /
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
+  VALUES(1, 2, 1, 1, 'Benco', 'Supervisor', 'benco2', 'password', '0987646365', 'test5@gmail.com', 0);
+/
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
   VALUES(1, 3, 2, 'Hr', 'Head', 'hr', 'password', '3222346465', 'test2@gmail.com', 0); 
+/
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
+  VALUES(1, 2, 2, 3, 'Hr', 'Supervisor', 'hr2', 'password', '3222346465', 'test2@gmail.com', 0); 
 /
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
   VALUES(1, 3, 3, 'Accounting', 'Head', 'accounting', 'password', '3845060459', 'test3@gmail.edu', 0);
 /
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
+  VALUES(1, 2, 3, 5, 'Accounting', 'Supervisor', 'accounting2', 'password', '3845060459', 'test3@gmail.edu', 0);
+/
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
   VALUES(1, 3, 4, 'Marketing', 'Head', 'marketing', 'password', '0987646365', 'test4@yahoo.edu', 0);
 /
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, PHONE, EMAIL, MESSAGE) 
+  VALUES(1, 2, 4, 7, 'Marketing', 'Supervisor', 'marketing2', 'password', '0987646365', 'test4@yahoo.edu', 0);
+/
+
 
 
 
