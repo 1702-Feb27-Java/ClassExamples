@@ -16,7 +16,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		try (Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
 			
-			String sql = "CALL INSERTEMPLOYEEMARKETING(?, ?, ?, ?, ?, ?, ?)";
+			String sql = "CALL INSERTEMPLOYEE(?, ?, ?, ?, ?, ?, ?)";
 			CallableStatement cs = connect.prepareCall(sql);
 			cs.setInt(1, dept);
 			cs.setString(2, firstName);
