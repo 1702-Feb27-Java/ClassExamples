@@ -70,6 +70,7 @@ CREATE TABLE LOGS
   log_id NUMBER,
   logtype_id NUMBER,
   msg VARCHAR2(1000),
+  timestmp VARCHAR2(100),
   
   FOREIGN KEY(logtype_id) REFERENCES logtype
 );
@@ -268,4 +269,10 @@ SELECT a.account_id, a.balance, at.AC_TYPE, s.status, a.resolver
 							 u2.user_id = cs.user_id
 							 WHERE u2.username = 'janee';
 /
-select u.username from users u 
+select to_char(sysdate,'HH24:MI:SS AM') from dual;
+/
+DROP TABLE LOGS;
+/
+INSERT INTO LOGS (logtype_id, msg,timestmp) VALUES 
+(3, 'test',
+to_char(sysdate,'HH24:MI:SS AM'));
