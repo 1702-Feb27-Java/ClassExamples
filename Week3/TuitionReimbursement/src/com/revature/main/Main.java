@@ -13,7 +13,7 @@ public class Main {
 		
 		startTimer();
 		System.out.println("benwebsta id: " + serveEmp.loginEmployee("benwebsta", "password"));	
-		
+		System.out.println("jLee id: " + serveEmp.loginEmployee("jLee", "password"));
 	}
 	
 	public static void startTimer(){
@@ -24,7 +24,7 @@ public class Main {
 	            myTask();
 	            System.out.println(timer);
 	        }
-	    }, 0, 1, TimeUnit.SECONDS);
+	    }, 0, 5, TimeUnit.SECONDS);
 	}
 	
 	private static void myTask() {
