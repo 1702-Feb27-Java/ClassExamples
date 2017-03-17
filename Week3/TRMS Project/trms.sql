@@ -7,7 +7,10 @@ CREATE TABLE Users
     userName VARCHAR2(30)  NOT NULL,
     pw VARCHAR2 (15)NOT NULL,
     email VARCHAR2(320) NOT NULL,
-    CONSTRAINT PK_users PRIMARY KEY  (userid)
+    roleId NUMBER,
+    PRIMARY KEY(userId),
+    FOREIGN KEY(roleId) REFERENCES Role(roleId),
+    FOREIGN KEY(deptId) ReFERENCES DEPARTMENT(deptId)
 );
 
 CREATE TABLE Role(
@@ -42,7 +45,7 @@ INSERT INTO Events (eventId, eventName) VALUES (2,'Seminar');
 INSERT INTO Events (eventId, eventName) VALUES (3,'Certification');
 INSERT INTO Events (eventId, eventName) VALUES (4,'Technical training');
 
----- Populating Departments names------------------------------------
+---- Populating Departments------------------------------------
 INSERT INTO Department (deptId, deptName) VALUES (1,'Java');
 INSERT INTO Department (deptId, deptName) VALUES (2,'C#');
 
