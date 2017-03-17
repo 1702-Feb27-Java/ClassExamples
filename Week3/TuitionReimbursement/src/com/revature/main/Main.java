@@ -8,6 +8,7 @@ import com.revature.service.EmployeeService;
 
 public class Main {
 	static int timer = 0;
+	
 	static EmployeeService serveEmp = new EmployeeService();
 	public static void main(String[] args) {
 		

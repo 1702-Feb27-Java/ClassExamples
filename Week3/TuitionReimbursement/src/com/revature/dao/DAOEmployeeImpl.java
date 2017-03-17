@@ -43,6 +43,13 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		return employee;
 	}
 
+	@Override
+	public boolean applyForReimbursement(String event, int eventDate, int time, String location, int formDate,
+			String description, int cost, int grading_id, int typeOfEventId, int urgentId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 		
 }

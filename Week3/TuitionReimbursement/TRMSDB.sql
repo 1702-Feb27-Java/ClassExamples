@@ -232,7 +232,7 @@ CREATE TABLE Reimbursement
   status_id NUMBER DEFAULT(1) NOT NULL,
   event varchar2(30) NOT NULL,
   event_date date NOT NULL,
-  event_time number NOT NULL,
+  event_time varchar2(10) NOT NULL,
   location_id number(10) NOT NULL,
   form_date date NOT NULL,
   event_description varchar2(30) NOT NULL, 
@@ -356,7 +356,7 @@ BEGIN
   pw := pas;
 END loginEmployee;
 /
-CREATE OR REPLACE PROCEDURE applyForReimbursement(event IN varchar2, event_date IN date, event_time IN number, location_id IN number, form_date IN date, 
+CREATE OR REPLACE PROCEDURE applyForReimbursement(event IN varchar2, event_date IN date, event_time IN varchar2, location_id IN number, form_date IN date, 
 description IN varchar2, event_cost IN number, grading_id IN number, type_of_event_id IN number, urgent_id IN number, approval_step_id IN number, approval_cutoff IN number)
 IS
 BEGIN
@@ -366,6 +366,11 @@ BEGIN
                   type_of_event_id, urgent_id, approval_step_id, approval_cutoff);
 END applyForReimbursement;
 /
+DECLARE 
+IS
+BEGIN
+  applyforreimbursement('cs course', '06/06/2017', '2:00pm');
+END;
 
 
 
