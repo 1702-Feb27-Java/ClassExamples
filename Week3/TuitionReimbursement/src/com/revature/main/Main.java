@@ -7,7 +7,7 @@ public class Main {
 	static EmployeeService serveEmp = new EmployeeService();
 	public static void main(String[] args) {
 		
-		System.out.println(serveEmp.loginEmployee("benwebsta", "password"));	
+		System.out.println("benwebsta id: " + serveEmp.loginEmployee("jLee", "password"));	
 		
 	}
 

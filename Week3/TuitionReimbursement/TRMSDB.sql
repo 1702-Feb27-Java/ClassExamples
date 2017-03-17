@@ -27,6 +27,8 @@ DROP TABLE Type_of_event;
 /
 DROP TABLE Urgent;
 /
+DROP TABLE Location;
+/
 DROP TABLE Approval_step;
 /
 DROP SEQUENCE employee_seq;
@@ -88,6 +90,14 @@ CREATE TABLE URGENT
   urgent VARCHAR2(25) NOT NULL,
   
   CONSTRAINT u_id_pk PRIMARY KEY(urgent_id)
+);
+/
+CREATE TABLE LOCATION
+(
+  location_id NUMBER,
+  location VARCHAR2(25) NOT NULL,
+  
+  CONSTRAINT loc_id_pk PRIMARY KEY(location_id)
 );
 /
 CREATE TABLE APPROVAL_STEP
@@ -171,6 +181,12 @@ VALUES (1, 'Urgent');
 INSERT INTO Urgent(urgent_id, urgent)
 VALUES (2, 'Not Urgent');
 /
+INSERT INTO Location(location_id, location)
+VALUES (1, 'Stanford');
+/
+INSERT INTO Location(location_id, location)
+VALUES (2, 'UCLA');
+/
 INSERT INTO Approval_step(approval_step_id, approval_step)
 VALUES (1, 'Employee');
 /
@@ -217,7 +233,7 @@ CREATE TABLE Reimbursement
   event varchar2(30) NOT NULL,
   event_date number NOT NULL,
   event_time varchar2(30) NOT NULL,
-  event_location varchar2(30) NOT NULL,
+  location_id number(10) NOT NULL,
   form_date varchar2(30) NOT NULL,
   event_description varchar2(30) NOT NULL, 
   event_cost varchar2(30) NOT NULL,
@@ -235,6 +251,7 @@ CREATE TABLE Reimbursement
   CONSTRAINT grid_id_fk FOREIGN KEY(grading_id) REFERENCES Grading(grading_id),
   CONSTRAINT TypeEvent_id_fk FOREIGN KEY(type_of_event_id) REFERENCES TYPE_OF_EVENT(type_of_event_id),
   CONSTRAINT UrgId_id_fk FOREIGN KEY(urgent_id) REFERENCES Urgent(urgent_id),
+  CONSTRAINT eloc_id_fk FOREIGN KEY(location_id) REFERENCES Location(location_id),
   CONSTRAINT approver_id_fk FOREIGN KEY(approver_id) REFERENCES Employee(employee_id)
 ); 
 /
