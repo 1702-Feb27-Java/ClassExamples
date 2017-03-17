@@ -296,23 +296,35 @@ INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERN
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
   VALUES(1, 2, 1, 1, 'William', 'Smith', 'wSmith', 'password', 0);
 /
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
+  VALUES(1, 1, 1, 2, 'Ben', 'Webster', 'benwebsta', 'password', 0);
+/
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
   VALUES(1, 3, 2, 'Donna', 'Downey', 'dDowney', 'password', 0); 
 /
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 2, 2, 3, 'Frank', 'Jenkins', 'fJenkins', 'password', 0); 
+  VALUES(1, 2, 2, 4, 'Frank', 'Jenkins', 'fJenkins', 'password', 0); 
+/
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
+  VALUES(1, 1, 2, 5, 'Mory', 'Keita', 'mKeita', 'password', 0); 
 /
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
   VALUES(1, 3, 3, 'Robert', 'Hallock', 'rHallock', 'password', 0);
 /
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 2, 3, 5, 'John', 'Parker', 'jParker', 'password', 0);
+  VALUES(1, 2, 3, 7, 'John', 'Parker', 'jParker', 'password', 0);
+/
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
+  VALUES(1, 1, 3, 8, 'Jon', 'Lee', 'jLee', 'password', 0);
 /
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
   VALUES(1, 3, 4, 'Chadwick', 'Pass', 'cPass', 'password', 0);
 /
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 2, 4, 7, 'Michael', 'Lin', 'mLin', 'password', 0);
+  VALUES(1, 2, 4, 10, 'Michael', 'Lin', 'mLin', 'password', 0);
+/
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
+  VALUES(1, 1, 4, 11, 'Aaron', 'Camm', 'aCamm', 'password', 0);
 /
 CREATE OR REPLACE PROCEDURE loginEmployee(emp_id OUT number, un IN varchar2, pw OUT varchar2)
 IS
