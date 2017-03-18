@@ -1,10 +1,9 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Properties;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -48,7 +47,7 @@ public class TestServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//System.out.println("testu");
-		PrintWriter out = response.getWriter();
+		//PrintWriter out = response.getWriter();
 		
 		//Use printwriter object to dynamically write a webpage
 		String username = request.getParameter("uname");
@@ -57,20 +56,15 @@ public class TestServlet extends HttpServlet {
 		//System.out.println("username " + username + " password " + password);
 		
 		
-
-
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		Properties properties = new Properties();
-		properties.load(classLoader.getResourceAsStream("DBProp.properties"));
 		
-		EmployeeService serveEmp = new EmployeeService(properties);
+		EmployeeService serveEmp = new EmployeeService();
 		
 		int empId = serveEmp.loginEmployee(username, password);
 		System.out.println("test");
 		System.out.println("emp Id " + empId);
 		request.setAttribute("id", empId);
 
-		out.println("<html>\n" + "<body>\n" + "Username: " + username + "\n<br>"
+/*		out.println("<html>\n" + "<body>\n" + "Username: " + username + "\n<br>"
 				+ "Password: " + password + "\n<br>");
 		if(empId == 0 || empId == 1){
 			out.println("Wrong information.");
@@ -82,7 +76,11 @@ public class TestServlet extends HttpServlet {
 		out.println(
 				"</body>\n"
 				+ "</html>"
-				);
+				);*/
+		
+		String nextJSP = "/loggedIn.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
+		dispatcher.forward(request,response);
 		
 	}
 

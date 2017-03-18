@@ -21,9 +21,10 @@ public class ConnectionUtil {
 		String pPassword = "";
 		
 		try {
-			fis = new FileInputStream("DBProp.properties");
-			prop = new Properties();
-			prop.load(fis);
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			Properties prop = new Properties();
+			prop.load(classLoader.getResourceAsStream("DBProp.properties"));
+			
 			pUrl = prop.getProperty("url");
 			pUsername = prop.getProperty("username");
 			pPassword = prop.getProperty("password");
@@ -33,22 +34,7 @@ public class ConnectionUtil {
 		catch(IOException e){
 			e.printStackTrace();
 		}
-		
-		return DriverManager.getConnection(pUrl, pUsername, pPassword);
-	}
-	public static Connection getConnection(Properties prop) throws SQLException{
-		
-		String pUrl = "";
-		String pUsername = "";
-		String pPassword = "";
-		
-		pUrl = prop.getProperty("url");
-		System.out.println(pUrl);
-		pUsername = prop.getProperty("username");
-		System.out.println(pUsername);
-		pPassword = prop.getProperty("password");
-		System.out.println(pPassword);
-		
+		System.out.println("teststststst");
 		DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
 		System.out.println("test");
 		try {
@@ -63,6 +49,7 @@ public class ConnectionUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return DriverManager.getConnection(pUrl, pUsername, pPassword);
 	}
 	

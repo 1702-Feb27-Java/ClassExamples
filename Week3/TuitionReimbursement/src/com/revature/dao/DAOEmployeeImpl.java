@@ -9,21 +9,13 @@ import java.util.Properties;
 import com.revature.util.ConnectionUtil;
 
 public class DAOEmployeeImpl implements DAOEmployee{
-	Properties prop = new Properties();
-	
-	public DAOEmployeeImpl(){
-		
-	}
-	public DAOEmployeeImpl(Properties properties){
-		prop = properties;
-	}
 	
 	@Override
 	public ArrayList<String> loginEmployee(String un, String pw) {
 		ArrayList<String> employee = new ArrayList<String>();
 		int customerId = 0;
 		String password = "";
-		if(prop.isEmpty()){
+		//if(prop.isEmpty()){
 			System.out.println("empty");
 			try(Connection connect = ConnectionUtil.getConnection();){
 				connect.setAutoCommit(false);
@@ -49,8 +41,8 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			catch(SQLException e){
 				e.printStackTrace(); 	
 			}
-		}
-		else{
+	
+/*		else{
 			try(Connection connect = ConnectionUtil.getConnection(prop);){
 				System.out.println("in");
 				connect.setAutoCommit(false);
@@ -77,7 +69,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			catch(SQLException e){
 				e.printStackTrace(); 	
 			}
-		}
+		}*/
 		
 		return employee;
 	}

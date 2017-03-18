@@ -4,7 +4,7 @@
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Log In</title>
+		<title>Logged In</title>
 		<script
 		  src="http://code.jquery.com/jquery-3.1.1.js"
 		  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
@@ -21,27 +21,21 @@
 		
 		<style>
 			body {
-				background-image: url("Images/mainPage.png");
+				background-image: url("Images/gradient.png");
 				    -webkit-background-size: cover;
 				    -moz-background-size: cover;
 				    -o-background-size: cover;
 				    background-size: cover;
+			}
+			h1{
+				text-align: center;
 			}
 		</style>
 		
 	</head>
 	
 	<body>
-	
-		
-		<% if(request.getParameter("uname")!=null){
-			session.setAttribute("username", request.getParameter("uname"));	
-		}%>
-		<% if(request.getParameter("pword")!=null){
-			session.setAttribute("password", request.getParameter("pword"));	
-			request.setAttribute("id", null);
-		}%>
-		
+
 		<nav class="navbar navbar-default">
 		  <div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -78,28 +72,17 @@
 			</div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
+		
 
-		<br><br><br><br><br><br><br><br><br><br><br><br><br>
-		<div class="container" >
-		  <form action="TestServlet.do" method="POST">
-			<div class="form-group row">
-			  <label for="inputEmail3" class="col-sm-2 col-form-label">Username</label>
-			  <div class="col-sm-10">
-				<input class="form-control" type="text" placeholder="Username" name="uname">
-			  </div>
-			</div>
-			<div class="form-group row">
-			  <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-			  <div class="col-sm-10">
-				<input class="form-control" type="text" placeholder="Password" name="pword">
-			  </div>
-			<br><br><br>
-			<div class="form-group row">
-			  <div class="offset-sm-2 col-sm-10">
-				<button type="submit" class="btn btn-primary button" name="Submit login">Sign in</button>
-			  </div>
-			</div>
-		  </form>
+		<h1>Logged in as: <%= request.getParameter("uname") %></h1><br><br><br><br><br><br>
+
+		<div class="row text-center">
+		  <div class="col-md-6">
+		  	<button type="button" class="btn btn-default btn-lg">Apply for a reimbursement</button>
+		  </div>
+		  <div class="col-md-6">
+		  	<button type="button" class="btn btn-default btn-lg">View pending reimbursements</button>
+		  </div>
 		</div>
 		
 	
