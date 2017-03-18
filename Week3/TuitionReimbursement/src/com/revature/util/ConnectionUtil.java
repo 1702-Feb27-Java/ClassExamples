@@ -9,9 +9,10 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionUtil {
-
+	
 	private static Properties prop = null;
 	private static FileInputStream fis = null;
+	
 	//throws SQL Exception to calling method
 	public static Connection getConnection() throws SQLException{
 		
@@ -33,6 +34,34 @@ public class ConnectionUtil {
 			e.printStackTrace();
 		}
 		
+		return DriverManager.getConnection(pUrl, pUsername, pPassword);
+	}
+	public static Connection getConnection(Properties prop) throws SQLException{
+		
+		String pUrl = "";
+		String pUsername = "";
+		String pPassword = "";
+		
+		pUrl = prop.getProperty("url");
+		System.out.println(pUrl);
+		pUsername = prop.getProperty("username");
+		System.out.println(pUsername);
+		pPassword = prop.getProperty("password");
+		System.out.println(pPassword);
+		
+		try {
+			Class.forName("oracle.jdbc.OracleDriver").newInstance();
+			System.out.println("testsstststststst");
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return DriverManager.getConnection(pUrl, pUsername, pPassword);
 	}
 	

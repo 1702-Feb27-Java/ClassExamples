@@ -1,14 +1,18 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Enumeration;
+import java.util.Properties;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.revature.service.EmployeeService;
 
 /**
  * Servlet implementation class TestServlet
@@ -39,39 +43,41 @@ public class TestServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		//Use printwriter object to dynamically write a webpage
+		//System.out.println("testu");
 		PrintWriter out = response.getWriter();
 		
-		Enumeration<String> heads = request.getHeaderNames();
-
-		out.println("<html>\n" + "<body>\n" + "Username passed: " + request.getParameter("username") + "\n"
-				+ "Password passed: " + request.getParameter("password") + "\n"
-				+ "<br><table border=\"solid\"><thead><tr><th>Header Name</th><th>Header Value</th></tr></thead>");
-
-		while(heads.hasMoreElements()){
-			String s = heads.nextElement();
-			out.println(
-					"<tr><td>" + s + "</td><td>" + request.getHeader(s) + "</td></tr>"
-					);
-		}
+		//Use printwriter object to dynamically write a webpage
+		String username = request.getParameter("uname");
+		String password = request.getParameter("pword");
+		//out.println("username " + username + " password " + password);
+		//System.out.println("username " + username + " password " + password);
+		
+		
+		out.println("<html>\n" + "<body>\n" + "Username passed: " + username + "\n"
+				+ "Password passed: " + password + "\n");
 		
 		out.println(
 				"</table>"
 				+ "</body>\n"
 				+ "</html>"
 				);
+
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		Properties properties = new Properties();
+		properties.load(classLoader.getResourceAsStream("DBProp.properties"));
+		
+		EmployeeService serveEmp = new EmployeeService(properties);
+		
+		int empId = serveEmp.loginEmployee(username, password);
+		System.out.println("test");
+		System.out.println("emp Id " + empId);
+		request.setAttribute("id", empId);
+		
+
 	}
 
 	/**

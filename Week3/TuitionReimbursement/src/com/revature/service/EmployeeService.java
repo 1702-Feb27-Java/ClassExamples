@@ -1,13 +1,22 @@
 package com.revature.service;
 
 import java.util.ArrayList;
+import java.util.Properties;
 
 import com.revature.dao.DAOEmployeeImpl;
 
 public class EmployeeService {
-	DAOEmployeeImpl daoEmp = new DAOEmployeeImpl();
+	Properties prop = new Properties();
+	public EmployeeService(){
+		
+	}
+	
+	public EmployeeService(Properties properties){
+		prop = properties;
+	}
 	
 	public int loginEmployee(String username, String password){
+		DAOEmployeeImpl daoEmp = new DAOEmployeeImpl(prop);
 		int employeeId = 0;//0 = no username found
 		int dbEmpId = 0;
 		String dbPass = "";

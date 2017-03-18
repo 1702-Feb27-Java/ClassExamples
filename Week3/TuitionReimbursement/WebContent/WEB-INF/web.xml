@@ -2,9 +2,9 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <display-name>TuitionReimbursement</display-name>
   <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
@@ -18,5 +18,24 @@
   <servlet-mapping>
     <servlet-name>TestServlet</servlet-name>
     <url-pattern>/TestServlet</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <display-name>RoutingFilter</display-name>
+    <filter-name>RoutingFilter</filter-name>
+    <filter-class>filters.RoutingFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>RoutingFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SessionHandler2</display-name>
+    <servlet-name>SessionHandler2</servlet-name>
+    <servlet-class>servlets.SessionHandler2</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SessionHandler2</servlet-name>
+    <url-pattern>/SessionHandler2</url-pattern>
   </servlet-mapping>
 </web-app>
