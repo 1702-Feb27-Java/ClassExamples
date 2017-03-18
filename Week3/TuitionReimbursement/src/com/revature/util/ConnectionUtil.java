@@ -49,9 +49,10 @@ public class ConnectionUtil {
 		pPassword = prop.getProperty("password");
 		System.out.println(pPassword);
 		
+		DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
+		System.out.println("test");
 		try {
 			Class.forName("oracle.jdbc.OracleDriver").newInstance();
-			System.out.println("testsstststststst");
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

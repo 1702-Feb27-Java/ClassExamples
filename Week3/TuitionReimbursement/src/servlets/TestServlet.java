@@ -57,14 +57,7 @@ public class TestServlet extends HttpServlet {
 		//System.out.println("username " + username + " password " + password);
 		
 		
-		out.println("<html>\n" + "<body>\n" + "Username passed: " + username + "\n"
-				+ "Password passed: " + password + "\n");
-		
-		out.println(
-				"</table>"
-				+ "</body>\n"
-				+ "</html>"
-				);
+
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		Properties properties = new Properties();
@@ -78,6 +71,16 @@ public class TestServlet extends HttpServlet {
 		request.setAttribute("id", empId);
 		
 
+		out.println("<html>\n" + "<body>\n" + "Username: " + username + "\n<br>"
+				+ "Password: " + password + "\n<br>"
+						+ "ID: " + empId);
+		
+		out.println(
+				"</table>"
+				+ "</body>\n"
+				+ "</html>"
+				);
+		
 	}
 
 	/**
