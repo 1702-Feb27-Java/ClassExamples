@@ -1,17 +1,11 @@
 
-DROP TABLE EmployeeMessage;
+DROP TABLE Message;
 /
-DROP TABLE ReimbAttach;
-/
-DROP TABLE EmployeeReimbursement;
+DROP TABLE Attachment;
 /
 DROP TABLE Reimbursement;
 /
 DROP TABLE Employee;
-/
-DROP TABLE Message;
-/
-DROP TABLE Attachment;
 /
 DROP TABLE Role;
 /
@@ -210,7 +204,6 @@ CREATE TABLE Employee
   last_name varchar2(30) NOT NULL,
   username varchar2(30) UNIQUE NOT NULL,
   pass varchar2(30) NOT NULL,
-  message NUMBER DEFAULT(0),
   
   CONSTRAINT emp_id_pk PRIMARY KEY(employee_id),
   CONSTRAINT sup_id_fk FOREIGN KEY(supervisor_id) REFERENCES Employee(employee_id),
@@ -222,14 +215,17 @@ CREATE TABLE Message
 (
   message_id NUMBER,
   message varchar2(200) NOT NULL,
+  emp_id NUMBER NOT NULL,
   
-  CONSTRAINT msg_id_pk PRIMARY KEY(message_id)
+  CONSTRAINT msg_id_pk PRIMARY KEY(message_id),
+  CONSTRAINT emplo_id_fk FOREIGN KEY(emp_id) REFERENCES Employee(employee_id)
 ); 
 /
 CREATE TABLE Reimbursement 
 (
   reimb_id NUMBER,
   status_id NUMBER DEFAULT(1) NOT NULL,
+  employee_id NUMBER NOT NULL,
   event varchar2(30) NOT NULL,
   event_date date NOT NULL,
   event_time varchar2(10) NOT NULL,
@@ -252,6 +248,7 @@ CREATE TABLE Reimbursement
   CONSTRAINT TypeEvent_id_fk FOREIGN KEY(type_of_event_id) REFERENCES TYPE_OF_EVENT(type_of_event_id),
   CONSTRAINT UrgId_id_fk FOREIGN KEY(urgent_id) REFERENCES Urgent(urgent_id),
   CONSTRAINT eloc_id_fk FOREIGN KEY(location_id) REFERENCES Location(location_id),
+  CONSTRAINT empl_id_fk FOREIGN KEY(employee_id) REFERENCES Employee(employee_id),
   CONSTRAINT approver_id_fk FOREIGN KEY(approver_id) REFERENCES Employee(employee_id)
 ); 
 /
@@ -259,38 +256,10 @@ CREATE TABLE Attachment
 (
   attachment_id number NOT NULL,
   attachment varchar2(40) NOT NULL,
+  reim_id NUMBER NOT NULL,
   
-  CONSTRAINT attach_id_pk PRIMARY KEY(attachment_id)
-);
-/
-CREATE TABLE EmployeeReimbursement
-(
-  employee_id number,
-  reimb_id number,
-  
-  CONSTRAINT empreimb_id_pk PRIMARY KEY(employee_id, reimb_id),
-  CONSTRAINT empl_id_fk FOREIGN KEY(employee_id) REFERENCES Employee(employee_id),
-  CONSTRAINT reimbur_id_fk FOREIGN KEY(reimb_id) REFERENCES Reimbursement(reimb_id)
-);
-/
-CREATE TABLE EmployeeMessage
-(
-  employee_id number,
-  message_id number,
-  
-  CONSTRAINT empmsg_id_pk PRIMARY KEY(employee_id, message_id),
-  CONSTRAINT employ_id_fk FOREIGN KEY(employee_id) REFERENCES Employee(employee_id),
-  CONSTRAINT msg_id_fk FOREIGN KEY(message_id) REFERENCES Message(message_id)
-);
-/
-CREATE TABLE ReimbAttach
-(
-  reimb_id number,
-  attachment_id number,
-  
-  CONSTRAINT reimbAttach_id_pk PRIMARY KEY(reimb_id, attachment_id),
-  CONSTRAINT Reimbu_id_fk FOREIGN KEY(reimb_id) REFERENCES Reimbursement(reimb_id),
-  CONSTRAINT attachm_id_fk FOREIGN KEY(attachment_id) REFERENCES Attachment(attachment_id)
+  CONSTRAINT attach_id_pk PRIMARY KEY(attachment_id),
+  CONSTRAINT reimur_id_fk FOREIGN KEY(reim_id) REFERENCES Reimbursement(reimb_id)
 );
 /
 CREATE SEQUENCE  employee_seq
@@ -307,41 +276,41 @@ CREATE OR REPLACE TRIGGER employee_trigger
       FROM dual;
     END;
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 3, 1, 'Mary', 'Conley', 'mConley', 'password', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
+  VALUES(1, 3, 1, 'Mary', 'Conley', 'mConley', 'password');
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 2, 1, 1, 'William', 'Smith', 'wSmith', 'password', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
+  VALUES(1, 2, 1, 1, 'William', 'Smith', 'wSmith', 'password');
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 1, 1, 2, 'Ben', 'Webster', 'benwebsta', 'password', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
+  VALUES(1, 1, 1, 2, 'Ben', 'Webster', 'benwebsta', 'password');
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 3, 2, 'Donna', 'Downey', 'dDowney', 'password', 0); 
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
+  VALUES(1, 3, 2, 'Donna', 'Downey', 'dDowney', 'password'); 
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 2, 2, 4, 'Frank', 'Jenkins', 'fJenkins', 'password', 0); 
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
+  VALUES(1, 2, 2, 4, 'Frank', 'Jenkins', 'fJenkins', 'password'); 
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 1, 2, 5, 'Mory', 'Keita', 'mKeita', 'password', 0); 
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
+  VALUES(1, 1, 2, 5, 'Mory', 'Keita', 'mKeita', 'password'); 
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 3, 3, 'Robert', 'Hallock', 'rHallock', 'password', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
+  VALUES(1, 3, 3, 'Robert', 'Hallock', 'rHallock', 'password');
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 2, 3, 7, 'John', 'Parker', 'jParker', 'password', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
+  VALUES(1, 2, 3, 7, 'John', 'Parker', 'jParker', 'password');
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 1, 3, 8, 'Jon', 'Lee', 'jLee', 'password', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
+  VALUES(1, 1, 3, 8, 'Jon', 'Lee', 'jLee', 'password');
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 3, 4, 'Chadwick', 'Pass', 'cPass', 'password', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
+  VALUES(1, 3, 4, 'Chadwick', 'Pass', 'cPass', 'password');
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 2, 4, 10, 'Michael', 'Lin', 'mLin', 'password', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
+  VALUES(1, 2, 4, 10, 'Michael', 'Lin', 'mLin', 'password');
 /
-INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS, MESSAGE) 
-  VALUES(1, 1, 4, 11, 'Aaron', 'Camm', 'aCamm', 'password', 0);
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
+  VALUES(1, 1, 4, 11, 'Aaron', 'Camm', 'aCamm', 'password');
 /
 CREATE OR REPLACE PROCEDURE loginEmployee(emp_id OUT number, un IN varchar2, pw OUT varchar2)
 IS
@@ -366,11 +335,7 @@ BEGIN
                   type_of_event_id, urgent_id, approval_step_id, approval_cutoff);
 END applyForReimbursement;
 /
-DECLARE 
-IS
-BEGIN
-  applyforreimbursement('cs course', '06/06/2017', '2:00pm');
-END;
+
 
 
 

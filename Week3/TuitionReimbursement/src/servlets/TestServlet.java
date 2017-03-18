@@ -69,15 +69,18 @@ public class TestServlet extends HttpServlet {
 		System.out.println("test");
 		System.out.println("emp Id " + empId);
 		request.setAttribute("id", empId);
-		
 
 		out.println("<html>\n" + "<body>\n" + "Username: " + username + "\n<br>"
-				+ "Password: " + password + "\n<br>"
-						+ "ID: " + empId);
-		
+				+ "Password: " + password + "\n<br>");
+		if(empId == 0 || empId == 1){
+			out.println("Wrong information.");
+		}
+		else{
+			out.println("ID: " + empId);
+		}
+			
 		out.println(
-				"</table>"
-				+ "</body>\n"
+				"</body>\n"
 				+ "</html>"
 				);
 		
