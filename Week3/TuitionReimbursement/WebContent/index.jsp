@@ -19,6 +19,16 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		
+		<style>
+			body {
+				background-image: url("Images/mainPage.png");
+				    -webkit-background-size: cover;
+				    -moz-background-size: cover;
+				    -o-background-size: cover;
+				    background-size: cover;
+			}
+		</style>
+		
 	</head>
 	
 	<body>
@@ -69,7 +79,7 @@
 		  </div><!-- /.container-fluid -->
 		</nav>
 
-		<br><br><br><br><br><br><br><br><br>
+		<br><br><br><br><br><br><br><br><br><br><br><br><br>
 		<div class="container" >
 		  <form action="TestServlet.do" method="POST">
 			<div class="form-group row">
