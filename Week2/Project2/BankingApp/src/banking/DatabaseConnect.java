@@ -244,43 +244,38 @@ public class DatabaseConnect {
 	 * @param newStatus the new status to change too
 	 * @param typeAcc the type of account to change 1 if checking 2 if savings
 	 */
-	public void setAccountStatus(String userName, int newStatus, int typeAcc){
-		
-			int temp = 0;
-		
-		
-		try(Connection connect = ConnectionUtil.getConnection();){
-			connect.setAutoCommit(false);
-			
-			//?s can be set
-			String sql = "CALL updateAccountStatus(?, ?, ?)";
-			//seting the call
-			CallableStatement cs = connect.prepareCall(sql);
-			cs.setString(1, userName);
-			cs.setInt(2, newStatus);
-			cs.setInt(3, typeAcc);
-			
-			cs.executeUpdate();
-			
-			//Statement statement = connect.createStatement();			
-			connect.commit();
-			connect.setAutoCommit(true);
-			
-					
-		} catch(SQLException e){
-			e.printStackTrace();
-		}
-		
-		
-	}
+//	public void setAccountStatus(String userName, int newStatus, int typeAcc){
+//		
+//			int temp = 0;
+//		
+//		
+//		try(Connection connect = ConnectionUtil.getConnection();){
+//			connect.setAutoCommit(false);
+//			
+//			//?s can be set
+//			String sql = "CALL updateAccountStatus(?, ?, ?)";
+//			//seting the call
+//			CallableStatement cs = connect.prepareCall(sql);
+//			cs.setString(1, userName);
+//			cs.setInt(2, newStatus);
+//			cs.setInt(3, typeAcc);
+//			
+//			cs.executeUpdate();
+//			
+//			//Statement statement = connect.createStatement();			
+//			connect.commit();
+//			connect.setAutoCommit(true);
+//			
+//					
+//		} catch(SQLException e){
+//			e.printStackTrace();
+//		}
+//		
+//		
+//	}
 	
-	/**
-	 * Sets the account balance
-	 * @param userName username to look for
-	 * @param newBalance the new balance to change to 
-	 * @param typeAcc if if checking 2 if savings
-	 */
-	public void setAccountBalance(String userName, int newBalance, int typeAcc){
+	
+	public void setAccountStatus(String userName, int newStatus, int typeAcc){
 		
 		int temp = 0;
 	
@@ -289,14 +284,17 @@ public class DatabaseConnect {
 		connect.setAutoCommit(false);
 		
 		//?s can be set
-		String sql = "CALL updateBalance(?, ?, ?)";
+		String sql = "UPDATE ACCOUNTS SET ACCOUNTS.STATUS_ID = ? WHERE ACCOUNT_ID IN (SELECT CUSTOMERACCOUNTS.ACCT_ID FROM USERS, CUSTOMERACCOUNTS WHERE USERS.USERNAME = ? AND CUSTOMERACCOUNTS.CUST_ID = USERS.USER_ID) AND ACCOUNT_TYPE_ID = ?";
 		//seting the call
-		CallableStatement cs = connect.prepareCall(sql);
-		cs.setInt(1, typeAcc);
-		cs.setString(2, userName);
-		cs.setInt(3, newBalance);
+		PreparedStatement ps = connect.prepareStatement(sql);
 		
-		cs.executeUpdate();
+		ps.setInt(1,newStatus);
+		ps.setString(2,userName);
+		ps.setInt(3,typeAcc);
+		
+		ResultSet rs = ps.executeQuery();
+		
+		//cs.executeUpdate();
 		
 		//Statement statement = connect.createStatement();			
 		connect.commit();
@@ -309,6 +307,86 @@ public class DatabaseConnect {
 	
 	
 }
+
+	
+	
+	
+	
+	
+	
+	/**
+	 * Sets the account balance
+	 * @param userName username to look for
+	 * @param newBalance the new balance to change to 
+	 * @param typeAcc if if checking 2 if savings
+	 */
+//	public void setAccountBalance(String userName, int newBalance, int typeAcc){
+//		
+//		int temp = 0;
+//	
+//	
+//	try(Connection connect = ConnectionUtil.getConnection();){
+//		connect.setAutoCommit(false);
+//		
+//		//?s can be set
+//		String sql = "CALL updateBalance(?, ?, ?)";
+//		//seting the call
+//		CallableStatement cs = connect.prepareCall(sql);
+//		cs.setInt(1, typeAcc);
+//		cs.setString(2, userName);
+//		cs.setInt(3, newBalance);
+//		
+//		cs.executeUpdate();
+//		
+//		//Statement statement = connect.createStatement();			
+//		connect.commit();
+//		connect.setAutoCommit(true);
+//		
+//				
+//	} catch(SQLException e){
+//		e.printStackTrace();
+//	}
+//	
+//	
+//}
+	
+public void setAccountBalance(String userName, int newBalance, int typeAcc){
+		
+		int temp = 0;
+	
+	
+	try(Connection connect = ConnectionUtil.getConnection();){
+		connect.setAutoCommit(false);
+		String sql = "UPDATE ACCOUNTS  SET BALANCE = ? WHERE ACCOUNT_ID IN ( SELECT CUSTOMERACCOUNTS.ACCT_ID FROM USERS, CUSTOMERACCOUNTS WHERE USERS.USERNAME = ? AND CUSTOMERACCOUNTS.CUST_ID = USERS.USER_ID) AND ACCOUNT_TYPE_ID = ?";
+		//?s can be set
+//		String sql = "CALL updateBalance(?, ?, ?)";
+//		//seting the call
+//		CallableStatement cs = connect.prepareCall(sql);
+//		cs.setInt(1, typeAcc);
+//		cs.setString(2, userName);
+//		cs.setInt(3, newBalance);
+//		
+//		cs.executeUpdate();
+		PreparedStatement ps = connect.prepareStatement(sql);
+		
+		ps.setInt(1,newBalance);
+		ps.setString(2,userName);
+		ps.setInt(3,typeAcc);
+		
+		ResultSet rs = ps.executeQuery();
+		
+		//Statement statement = connect.createStatement();			
+		connect.commit();
+		connect.setAutoCommit(true);
+		
+				
+	} catch(SQLException e){
+		e.printStackTrace();
+	}
+	
+	
+}
+	
 	
 	/**
 	 * prints all customers in the database

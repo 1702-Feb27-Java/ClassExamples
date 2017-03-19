@@ -347,8 +347,8 @@ public class CommandParser {
 							str = scan.nextLine();
 							BankMember curr;
 							//checks the username exists
-							if(db.checkUserNameAvailability(str) == false){  
-								curr = db.getAccount(str);
+							if(!dc.isUNameAvalible(str)){  
+								curr = dc.getBankMember(str);
 							}
 							else{
 								System.out.println("Error user name doesn't exist");
