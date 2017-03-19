@@ -6,3 +6,4 @@ mj:mj:Mike:Scott:dsdf:1:false:44145316:61280407:96000.0:0.0
 0:Bob:Bobbart:bob:bob:2:0:0:0:0.0:0.0
 0:g:g:g:g:3:0:0:0:0.0:0.0
 0:h:h:h:h:3:1:0:0:0.0:0.0
+0:scottstots:scottstots:mike:scott:2:1:0:0:0.0:0.0

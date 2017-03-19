@@ -39,7 +39,7 @@ CREATE TABLE Accounts
 accountid NUMBER,
 typeid NUMBER DEFAULT 1,
 balance NUMBER(12,2) DEFAULT 0 CHECK (balance >= 0),
-statusid NUMBER DEFAULT 1,
+statusid NUMBER DEFAULT 0,
 resolverid NUMBER DEFAULT 0,
 CONSTRAINT pk_accountid PRIMARY KEY(accountid),
 FOREIGN KEY(typeid) REFERENCES Type(typeid)
