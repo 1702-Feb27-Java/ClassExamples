@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,7 +32,13 @@ public class CreateReimbursement extends HttpServlet {
 
 		String username = request.getParameter("uname");
 		
-		System.out.println(request.getAttribute("id"));
+		EmployeeService serveEmp = new EmployeeService();
+		
+		ArrayList<String> locations = serveEmp.getAllLocations();
+		
+		System.out.println(locations);
+		
+		request.setAttribute("locationsList", locations);
 		
 		System.out.println("testu");
 		String nextJSP = "/createReimbursement.jsp";

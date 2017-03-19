@@ -42,35 +42,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			catch(SQLException e){
 				e.printStackTrace(); 	
 			}
-	
-/*		else{
-			try(Connection connect = ConnectionUtil.getConnection(prop);){
-				System.out.println("in");
-				connect.setAutoCommit(false);
-				
-				String sql = "CALL LOGINEMPLOYEE(?, ?, ?)";
-				CallableStatement cs = connect.prepareCall(sql);
-				
-				cs.registerOutParameter(1, java.sql.Types.INTEGER);
-				cs.setString(2, un);
-				cs.registerOutParameter(3, java.sql.Types.VARCHAR);
-			
-				customerId = cs.executeUpdate();
-				
-				customerId = cs.getInt(1);
-				password = cs.getString(3);
-				
-				connect.commit();	
-				
-				employee.add(Integer.toString(customerId));
-				employee.add(password);
-				System.out.println("employee: " + employee);
-		
-			}
-			catch(SQLException e){
-				e.printStackTrace(); 	
-			}
-		}*/
 		
 		return employee;
 	}
@@ -89,7 +60,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
 
-			String sql = "SELECT * FROM Locations";
+			String sql = "SELECT location FROM Location";
 			PreparedStatement ps = connect.prepareStatement(sql);
 			
 			ResultSet rs = ps.executeQuery();
