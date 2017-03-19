@@ -1,10 +1,12 @@
 package com.revature.trms;
 
+import java.util.Date;
+
 public class Event {
 	private int eventId = 0;
-	private String startDate;
+	private Date startDate;
 	private String startTime;
-	private String stopDate;
+	private Date stopDate;
 	private String location;
 	private String description;
 	private double cost;
@@ -17,7 +19,7 @@ public class Event {
 			
 	}
 	
-	public Event(String startDate, String startTime, String stopDate, String location, String description,
+	public Event(Date startDate, String startTime, Date stopDate, String location, String description,
 			double cost, String justify, int gradingFormat, int eventType, int priority) {
 		super();
 		this.startDate = startDate;
@@ -44,11 +46,11 @@ public class Event {
 		this.eventId = eventId;
 	}
 
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
@@ -60,11 +62,11 @@ public class Event {
 		this.startTime = startTime;
 	}
 
-	public String getStopDate() {
+	public Date getStopDate() {
 		return stopDate;
 	}
 
-	public void setStopDate(String stopDate) {
+	public void setStopDate(Date stopDate) {
 		this.stopDate = stopDate;
 	}
 

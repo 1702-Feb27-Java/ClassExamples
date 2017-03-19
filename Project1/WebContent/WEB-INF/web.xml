@@ -8,7 +8,7 @@
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
-    </welcome-file-list>
+  </welcome-file-list>
   <servlet>
     <description></description>
     <display-name>NewUserServlet</display-name>
@@ -18,5 +18,15 @@
   <servlet-mapping>
     <servlet-name>NewUserServlet</servlet-name>
     <url-pattern>/NewUserServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EventServlet</display-name>
+    <servlet-name>EventServlet</servlet-name>
+    <servlet-class>com.revature.servlets.EventServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EventServlet</servlet-name>
+    <url-pattern>/EventServlet</url-pattern>
   </servlet-mapping>
 </web-app>
