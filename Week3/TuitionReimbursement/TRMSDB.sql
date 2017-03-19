@@ -27,6 +27,8 @@ DROP TABLE Approval_step;
 /
 DROP SEQUENCE employee_seq;
 /
+DROP SEQUENCE reimbursement_seq;
+/
 
 --Create Lookup Tables--
 CREATE TABLE ROLE
@@ -193,6 +195,18 @@ VALUES (3, 'Department Head');
 INSERT INTO Approval_step(approval_step_id, approval_step)
 VALUES (4, 'Benefits Coordinator');
 /
+INSERT INTO Approval_step(approval_step_id, approval_step)
+VALUES (5, 'Waiting on Grade');
+/
+INSERT INTO Approval_step(approval_step_id, approval_step)
+VALUES (6, 'Approved');
+/
+INSERT INTO Approval_step(approval_step_id, approval_step)
+VALUES (7, 'Denied');
+/
+INSERT INTO Approval_step(approval_step_id, approval_step)
+VALUES (8, 'Paid out');
+/
 --create object tables--
 CREATE TABLE Employee 
 (
@@ -267,6 +281,20 @@ CREATE SEQUENCE  employee_seq
   START WITH 1
   INCREMENT BY 1;
 /
+CREATE SEQUENCE reimbursement_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+/
+CREATE OR REPLACE TRIGGER reimbursement_trigger
+    BEFORE INSERT ON  Reimbursement -- upon what event
+    FOR EACH ROW --how often 
+    BEGIN -- start what actually happens
+      SELECT reimbursement_seq.NEXTVAL
+      INTO :new.reimb_id
+      FROM dual;
+    END;
+/
 CREATE OR REPLACE TRIGGER employee_trigger
     BEFORE INSERT ON  Employee -- upon what event
     FOR EACH ROW --how often 
@@ -335,6 +363,11 @@ BEGIN
                   type_of_event_id, urgent_id, approval_step_id, approval_cutoff);
 END applyForReimbursement;
 /
+DECLARE 
+IS
+BEGIN
+  
+END;
 
 
 
