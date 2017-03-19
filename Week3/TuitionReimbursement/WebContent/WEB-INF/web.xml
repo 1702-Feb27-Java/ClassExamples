@@ -38,4 +38,14 @@
     <servlet-name>SessionHandler2</servlet-name>
     <url-pattern>/SessionHandler2</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CreateReimbursement</display-name>
+    <servlet-name>CreateReimbursement</servlet-name>
+    <servlet-class>servlets.CreateReimbursement</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateReimbursement</servlet-name>
+    <url-pattern>/CreateReimbursement</url-pattern>
+  </servlet-mapping>
 </web-app>

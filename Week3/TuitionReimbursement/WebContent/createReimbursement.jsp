@@ -74,7 +74,7 @@
 		</nav>
 		
 
-		<h1>Logged in as: <%= request.getParameter("uname") %></h1><br><br><br><br><br><br>
+		<h1>Logged in as: <%= session.getAttribute("uId") %></h1><br><br><br><br><br><br>
 
 		<form>
 		  <div class="form-group">

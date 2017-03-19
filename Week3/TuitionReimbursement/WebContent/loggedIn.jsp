@@ -74,14 +74,18 @@
 		</nav>
 		
 
-		<h1>Logged in as: <%= request.getParameter("uname") %></h1><br><br><br><br><br><br>
+		<h1>Logged in as: <%= request.getAttribute("id") %></h1><br><br><br><br><br><br>
 
+		<%{
+			session.setAttribute("uId", request.getAttribute("id"));	
+		}%>
+		
 		<div class="row text-center">
-			<form  action="createReimbursement.jsp">
 			  <div class="col-md-6">
-			  	<button type="button" class="btn btn-default btn-lg">Apply for a reimbursement</button>
+			  	<form action="CreateReimbursement.do" method="POST">
+			  		<button type="submit" class="btn btn-default btn-lg">Apply for a reimbursement</button>
+			  	</form>
 			  </div>
-			</form>
 			  <div class="col-md-6">
 			  	<button type="button" class="btn btn-default btn-lg">View pending reimbursements</button>
 			  </div>
