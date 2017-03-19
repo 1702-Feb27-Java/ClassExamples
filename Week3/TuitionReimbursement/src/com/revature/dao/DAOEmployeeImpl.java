@@ -16,7 +16,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		ArrayList<String> employee = new ArrayList<String>();
 		int customerId = 0;
 		String password = "";
-			System.out.println("empty");
 			try(Connection connect = ConnectionUtil.getConnection();){
 				connect.setAutoCommit(false);
 				

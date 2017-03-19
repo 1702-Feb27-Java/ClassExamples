@@ -52,8 +52,6 @@ public class LoginServlet extends HttpServlet {
 		EmployeeService serveEmp = new EmployeeService();
 		
 		int empId = serveEmp.loginEmployee(username, password);
-		System.out.println("test");
-		System.out.println("emp Id " + empId);
 		request.setAttribute("id", empId);
 		
 		String nextJSP = "/loggedIn.jsp";

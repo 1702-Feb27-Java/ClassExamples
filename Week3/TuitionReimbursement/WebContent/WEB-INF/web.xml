@@ -48,4 +48,14 @@
     <servlet-name>CreateReimbursement</servlet-name>
     <url-pattern>/CreateReimbursement</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SubmitReimbursement</display-name>
+    <servlet-name>SubmitReimbursement</servlet-name>
+    <servlet-class>servlets.SubmitReimbursement</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SubmitReimbursement</servlet-name>
+    <url-pattern>/SubmitReimbursement</url-pattern>
+  </servlet-mapping>
 </web-app>

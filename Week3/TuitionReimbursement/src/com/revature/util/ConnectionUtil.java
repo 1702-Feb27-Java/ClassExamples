@@ -34,9 +34,7 @@ public class ConnectionUtil {
 		catch(IOException e){
 			e.printStackTrace();
 		}
-		System.out.println("teststststst");
 		DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
-		System.out.println("test");
 		try {
 			Class.forName("oracle.jdbc.OracleDriver").newInstance();
 		} catch (InstantiationException e) {

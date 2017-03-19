@@ -85,22 +85,22 @@
 		<div class="row text-center">
 			<div class="col-sm-4"></div>
 			<div class="col-md-4">
-				<form >
+				<form action="SubmitReimbursement.do" method="POST">
 				  <div class="form-group">
 				    <label for="event">Event Name</label>
-				    <input type="text" class="form-control" id="event" placeholder="Event">
+				    <input type="text" class="form-control" id="event" placeholder="Event" name="event">
 				  </div>
 				  <div class="form-group">
 				    <label for="eventDate">Event Date</label>
-				    <input type="text" class="form-control" id="eventDate" placeholder="Date">
+				    <input type="text" class="form-control" id="eventDate" placeholder="Date" name="eventDate">
 				  </div>
 				  <div class="form-group">
 				    <label for="time">Event time</label>
-				    <input type="text" class="form-control" id="time" placeholder="Time">
+				    <input type="text" class="form-control" id="time" placeholder="Time" name="time">
 				  </div>
 				  <div class="form-group">
 				    <label for="location">Event Location</label>
-				    <select class="form-control" id="exampleSelect1">
+				    <select class="form-control" id="exampleSelect1" name="location">
 				      <c:forEach items="${locationsList}" var="location">
 				      	<option value=${location}>
 				      		${location}
@@ -112,21 +112,21 @@
 				  	<div class="col-sm-3">New location: </div>
 				  	<div class="col-lg-9">
 				  		<div class="form-group">
-				    		<input type="text" class="form-control" id="newLocation" placeholder="Location">
+				    		<input type="text" class="form-control" id="newLocation" placeholder="Location" name="location2">
 				    	</div>
 				  	</div>
 				  </div>
 				  <div class="form-group">
 				    <label for="description">Event description</label>
-				    <input type="text" class="form-control" id="description" placeholder="Description"> 
+				    <input type="text" class="form-control" id="description" placeholder="Description" name="description"> 
 				  </div>
 				  <div class="form-group">
 				    <label for="cost">Event cost</label>
-				    <input type="text" class="form-control" id="cost" placeholder="Cost">
+				    <input type="text" class="form-control" id="cost" placeholder="Cost" name="cost">
 				  </div>
 				  <div class="form-group">
 				    <label for="gradingType">Grading Scale</label>
-				    <select class="form-control" id="gradingType">
+				    <select class="form-control" id="gradingType"  name="gradingId">
 				      <c:forEach items="${gradingTypes}" var="gradingType">
 				      	<option value="${gradingType}">
 				      		${gradingType}
@@ -138,13 +138,13 @@
 				  	<div class="col-sm-3">New Grading Scale: </div>
 				  	<div class="col-lg-9">
 				  		<div class="form-group">
-				    		<input type="text" class="form-control" id="newGradingInput" placeholder="Grading Scale">
+				    		<input type="text" class="form-control" id="newGradingInput" placeholder="Grading Scale"  name="gradingId">
 				    	</div>
 				  	</div>
 				  </div>
 				  	<div class="form-group">
 				    <label for="eventType">Event Type</label>
-				    <select class="form-control" id="eventType">
+				    <select class="form-control" id="eventType" name="typeOfEvent">
 				      <c:forEach items="${eventTypes}" var="eventType">
 				      	<option value="${eventType}">
 				      		${eventType}
@@ -156,7 +156,6 @@
 				    <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
 				    <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
 				  </div>
-
 				  <button type="submit" class="btn btn-primary">Submit</button>
 				</form><br><br><br><br><br>
 				</div>

@@ -34,9 +34,6 @@ public class RoutingFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-	
-		System.out.println("Filter Triggero TESTU");
 		
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse)response;
@@ -48,7 +45,6 @@ public class RoutingFilter implements Filter {
 		
 		action = action.substring(0, action.length()-3);
 		RequestDispatcher rd;
-		System.out.println("action: " + action);
 		
 		switch(action){
 		case "SessionHandler2":
@@ -60,6 +56,10 @@ public class RoutingFilter implements Filter {
 			rd.forward(req, res);
 			return;
 		case "CreateReimbursement":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
+		case "SubmitReimbursement":
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;
