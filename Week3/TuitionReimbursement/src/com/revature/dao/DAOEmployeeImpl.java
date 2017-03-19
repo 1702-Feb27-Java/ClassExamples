@@ -16,7 +16,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		ArrayList<String> employee = new ArrayList<String>();
 		int customerId = 0;
 		String password = "";
-		//if(prop.isEmpty()){
 			System.out.println("empty");
 			try(Connection connect = ConnectionUtil.getConnection();){
 				connect.setAutoCommit(false);
@@ -47,10 +46,42 @@ public class DAOEmployeeImpl implements DAOEmployee{
 	}
 
 	@Override
-	public boolean applyForReimbursement(String event, int eventDate, int time, String location, int formDate,
-			String description, int cost, int grading_id, int typeOfEventId, int urgentId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean applyForReimbursement(int emp_id, String event, String eventDate, String time, int location, String formDate,
+			String description, int cost, int gradingId, int typeOfEventId, int urgentId, int approvalStepId, int approvalCutoff) {
+		
+		boolean applied = false;
+			try(Connection connect = ConnectionUtil.getConnection();){
+				connect.setAutoCommit(false);
+				
+				String sql = "CALL APPLYFORREIMBURSEMENT(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				CallableStatement cs = connect.prepareCall(sql);
+				
+				cs.setInt(1, emp_id);
+				cs.setString(2, event);
+				cs.setString(3, eventDate);
+				cs.setString(4, time);
+				cs.setInt(5, location);
+				cs.setString(6, formDate);
+				cs.setString(7, description);
+				cs.setInt(8, cost);
+				cs.setInt(9, gradingId);
+				cs.setInt(10, typeOfEventId);
+				cs.setInt(11, urgentId);
+				cs.setInt(12, approvalStepId);
+				cs.setInt(13, approvalCutoff);
+			
+				cs.executeUpdate();
+				
+				connect.commit();	
+				
+				applied = true;
+		
+			}
+			catch(SQLException e){
+				e.printStackTrace(); 	
+			}
+		
+		return applied;
 	}
 
 	

@@ -368,7 +368,7 @@ END applyForReimbursement;
 /
 DECLARE
 BEGIN
-  APPLYFORREIMBURSEMENT(3, 'CS COURSE', '06/06/2016', '10:30pm', 1, '05/06/2016', 'college course at uw', 500, 1, 1, 0, 1, 7);
+  APPLYFORREIMBURSEMENT(3, 'HR COURSE', '10/10/2016', '10:30am', 1, '10/06/2016', 'college course at uw', 50, 1, 1, 2, 1, 7);
 END;
 
 

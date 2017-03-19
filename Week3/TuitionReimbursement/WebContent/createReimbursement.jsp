@@ -73,22 +73,30 @@
 		  </div><!-- /.container-fluid -->
 		</nav>
 		
-
+			<%--
+			
+			System.out.println(serveEmp.applyForReimbursement(emp_id, event, eventDate, time, location, formDate, description, cost, 
+				grading_id, typeOfEventId, urgentId, approval_step_id, approval_cutoff));
+			
+			 --%>	
 		<h1>Logged in as: <%= session.getAttribute("uId") %></h1><br><br><br><br><br><br>
 		<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+		<h1 bold>Reimbursement Form</h1><br>
 		<div class="row text-center">
 			<div class="col-sm-4"></div>
 			<div class="col-md-4">
 				<form>
 				  <div class="form-group">
-				    <label for="exampleInputEmail1">Email address</label>
-				    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-				    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+				    <label for="event">Event Name</label>
+				    <input type="text" class="form-control" id="event" placeholder="Event">
 				  </div>
 				  <div class="form-group">
-				    <label for="exampleInputPassword1">Password</label>
-				    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+				    <label for="eventDate">Event Date</label>
+				    <input type="text" class="form-control" id="eventDate" placeholder="Date">
+				  </div>
+				  <div class="form-group">
+				    <label for="time">Event time</label>
+				    <input type="text" class="form-control" id="time" placeholder="Time">
 				  </div>
 				  <div class="form-group">
 				    <label for="exampleSelect1">Event Location</label>
@@ -109,8 +117,20 @@
 				  	</div>
 				  </div>
 				  <div class="form-group">
-				    <label for="exampleTextarea">Example textarea</label>
-				    <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+				    <label for="description">Event description</label>
+				    <input type="text" class="form-control" id="description" placeholder="Description"> 
+				  </div>
+				  <div class="form-group">
+				    <label for="cost">Event cost</label>
+				    <input type="text" class="form-control" id="cost" placeholder="Cost">
+				  </div>
+				  <div class="form-group">
+				    <label for="gradingId">Grading</label>
+				    <input type="text" class="form-control" id="gradingId" placeholder="Grading">
+				  </div>
+				  <div class="form-group">
+				    <label for="typeOfEventId">Type of Event</label>
+				    <input type="text" class="form-control" id="typeOfEventId" placeholder="Type of Event">
 				  </div>
 				  <div class="form-group">
 				    <label for="exampleInputFile">File input</label>
