@@ -135,6 +135,9 @@ VALUES (2, 'Approved');
 INSERT INTO Status(Status_id, status)
 VALUES (3, 'Denied');
 /
+INSERT INTO Status(Status_id, status)
+VALUES (4, 'Paid Out');
+/
 INSERT INTO Grading(grading_id, grading)
 VALUES (1, 'A-F');
 /
@@ -241,10 +244,10 @@ CREATE TABLE Reimbursement
   status_id NUMBER DEFAULT(1) NOT NULL,
   employee_id NUMBER NOT NULL,
   event varchar2(30) NOT NULL,
-  event_date date NOT NULL,
+  event_date varchar2(10) NOT NULL,
   event_time varchar2(10) NOT NULL,
   location_id number(10) NOT NULL,
-  form_date date NOT NULL,
+  form_date varchar2(10) NOT NULL,
   event_description varchar2(30) NOT NULL, 
   event_cost varchar2(30) NOT NULL,
   grading_id number NOT NULL,
@@ -353,22 +356,20 @@ BEGIN
   pw := pas;
 END loginEmployee;
 /
-CREATE OR REPLACE PROCEDURE applyForReimbursement(event IN varchar2, event_date IN date, event_time IN varchar2, location_id IN number, form_date IN date, 
+CREATE OR REPLACE PROCEDURE applyForReimbursement(emp_id IN number, event IN varchar2, event_date IN varchar2, event_time IN varchar2, location_id IN number, form_date IN varchar2, 
 description IN varchar2, event_cost IN number, grading_id IN number, type_of_event_id IN number, urgent_id IN number, approval_step_id IN number, approval_cutoff IN number)
 IS
 BEGIN
-  INSERT INTO REIMBURSEMENT(REIMB_ID, STATUS_ID, EVENT, EVENT_DATE, EVENT_TIME, LOCATION_ID, FORM_DATE, EVENT_DESCRIPTION, EVENT_COST, GRADING_ID, TYPE_OF_EVENT_ID,
+  INSERT INTO REIMBURSEMENT(REIMB_ID, STATUS_ID, EMPLOYEE_ID, EVENT, EVENT_DATE, EVENT_TIME, LOCATION_ID, FORM_DATE, EVENT_DESCRIPTION, EVENT_COST, GRADING_ID, TYPE_OF_EVENT_ID,
                               URGENT_ID, APPROVAL_STEP_ID, APPROVAL_CUTOFF)
-  VALUES(1, 1, event, event_date, event_time, location_id, form_date, description, event_cost, grading_id, 
+  VALUES(1, 1, emp_id, event, event_date, event_time, location_id, form_date, description, event_cost, grading_id, 
                   type_of_event_id, urgent_id, approval_step_id, approval_cutoff);
 END applyForReimbursement;
 /
-DECLARE 
-IS
+DECLARE
 BEGIN
-  
+  APPLYFORREIMBURSEMENT(3, 'CS COURSE', '06/06/2016', '10:30pm', 1, '05/06/2016', 'college course at uw', 500, 1, 1, 0, 1, 7);
 END;
-
 
 
 
