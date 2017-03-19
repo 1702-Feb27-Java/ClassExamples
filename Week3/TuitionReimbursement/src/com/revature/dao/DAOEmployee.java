@@ -8,4 +8,6 @@ public interface DAOEmployee {
 	
 	public boolean applyForReimbursement(String event, int eventDate, int time, String location, int formDate, String description,
 			int cost, int grading_id, int typeOfEventId, int urgentId);
+	
+	public ArrayList<String> getListOfLocations();
 }

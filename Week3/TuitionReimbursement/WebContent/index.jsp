@@ -81,7 +81,7 @@
 
 		<br><br><br><br><br><br><br><br><br><br><br><br><br>
 		<div class="container" >
-		  <form action="TestServlet.do" method="POST">
+		  <form action="LoginServlet.do" method="POST">
 			<div class="form-group row">
 			  <label for="inputEmail3" class="col-sm-2 col-form-label">Username</label>
 			  <div class="col-sm-10">

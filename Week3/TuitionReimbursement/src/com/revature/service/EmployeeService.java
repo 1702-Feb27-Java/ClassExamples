@@ -7,8 +7,9 @@ import com.revature.dao.DAOEmployeeImpl;
 
 public class EmployeeService {
 	
+	static DAOEmployeeImpl daoEmp = new DAOEmployeeImpl();
+	
 	public int loginEmployee(String username, String password){
-		DAOEmployeeImpl daoEmp = new DAOEmployeeImpl();
 		int employeeId = 0;//0 = no username found
 		int dbEmpId = 0;
 		String dbPass = "";
@@ -27,6 +28,14 @@ public class EmployeeService {
 			}
 		}
 		return employeeId;
+	}
+	
+	public ArrayList<String> getAllLocations(){
+		ArrayList<String> locations = new ArrayList<String>();
+		
+		locations = daoEmp.getListOfLocations();
+		
+		return locations;
 	}
 	
 }

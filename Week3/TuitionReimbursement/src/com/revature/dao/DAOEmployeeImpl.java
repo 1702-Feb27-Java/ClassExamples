@@ -2,10 +2,11 @@ package com.revature.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
-
 import com.revature.util.ConnectionUtil;
 
 public class DAOEmployeeImpl implements DAOEmployee{
@@ -79,6 +80,33 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			String description, int cost, int grading_id, int typeOfEventId, int urgentId) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	
+	@Override
+	public ArrayList<String> getListOfLocations() {
+		ArrayList<String> locations = new ArrayList<String>();
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			String sql = "SELECT * FROM Locations";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				String location = rs.getString(1);
+				
+				locations.add(location);
+			}
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		if(locations.isEmpty()){
+			locations.add("No Previous Locations");
+		}
+		return locations;
 	}
 
 

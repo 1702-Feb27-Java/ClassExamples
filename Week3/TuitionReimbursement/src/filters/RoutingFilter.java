@@ -55,7 +55,7 @@ public class RoutingFilter implements Filter {
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;
-		case "TestServlet":
+		case "LoginServlet":
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;
