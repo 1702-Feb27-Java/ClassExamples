@@ -38,6 +38,22 @@ public class EmployeeService {
 		return locations;
 	}
 	
+	public ArrayList<String> getAllGradingTypes(){
+		ArrayList<String> gradingTypes = new ArrayList<String>();
+		
+		gradingTypes = daoEmp.getListOfGradingTypes();
+		
+		return gradingTypes;
+	}
+
+	public ArrayList<String> getAllTypeOfEvents(){
+		ArrayList<String> eventTypes = new ArrayList<String>();
+		
+		eventTypes = daoEmp.getListOfEventTypes();
+		
+		return eventTypes;
+	}
+	
 	public boolean applyForReimbursement(int emp_id, String event, String eventDate, String time, int location, String formDate,
 			String description, int cost, int gradingId, int typeOfEventId, int urgentId, int approvalStepId, int approvalCutoff){
 		boolean applied = false;
@@ -45,5 +61,6 @@ public class EmployeeService {
 				cost, gradingId, typeOfEventId, urgentId, approvalStepId, approvalCutoff);
 		return applied;
 	}
+	
 	
 }

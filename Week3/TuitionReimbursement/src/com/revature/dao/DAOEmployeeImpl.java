@@ -84,7 +84,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		return applied;
 	}
 
-	
 	@Override
 	public ArrayList<String> getListOfLocations() {
 		ArrayList<String> locations = new ArrayList<String>();
@@ -111,6 +110,56 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		return locations;
 	}
 
-
+	
+	@Override
+	public ArrayList<String> getListOfGradingTypes() {
 		
+		ArrayList<String> gradingTypes = new ArrayList<String>();
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			String sql = "SELECT grading FROM Grading";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				String gradingType = rs.getString(1);
+				
+				gradingTypes.add(gradingType);
+			}
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		if(gradingTypes.isEmpty()){
+			gradingTypes.add("No previous grading types.");
+		}
+		return gradingTypes;
+	}
+
+	public ArrayList<String> getListOfEventTypes(){
+		ArrayList<String> eventTypes = new ArrayList<String>();
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+	
+			String sql = "SELECT type_of_event FROM TYPE_OF_EVENT";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				String eventType = rs.getString(1);
+				
+				eventTypes.add(eventType);
+			}
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		if(eventTypes.isEmpty()){
+			eventTypes.add("No previous event types.");
+		}
+		return eventTypes;
+	}
 }

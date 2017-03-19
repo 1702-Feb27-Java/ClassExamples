@@ -35,12 +35,13 @@ public class CreateReimbursement extends HttpServlet {
 		EmployeeService serveEmp = new EmployeeService();
 		
 		ArrayList<String> locations = serveEmp.getAllLocations();
-		
-		System.out.println(locations);
+		ArrayList<String> gradingTypes = serveEmp.getAllGradingTypes();
+		ArrayList<String> eventTypes = serveEmp.getAllTypeOfEvents();
 		
 		request.setAttribute("locationsList", locations);
+		request.setAttribute("gradingTypes", gradingTypes);
+		request.setAttribute("eventTypes", eventTypes);
 		
-		System.out.println("testu");
 		String nextJSP = "/createReimbursement.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
 		dispatcher.forward(request,response);	

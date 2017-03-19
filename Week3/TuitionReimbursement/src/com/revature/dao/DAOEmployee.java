@@ -10,4 +10,9 @@ public interface DAOEmployee {
 			String description, int cost, int gradingId, int typeOfEventId, int urgentId, int approvalStepId, int approvalCutoff);
 	
 	public ArrayList<String> getListOfLocations();
+	
+	public ArrayList<String> getListOfGradingTypes();
+	
+	public ArrayList<String> getListOfEventTypes();
+	
 }

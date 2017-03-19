@@ -85,7 +85,7 @@
 		<div class="row text-center">
 			<div class="col-sm-4"></div>
 			<div class="col-md-4">
-				<form>
+				<form >
 				  <div class="form-group">
 				    <label for="event">Event Name</label>
 				    <input type="text" class="form-control" id="event" placeholder="Event">
@@ -99,7 +99,7 @@
 				    <input type="text" class="form-control" id="time" placeholder="Time">
 				  </div>
 				  <div class="form-group">
-				    <label for="exampleSelect1">Event Location</label>
+				    <label for="location">Event Location</label>
 				    <select class="form-control" id="exampleSelect1">
 				      <c:forEach items="${locationsList}" var="location">
 				      	<option value=${location}>
@@ -112,7 +112,7 @@
 				  	<div class="col-sm-3">New location: </div>
 				  	<div class="col-lg-9">
 				  		<div class="form-group">
-				    		<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Location">
+				    		<input type="text" class="form-control" id="newLocation" placeholder="Location">
 				    	</div>
 				  	</div>
 				  </div>
@@ -125,12 +125,31 @@
 				    <input type="text" class="form-control" id="cost" placeholder="Cost">
 				  </div>
 				  <div class="form-group">
-				    <label for="gradingId">Grading</label>
-				    <input type="text" class="form-control" id="gradingId" placeholder="Grading">
+				    <label for="gradingType">Grading Scale</label>
+				    <select class="form-control" id="gradingType">
+				      <c:forEach items="${gradingTypes}" var="gradingType">
+				      	<option value="${gradingType}">
+				      		${gradingType}
+				      </c:forEach>
+				      	<option value="none">none of the above</option>
+				    </select>
 				  </div>
-				  <div class="form-group">
-				    <label for="typeOfEventId">Type of Event</label>
-				    <input type="text" class="form-control" id="typeOfEventId" placeholder="Type of Event">
+				  <div class="row">
+				  	<div class="col-sm-3">New Grading Scale: </div>
+				  	<div class="col-lg-9">
+				  		<div class="form-group">
+				    		<input type="text" class="form-control" id="newGradingInput" placeholder="Grading Scale">
+				    	</div>
+				  	</div>
+				  </div>
+				  	<div class="form-group">
+				    <label for="eventType">Event Type</label>
+				    <select class="form-control" id="eventType">
+				      <c:forEach items="${eventTypes}" var="eventType">
+				      	<option value="${eventType}">
+				      		${eventType}
+				      </c:forEach>
+				    </select>
 				  </div>
 				  <div class="form-group">
 				    <label for="exampleInputFile">File input</label>
