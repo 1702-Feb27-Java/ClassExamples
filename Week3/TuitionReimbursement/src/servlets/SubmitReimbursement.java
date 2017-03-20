@@ -2,6 +2,11 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -44,8 +49,26 @@ public class SubmitReimbursement extends HttpServlet {
 		String gradingId2 = request.getParameter("gradingId2");
 		String typeOfEvent = request.getParameter("typeOfEvent");
 		
+		
+		
+		DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+		Date date = new Date();
+		Date todaysDate = new Date();
+		try {
+			date = format.parse(eventDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		int daysApart = (int)((date.getTime() - todaysDate.getTime()) / (1000*60*60*24l));
+
 		PrintWriter out = response.getWriter();
+		
 		out.println("<html><body>" +
+					"DATE TEST " + todaysDate + "<br>" +
+					"DATEUUU CONVERTUUUUU : " + date + "<br>" +
+					"DAYS APARTUUU : " + daysApart + "<br>" + 
 						"emp_id: " + emp_id + "<br>"	+ 
 						"event: " + event + "<br>" +
 						"eventDate: " + eventDate + "<br>" +
