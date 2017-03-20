@@ -19,6 +19,14 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+		
+		<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+
+
+
+
 		<style>
 			body {
 				background-image: url("Images/gradient.png");
@@ -29,6 +37,10 @@
 			}
 			h1{
 				text-align: center;
+			}
+			#dateRangeForm .form-control-feedback {
+			    top: 0;
+			    right: -15px;
 			}
 		</style>
 		
@@ -56,7 +68,7 @@
 				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reimbursements <span class="caret"></span></a>
 				  <ul class="dropdown-menu">
 					<li><a href="#">Apply for Reimbursement</a></li>
-					<li><a href="#">View your reimburesments</a></li>
+					<li><a href="#">View your Reimbursements</a></li>
 				  </ul>
 				</li>
 			  </ul>
@@ -81,7 +93,7 @@
 			 --%>	
 		<h1>Logged in as: <%= session.getAttribute("uId") %></h1><br><br><br><br><br><br>
 		<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-		<h1 bold>Reimbursement Form</h1><br>
+		<h1>Reimbursement Form</h1><br>
 		<div class="row text-center">
 			<div class="col-sm-4"></div>
 			<div class="col-md-4">
@@ -90,10 +102,68 @@
 				    <label for="event">Event Name</label>
 				    <input type="text" class="form-control" id="event" placeholder="Event" name="event">
 				  </div>
-				  <div class="form-group">
-				    <label for="eventDate">Event Date</label>
-				    <input type="text" class="form-control" id="eventDate" placeholder="Date" name="eventDate">
-				  </div>
+				  
+				  
+		<div class="row">
+			<form id="dateRangeForm" method="post" class="form-horizontal">
+			    <div class="form-group">
+			    	<div class="row">
+			    		<div class="col-sm-3"></div>
+			        	<label class="col-md-6 control-label">Event Date</label>
+			        	<div class="col-sm-3"></div>
+			        </div>
+			        <div class="row">
+			    		<div class="col-sm-3"></div>
+			            <div class="col-md-6 input-group input-append date" id="dateRangePicker">
+			                <input type="text" class="form-control" name="eventDate" />
+			                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+			            </div>
+			            <div class="col-sm-3"></div>
+			        </div>
+			        
+			    </div>	
+			</form>
+		</div>
+			
+			<script>
+			$(document).ready(function() {
+			    $('#dateRangePicker')
+			        .datepicker({
+			            format: 'mm/dd/yyyy',
+			            startDate: '01/01/2010',
+			            endDate: '12/30/2020'
+			        })
+			        .on('changeDate', function(e) {
+			            // Revalidate the date field
+			            $('#dateRangeForm').formValidation('revalidateField', 'date');
+			        });
+			
+			    $('#dateRangeForm').formValidation({
+			        framework: 'bootstrap',
+			        icon: {
+			            valid: 'glyphicon glyphicon-ok',
+			            invalid: 'glyphicon glyphicon-remove',
+			            validating: 'glyphicon glyphicon-refresh'
+			        },
+			        fields: {
+			            date: {
+			                validators: {
+			                    notEmpty: {
+			                        message: 'The date is required'
+			                    },
+			                    date: {
+			                        format: 'MM/DD/YYYY',
+			                        min: '01/01/2010',
+			                        max: '12/30/2020',
+			                        message: 'The date is not a valid'
+			                    }
+			                }
+			            }
+			        }
+			    });
+			});
+			</script>
+		
 				  <div class="form-group">
 				    <label for="time">Event time</label>
 				    <input type="text" class="form-control" id="time" placeholder="Time" name="time">

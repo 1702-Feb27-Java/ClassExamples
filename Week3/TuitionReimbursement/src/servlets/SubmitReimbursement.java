@@ -51,7 +51,7 @@ public class SubmitReimbursement extends HttpServlet {
 						"eventDate: " + eventDate + "<br>" +
 						"time: " + time + "<br>");
 		
-		if(location2 != null){
+		if(location2.length() != 0){
 			out.println("location2: " + location2 + "<br>");
 		}
 		else{
@@ -61,7 +61,7 @@ public class SubmitReimbursement extends HttpServlet {
 		out.println("description: " + description + "<br>" +
 						"cost: " + cost + "<br>");
 						
-		if(gradingId2 != null){
+		if(gradingId2.length() != 0){
 			out.println("gradingId2: " + gradingId2 + "<br>" );
 		}
 		else{
@@ -70,9 +70,9 @@ public class SubmitReimbursement extends HttpServlet {
 		out.println("typeOfEvent: " + typeOfEvent + "<br>" +
 						"</body></html>"
 				);
-		out.println(serveEmp.applyForReimbursement(emp_id, event, eventDate, time, location, formDate, description, cost, 
+		/*out.println(serveEmp.applyForReimbursement(emp_id, event, eventDate, time, location, formDate, description, cost, 
 							gradingId, typeOfEventId, urgentId, approvalStepId, approvalCutoff));
-		
+		*/
 	}
 
 	/**
