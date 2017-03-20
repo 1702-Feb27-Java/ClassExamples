@@ -138,7 +138,7 @@
 				  	<div class="col-sm-3">New Grading Scale: </div>
 				  	<div class="col-lg-9">
 				  		<div class="form-group">
-				    		<input type="text" class="form-control" id="newGradingInput" placeholder="Grading Scale"  name="gradingId">
+				    		<input type="text" class="form-control" id="newGradingInput" placeholder="Grading Scale"  name="gradingId2">
 				    	</div>
 				  	</div>
 				  </div>
