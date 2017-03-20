@@ -105,7 +105,6 @@
 				  
 				  
 		<div class="row">
-			<form id="dateRangeForm" method="post" class="form-horizontal">
 			    <div class="form-group">
 			    	<div class="row">
 			    		<div class="col-sm-3"></div>
@@ -120,9 +119,7 @@
 			            </div>
 			            <div class="col-sm-3"></div>
 			        </div>
-			        
 			    </div>	
-			</form>
 		</div>
 			
 			<script>
