@@ -55,12 +55,13 @@ public class SubmitReimbursement extends HttpServlet {
 		DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 		Date date = new Date();
 		Date todaysDate = new Date();
-		Date cutoffDate;
+		Date cutoffDate2;
 		
+		//add 7 days to current day to get cutoff day
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		c.add(Calendar.DATE, 7);  // number of days to add
-		cutoffDate = c.getTime();
+		cutoffDate2 = c.getTime();
 		
 
 		try {
@@ -76,11 +77,13 @@ public class SubmitReimbursement extends HttpServlet {
 		if (daysApart < 7)
 			urgent = 1;
 		
+		//convert java dates to sql dates
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 		java.sql.Date sqlDateToday = new java.sql.Date(todaysDate.getTime());
+		java.sql.Date cutoffDate = new java.sql.Date(cutoffDate2.getTime());
 		
 		System.out.println(serveEmp.applyForReimbursement(emp_id, event, sqlDate, time, 1, sqlDateToday, description, cost,
-				1, 1, urgent, 1, 7));
+				1, 1, urgent, 1, cutoffDate));
 
 		PrintWriter out = response.getWriter();
 		
@@ -115,9 +118,6 @@ public class SubmitReimbursement extends HttpServlet {
 		out.println("typeOfEvent: " + typeOfEvent + "<br>" +
 						"</body></html>"
 				);
-		/*out.println(serveEmp.applyForReimbursement(emp_id, event, eventDate, time, location, formDate, description, cost, 
-							gradingId, typeOfEventId, urgentId, approvalStepId, approvalCutoff));
-		*/
 	}
 
 	/**

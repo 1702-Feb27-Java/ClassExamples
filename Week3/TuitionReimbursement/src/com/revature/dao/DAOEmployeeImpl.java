@@ -47,7 +47,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 
 	@Override
 	public boolean applyForReimbursement(int emp_id, String event, Date eventDate, String time, int location, Date formDate,
-			String description, int cost, int gradingId, int typeOfEventId, int urgentId, int approvalStepId, int approvalCutoff) {
+			String description, int cost, int gradingId, int typeOfEventId, int urgentId, int approvalStepId, Date approvalCutoff) {
 		
 		boolean applied = false;
 			try(Connection connect = ConnectionUtil.getConnection();){
@@ -68,7 +68,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				cs.setInt(10, typeOfEventId);
 				cs.setInt(11, urgentId);
 				cs.setInt(12, approvalStepId);
-				cs.setInt(13, approvalCutoff);
+				cs.setDate(13, approvalCutoff);
 			
 				cs.executeUpdate();
 				

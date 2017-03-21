@@ -100,7 +100,7 @@
 				<form action="SubmitReimbursement.do" method="POST">
 				  <div class="form-group">
 				    <label for="event">Event Name</label>
-				    <input type="text" class="form-control" id="event" placeholder="Event" name="event">
+				    <input type="text" required class="form-control" id="event" placeholder="Event" name="event">
 				  </div>
 				  
 				  
@@ -114,7 +114,7 @@
 			        <div class="row">
 			    		<div class="col-sm-3"></div>
 			            <div class="col-md-6 input-group input-append date" id="dateRangePicker">
-			                <input type="text" class="form-control" name="eventDate" />
+			                <input type="text" required class="form-control" name="eventDate" />
 			                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
 			            </div>
 			            <div class="col-sm-3"></div>
@@ -134,62 +134,62 @@
 			            // Revalidate the date field
 			            $('#dateRangeForm').formValidation('revalidateField', 'date');
 			        });
-			
-			    $('#dateRangeForm').formValidation({
-			        framework: 'bootstrap',
-			        icon: {
-			            valid: 'glyphicon glyphicon-ok',
-			            invalid: 'glyphicon glyphicon-remove',
-			            validating: 'glyphicon glyphicon-refresh'
-			        },
-			        fields: {
-			            date: {
-			                validators: {
-			                    notEmpty: {
-			                        message: 'The date is required'
-			                    },
-			                    date: {
-			                        format: 'MM/DD/YYYY',
-			                        min: '01/01/2010',
-			                        max: '12/30/2020',
-			                        message: 'The date is not a valid'
-			                    }
-			                }
-			            }
-			        }
-			    });
 			});
 			</script>
 		
 				  <div class="form-group">
 				    <label for="time">Event time</label>
-				    <input type="text" class="form-control" id="time" placeholder="Time" name="time">
+				    <input type="text" required class="form-control" id="time" placeholder="Time" name="time">
 				  </div>
 				  <div class="form-group">
 				    <label for="location">Event Location</label>
-				    <select class="form-control" id="exampleSelect1" name="location">
+				    <select class="form-control" id="locationSelect" name="location">
 				      <c:forEach items="${locationsList}" var="location">
 				      	<option value=${location}>
 				      		${location}
 				      </c:forEach>
-				      	<option value="none">none of the above</option>
+				      	<option value="none" id="none">none of the above</option>
 				    </select>
 				  </div>
-				  <div class="row">
+				  <div class="row" id="newLocation" style="display:none">
 				  	<div class="col-sm-3">New location: </div>
 				  	<div class="col-lg-9">
 				  		<div class="form-group">
-				    		<input type="text" class="form-control" id="newLocation" placeholder="Location" name="location2">
+				    		<input type="text" class="form-control" placeholder="Location" name="location2">
 				    	</div>
 				  	</div>
 				  </div>
+				  
+			
+				  
+				  <script type="text/javascript">
+					   $('#locationSelect').bind('change', function(event) {
+									
+						           var i= $('#locationSelect').val();
+						           //var e = document.getElementById("locationSelect");
+						           //var strUser = e.options[e.selectedIndex].text
+						         
+						           $('#newLocation').hide();
+						           console.log(i);
+						           
+						            if(i=="none") // equal to a selection option
+						             {
+						                 $('#newLocation').show();
+						              	 
+						             }
+						           else if(i!="none")
+						             {
+						               $('#newLocation').hide(); // hide the first one
+						              }
+						});
+				   </script>
 				  <div class="form-group">
 				    <label for="description">Event description</label>
-				    <input type="text" class="form-control" id="description" placeholder="Description" name="description"> 
+				    <input type="text" required class="form-control" id="description" placeholder="Description" name="description"> 
 				  </div>
 				  <div class="form-group">
 				    <label for="cost">Event cost</label>
-				    <input type="number" class="form-control" id="cost" placeholder="Cost" name="cost">
+				    <input type="number" required class="form-control" id="cost" placeholder="Cost" name="cost">
 				  </div>
 				  <div class="form-group">
 				    <label for="gradingType">Grading Scale</label>
@@ -211,7 +211,7 @@
 				  </div>
 				  	<div class="form-group">
 				    <label for="eventType">Event Type</label>
-				    <select class="form-control" id="eventType" name="typeOfEvent">
+				    <select class="form-control" required id="eventType" name="typeOfEvent">
 				      <c:forEach items="${eventTypes}" var="eventType">
 				      	<option value="${eventType}">
 				      		${eventType}

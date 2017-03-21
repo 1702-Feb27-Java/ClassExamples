@@ -56,7 +56,7 @@ public class EmployeeService {
 	}
 	
 	public boolean applyForReimbursement(int emp_id, String event, Date eventDate, String time, int location, Date formDate,
-			String description, int cost, int gradingId, int typeOfEventId, int urgentId, int approvalStepId, int approvalCutoff){
+			String description, int cost, int gradingId, int typeOfEventId, int urgentId, int approvalStepId, Date approvalCutoff){
 		boolean applied = false;
 		applied = daoEmp.applyForReimbursement(emp_id, event, eventDate, time, location, formDate, description, 
 				cost, gradingId, typeOfEventId, urgentId, approvalStepId, approvalCutoff);
