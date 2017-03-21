@@ -5,10 +5,8 @@
  
    <a href="${pageContext.request.contextPath}/">pageContext.request.contextPath (PURELY FOR DISPLAY)</a>
    |
-   <a href="${pageContext.request.contextPath}/productList">contextPath/productList</a>
+   <a href="${pageContext.request.contextPath}/ReimbursementServlet">contextPath/ReimbursementServlet</a>
    |
-   <a href="${pageContext.request.contextPath}/userInfo">contextPath/userInfo</a>
-   |
-   <a href="${pageContext.request.contextPath}/login">contextPath/login</a>
+   <a href="${pageContext.request.contextPath}/LoginServlet">contextPath/LoginServlet</a>
     
 </div>  

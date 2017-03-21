@@ -24,4 +24,23 @@
     <servlet-name>DefaultServlet</servlet-name>
     <url-pattern>/DefaultServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ReimbursementServlet</display-name>
+    <servlet-name>ReimbursementServlet</servlet-name>
+    <servlet-class>com.revature.servlets.ReimbursementServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReimbursementServlet</servlet-name>
+    <url-pattern>/ReimbursementServlet</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <display-name>DispatchFilter</display-name>
+    <filter-name>DispatchFilter</filter-name>
+    <filter-class>com.revature.filters.DispatchFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>DispatchFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
 </web-app>
