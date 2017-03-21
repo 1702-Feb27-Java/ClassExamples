@@ -9,6 +9,6 @@ public class UserService {
 		
 		User u = new User(firstName, lastName, username, password, email,
 				role, dept, sup);
-		DAOImpl.insertData2(u);
+		DAOImpl.insertUserData(u);
 	}
 }

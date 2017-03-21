@@ -2,7 +2,7 @@ package com.revature.trms;
 
 public class Tracking {
 	private int trackingId = 0;
-	private long eventDate = System.currentTimeMillis();
+	private long eventDate = 0;
 	private int roleId;
 	private int statusId = 1;
 	private String comments = null;

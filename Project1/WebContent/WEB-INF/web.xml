@@ -21,12 +21,22 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>EventServlet</display-name>
-    <servlet-name>EventServlet</servlet-name>
-    <servlet-class>com.revature.servlets.EventServlet</servlet-class>
+    <display-name>CreateEventServlet</display-name>
+    <servlet-name>CreateEventServlet</servlet-name>
+    <servlet-class>com.revature.servlets.CreateEventServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>EventServlet</servlet-name>
-    <url-pattern>/EventServlet</url-pattern>
+    <servlet-name>CreateEventServlet</servlet-name>
+    <url-pattern>/CreateEventServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ValidateLogin</display-name>
+    <servlet-name>ValidateLogin</servlet-name>
+    <servlet-class>com.revature.servlets.ValidateLogin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ValidateLogin</servlet-name>
+    <url-pattern>/ValidateLogin</url-pattern>
   </servlet-mapping>
 </web-app>

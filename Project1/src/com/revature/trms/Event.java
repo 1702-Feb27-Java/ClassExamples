@@ -42,10 +42,14 @@ public class Event {
 				+ "]";
 	}
 	
+	public int getEventId() {
+		return eventId;
+	}
+	
 	public void setEventId(int eventId) {
 		this.eventId = eventId;
 	}
-
+	
 	public Date getStartDate() {
 		return startDate;
 	}

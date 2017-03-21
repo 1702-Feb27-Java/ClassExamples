@@ -87,9 +87,10 @@ public class CreateEventServlet extends HttpServlet {
 		else if (role==2)
 			roleId = 1;
 		
+		int userid = 7;
+		
 		EventService.addNewEvent(startDate, startTime, stopDate, location, description,
-				cost, justification, gradeFormat, eventType, priority, roleId);
-		request.getRequestDispatcher("/index.jsp").include(request, response);
-	}
+				cost, justification, gradeFormat, eventType, priority, roleId, userid);
+		}
 
 }

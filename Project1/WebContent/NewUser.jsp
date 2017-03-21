@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.lang.Integer" %>
+<%@ page import="com.revature.dao.DAOImpl"%>
+<%@ page import="java.util.Hashtable" %>
+<%@ page import="java.util.Enumeration"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,7 +16,15 @@
 </style>
 </head>
 <body>
-	<h1 align="center">Create New TRMS Account</h1>
+	<%! static int count = 0;%>
+	<% 	if (count == 0){ %>
+		<h1 align="center">Create New TRMS User Account</h1>
+		<%count++;%>
+	<% } else { %>
+		<h1 align="center">Create New TRMS User Account</h1>
+		<h3 align="center" style="color:red"># Username is taken, please try again.</h3>
+	<% } %>
+	
 	<div align="center"><form action="NewUserServlet" method="POST">
 		<p><label>First Name:</label><input type="text" name="fname" required></p>
 		<p><label>Last Name:</label><input type="text" name="lname" required></p>
@@ -39,7 +50,20 @@
   			<option value="4">Security</option>
 			<option value="5">Testing</option>
 		</select></p>
-		<p><label>Supervisor Name:</label><input type="text" name="supname" required></p><br>
+		<p><label>Supervisor:</label>
+		<select name="supname" required>
+		<option disabled selected value> -- select an option -- </option>
+		<%
+		Hashtable ht = DAOImpl.getSupervisorId();
+		Enumeration keys;				
+		Integer key;
+						
+		keys = ht.keys();
+		while(keys.hasMoreElements()){	%>
+			<option value="<%=key = (Integer)keys.nextElement()%>">
+			  <%=ht.get(key)%></option>
+		<%}%>	
+		</select>		
 		<input type="submit" value="Submit Name">
 		</div>
 	</form>

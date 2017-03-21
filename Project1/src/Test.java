@@ -1,4 +1,5 @@
 import com.revature.dao.DAOImpl;
+import com.revature.trms.EventService;
 import com.revature.trms.User;
 
 public class Test {
@@ -9,9 +10,11 @@ public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		User u = new User("Michael", "Scott", "scott12","mike", "scottstots@yahoo.com", 3, 2, 1);
+		//User u = new User("Michael", "Scott", "scott12","mike", "scottstots@yahoo.com", 3, 2, 1);
 		
-		DAOImpl.insertData2(u);
+		//DAOImpl.insertUserData(u);
+		
+
 	}
 
 }

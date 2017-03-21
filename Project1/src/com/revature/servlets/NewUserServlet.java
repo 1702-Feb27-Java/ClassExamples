@@ -1,12 +1,12 @@
 package com.revature.servlets;
 
 import java.io.IOException;
-import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.revature.dao.DAOImpl;
 import com.revature.trms.UserService;
@@ -45,8 +45,17 @@ public class NewUserServlet extends HttpServlet {
 		int roleid = Integer.parseInt(request.getParameter("role"));
 		int deptid = Integer.parseInt(request.getParameter("dept"));
 		int supid = Integer.parseInt(request.getParameter("supname"));
-		UserService.addNewUser(first, last, name, pwd, 
-				mail, roleid, deptid, supid);
-		request.getRequestDispatcher("/index.jsp").include(request, response);
+		
+		boolean verify = DAOImpl.verifyInfo(name);
+		
+		if (verify){
+			request.getRequestDispatcher("/NewUser.jsp").include(request, response);
+		} else {
+			UserService.addNewUser(first, last, name, pwd, 
+					mail, roleid, deptid, supid);
+			HttpSession session = request.getSession();
+			session.invalidate();
+			response.sendRedirect("http://localhost:8085/TRMS/index.jsp");
+		}
 	}
 }

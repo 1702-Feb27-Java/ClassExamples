@@ -4,11 +4,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>TRMS Login Screen</title>
 </head>
 <body>
- 	<div align="center"><form action="" method="POST">
-		<h2>Login to TRMS System</h2>
+	<% if (session.isNew()){ %>
+		<h1 align="center">Welcome to the TRMS!</h1>
+	<% } else { %>
+		<h1 align="center">Welcome to the TRMS!</h1>
+		<h3 align="center" style="color:red"># Invalid Username / Password, please try again.</h3>
+	<% } %>
+
+ 	<div align="center"><form action="ValidateLogin" method="POST">
 		<p>Username:
 		<input type="text" name="uname"></p>
 		<p>Password:
