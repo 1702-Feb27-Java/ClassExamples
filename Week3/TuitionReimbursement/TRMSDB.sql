@@ -289,6 +289,16 @@ CREATE SEQUENCE reimbursement_seq
   START WITH 1
   INCREMENT BY 1;
 /
+CREATE SEQUENCE location_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+/
+CREATE SEQUENCE grading_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+/
 CREATE OR REPLACE TRIGGER reimbursement_trigger
     BEFORE INSERT ON  Reimbursement -- upon what event
     FOR EACH ROW --how often 
@@ -304,6 +314,24 @@ CREATE OR REPLACE TRIGGER employee_trigger
     BEGIN -- start what actually happens
       SELECT employee_seq.NEXTVAL
       INTO :new.employee_id
+      FROM dual;
+    END;
+/
+CREATE OR REPLACE TRIGGER location_trigger
+    BEFORE INSERT ON  Location -- upon what event
+    FOR EACH ROW --how often 
+    BEGIN -- start what actually happens
+      SELECT location_seq.NEXTVAL
+      INTO :new.location_id
+      FROM dual;
+    END;
+/
+CREATE OR REPLACE TRIGGER grading_trigger
+    BEFORE INSERT ON  Grading -- upon what event
+    FOR EACH ROW --how often 
+    BEGIN -- start what actually happens
+      SELECT grading_seq.NEXTVAL
+      INTO :new.grading_id
       FROM dual;
     END;
 /
@@ -366,6 +394,12 @@ BEGIN
                   type_of_event_id, urgent_id, approval_step_id, cutoff);
 END applyForReimbursement;
 /
+CREATE OR REPLACE PROCEDURE addLocation(location IN varchar2)
+IS
+BEGIN
+  INSERT INTO LOCATION(Location_id, location)
+  VALUES(1, location);
+END addLocation;
 
 
 
