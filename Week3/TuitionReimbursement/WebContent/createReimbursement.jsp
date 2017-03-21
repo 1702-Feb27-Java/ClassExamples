@@ -160,14 +160,10 @@
 				  	</div>
 				  </div>
 				  
-			
-				  
 				  <script type="text/javascript">
 					   $('#locationSelect').bind('change', function(event) {
 									
 						           var i= $('#locationSelect').val();
-						           //var e = document.getElementById("locationSelect");
-						           //var strUser = e.options[e.selectedIndex].text
 						         
 						           $('#newLocation').hide();
 						           console.log(i);
@@ -183,6 +179,7 @@
 						              }
 						});
 				   </script>
+				   
 				  <div class="form-group">
 				    <label for="description">Event description</label>
 				    <input type="text" required class="form-control" id="description" placeholder="Description" name="description"> 
@@ -201,7 +198,7 @@
 				      	<option value="none">none of the above</option>
 				    </select>
 				  </div>
-				  <div class="row">
+				  <div class="row" id="newGrade" style="display:none">
 				  	<div class="col-sm-3">New Grading Scale: </div>
 				  	<div class="col-lg-9">
 				  		<div class="form-group">
@@ -209,6 +206,26 @@
 				    	</div>
 				  	</div>
 				  </div>
+				  
+				  <script type="text/javascript">
+					   $('#gradingType').bind('change', function(event) {
+									
+						           var i= $('#gradingType').val();
+						         
+						           $('#newGrade').hide();
+						           
+						            if(i=="none") // equal to a selection option
+						             {
+						                 $('#newGrade').show();
+						              	 
+						             }
+						           else if(i!="none")
+						             {
+						               $('#newGrade').hide(); // hide the first one
+						              }
+						});
+				   </script>
+				  
 				  	<div class="form-group">
 				    <label for="eventType">Event Type</label>
 				    <select class="form-control" required id="eventType" name="typeOfEvent">
