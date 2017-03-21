@@ -244,10 +244,10 @@ CREATE TABLE Reimbursement
   status_id NUMBER DEFAULT(1) NOT NULL,
   employee_id NUMBER NOT NULL,
   event varchar2(30) NOT NULL,
-  event_date varchar2(10) NOT NULL,
+  event_date DATE NOT NULL,
   event_time varchar2(10) NOT NULL,
   location_id number(10) NOT NULL,
-  form_date varchar2(10) NOT NULL,
+  form_date DATE NOT NULL,
   event_description varchar2(30) NOT NULL, 
   event_cost varchar2(30) NOT NULL,
   grading_id number NOT NULL,
@@ -255,7 +255,7 @@ CREATE TABLE Reimbursement
   urgent_id number NOT NULL,
   final_grade varchar2(15),
   approval_step_id number NOT NULL,
-  approval_cutoff number NOT NULL,
+  cutoff_date DATE NOT NULL,
   confirmation number,
   approver_id number,
   
@@ -356,21 +356,16 @@ BEGIN
   pw := pas;
 END loginEmployee;
 /
-CREATE OR REPLACE PROCEDURE applyForReimbursement(emp_id IN number, event IN varchar2, event_date IN varchar2, event_time IN varchar2, location_id IN number, form_date IN varchar2, 
-description IN varchar2, event_cost IN number, grading_id IN number, type_of_event_id IN number, urgent_id IN number, approval_step_id IN number, approval_cutoff IN number)
+CREATE OR REPLACE PROCEDURE applyForReimbursement(emp_id IN number, event IN varchar2, event_date IN DATE, event_time IN varchar2, location_id IN number, form_date IN DATE, 
+description IN varchar2, event_cost IN number, grading_id IN number, type_of_event_id IN number, urgent_id IN number, approval_step_id IN number, cutoff IN DATE)
 IS
 BEGIN
   INSERT INTO REIMBURSEMENT(REIMB_ID, STATUS_ID, EMPLOYEE_ID, EVENT, EVENT_DATE, EVENT_TIME, LOCATION_ID, FORM_DATE, EVENT_DESCRIPTION, EVENT_COST, GRADING_ID, TYPE_OF_EVENT_ID,
-                              URGENT_ID, APPROVAL_STEP_ID, APPROVAL_CUTOFF)
+                              URGENT_ID, APPROVAL_STEP_ID, CUTOFF_DATE)
   VALUES(1, 1, emp_id, event, event_date, event_time, location_id, form_date, description, event_cost, grading_id, 
-                  type_of_event_id, urgent_id, approval_step_id, approval_cutoff);
+                  type_of_event_id, urgent_id, approval_step_id, cutoff);
 END applyForReimbursement;
 /
-DECLARE
-BEGIN
-  APPLYFORREIMBURSEMENT(3, 'HR COURSE', '10/10/2016', '10:30am', 1, '10/06/2016', 'college course at uw', 50, 1, 1, 2, 1, 7);
-END;
-
 
 
 

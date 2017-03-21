@@ -189,7 +189,7 @@
 				  </div>
 				  <div class="form-group">
 				    <label for="cost">Event cost</label>
-				    <input type="text" class="form-control" id="cost" placeholder="Cost" name="cost">
+				    <input type="number" class="form-control" id="cost" placeholder="Cost" name="cost">
 				  </div>
 				  <div class="form-group">
 				    <label for="gradingType">Grading Scale</label>

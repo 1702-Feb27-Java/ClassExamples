@@ -2,6 +2,7 @@ package com.revature.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,7 +46,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 	}
 
 	@Override
-	public boolean applyForReimbursement(int emp_id, String event, String eventDate, String time, int location, String formDate,
+	public boolean applyForReimbursement(int emp_id, String event, Date eventDate, String time, int location, Date formDate,
 			String description, int cost, int gradingId, int typeOfEventId, int urgentId, int approvalStepId, int approvalCutoff) {
 		
 		boolean applied = false;
@@ -57,10 +58,10 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				
 				cs.setInt(1, emp_id);
 				cs.setString(2, event);
-				cs.setString(3, eventDate);
+				cs.setDate(3, eventDate);
 				cs.setString(4, time);
 				cs.setInt(5, location);
-				cs.setString(6, formDate);
+				cs.setDate(6, formDate);
 				cs.setString(7, description);
 				cs.setInt(8, cost);
 				cs.setInt(9, gradingId);

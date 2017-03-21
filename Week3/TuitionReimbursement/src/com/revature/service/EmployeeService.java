@@ -1,5 +1,6 @@
 package com.revature.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -54,7 +55,7 @@ public class EmployeeService {
 		return eventTypes;
 	}
 	
-	public boolean applyForReimbursement(int emp_id, String event, String eventDate, String time, int location, String formDate,
+	public boolean applyForReimbursement(int emp_id, String event, Date eventDate, String time, int location, Date formDate,
 			String description, int cost, int gradingId, int typeOfEventId, int urgentId, int approvalStepId, int approvalCutoff){
 		boolean applied = false;
 		applied = daoEmp.applyForReimbursement(emp_id, event, eventDate, time, location, formDate, description, 

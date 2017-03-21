@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -44,16 +45,24 @@ public class SubmitReimbursement extends HttpServlet {
 		String location = request.getParameter("location");
 		String location2 = request.getParameter("location2");
 		String description = request.getParameter("description");
-		String cost = request.getParameter("cost");
+		String cost2 = request.getParameter("cost");
 		String gradingId = request.getParameter("gradingId");
 		String gradingId2 = request.getParameter("gradingId2");
 		String typeOfEvent = request.getParameter("typeOfEvent");
-		
-		
+	
+		int cost = Integer.parseInt(cost2);
 		
 		DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 		Date date = new Date();
 		Date todaysDate = new Date();
+		Date cutoffDate;
+		
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.DATE, 7);  // number of days to add
+		cutoffDate = c.getTime();
+		
+
 		try {
 			date = format.parse(eventDate);
 		} catch (ParseException e) {
@@ -62,13 +71,26 @@ public class SubmitReimbursement extends HttpServlet {
 		}
 		
 		int daysApart = (int)((date.getTime() - todaysDate.getTime()) / (1000*60*60*24l));
+		
+		int urgent = 2;
+		if (daysApart < 7)
+			urgent = 1;
+		
+		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+		java.sql.Date sqlDateToday = new java.sql.Date(todaysDate.getTime());
+		
+		System.out.println(serveEmp.applyForReimbursement(emp_id, event, sqlDate, time, 1, sqlDateToday, description, cost,
+				1, 1, urgent, 1, 7));
 
 		PrintWriter out = response.getWriter();
 		
 		out.println("<html><body>" +
 					"DATE TEST " + todaysDate + "<br>" +
 					"DATEUUU CONVERTUUUUU : " + date + "<br>" +
-					"DAYS APARTUUU : " + daysApart + "<br>" + 
+					"CUtoff datuuuuuu : " + cutoffDate + "<br>" +
+					"DAYS APARTUUU : " + daysApart + "<br>" +
+					"sqlDateuuuuuu : " + sqlDate + "<br>" +
+					"SQLDATETODAYUUUUU : " + sqlDateToday + "<br>" +					
 						"emp_id: " + emp_id + "<br>"	+ 
 						"event: " + event + "<br>" +
 						"eventDate: " + eventDate + "<br>" +
