@@ -290,7 +290,10 @@ CREATE TABLE Reimbursement
   approval_step_id number NOT NULL,
   cutoff_date DATE NOT NULL,
   confirmation number,
-  approver_id number,
+  supervisor_approver_id number,
+  department_head_approver_id number,
+  benco_approver_id number,
+  final_approver_id number,
   
   CONSTRAINT reimb_id_pk PRIMARY KEY(reimb_id),
   CONSTRAINT stat_id_fk FOREIGN KEY(status_id) REFERENCES Status(status_id),
@@ -299,7 +302,10 @@ CREATE TABLE Reimbursement
   CONSTRAINT UrgId_id_fk FOREIGN KEY(urgent_id) REFERENCES Urgent(urgent_id),
   CONSTRAINT eloc_id_fk FOREIGN KEY(location_id) REFERENCES Location(location_id),
   CONSTRAINT empl_id_fk FOREIGN KEY(employee_id) REFERENCES Employee(employee_id),
-  CONSTRAINT approver_id_fk FOREIGN KEY(approver_id) REFERENCES Employee(employee_id)
+  CONSTRAINT supervisor_approver_id_fk FOREIGN KEY(supervisor_approver_id) REFERENCES Employee(employee_id),
+  CONSTRAINT department_head_approver_id_fk FOREIGN KEY(department_head_approver_id) REFERENCES Employee(employee_id),
+  CONSTRAINT benco_approver_id_fk FOREIGN KEY(benco_approver_id) REFERENCES Employee(employee_id),
+  CONSTRAINT final_approver_id_fk FOREIGN KEY(final_approver_id) REFERENCES Employee(employee_id)
 ); 
 /
 CREATE SEQUENCE  employee_seq
