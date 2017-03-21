@@ -29,6 +29,10 @@ DROP SEQUENCE employee_seq;
 /
 DROP SEQUENCE reimbursement_seq;
 /
+DROP SEQUENCE location_seq;
+/
+DROP SEQUENCE grading_seq;
+/
 
 --Create Lookup Tables--
 CREATE TABLE ROLE
@@ -104,6 +108,35 @@ CREATE TABLE APPROVAL_STEP
   CONSTRAINT a_id_pk PRIMARY KEY(approval_step_id)
 );
 /
+CREATE SEQUENCE location_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+/
+CREATE SEQUENCE grading_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+/
+CREATE OR REPLACE TRIGGER location_trigger
+    BEFORE INSERT ON  Location -- upon what event
+    FOR EACH ROW --how often 
+    BEGIN -- start what actually happens
+      SELECT location_seq.NEXTVAL
+      INTO :new.location_id
+      FROM dual;
+    END;
+/
+CREATE OR REPLACE TRIGGER grading_trigger
+    BEFORE INSERT ON  Grading -- upon what event
+    FOR EACH ROW --how often 
+    BEGIN -- start what actually happens
+      SELECT grading_seq.NEXTVAL
+      INTO :new.grading_id
+      FROM dual;
+    END;
+/
+
 --Populate lookup tables--
 INSERT INTO Role(ROLE_ID, ROLE)
 VALUES (1, 'Employee');
@@ -180,11 +213,11 @@ VALUES (1, 'Urgent');
 INSERT INTO Urgent(urgent_id, urgent)
 VALUES (2, 'Not Urgent');
 /
-INSERT INTO Location(location_id, location)
-VALUES (1, 'Stanford');
+INSERT INTO Location(location)
+VALUES ('Stanford');
 /
-INSERT INTO Location(location_id, location)
-VALUES (2, 'UCLA');
+INSERT INTO Location(location)
+VALUES ('UCLA');
 /
 INSERT INTO Approval_step(approval_step_id, approval_step)
 VALUES (1, 'Employee');
@@ -269,32 +302,12 @@ CREATE TABLE Reimbursement
   CONSTRAINT approver_id_fk FOREIGN KEY(approver_id) REFERENCES Employee(employee_id)
 ); 
 /
-CREATE TABLE Attachment
-(
-  attachment_id number NOT NULL,
-  attachment varchar2(40) NOT NULL,
-  reim_id NUMBER NOT NULL,
-  
-  CONSTRAINT attach_id_pk PRIMARY KEY(attachment_id),
-  CONSTRAINT reimur_id_fk FOREIGN KEY(reim_id) REFERENCES Reimbursement(reimb_id)
-);
-/
 CREATE SEQUENCE  employee_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1;
 /
 CREATE SEQUENCE reimbursement_seq
-  MINVALUE 1
-  START WITH 1
-  INCREMENT BY 1;
-/
-CREATE SEQUENCE location_seq
-  MINVALUE 1
-  START WITH 1
-  INCREMENT BY 1;
-/
-CREATE SEQUENCE grading_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1;
@@ -317,23 +330,15 @@ CREATE OR REPLACE TRIGGER employee_trigger
       FROM dual;
     END;
 /
-CREATE OR REPLACE TRIGGER location_trigger
-    BEFORE INSERT ON  Location -- upon what event
-    FOR EACH ROW --how often 
-    BEGIN -- start what actually happens
-      SELECT location_seq.NEXTVAL
-      INTO :new.location_id
-      FROM dual;
-    END;
-/
-CREATE OR REPLACE TRIGGER grading_trigger
-    BEFORE INSERT ON  Grading -- upon what event
-    FOR EACH ROW --how often 
-    BEGIN -- start what actually happens
-      SELECT grading_seq.NEXTVAL
-      INTO :new.grading_id
-      FROM dual;
-    END;
+CREATE TABLE Attachment
+(
+  attachment_id number NOT NULL,
+  attachment varchar2(40) NOT NULL,
+  reim_id NUMBER NOT NULL,
+  
+  CONSTRAINT attach_id_pk PRIMARY KEY(attachment_id),
+  CONSTRAINT reimur_id_fk FOREIGN KEY(reim_id) REFERENCES Reimbursement(reimb_id)
+);
 /
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
   VALUES(1, 3, 1, 'Mary', 'Conley', 'mConley', 'password');
@@ -400,7 +405,11 @@ BEGIN
   INSERT INTO LOCATION(Location_id, location)
   VALUES(1, location);
 END addLocation;
-
+/
+DECLARE
+BEGIN
+  addLocation('test location');
+END;
 
 
 
