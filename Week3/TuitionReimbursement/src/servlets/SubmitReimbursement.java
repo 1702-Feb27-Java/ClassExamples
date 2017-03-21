@@ -49,7 +49,8 @@ public class SubmitReimbursement extends HttpServlet {
 		String gradingId = request.getParameter("gradingId");
 		String gradingId2 = request.getParameter("gradingId2");
 		String typeOfEvent = request.getParameter("typeOfEvent");
-	
+		String passingGrade = request.getParameter("passingGrade");
+		
 		int cost = Integer.parseInt(cost2);
 		
 		DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
@@ -81,9 +82,6 @@ public class SubmitReimbursement extends HttpServlet {
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 		java.sql.Date sqlDateToday = new java.sql.Date(todaysDate.getTime());
 		java.sql.Date cutoffDate = new java.sql.Date(cutoffDate2.getTime());
-		
-		System.out.println(serveEmp.applyForReimbursement(emp_id, event, sqlDate, time, 1, sqlDateToday, description, cost,
-				1, 1, urgent, 1, cutoffDate));
 
 		PrintWriter out = response.getWriter();
 		
@@ -99,25 +97,36 @@ public class SubmitReimbursement extends HttpServlet {
 						"eventDate: " + eventDate + "<br>" +
 						"time: " + time + "<br>");
 		
+		int locationId = 0;
+		int gradeId = 0;
 		if(location2.length() != 0){
 			out.println("location2: " + location2 + "<br>");
+			locationId = serveEmp.addLocation(location2);
 		}
 		else{
 			out.println("location: " + location + "<br>");
+			locationId = serveEmp.getLocationId(location);
 		}
 		
 		out.println("description: " + description + "<br>" +
 						"cost: " + cost + "<br>");
 						
 		if(gradingId2.length() != 0){
-			out.println("gradingId2: " + gradingId2 + "<br>" );
+			out.println("gradingId2: " + gradingId2 + "<br>" +
+						"Passing grade : " + passingGrade + "<br>");
+			gradeId = serveEmp.addGrading(gradingId2, passingGrade);
+			
 		}
 		else{
-			out.println("gradingId: " + gradingId + "<br>" );
+			out.println("gradingId: " + gradingId + "<br>");
+			gradeId = serveEmp.getGradingId(gradingId);
 		}
 		out.println("typeOfEvent: " + typeOfEvent + "<br>" +
 						"</body></html>"
 				);
+		
+		System.out.println(serveEmp.applyForReimbursement(emp_id, event, sqlDate, time, locationId, sqlDateToday, description, cost,
+				gradeId, 1, urgent, 1, cutoffDate));
 	}
 
 	/**

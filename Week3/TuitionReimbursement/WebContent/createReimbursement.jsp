@@ -199,12 +199,22 @@
 				    </select>
 				  </div>
 				  <div class="row" id="newGrade" style="display:none">
-				  	<div class="col-sm-3">New Grading Scale: </div>
-				  	<div class="col-lg-9">
-				  		<div class="form-group">
-				    		<input type="text" class="form-control" id="newGradingInput" placeholder="Grading Scale"  name="gradingId2">
-				    	</div>
-				  	</div>
+				  		<div class="row">
+						  	<div class="col-sm-3">New Grading Scale: </div>
+						  	<div class="col-lg-9">
+						  		<div class="form-group">
+						    		<input type="text" class="form-control" id="newGradingInput" placeholder="Grading Scale"  name="gradingId2">
+						    	</div>
+						  	</div>
+					  	</div>
+					  	<div class="row">
+						  	<div class="col-sm-3">Passing Grade: </div>
+						  	<div class="col-lg-9">
+						  		<div class="form-group">
+						    		<input type="text" class="form-control" id="passingGrade" placeholder="Passing Grade"  name="passingGrade">
+						    	</div>
+						  	</div>
+					  	</div>
 				  </div>
 				  
 				  <script type="text/javascript">

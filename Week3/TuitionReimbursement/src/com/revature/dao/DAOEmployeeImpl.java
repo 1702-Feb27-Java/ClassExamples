@@ -185,6 +185,71 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		}
 		return locationId;
 	}
+
+	public int addLocation(String location){
+		int locationId = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
 	
+			String sql = "CALL ADDLOCATION(?, ?)";
+			CallableStatement cs = connect.prepareCall(sql);
+			
+			cs.setString(1, location);
+			cs.registerOutParameter(2, java.sql.Types.INTEGER);
+			
+			cs.execute();
+			locationId = cs.getInt(2);
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		return locationId;	
+	}
+	
+	public int getGradingId(String grading){
+		int gradingId = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+	
+			String sql = "SELECT GRADING_ID FROM GRADING WHERE Grading = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setString(1, grading);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				gradingId = rs.getInt(1);
+			}
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		return gradingId;
+	}
+
+	public int addGrading(String grading, String passingGrade){
+		int gradingId = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+	
+			String sql = "CALL ADDGRADING(?, ?, ?)";
+			CallableStatement cs = connect.prepareCall(sql);
+			
+			cs.setString(1, grading);
+			cs.registerOutParameter(2, java.sql.Types.INTEGER);
+			cs.setString(3, passingGrade);
+			
+			cs.execute();
+			gradingId = cs.getInt(2);
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		return gradingId;	
+	}
 	
 }

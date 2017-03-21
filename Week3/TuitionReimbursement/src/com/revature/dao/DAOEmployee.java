@@ -18,4 +18,10 @@ public interface DAOEmployee {
 	
 	public int getLocationId(String location);
 	
+	public int addLocation(String location);
+	
+	public int getGradingId(String grading);
+	
+	public int addGrading(String grading, String passingGrade);
+	
 }

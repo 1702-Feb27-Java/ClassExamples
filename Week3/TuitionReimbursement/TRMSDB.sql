@@ -55,7 +55,7 @@ CREATE TABLE GRADING
 (
   grading_id NUMBER,
   grading VARCHAR2(25) NOT NULL,
-  presentatin NUMBER(1) DEFAULT(0),
+  presentation NUMBER(1) DEFAULT(0),
   
   CONSTRAINT g_id_pk PRIMARY KEY(grading_id)
 );
@@ -399,15 +399,31 @@ BEGIN
                   type_of_event_id, urgent_id, approval_step_id, cutoff);
 END applyForReimbursement;
 /
-CREATE OR REPLACE PROCEDURE addLocation(location IN varchar2, locationId OUT number)
+CREATE OR REPLACE PROCEDURE addLocation(loc IN varchar2, locationId OUT number)
 IS
   locId number(5);
 BEGIN
   INSERT INTO LOCATION(Location_id, location)
-  VALUES(1, location);
-  SELECT LOCATION_ID INTO locId FROM LOCATION WHERE location = location;
+  VALUES(1, loc);
+  SELECT LOCATION_ID INTO locId 
+  FROM LOCATION
+  WHERE location = loc;
   locationId := locId;
 END addLocation;
+/
+CREATE OR REPLACE PROCEDURE addGrading(grad IN varchar2, gradingId OUT number, passingGrade IN varchar2)
+IS
+  gradId number(5);
+BEGIN
+  INSERT INTO GRADING(grading_id, grading)
+  VALUES(1, grad);
+  SELECT GRADING_ID INTO gradId 
+  FROM GRADING
+  WHERE grading = grad;
+  INSERT INTO PASSING_GRADE(GRADING_ID, PASSING_GRADE)
+  VALUES(gradId, passingGrade);
+  gradingId := gradId;
+END addGrading;
 /
 
 

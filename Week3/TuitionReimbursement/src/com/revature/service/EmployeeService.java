@@ -67,6 +67,20 @@ public class EmployeeService {
 		int locationId = daoEmp.getLocationId(location);
 		return locationId;
 	}
+
+	public int addLocation(String location){
+		int locationId = daoEmp.addLocation(location);
+		return locationId;
+	}
 	
+	public int getGradingId(String grading){
+		int gradingId = daoEmp.getGradingId(grading);
+		return gradingId;
+	}
+	
+	public int addGrading(String grading, String passingGrade){
+		int gradingId = daoEmp.addGrading(grading, passingGrade);
+		return gradingId;
+	}
 	
 }
