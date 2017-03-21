@@ -162,4 +162,29 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		}
 		return eventTypes;
 	}
+
+	public int getLocationId(String location){
+		int locationId = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+	
+			String sql = "SELECT LOCATION_ID FROM Location WHERE location = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setString(1, location);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				locationId = rs.getInt(1);
+			}
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		return locationId;
+	}
+	
+	
 }

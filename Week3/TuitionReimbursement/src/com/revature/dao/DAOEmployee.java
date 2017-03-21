@@ -16,4 +16,6 @@ public interface DAOEmployee {
 	
 	public ArrayList<String> getListOfEventTypes();
 	
+	public int getLocationId(String location);
+	
 }

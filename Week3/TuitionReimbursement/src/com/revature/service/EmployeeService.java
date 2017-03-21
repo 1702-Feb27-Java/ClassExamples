@@ -63,5 +63,10 @@ public class EmployeeService {
 		return applied;
 	}
 	
+	public int getLocationId(String location){
+		int locationId = daoEmp.getLocationId(location);
+		return locationId;
+	}
+	
 	
 }

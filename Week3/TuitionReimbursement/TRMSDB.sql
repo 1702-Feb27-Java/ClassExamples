@@ -399,17 +399,17 @@ BEGIN
                   type_of_event_id, urgent_id, approval_step_id, cutoff);
 END applyForReimbursement;
 /
-CREATE OR REPLACE PROCEDURE addLocation(location IN varchar2)
+CREATE OR REPLACE PROCEDURE addLocation(location IN varchar2, locationId OUT number)
 IS
+  locId number(5);
 BEGIN
   INSERT INTO LOCATION(Location_id, location)
   VALUES(1, location);
+  SELECT LOCATION_ID INTO locId FROM LOCATION WHERE location = location;
+  locationId := locId;
 END addLocation;
 /
-DECLARE
-BEGIN
-  addLocation('test location');
-END;
+
 
 
 
