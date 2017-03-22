@@ -1,0 +1,118 @@
+<!------------------------------------------------------------------------------
+		TITLE: EVENTS IN JAVASCRIPT
+		AUTHOR: MICHAEL HOBBS
+		PROJECT: PRESENTATION 3
+		DATE: 2017 MARCH 22
+------------------------------------------------------------------------------->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Events - Presentation 3</title>
+	<style>
+		body {
+			text-align: center
+		}
+	
+		#colorBlock {
+			width: 100px;
+			height: 100px;
+			
+			display: block;
+			border: 15px solid black;
+			
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+		#colors {
+			display: block;
+			padding: 10px;
+			
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+		}
+	
+		label {
+			vertical-align: middle
+		}
+		#redLabel {
+			color: red
+		}
+		#blueLabel {
+			color: blue
+		}
+		#greenLabel {
+			color: green
+		}
+		
+		input {
+			display: block;
+			margin-left: auto;
+			margin-right: auto
+		}
+	</style>
+</head>
+<body>
+
+	<h1>JS Events Demo</h1>
+	
+	<p><small>Michael Hobbs<br>
+	2017 March 22</small></p>
+	
+	<p>Demonstrates updating the page as the values of input are changed.</p>
+	
+	
+	<div id="colorBlock"></div>
+
+	<div id="colors">
+		<label><span id="redLabel">Red:</span>
+		<input type="range" id="redValue" name="redValue" min="0" max="255" value="255">
+		</label>
+		
+		<label><span id="blueLabel">Blue:</span>
+		<input type="range" id="blueValue" name="blueValue" min="0" max="255" value="255">
+		</label>
+		
+		<label><span id="greenLabel">Green:</span>
+		<input type="range" id="greenValue" name="greenValue" min="0" max="255" value="255">
+		</label>
+	</div>
+
+	<script>
+		function updateColorBlock() {
+			var r = document.getElementById('redValue').value;
+			r = (+r).toString(16); //get hex value of decimal
+			if (r.length == 1) { //make sure hex value always has two values
+				r = '0' + r;
+			}
+			
+			var g = document.getElementById('greenValue').value;
+			g = (+g).toString(16) //get hex value of decimal
+			if (g.length == 1) { //make sure hex value always has two values
+				g = '0' + g;
+			}
+			
+			var b = document.getElementById('blueValue').value;
+			b = (+b).toString(16) //get hex value of decimal
+			if (b.length == 1) { //make sure hex value always has two values
+				b = '0' + b;
+			}
+			
+			var rgb = '#' +	r + g + b; //get hex string of the color
+			
+			document.getElementById('colorBlock').style.backgroundColor = rgb; //assign color to the colorblock
+			
+			console.log(rgb);
+		}
+		
+		//initial call to initialize color of color block
+		updateColorBlock();
+	
+		//bind event listeners to the sliders so that the colorblock's color will update in realtime as they are slid around.
+		document.getElementById('redValue').addEventListener('input', updateColorBlock, false);
+		document.getElementById('blueValue').addEventListener('input', updateColorBlock, false);
+		document.getElementById('greenValue').addEventListener('input', updateColorBlock, false);
+	</script>
+</body>
+</html>
