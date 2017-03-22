@@ -8,7 +8,7 @@
 </head>
 <body>
 	<jsp:include page="_header.jsp"></jsp:include>
-	<jsp:include page="_menu.jsp"></jsp:include>
-	DOES THIS FCKIN WORK
+	yes reimbursement.jsp works
+	<jsp:include page="_footer.jsp"></jsp:include>
 </body>
 </html>

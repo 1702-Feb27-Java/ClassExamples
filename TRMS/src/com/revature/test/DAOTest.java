@@ -26,6 +26,9 @@ public class DAOTest {
 		eDao.delete(e);
 		System.out.println(eDao.listEmployees());
 		
+		e = eDao.getEmployeeByLogin("admin", "admin");
+		System.out.println("in login method: " + e);
+		
 		// REIMBURSEMENT TEST
 	}
 
