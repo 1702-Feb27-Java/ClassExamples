@@ -31,21 +31,22 @@
 			
 	<% 
 		ArrayList<Event> eventList = DAOImpl.getEventStats(userid);
-		ArrayList<EventType> eventTypeList = DAOImpl.getEventTypes(userid);
+		ArrayList<Tracking> tList = DAOImpl.getTrackingStats(userid);
 	%>
 	
 	<table>
-		<tr><th>EVENT-ID:</th><th>EVENT:</th><th>START DATE:</th><th>START TIME:</th><th>STOP DATE:</th>
-		<th>LOCATION:</th><th>COST:</th></tr>
+		<tr><th>EVENT-ID:</th><th style="text-align:left">EVENT:</th><th>START DATE:</th><th>START TIME:</th><th>STOP DATE:</th>
+		<th>LOCATION:</th><th>COST:</th><th>STATUS:</th></tr>
 	<% for (int i = 0; i < eventList.size();i++){%>
 			<tr>
 				<td style="text-align: center"><%=eventList.get(i).getEventId()%></td>
-				<td><%=eventTypeList.get(i).getEventType()%></td>
+				<td><%=eventList.get(i).getEventType()%></td>
 				<td style="text-align: center"><%=eventList.get(i).getStartDate()%></td>
 				<td style="text-align: center"><%=eventList.get(i).getStartTime()%></td>
 				<td style="text-align: center"><%=eventList.get(i).getStopDate()%></td>
 				<td><%=eventList.get(i).getLocation()%></td>
 				<td>$<%=eventList.get(i).getCost()%></td>
+				<td><%=tList.get(i).getStatus()%></td>
 			</tr>
 		<%}%>
 	</table>

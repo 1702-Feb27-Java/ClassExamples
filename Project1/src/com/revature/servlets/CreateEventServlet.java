@@ -89,13 +89,14 @@ public class CreateEventServlet extends HttpServlet {
 			roleId = "2"; 
 		else if (role.equals("2"))
 			roleId = "1";
-		//HttpSession session = request.getSession();
-		//int userid = (int)session.getAttribute("userid");
-		int userid = 1;
+		HttpSession session = request.getSession();
+		int userid = (int)session.getAttribute("userid");
+		
 		User u = UserService.getUserInfo(userid); 
 
 		EventService.addNewEvent(startDate, startTime, stopDate, location, description,
 				cost, justification, gradeFormat, eventType, priority, roleId, userid);
+		request.getRequestDispatcher("/Home.jsp").include(request, response);
 		}
 
 }

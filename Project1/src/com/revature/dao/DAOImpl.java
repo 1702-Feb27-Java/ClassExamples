@@ -78,8 +78,7 @@ public class DAOImpl {
 		
 		java.sql.Date start = new java.sql.Date(ev.getStartDate().getTime());
 		java.sql.Date stop = new java.sql.Date(ev.getStopDate().getTime());
-		System.out.println("Userid2: " + userid);
-
+ 
 		try (Connection connect = FactoryConnection.getConnection();){
 			connect.setAutoCommit(false);
 			String sql = "CALL INSERT_NEW_EVENT(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -210,24 +209,43 @@ public class DAOImpl {
 		
 		try (Connection connect = FactoryConnection.getConnection();){
 			connect.setAutoCommit(false);
-			String sql = "SELECT e.EVENTID, e.STARTDATE, e.STARTTIME, e.STOPDATE, e.LOCATION, e.DESCRIPTION, e.COST, e.JUSTIFICATION, gf.GFORMAT, et.EVENTTYPE, p.PRIORITY FROM EVENTS e INNER JOIN USEREVENTS ue ON e.EVENTID=ue.EVENTID INNER JOIN USERS u ON ue.USERID=u.USERID INNER JOIN GRADINGFORMATS gf ON e.GFORMATID=gf.GFORMATID INNER JOIN EVENTTYPES et ON e.EVENTTYPEID=et.EVENTTYPEID INNER JOIN PRIORITYS p ON e.PRIORITYID=p.PRIORITYID WHERE U.USERID=? AND E.ISCLOSED=?"; //calls procedure from db to enter
+			String sql = "SELECT DISTINCT s.STATUS, e.EVENTID, e.STARTDATE, e.STARTTIME, e.STOPDATE, e.LOCATION, e.DESCRIPTION, e.COST, e.JUSTIFICATION, gf.GFORMAT, et.EVENTTYPE, p.PRIORITY FROM EVENTS e INNER JOIN USEREVENTS ue ON e.EVENTID=ue.EVENTID INNER JOIN USERS u ON ue.USERID=u.USERID INNER JOIN GRADINGFORMATS gf ON e.GFORMATID=gf.GFORMATID INNER JOIN EVENTTYPES et ON e.EVENTTYPEID=et.EVENTTYPEID INNER JOIN EVENTTRACKING ek ON e.EVENTID=ek.EVENTID INNER JOIN TRACKING t ON ek.TRACKINGID=t.TRACKINGID INNER JOIN PRIORITYS p ON e.PRIORITYID=p.PRIORITYID INNER JOIN STATUS s ON t.STATUSID=s.STATUSID WHERE ISCLOSED=0 AND U.USERID=?";
 			PreparedStatement ps = connect.prepareStatement(sql);		//user specifics
 			ps.setInt(1, userid);
-			ps.setInt(2, 0);
 			ResultSet rs = ps.executeQuery();
 			list = new ArrayList<Event>();
-						
 			while(rs.next()){
-				list.add(new Event(rs.getInt(1), rs.getDate(2), rs.getString(3),
-						rs.getDate(4),rs.getString(5), rs.getString(6),rs.getDouble(7),
-						rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11),
-						rs.getInt(12)));
-			}
+				list.add(new Event(rs.getInt(2), rs.getDate(3), rs.getString(4),
+						rs.getDate(5),rs.getString(6), rs.getString(7),rs.getDouble(8),
+						rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12)));
+				}
 			connect.commit();
 		} catch (SQLException e) {
 				e.printStackTrace();
 		}
 		return list;
+	}
+	
+public static ArrayList<Tracking> getTrackingStats(int userid) {
+		
+		ArrayList<Tracking> tList = null;
+		
+		try (Connection connect = FactoryConnection.getConnection();){
+			connect.setAutoCommit(false);
+			String sql = "SELECT DISTINCT s.STATUS, e.EVENTID, e.STARTDATE, e.STARTTIME, e.STOPDATE, e.LOCATION, e.DESCRIPTION, e.COST, e.JUSTIFICATION, gf.GFORMAT, et.EVENTTYPE, p.PRIORITY FROM EVENTS e INNER JOIN USEREVENTS ue ON e.EVENTID=ue.EVENTID INNER JOIN USERS u ON ue.USERID=u.USERID INNER JOIN GRADINGFORMATS gf ON e.GFORMATID=gf.GFORMATID INNER JOIN EVENTTYPES et ON e.EVENTTYPEID=et.EVENTTYPEID INNER JOIN EVENTTRACKING ek ON e.EVENTID=ek.EVENTID INNER JOIN TRACKING t ON ek.TRACKINGID=t.TRACKINGID INNER JOIN PRIORITYS p ON e.PRIORITYID=p.PRIORITYID INNER JOIN STATUS s ON t.STATUSID=s.STATUSID WHERE U.USERID=? AND ISCLOSED=0";
+			PreparedStatement ps = connect.prepareStatement(sql);		//user specifics
+			ps.setInt(1, userid);
+			ResultSet rs = ps.executeQuery();
+			tList = new ArrayList<Tracking>();
+						
+			while(rs.next()){
+				tList.add(new Tracking(rs.getString(1)));
+				}
+			connect.commit();
+		} catch (SQLException e) {
+				e.printStackTrace();
+		}
+		return tList;
 	}
 }
 /**

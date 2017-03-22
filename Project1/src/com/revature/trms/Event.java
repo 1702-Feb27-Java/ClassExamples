@@ -33,11 +33,10 @@ public class Event {
 		this.gradeFormat = gradeFormat;
 		this.eventType = eventType;
 		this.priority = priority;
-		this.closed = closed;
 	}
 	
 	public Event(int eventId, Date startDate, String startTime, Date stopDate, String location, String description,
-			double cost, String justify, String gradeFormat, String eventType, String priority, int closed) {
+			double cost, String justify, String gradeFormat, String eventType, String priority) {
 		super();
 		this.eventId = eventId;
 		this.startDate = startDate;
@@ -50,7 +49,6 @@ public class Event {
 		this.gradeFormat = gradeFormat;
 		this.eventType = eventType;
 		this.priority = priority;
-		this.closed = closed;
 	}
 
 	@Override

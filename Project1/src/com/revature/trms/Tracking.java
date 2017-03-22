@@ -4,22 +4,22 @@ public class Tracking {
 	private int trackingId = 0;
 	private long eventDate = 0;
 	private String roleId;
-	private int statusId = 1;
+	private String status = "1";
 	private String comments = null;
 	
 	public Tracking() {
 
 	}
 	
-	public Tracking(String roleId) {
+	public Tracking(String status) {
 		super();
-		this.roleId = roleId;
+		this.status = status;
 	}
 	
 	@Override
 	public String toString() {
 		return "EventService [trackingId=" + trackingId + ", eventDate=" + eventDate + ", roleId=" + roleId
-				+ ", statusId=" + statusId + ", comments=" + comments + "]";
+				+ ", statusId=" + status + ", comments=" + comments + "]";
 	}
 
 	public int getTrackingId() {
@@ -46,12 +46,12 @@ public class Tracking {
 		this.roleId = roleId;
 	}
 
-	public int getStatusId() {
-		return statusId;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setStatusId(int statusId) {
-		this.statusId = statusId;
+	public void setStatus(String statusId) {
+		this.status = statusId;
 	}
 
 	public String getComments() {
