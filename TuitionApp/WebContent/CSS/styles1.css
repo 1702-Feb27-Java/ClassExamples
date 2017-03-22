@@ -1,0 +1,30 @@
+
+
+body {
+	padding-left: 80px;
+	padding-right: 80px;
+	font-family: 'Source Code Pro', serif;
+  	font-size: 14px;
+}
+
+h1 {
+	font-family: 'Oleo Script', serif;
+	font-size: 35px;
+}
+
+h2 {
+	font-family: 'Open Sans', serif;
+	font-size: 20px;
+}
+
+form, p {
+	font-family: 'Open Sans', serif;
+  	font-size: 14px;
+}
+p.big {
+	line-height: 250%;
+}
+
+#selectmenus{
+	padding-right: 1100px;
+}

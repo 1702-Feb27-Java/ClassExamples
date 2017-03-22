@@ -145,7 +145,7 @@ CREATE OR REPLACE TRIGGER users_change
     FOR EACH ROW
   --DECLARE currID NUMBER;
   BEGIN
-    SELECT user_seq.CURRVAL INTO currID FROM dual;
+    --SELECT user_seq.CURRVAL INTO currID FROM dual;
     IF INSERTING THEN
       INSERT INTO LogsUsers (log_time, log_operation, newFirstName, newLastName, newUname, newPW) 
       VALUES (CURRENT_TIMESTAMP, 'New', :NEW.firstname, :NEW.lastname, :NEW.Uname, :NEW.PW);

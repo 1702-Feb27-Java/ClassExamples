@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Servlet Examples</title>
+
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open Sans">
+
+<style>
+body {
+  font-family: 'Open Sans', serif;
+  font-size: 20px;
+  padding-left: 80px;
+  padding-right: 80px;
+}
+</style>
+</head>
+<body>
+	<h1>Let's send requests to some servlets!</h1>
+	<hr>
+	<form action="ExampleServlet2.do" method="POST">
+		Username
+		<input type="text" name="uname"><br>
+		Password
+		<input type="password" name="pwd"><br>
+		Radio Buttons<br>
+		<input type="radio" name = "myRadio" value="button1"> button1<br>
+		<input type="radio" name = "myRadio" value="button2"> button2<br>
+		<input type="radio" name = "myRadio" value="button3"> button3<br>
+		
+		<input type="submit" value="Login">
+	</form>
+	<hr>
+	<form action="SessionHandler.do">
+		<input type="hidden" name="ConstantValue" value="example">
+		<input type="submit" value="Visit">
+	</form>
+	<hr>
+	<a href="index.jsp">To My JSP!</a>
+</body>
+</html>

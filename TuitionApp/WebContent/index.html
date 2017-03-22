@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Revature TRMS</title>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="http://fonts.googleapis.com/css?family=Oleo Script">
+<link rel="stylesheet" type="text/css"
+	href="http://fonts.googleapis.com/css?family=Open Sans">
+<link rel="stylesheet" type="text/css"
+	href="http://fonts.googleapis.com/css?family=Source Code Pro">
+
+<link rel="stylesheet" href="CSS/styles1.css">
+
+</head>
+<body>
+	<div class="page-header">
+	<h1>Welcome to the TRMS!</h1>
+	<h2>Tuition Reimbursement Management System</h2></div>
+	<hr>
+	<h2>Please sign in.</h2>
+	<br>
+	<form action="LoginServlet" method="POST">
+		<div class="row">
+			<div class="col-xs-2">
+				<label for="usr">Username:</label> 
+				<input type="text" class="form-control" name="usr">
+			</div>
+			<div class="col-xs-2">
+				<label for="pwd">Password:</label> 
+				<input type="password" class="form-control" name="pwd">
+			</div>
+		</div>
+		
+		<br><button type="submit" class="btn btn-default">Login</button>
+	</form>
+	
+
+	<!--   <form action="LoginServlet" method="POST">
+		Username <input type="text" name="uname"><br> 
+		Password <input type="password" name="pwd"><br> 
+		<input type="submit" value="Login">
+	</form> -->
+	<hr>
+	<p>
+		Are you a new employee? <a href="signup.html">Sign up here.</a>
+	</p>
+
+</body>
+</html>

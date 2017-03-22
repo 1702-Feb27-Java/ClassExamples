@@ -3,8 +3,9 @@ package com.revature.service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Hashtable;
+import java.util.Set;
 
-import com.revature.service.MenuClass;
 import com.revature.dao.DAOAccountImp;
 import com.revature.dao.DAOUserImp;
 import com.revature.pojo.UserClass;
@@ -17,6 +18,8 @@ public class AccountCreation {
 	static UserClass createdUser = new UserClass();
 	static DAOUserImp daoUser = new DAOUserImp();
 	static DAOAccountImp daoAccount = new DAOAccountImp();
+	
+	static Hashtable<String, String> allUnamePW = new Hashtable<String, String>();
 
 	// this method creates a new customer account
 
@@ -44,7 +47,7 @@ public class AccountCreation {
 			user.setLastName(lastName);
 
 			System.out.println("Please choose a username: ");
-			System.out.println("Please note: your username is not case-sensitive but your password will be!");
+			//System.out.println("Please note: your username is not case-sensitive but your password will be!");
 			username = br.readLine();
 			user.setUsername(username);
 
@@ -61,6 +64,13 @@ public class AccountCreation {
 				confirmPW = br.readLine(); // check this later
 			}
 
+			
+//			allUnamePW = daoUser.getUsernamePW();
+//			Set<String> usernames = allUnamePW.keySet();
+//			for (usernames : allUnamePW) {
+//				
+//			}
+			
 			// then we call the DAO User Implementation method to add a user to the database
 			daoUser.addUser(user);
 

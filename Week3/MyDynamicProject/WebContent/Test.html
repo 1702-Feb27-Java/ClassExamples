@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<p id="test">This is my sentence</p>
+	<form id="myForm" name="myForm" onsubmit="return validateWord()">
+		<input type="text" name="secretword" id="secretword"> <input
+			type="submit" value="check word">
+	</form>
+
+	<script>
+		function validateWord() {
+			if (document.getElementById("secretword").value != "bobbert") {
+				document.getElementById("secretword").innerHTML = "word must be bobbert.";
+				return false;
+			} else {
+				return true;
+			}
+		}
+	</script>
+
+</body>
+</html>

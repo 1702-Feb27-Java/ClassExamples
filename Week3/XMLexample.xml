@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Bookstore>
+	<Book Genre="Literary Fiction">
+		<BookName>The Old Man and the Sea</BookName>
+		<Author>Ernest Hemingway</Author>
+		<Release>
+			<Day>11</Day>
+			<Month>October</Month>
+			<Year>1952</Year>
+		</Release>
+
+		<BookName>The Once and Future King</BookName>
+		<Author>T.H. White</Author>
+		<Release>
+			<Day>1</Day>
+			<Month>February</Month>
+			<Year>1958</Year>
+		</Release>
+
+		<BookName>Lolita</BookName>
+		<Author>Vladimir Nabokov</Author>
+		<Release>
+			<Day>29</Day>
+			<Month>May</Month>
+			<Year>1955</Year>
+		</Release>
+	</Book>
+</Bookstore>
