@@ -178,11 +178,11 @@ var j = 0;
                     space--;
                     for (j = 1; j <= 2 * i - 1; j++) {
                         spaces+=someSymbol;
-						//document.getElementById("result").insertAdjacentHTML('beforeend', '*');
+						
                     }
 					 appended = spaces;
 					console.log(appended);
-                  //  document.getElementById("result").insertAdjacentHTML('beforeend', '<br>');
+                  
                 }
 
                 space = 2;
