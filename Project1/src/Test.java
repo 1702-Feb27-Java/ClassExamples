@@ -1,6 +1,7 @@
+import java.util.ArrayList;
+
 import com.revature.dao.DAOImpl;
-import com.revature.trms.EventService;
-import com.revature.trms.User;
+import com.revature.trms.Event;
 
 public class Test {
 
@@ -12,9 +13,10 @@ public class Test {
 		// TODO Auto-generated method stub
 		//User u = new User("Michael", "Scott", "scott12","mike", "scottstots@yahoo.com", 3, 2, 1);
 		
-		//DAOImpl.insertUserData(u);
+		ArrayList<Event> arrl = DAOImpl.getEventStats(1);
 		
-
+		for (Event e : arrl){
+			System.out.println(e.getEventId());
+		}
 	}
-
 }

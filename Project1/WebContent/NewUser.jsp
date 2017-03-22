@@ -63,7 +63,8 @@
 			<option value="<%=key = (Integer)keys.nextElement()%>">
 			  <%=ht.get(key)%></option>
 		<%}%>	
-		</select>		
+		</select>
+		<br><br>		
 		<input type="submit" value="Submit Name">
 		</div>
 	</form>

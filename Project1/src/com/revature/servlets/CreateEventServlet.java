@@ -10,8 +10,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.revature.trms.EventService;
+import com.revature.trms.User;
+import com.revature.trms.UserService;
 
 /**
  * Servlet implementation class CreateEventServlet
@@ -86,9 +89,10 @@ public class CreateEventServlet extends HttpServlet {
 			roleId = 2; 
 		else if (role==2)
 			roleId = 1;
-		
-		int userid = 7;
-		
+		HttpSession session = request.getSession();
+		int userid = (int)session.getAttribute("userid");
+		User u = UserService.getUserInfo(userid); 
+
 		EventService.addNewEvent(startDate, startTime, stopDate, location, description,
 				cost, justification, gradeFormat, eventType, priority, roleId, userid);
 		}

@@ -11,16 +11,14 @@ public class Event {
 	private String description;
 	private double cost;
 	private String justify;
-	private int gradingFormat;
-	private int eventType;
-	private int priority;
+	private int closed = 0;
 	
 	public Event() {
 			
 	}
 	
 	public Event(Date startDate, String startTime, Date stopDate, String location, String description,
-			double cost, String justify, int gradingFormat, int eventType, int priority) {
+			double cost, String justify) {
 		super();
 		this.startDate = startDate;
 		this.startTime = startTime;
@@ -29,17 +27,24 @@ public class Event {
 		this.description = description;
 		this.cost = cost;
 		this.justify = justify;
-		this.gradingFormat = gradingFormat;
-		this.eventType = eventType;
-		this.priority = priority;
+	}
+	
+	public Event(int eventId, Date startDate, String startTime, 
+			Date stopDate, String location, double cost) {
+		super();
+		this.eventId = eventId;
+		this.startDate = startDate;
+		this.startTime = startTime;
+		this.stopDate = stopDate;
+		this.location = location;
+		this.cost = cost;
 	}
 
 	@Override
 	public String toString() {
 		return "Event [eventId=" + eventId + ", startDate=" + startDate + ", startTime=" + startTime + ", stopDate="
 				+ stopDate + ", location=" + location + ", description=" + description + ", cost=" + cost + ", justify="
-				+ justify + ", gradingFormat=" + gradingFormat + ", eventType=" + eventType + ", priority=" + priority
-				+ "]";
+				+ justify + "]";
 	}
 	
 	public int getEventId() {
@@ -105,28 +110,12 @@ public class Event {
 	public void setJustify(String justify) {
 		this.justify = justify;
 	}
-
-	public int getGradingFormat() {
-		return gradingFormat;
+	
+	public int isClosed() {
+		return closed;
 	}
 
-	public void setGradingFormat(int gradingFormat) {
-		this.gradingFormat = gradingFormat;
-	}
-
-	public int getEventType() {
-		return eventType;
-	}
-
-	public void setEventType(int eventType) {
-		this.eventType = eventType;
-	}
-
-	public int getPriority() {
-		return priority;
-	}
-
-	public void setPriority(int priority) {
-		this.priority = priority;
+	public void setClosed(int closed) {
+		this.closed = closed;
 	}
 }

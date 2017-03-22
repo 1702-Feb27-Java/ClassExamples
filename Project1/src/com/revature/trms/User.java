@@ -1,42 +1,42 @@
 package com.revature.trms;
 
 public class User {
-	private int userid =0;
+	private int userId =0;
 	private String firstName;
 	private String lastName;
 	private String username;
 	private String password;
 	private String email;
 	private double amount = 1000.00;
-	private int roleid = 0;
-	private int deptid = 0;
-	private int supid=0;
+	private int supId=0;
+	
+	public User(){
+		
+	}
 	
 	public User(String firstName, String lastName, String username, String password, 
-			String email, int roleid, int deptid, int supid) {
+			String email, int supId) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.roleid = roleid;
-		this.deptid = deptid;
-		this.supid = supid;
+		this.supId = supId;
 	}
 	
 	@Override
 	public String toString() {
-		return "User [userid=" + userid + ", firstName=" + firstName + ", lastName=" + lastName + ", username="
-				+ username + ", password=" + password + ", email=" + email + ", amount=" + amount + ", roleid=" + roleid
-				+ ", deptid=" + deptid + ", directsupid=" + supid + "]";
+		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", username="
+				+ username + ", password=" + password + ", email=" + email + ", amount=" + amount  
+				+ ", supId=" + supId + "]";
 	}
 
-	public int getUserid() {
-		return userid;
+	public int getUserId() {
+		return userId;
 	}
-	public void setUserid(int userid) {
-		this.userid = userid;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -74,22 +74,11 @@ public class User {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	public int getRoleid() {
-		return roleid;
+
+	public int getSupId() {
+		return supId;
 	}
-	public void setRoleid(int roleid) {
-		this.roleid = roleid;
-	}
-	public int getDeptid() {
-		return deptid;
-	}
-	public void setDeptid(int deptid) {
-		this.deptid = deptid;
-	}
-	public int getSupid() {
-		return supid;
-	}
-	public void setSupid(int supid) {
-		this.supid = supid;
+	public void setSupid(int supId) {
+		this.supId = supId;
 	}
 }

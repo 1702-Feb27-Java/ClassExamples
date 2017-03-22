@@ -38,9 +38,7 @@
 		<p><label>Start Time:</label><input type="text" name="stime" required></p>
 		<p><label>Stop Date:</label><input type="date" name="stop" required></p>
 		<p><label>Location:</label><input type="text" name="location" required></p>
-		
 		<p><label>Cost:</label><input type="text" name="cost" required></p>
-		
 		<p><label>Justification:</label><textarea rows="5" cols="60" name="justify"></textarea></p>
 		</div></fieldset><br>
 		<div align="center"><input type="submit" value="Submit Event"></div>
