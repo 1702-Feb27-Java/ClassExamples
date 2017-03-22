@@ -175,3 +175,15 @@ END;
 BEGIN
   exceptionExample; --Check View>dbms output for caught exception!
 END;
+/
+
+CREATE OR REPLACE FUNCTION returnCursor
+return SYS_REFCURSOR
+is
+  CURSOR cursorVar is
+    select * from flash_cards;
+begin
+  return cursorVar;
+end;
+
+
