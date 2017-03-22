@@ -220,28 +220,25 @@ INSERT INTO Location(location)
 VALUES ('UCLA');
 /
 INSERT INTO Approval_step(approval_step_id, approval_step)
-VALUES (1, 'Employee');
+VALUES (1, 'Direct Supervisor');
 /
 INSERT INTO Approval_step(approval_step_id, approval_step)
-VALUES (2, 'Direct Supervisor');
+VALUES (2, 'Department Head');
 /
 INSERT INTO Approval_step(approval_step_id, approval_step)
-VALUES (3, 'Department Head');
+VALUES (3, 'Benefits Coordinator');
 /
 INSERT INTO Approval_step(approval_step_id, approval_step)
-VALUES (4, 'Benefits Coordinator');
+VALUES (4, 'Waiting on Grade');
 /
 INSERT INTO Approval_step(approval_step_id, approval_step)
-VALUES (5, 'Waiting on Grade');
+VALUES (5, 'Approved');
 /
 INSERT INTO Approval_step(approval_step_id, approval_step)
-VALUES (6, 'Approved');
+VALUES (6, 'Denied');
 /
 INSERT INTO Approval_step(approval_step_id, approval_step)
-VALUES (7, 'Denied');
-/
-INSERT INTO Approval_step(approval_step_id, approval_step)
-VALUES (8, 'Paid out');
+VALUES (7, 'Paid out');
 /
 --create object tables--
 CREATE TABLE Employee 
@@ -389,8 +386,7 @@ IS
 BEGIN
   SELECT EMPLOYEE_ID, PASS into employee_id, pas
   FROM EMPLOYEE
-  WHERE USERNAME = un
-  AND ROLE_ID = 1;
+  WHERE USERNAME = un;
   emp_id := employee_id;
   pw := pas;
 END loginEmployee;

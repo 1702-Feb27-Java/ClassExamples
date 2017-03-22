@@ -82,5 +82,15 @@ public class EmployeeService {
 		int gradingId = daoEmp.addGrading(grading, passingGrade);
 		return gradingId;
 	}
+
+	public int getRoleId(int employeeId){
+		int roleId = daoEmp.getRoleId(employeeId);
+		return roleId;
+	}
+	
+	public int getTypeOfEventid(String typeOfEvent){
+		int typeOfEventId = daoEmp.getTypeOfEventId(typeOfEvent);
+		return typeOfEventId;
+	}
 	
 }

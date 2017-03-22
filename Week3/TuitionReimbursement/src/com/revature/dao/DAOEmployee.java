@@ -24,4 +24,8 @@ public interface DAOEmployee {
 	
 	public int addGrading(String grading, String passingGrade);
 	
+	public int getRoleId(int employeeId);
+	
+	public int getTypeOfEventId(String typeOfEvent);
+	
 }

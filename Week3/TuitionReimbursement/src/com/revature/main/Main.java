@@ -4,12 +4,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.revature.dao.DAOEmployeeImpl;
 import com.revature.service.EmployeeService;
 
 public class Main {
 	static int timer = 0;
 	
 	static EmployeeService serveEmp = new EmployeeService();
+	static DAOEmployeeImpl empDao = new DAOEmployeeImpl();
 	public static void main(String[] args) {
 		
 /*		int emp_id = 9;
@@ -31,6 +33,8 @@ public class Main {
 		System.out.println("jLee id: " + serveEmp.loginEmployee("jLee", "password"));
 		//System.out.println(serveEmp.applyForReimbursement(emp_id, event, eventDate, time, location, formDate, description, cost, 
 		//		grading_id, typeOfEventId, urgentId, approval_step_id, approval_cutoff));
+		//System.out.println(serveEmp.loginEmployee("mLin", "password"));
+		//System.out.println(empDao.loginEmployee("mLin", "password"));
 	}
 	
 	public static void startTimer(){

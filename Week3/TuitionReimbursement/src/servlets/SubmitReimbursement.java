@@ -97,6 +97,9 @@ public class SubmitReimbursement extends HttpServlet {
 						"eventDate: " + eventDate + "<br>" +
 						"time: " + time + "<br>");
 		
+		int roleId = serveEmp.getRoleId(emp_id);
+		int typeOfEventId = serveEmp.getTypeOfEventid(typeOfEvent);
+		
 		int locationId = 0;
 		int gradeId = 0;
 		if(location2.length() != 0){
@@ -122,11 +125,13 @@ public class SubmitReimbursement extends HttpServlet {
 			gradeId = serveEmp.getGradingId(gradingId);
 		}
 		out.println("typeOfEvent: " + typeOfEvent + "<br>" +
+						"role id : " + roleId + "<br>" + 
+						"type of event id : " + typeOfEventId  + "<br>" +
 						"</body></html>"
 				);
 		
 		System.out.println(serveEmp.applyForReimbursement(emp_id, event, sqlDate, time, locationId, sqlDateToday, description, cost,
-				gradeId, 1, urgent, 1, cutoffDate));
+				gradeId, typeOfEventId, urgent, roleId, cutoffDate));
 	}
 
 	/**

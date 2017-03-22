@@ -27,13 +27,12 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				cs.setString(2, un);
 				cs.registerOutParameter(3, java.sql.Types.VARCHAR);
 			
-				customerId = cs.executeUpdate();
+				cs.execute();
 				
 				customerId = cs.getInt(1);
 				password = cs.getString(3);
 				
 				connect.commit();	
-				
 				employee.add(Integer.toString(customerId));
 				employee.add(password);
 		
@@ -250,6 +249,54 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			e.printStackTrace(); 	
 		}
 		return gradingId;	
+	}
+
+	public int getRoleId(int employeeId){
+		int roleId = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+	
+			String sql = "SELECT ROLE_ID FROM EMPLOYEE WHERE EMPLOYEE_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, employeeId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				roleId = rs.getInt(1);
+			}
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return roleId;
+	}
+
+	public int getTypeOfEventId(String typeOfEvent){
+		int typeOfEventId = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+	
+			String sql = "SELECT TYPE_OF_EVENT_ID FROM TYPE_OF_EVENT WHERE TYPE_OF_EVENT = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setString(1, typeOfEvent);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				typeOfEventId = rs.getInt(1);
+			}
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return typeOfEventId;
 	}
 	
 }
