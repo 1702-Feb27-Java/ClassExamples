@@ -27,7 +27,7 @@
 	<form action="EventForm.jsp">
 	<input type="submit" value="Add Event">
 	</form>
-	<h2>Requests</h2><hr>
+	<h2>REQUESTS:</h2><hr>
 			
 	<% 
 		ArrayList<Event> eventList = DAOImpl.getEventStats(userid);
@@ -35,17 +35,17 @@
 	%>
 	
 	<table>
-		<tr><th>EVENT-ID:</th><th>START DATE:</th><th>START TIME:</th><th>STOP DATE:</th>
-		<th>LOCATION:</th><th>COST:</th><th>STATUS:</tr>
+		<tr><th>EVENT-ID:</th><th>EVENT:</th><th>START DATE:</th><th>START TIME:</th><th>STOP DATE:</th>
+		<th>LOCATION:</th><th>COST:</th></tr>
 	<% for (int i = 0; i < eventList.size();i++){%>
 			<tr>
 				<td style="text-align: center"><%=eventList.get(i).getEventId()%></td>
+				<td><%=eventTypeList.get(i).getEventType()%></td>
 				<td style="text-align: center"><%=eventList.get(i).getStartDate()%></td>
 				<td style="text-align: center"><%=eventList.get(i).getStartTime()%></td>
 				<td style="text-align: center"><%=eventList.get(i).getStopDate()%></td>
 				<td><%=eventList.get(i).getLocation()%></td>
 				<td>$<%=eventList.get(i).getCost()%></td>
-				<td><%=eventTypeList.get(i).getEventType()%></td>
 			</tr>
 		<%}%>
 	</table>

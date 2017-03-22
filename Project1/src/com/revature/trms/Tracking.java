@@ -3,7 +3,7 @@ package com.revature.trms;
 public class Tracking {
 	private int trackingId = 0;
 	private long eventDate = 0;
-	private int roleId;
+	private String roleId;
 	private int statusId = 1;
 	private String comments = null;
 	
@@ -11,7 +11,7 @@ public class Tracking {
 
 	}
 	
-	public Tracking(int roleId) {
+	public Tracking(String roleId) {
 		super();
 		this.roleId = roleId;
 	}
@@ -38,11 +38,11 @@ public class Tracking {
 		this.eventDate = eventDate;
 	}
 
-	public int getRoleId() {
+	public String getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(int roleId) {
+	public void setRoleId(String roleId) {
 		this.roleId = roleId;
 	}
 

@@ -45,10 +45,12 @@
 		<select name="dept" required>
 			<option disabled selected value> -- select an option -- </option>
 			<option value="1">Development</option>
-  			<option value="2">Management</option>
-  			<option value="3">Projects</option>
-  			<option value="4">Security</option>
-			<option value="5">Testing</option>
+			<option value="2">Human Resources</option>
+  			<option value="3">Management</option>
+  			<option value="4">Projects</option>
+			<option value="5">Sales</option>  			
+			<option value="6">Security</option>
+			<option value="7">Testing</option>
 		</select></p>
 		<p><label>Supervisor:</label>
 		<select name="supname" required>

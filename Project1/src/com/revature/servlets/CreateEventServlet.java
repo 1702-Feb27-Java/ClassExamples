@@ -62,8 +62,8 @@ public class CreateEventServlet extends HttpServlet {
 		String description = request.getParameter("descr");
 		double cost = Double.parseDouble(request.getParameter("cost"));
 		String justification = request.getParameter("justify");
-		int gradeFormat = Integer.parseInt(request.getParameter("grade"));
-		int eventType = Integer.parseInt(request.getParameter("etype"));
+		String gradeFormat = request.getParameter("grade");
+		String eventType = request.getParameter("etype");
 		
 		Date timeStamp = null;
 		try {
@@ -75,22 +75,23 @@ public class CreateEventServlet extends HttpServlet {
 		long date2 = timeStamp.getTime();
 		long days = Math.abs((date1/date2)/(1000*60*60*24));
 		
-		int priority = 1;
+		String priority = "1";
 		if (days < 14 ){
-			priority = 2;
+			priority = "2";
 		}
 		
-		int role = 4;
-		int roleId = 0;
+		String role = "4";
+		String roleId = "0";
 		
-		if (role==4)
-			roleId = 3;
-		else if (role==3)
-			roleId = 2; 
-		else if (role==2)
-			roleId = 1;
-		HttpSession session = request.getSession();
-		int userid = (int)session.getAttribute("userid");
+		if (role.equals("4"))
+			roleId = "3";
+		else if (role.equals("3"))
+			roleId = "2"; 
+		else if (role.equals("2"))
+			roleId = "1";
+		//HttpSession session = request.getSession();
+		//int userid = (int)session.getAttribute("userid");
+		int userid = 1;
 		User u = UserService.getUserInfo(userid); 
 
 		EventService.addNewEvent(startDate, startTime, stopDate, location, description,

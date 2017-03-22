@@ -11,6 +11,9 @@ public class Event {
 	private String description;
 	private double cost;
 	private String justify;
+	private String gradeFormat;
+	private String eventType;
+	private String priority;
 	private int closed = 0;
 	
 	public Event() {
@@ -18,7 +21,7 @@ public class Event {
 	}
 	
 	public Event(Date startDate, String startTime, Date stopDate, String location, String description,
-			double cost, String justify) {
+			double cost, String justify, String gradeFormat, String eventType, String priority) {
 		super();
 		this.startDate = startDate;
 		this.startTime = startTime;
@@ -27,26 +30,37 @@ public class Event {
 		this.description = description;
 		this.cost = cost;
 		this.justify = justify;
+		this.gradeFormat = gradeFormat;
+		this.eventType = eventType;
+		this.priority = priority;
+		this.closed = closed;
 	}
 	
-	public Event(int eventId, Date startDate, String startTime, 
-			Date stopDate, String location, double cost) {
+	public Event(int eventId, Date startDate, String startTime, Date stopDate, String location, String description,
+			double cost, String justify, String gradeFormat, String eventType, String priority, int closed) {
 		super();
 		this.eventId = eventId;
 		this.startDate = startDate;
 		this.startTime = startTime;
 		this.stopDate = stopDate;
 		this.location = location;
+		this.description = description;
 		this.cost = cost;
+		this.justify = justify;
+		this.gradeFormat = gradeFormat;
+		this.eventType = eventType;
+		this.priority = priority;
+		this.closed = closed;
 	}
 
 	@Override
 	public String toString() {
 		return "Event [eventId=" + eventId + ", startDate=" + startDate + ", startTime=" + startTime + ", stopDate="
 				+ stopDate + ", location=" + location + ", description=" + description + ", cost=" + cost + ", justify="
-				+ justify + "]";
+				+ justify + ", gradeFormat=" + gradeFormat + ", eventType=" + eventType + ", priority=" + priority
+				+ ", closed=" + closed + "]";
 	}
-	
+
 	public int getEventId() {
 		return eventId;
 	}
@@ -111,7 +125,31 @@ public class Event {
 		this.justify = justify;
 	}
 	
-	public int isClosed() {
+	public String getGradeFormat() {
+		return gradeFormat;
+	}
+
+	public void setGradeFormat(String gradeFormat) {
+		this.gradeFormat = gradeFormat;
+	}
+
+	public String getEventType() {
+		return eventType;
+	}
+
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
+	}
+
+	public String getPriority() {
+		return priority;
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
+
+	public int getClosed() {
 		return closed;
 	}
 

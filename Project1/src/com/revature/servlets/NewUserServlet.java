@@ -42,8 +42,8 @@ public class NewUserServlet extends HttpServlet {
 		String name = request.getParameter("uname");
 		String pwd = request.getParameter("password");
 		String mail = request.getParameter("email");
-		int roleid = Integer.parseInt(request.getParameter("role"));
-		int deptid = Integer.parseInt(request.getParameter("dept"));
+		String role = request.getParameter("role");
+		String dept = request.getParameter("dept");
 		int supid = Integer.parseInt(request.getParameter("supname"));
 		
 		boolean verify = DAOImpl.verifyInfo(name);
@@ -52,7 +52,7 @@ public class NewUserServlet extends HttpServlet {
 			request.getRequestDispatcher("/NewUser.jsp").include(request, response);
 		} else {
 			UserService.addNewUser(first, last, name, pwd, 
-					mail, roleid, deptid, supid);
+					mail, role, dept, supid);
 			HttpSession session = request.getSession();
 			session.invalidate();
 			response.sendRedirect("http://localhost:8085/TRMS/index.jsp");

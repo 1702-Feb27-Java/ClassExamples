@@ -5,13 +5,12 @@ import com.revature.dao.DAOImpl;
 public class UserService {
 		
 	public static void addNewUser(String firstName, String lastName, String username,
-			String password, String email, int roleId, int deptId, int supId){
+			String password, String email, String role, String dept, int supId){
 		
-		User u = new User(firstName, lastName, username, password, email, supId);
-		Role r = new Role(roleId);
-		Department d = new Department(deptId);
-		
-		DAOImpl.insertUserData(u, r, d);
+		User u = new User(firstName, lastName, username, password, 
+				email, role, dept, supId);
+				
+		DAOImpl.insertUserData(u);
 	}
 	
 	public static User getUserInfo(int userId){
