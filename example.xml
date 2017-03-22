@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Bookstore>
+    <Book attr="Genre">
+        <Bookname>
+            Test
+        </Bookname>
+
+        <Author>
+            TST
+        </Author>
+        
+        <Release>
+            <Day>
+                1
+            </Day>
+        
+            <Month>
+                2
+            </Month>
+            
+            <Year>
+                1234
+            </Year>
+        </Release>
+
+    </Book>
+
+    <Book1 attr="Genre">
+     
+        <Bookname>
+            Test
+        </Bookname>
+        
+        <Author>
+            TST
+        </Author>
+        
+        <Release>
+            <Day>
+                1
+            </Day>
+        
+            <Month>
+                2
+            </Month>
+            
+            <Year>
+                1234
+            </Year>
+        </Release>
+
+    </Book1>
+
+    <Book2 attr="Genre">
+        <Bookname>
+            Test
+        </Bookname>
+
+        <Author>
+            TST
+        </Author>
+        
+        <Release>
+            <Day>
+                1
+            </Day>
+        
+            <Month>
+                2
+            </Month>
+            
+            <Year>
+                1234
+           </Year>
+
+        </Release>
+    
+    </Book2>
+
+</Bookstore>
