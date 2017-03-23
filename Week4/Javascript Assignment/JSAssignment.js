@@ -103,15 +103,46 @@ function traverseObject(someObj)
 //Number 10: Delete Element
 function deleteElement(someArr)
 {
-	
+	console.log(someArr.length + " : " + someArr);
+	for(x in someArr)
+	{
+		if(x == 2)
+		{
+			someArr[x] = null;
+		}
+	}
+	console.log(someArr.length  + " : " + someArr);
 }
 
 //Number 11: Splice Element
 function spliceElement(someArr)
 {
-	
+	var temp;
+	console.log(someArr.length + " : " + someArr);
+	for(x in someArr)
+	{
+		if(x != 2)
+		{
+			temp.push(someArr[x]);
+		}
+		someArr = temp;
+	}
+	console.log(someArr.length + " : " + someArr);
 }
 
 //Number 12: Define object using a Constructer
+function person(first, age) 
+{
+    this.firstName = first;
+    this.age = age;
+}
+var john = new person("John", 30);
 
 //Number 13: Define an object using an object literal
+function getPerson(name, age) 
+{
+   return {
+       name: name,
+       age : age
+   };
+}
