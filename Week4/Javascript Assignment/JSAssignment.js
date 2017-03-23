@@ -88,7 +88,7 @@ function isPalindrome(someStr)
 //Number 8: Shapes
 function printShape(shape, height, character)
 {
-
+	
 }
 
 //Number 9: Object Literal
@@ -119,14 +119,7 @@ function spliceElement(someArr)
 {
 	var temp;
 	console.log(someArr.length + " : " + someArr);
-	for(x in someArr)
-	{
-		if(x != 2)
-		{
-			temp.push(someArr[x]);
-		}
-		someArr = temp;
-	}
+	someArr.splice(3,1);
 	console.log(someArr.length + " : " + someArr);
 }
 
