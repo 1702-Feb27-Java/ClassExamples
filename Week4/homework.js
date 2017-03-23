@@ -144,18 +144,17 @@ var spliceElement = function(someArr){
     console.log(someArr.length);
 }
 //12. Defining an object using a constructor 
-var car = function(make, model) {
-    this.make = make;
-    this.model = model;
+var Person = function(name, age) {
+    this.name = name;
+    this.age = age;
 }
-var toyota = new car("Toyota", "RAV4")
+var john = new Person("John", 30)
 //13. Defining an object using an object literal
-var car = {
-	make: "Toyota",
-	model: "RAV4"
-}
-
-
-
+function getPerson(name, age) { 
+    return { 
+        name: name, 
+        age : age
+    }; 
+} 
 
 
