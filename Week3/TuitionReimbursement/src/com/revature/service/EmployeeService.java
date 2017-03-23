@@ -2,9 +2,9 @@ package com.revature.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Properties;
 
 import com.revature.dao.DAOEmployeeImpl;
+import com.revature.pojo.Message;
 
 public class EmployeeService {
 	
@@ -93,4 +93,18 @@ public class EmployeeService {
 		return typeOfEventId;
 	}
 	
+	public int getNumberOfMessages(int employeeId){
+		int messages = daoEmp.getNumberOfMessages(employeeId);
+		return messages;
+	}
+
+	public ArrayList<Message> getMessages(int employeeId){
+		ArrayList<Message> messages = new ArrayList<Message>();
+		messages = daoEmp.getMessages(employeeId);
+		System.out.println(messages);
+		for(Message m : messages){
+			m = daoEmp.getMessager(m);
+		}
+		return messages;
+	}
 }

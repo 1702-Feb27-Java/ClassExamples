@@ -7,7 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Properties;
+
+import com.revature.pojo.Message;
 import com.revature.util.ConnectionUtil;
 
 public class DAOEmployeeImpl implements DAOEmployee{
@@ -299,4 +300,94 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		return typeOfEventId;
 	}
 	
+	public int getNumberOfMessages(int employeeId){
+		int messages = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+	
+			String sql = "SELECT COUNT(*) FROM MESSAGE WHERE EMP_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, employeeId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				messages = rs.getInt(1);
+			}
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return messages;
+	}
+
+	public ArrayList<Message> getMessages(int employeeId){
+		ArrayList<Message> messages = new ArrayList<Message>();
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			String sql = "SELECT * FROM MESSAGE"
+					+ " WHERE EMP_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, employeeId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				Message m = new Message();
+				String message = rs.getString(2);
+				int messagerId = rs.getInt(4);
+				
+				m.setMessage(message);
+				m.setMessagerId(messagerId);
+				
+				messages.add(m);
+				
+				m = null;
+			}
+			
+			connect.commit();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+ 		return messages;
+	}
+
+	public Message getMessager(Message msg){
+		Message message = msg;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			String sql = "SELECT * FROM EMPLOYEE"
+					+ " WHERE EMPLOYEE_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, msg.getMessagerId());
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				String first = rs.getString(5);
+				String last = rs.getString(6);
+				String name = first + " " + last;
+				
+				message.setMessager(name);
+			}
+			
+			connect.commit();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return message;
+	}
 }

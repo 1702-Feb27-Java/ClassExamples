@@ -53,6 +53,8 @@ public class LoginServlet extends HttpServlet {
 		
 		int empId = serveEmp.loginEmployee(username, password);
 		request.setAttribute("id", empId);
+		int messages = serveEmp.getNumberOfMessages(empId);
+		request.setAttribute("messages", messages);
 		
 		String nextJSP = "/loggedIn.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);

@@ -30,6 +30,13 @@
 			h1{
 				text-align: center;
 			}
+			.glyphicon-envelope {
+			    font-size: 50px;
+			}
+			.badge {
+				font-size: 20px;
+				background-color: red;
+			}
 		</style>
 		
 	</head>
@@ -74,7 +81,18 @@
 		</nav>
 		
 
-		<h1>Logged in as: <%= request.getAttribute("id") %></h1><br><br><br><br><br><br>
+		<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+				<h1>Logged in as: <%= request.getAttribute("id") %></h1>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-1">
+					<span class="badge"><%= request.getAttribute("messages") %></span><span class="glyphicon glyphicon-envelope" > </span> 
+		
+			</div>
+		</div>
+		<br><br><br><br><br><br>
 
 		<%{
 			session.setAttribute("uId", request.getAttribute("id"));	

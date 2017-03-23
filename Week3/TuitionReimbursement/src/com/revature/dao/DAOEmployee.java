@@ -3,6 +3,8 @@ package com.revature.dao;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import com.revature.pojo.Message;
+
 public interface DAOEmployee {
 
 	public ArrayList<String> loginEmployee(String un, String pw);
@@ -27,5 +29,11 @@ public interface DAOEmployee {
 	public int getRoleId(int employeeId);
 	
 	public int getTypeOfEventId(String typeOfEvent);
+	
+	public int getNumberOfMessages(int employeeId);
+	
+	public ArrayList<Message> getMessages(int employeeId);
+	
+	public Message getMessager(Message msg);
 	
 }
