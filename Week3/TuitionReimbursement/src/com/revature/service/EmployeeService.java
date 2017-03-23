@@ -101,7 +101,6 @@ public class EmployeeService {
 	public ArrayList<Message> getMessages(int employeeId){
 		ArrayList<Message> messages = new ArrayList<Message>();
 		messages = daoEmp.getMessages(employeeId);
-		System.out.println(messages);
 		for(Message m : messages){
 			m = daoEmp.getMessager(m);
 		}
