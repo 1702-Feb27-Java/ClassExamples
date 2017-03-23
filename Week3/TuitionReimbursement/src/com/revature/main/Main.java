@@ -34,7 +34,7 @@ public class Main {
 		//System.out.println(serveEmp.applyForReimbursement(emp_id, event, eventDate, time, location, formDate, description, cost, 
 		//		grading_id, typeOfEventId, urgentId, approval_step_id, approval_cutoff));
 		//System.out.println(serveEmp.loginEmployee("mLin", "password"));
-		System.out.println(serveEmp.getMessages(3));
+		//System.out.println(serveEmp.getReimbursements(3));
 	}
 	
 	public static void startTimer(){

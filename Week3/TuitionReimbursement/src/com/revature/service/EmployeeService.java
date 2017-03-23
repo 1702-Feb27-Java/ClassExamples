@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.revature.dao.DAOEmployeeImpl;
 import com.revature.pojo.Message;
+import com.revature.pojo.Reimbursement;
 
 public class EmployeeService {
 	
@@ -105,5 +106,10 @@ public class EmployeeService {
 			m = daoEmp.getMessager(m);
 		}
 		return messages;
+	}
+
+	public ArrayList<Reimbursement> getReimbursements(int employeeId){
+		ArrayList<Reimbursement> reimbursements = daoEmp.getReimbursements(employeeId);
+		return reimbursements;
 	}
 }

@@ -29,7 +29,9 @@
 			  	</form>
 			  </div>
 			  <div class="col-md-6">
-			  	<button type="button" class="btn btn-default btn-lg">View pending reimbursements</button>
+			  	<form action="ReimbursementsServlet.do" method="POST">
+			  		<button type="submit" class="btn btn-default btn-lg">View Pending Reimbursements</button>
+			  	</form>
 			  </div>
 		</div>
 		

@@ -13,8 +13,9 @@
 			session.setAttribute("password", request.getParameter("pword"));	
 			request.setAttribute("id", null);
 		}%>
-
-		<br><br><br><br><br><br><br><br><br><br><br><br><br>
+		<br><br>
+		<h1>Tuition Reimbursement System</h1>
+		<br><br><br><br><br><br><br><br><br><br><br>
 		<div class="container" >
 		  <form action="LoginServlet.do" method="POST">
 			<div class="form-group row">

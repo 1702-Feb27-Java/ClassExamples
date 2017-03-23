@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import com.revature.pojo.Message;
+import com.revature.pojo.Reimbursement;
 
 public interface DAOEmployee {
 
@@ -35,5 +36,7 @@ public interface DAOEmployee {
 	public ArrayList<Message> getMessages(int employeeId);
 	
 	public Message getMessager(Message msg);
+	
+	public ArrayList<Reimbursement> getReimbursements(int employeeId);
 	
 }

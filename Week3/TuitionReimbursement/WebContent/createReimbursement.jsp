@@ -82,6 +82,7 @@
 				    	</div>
 				  	</div>
 				  </div>
+				 
 				  
 				  <script type="text/javascript">
 					   $('#locationSelect').bind('change', function(event) {
@@ -174,7 +175,26 @@
 				    <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
 				  </div>
 				  <button type="submit" class="btn btn-primary">Submit</button>
-				</form><br><br><br><br><br>
+				</form><br>
+				<script>
+					boolean submitResult = (boolean)request.getAttribute("submitResult");
+					var node;
+				    if (submitResult == true) {
+				    	node = document.getElementById("success");
+				    } else {
+				    	node = document.getElementById("failure");
+				    }
+				    node.style.visibility = 'visible';
+				</script>
+				
+				<div id="success" class="alert alert-success" style="visibility: hidden">
+				  <strong>Success! Reimbursement request submitted.</strong>
+				</div>
+				<div id="failure" class="alert alert-danger" style="visibility: hidden">
+				  <strong>Failure! Reimbursement request failed.</strong>
+				</div>
+
+				<br><br><br><br>
 				</div>
 			<div class="col-sm-4"></div>
 		</div>

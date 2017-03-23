@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -83,7 +84,7 @@ public class SubmitReimbursement extends HttpServlet {
 		java.sql.Date sqlDateToday = new java.sql.Date(todaysDate.getTime());
 		java.sql.Date cutoffDate = new java.sql.Date(cutoffDate2.getTime());
 
-		PrintWriter out = response.getWriter();
+/*		PrintWriter out = response.getWriter();
 		
 		out.println("<html><body>" +
 					"DATE TEST " + todaysDate + "<br>" +
@@ -95,7 +96,7 @@ public class SubmitReimbursement extends HttpServlet {
 						"emp_id: " + emp_id + "<br>"	+ 
 						"event: " + event + "<br>" +
 						"eventDate: " + eventDate + "<br>" +
-						"time: " + time + "<br>");
+						"time: " + time + "<br>");*/
 		
 		int roleId = serveEmp.getRoleId(emp_id);
 		int typeOfEventId = serveEmp.getTypeOfEventid(typeOfEvent);
@@ -103,35 +104,39 @@ public class SubmitReimbursement extends HttpServlet {
 		int locationId = 0;
 		int gradeId = 0;
 		if(location2.length() != 0){
-			out.println("location2: " + location2 + "<br>");
+			//out.println("location2: " + location2 + "<br>");
 			locationId = serveEmp.addLocation(location2);
 		}
 		else{
-			out.println("location: " + location + "<br>");
+			//out.println("location: " + location + "<br>");
 			locationId = serveEmp.getLocationId(location);
 		}
 		
-		out.println("description: " + description + "<br>" +
-						"cost: " + cost + "<br>");
+/*		out.println("description: " + description + "<br>" +
+						"cost: " + cost + "<br>");*/
 						
 		if(gradingId2.length() != 0){
-			out.println("gradingId2: " + gradingId2 + "<br>" +
-						"Passing grade : " + passingGrade + "<br>");
+/*			out.println("gradingId2: " + gradingId2 + "<br>" +
+						"Passing grade : " + passingGrade + "<br>");*/
 			gradeId = serveEmp.addGrading(gradingId2, passingGrade);
 			
 		}
 		else{
-			out.println("gradingId: " + gradingId + "<br>");
+			//out.println("gradingId: " + gradingId + "<br>");
 			gradeId = serveEmp.getGradingId(gradingId);
 		}
-		out.println("typeOfEvent: " + typeOfEvent + "<br>" +
+/*		out.println("typeOfEvent: " + typeOfEvent + "<br>" +
 						"role id : " + roleId + "<br>" + 
 						"type of event id : " + typeOfEventId  + "<br>" +
 						"</body></html>"
-				);
+				);*/
+		boolean submitResult = serveEmp.applyForReimbursement(emp_id, event, sqlDate, time, locationId, sqlDateToday, description, cost,
+				gradeId, typeOfEventId, urgent, roleId, cutoffDate);
+		request.setAttribute("submitResult", submitResult);
 		
-		System.out.println(serveEmp.applyForReimbursement(emp_id, event, sqlDate, time, locationId, sqlDateToday, description, cost,
-				gradeId, typeOfEventId, urgent, roleId, cutoffDate));
+/*		String nextJSP = "/createReimbursement.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
+		dispatcher.forward(request,response);*/
 	}
 
 	/**

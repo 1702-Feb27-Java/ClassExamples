@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.revature.pojo.Message;
+import com.revature.pojo.Reimbursement;
 import com.revature.util.ConnectionUtil;
 
 public class DAOEmployeeImpl implements DAOEmployee{
@@ -389,5 +390,51 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		}
 		
 		return message;
+	}
+
+	public ArrayList<Reimbursement> getReimbursements(int employeeId){
+		ArrayList<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
+			
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			String sql = "SELECT * FROM REIMBURSEMENT"
+					+ " WHERE EMPLOYEE_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, employeeId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				String event = rs.getString(4);
+				String time = rs.getString(6);
+				String description = rs.getString(9);
+				int cost = rs.getInt(10);
+				int locationId = rs.getInt(7);
+				int gradingId = rs.getInt(11);
+				int typeOfEventId = rs.getInt(12);
+				int approvalStepId = rs.getInt(15);
+				Date eventDate = rs.getDate(5);
+				Date formDate = rs.getDate(8);
+				
+				
+				
+			
+				
+				Reimbursement r = new Reimbursement(event, time, description, cost, locationId, 
+												gradingId, typeOfEventId, approvalStepId, eventDate, formDate);
+				reimbursements.add(r);
+				
+				r = null;
+			}
+			
+			connect.commit();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return reimbursements;
 	}
 }

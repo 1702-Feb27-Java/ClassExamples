@@ -68,4 +68,14 @@
     <servlet-name>MessageServlet</servlet-name>
     <url-pattern>/MessageServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ReimbursementsServlet</display-name>
+    <servlet-name>ReimbursementsServlet</servlet-name>
+    <servlet-class>servlets.ReimbursementsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReimbursementsServlet</servlet-name>
+    <url-pattern>/ReimbursementsServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
