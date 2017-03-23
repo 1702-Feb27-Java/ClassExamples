@@ -34,7 +34,7 @@ public class FilterControl implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-System.out.println("Filter Triggered");
+
 		
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res =(HttpServletResponse)response;

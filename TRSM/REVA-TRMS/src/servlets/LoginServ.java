@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import objects.Employee;
+import service.Service;
 import dao.DAOObject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class LoginServ
@@ -32,13 +34,13 @@ public class LoginServ extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		DAOObject ob = new DAOObject();
-		//System.out.println("here");
-		ArrayList<Employee> em = ob.getAllEmployees();
-		//System.out.println(em.size());
-		System.out.println(em.get(0).getUserName());
-		//check if username/password is correct if not go back
-		if(!em.get(0).getUserName().equals("BenCo")){
+		Service serv = new Service();
+		
+		
+		if(!serv.doesUserNameAndPassMatch(request.getParameter("username"), request.getParameter("pwd"))){
+			
+			
+			
 			HttpServletRequest req = (HttpServletRequest)request;
 			HttpServletResponse res =(HttpServletResponse)response;
 			RequestDispatcher rd;
@@ -46,10 +48,17 @@ public class LoginServ extends HttpServlet {
 			rd.forward(req, res);			
 			return;
 		}
+		Employee e = serv.getEmployee( request.getParameter("username"));
+		//request.setAttribute("employee", e);
+		HttpSession sess = request.getSession(true);
+		sess.setAttribute("employee", e);
+		//sess.setAttribute("userName", e.getUserName());
+	//	System.out.println(e.getUserName());
+			
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res =(HttpServletResponse)response;
 		RequestDispatcher rd;
-		rd = req.getRequestDispatcher("Users.jsp");
+		rd = req.getRequestDispatcher("Menu.jsp");
 		rd.forward(req, res);			
 		return;
 		
