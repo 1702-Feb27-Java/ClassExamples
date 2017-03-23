@@ -45,7 +45,7 @@ public class ConnectionUtil {
 	
 	/**
 	 * Function to return the driver manager for the connection to the database
-	 * @return
+	 * @return Drive Manager connection
 	 * @throws SQLException
 	 */
 	public static Connection getConnection() throws SQLException{
@@ -57,11 +57,12 @@ public class ConnectionUtil {
 	}
 	
 	//main function to test connection to the database
-	
-	public static void main(String []args) {
+	/*
+	public static void main(String []args) throws SQLException{
 		
 		ConnectionUtil con = new ConnectionUtil();
+		
 	}
-	
+	*/
 
 }

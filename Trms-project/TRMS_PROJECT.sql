@@ -2,10 +2,11 @@
 --Database for TRMS project
 
 --Creating lookup tables first before main tables
-create table Approval
+
+create table Approval_Status
 (
   Approval_id NUMBER,
-  current_level NUMBER,
+  current_level VARCHAR2(25),
   PRIMARY KEY (Approval_id)
 );
 
@@ -47,19 +48,28 @@ CREATE TABLE Course
   PRIMARY KEY(course_id)
 );
 
+CREATE TABLE Message
+(
+  message_id NUMBER,
+  message varchar2(400) NOT NULL,
+  emp_id NUMBER NOT NULL,
+  
+  PRIMARY KEY(message_id),
+  FOREIGN KEY(emp_id) REFERENCES Employee(emp_id)
+); 
+
+
 CREATE TABLE Employee
 (
   fname VARCHAR2(25) NOT NULL,
   lname VARCHAR2(25) NOT NULL,
-  address VARCHAR2(25) NOT NULL,
   dept_id NUMBER NOT NULL, 
   reportsto NUMBER, --fk
   role_id NUMBER NOT NULL, --fk
   emp_id NUMBER NOT NULL, --pk
   username VARCHAR2(25) UNIQUE,
   password VARCHAR2(25) UNIQUE,
-  email VARCHAR2(25) NOT NULL UNIQUE,
-  Allowance NUMBER NOT NULL,
+  Allowance NUMBER,
   FOREIGN KEY(dept_id) REFERENCES Department(dept_id),
   FOREIGN KEY(reportsto) REFERENCES Employee(emp_id),
   FOREIGN KEY(role_id) REFERENCES Role(role_id),
@@ -82,7 +92,7 @@ CREATE TABLE Reimburstment
   course_id NUMBER, 
   grade_type_id NUMBER, 
   grade VARCHAR2(25),
-  FOREIGN KEY(Approval_id) REFERENCES Approval(Approval_id),
+  FOREIGN KEY(Approval_id) REFERENCES Approval_status(Approval_id),
   FOREIGN KEY(course_id) REFERENCES Course(course_id),
   FOREIGN KEY(grade_type_id) REFERENCES Grade_Type(grade_id),
   FOREIGN KEY(emp_id) REFERENCES Employee(emp_id),
@@ -111,4 +121,94 @@ INSERT INTO COURSE(COURSE_ID, COURSE_TYPE, PERCENTAGE) VALUES(5, 'Technical Trai
 INSERT INTO COURSE(COURSE_ID, COURSE_TYPE, PERCENTAGE) VALUES(6, 'Other', 30);
 
 --putting info into the Approval table
-INSERT INTO APPROVAL(APPROVAL_ID, CURRENT_LEVEL) VALUES(
+INSERT INTO APPROVAL_STATUS(APPROVAL_ID, CURRENT_LEVEL) VALUES(1, 'Pending');
+INSERT INTO APPROVAL_STATUS(APPROVAL_ID, CURRENT_LEVEL) VALUES(2, 'Approved');
+INSERT INTO APPROVAL_STATUS(APPROVAL_ID, CURRENT_LEVEL) VALUES(3, 'Denied');
+INSERT INTO APPROVAL_STATUS(APPROVAL_ID, CURRENT_LEVEL) VALUES(4, 'Urgent');
+INSERT INTO APPROVAL_STATUS(APPROVAL_ID, CURRENT_LEVEL) VALUES(5, 'More Information required');
+
+--putting info into the Department table
+INSERT INTO DEPARTMENT(DEPT_ID, DEPT) VALUES(1, 'Development');
+INSERT INTO DEPARTMENT(DEPT_ID, DEPT) VALUES(2, 'Human Resources');
+INSERT INTO DEPARTMENT(DEPT_ID, DEPT) VALUES(3, 'BenCo');
+INSERT INTO DEPARTMENT(DEPT_ID, DEPT) VALUES(4, 'Finance');
+
+--Creating sequence for a trigger for the sole pupose of incrementing
+--the emp_id in the employee table. This will affect the pojo in java
+--so certain fields will be included in the constructor.
+CREATE SEQUENCE EMP_ID_SEQ
+MINVALUE 1
+START WITH 1
+INCREMENT by 1;
+/
+
+--DROP SEQUENCE EMP_ID_SEQ;
+--/
+
+CREATE OR REPLACE TRIGGER EMP_ID_INCRE
+BEFORE INSERT 
+  ON EMPLOYEE
+  FOR EACH ROW
+  
+BEGIN
+  SELECT EMP_ID_SEQ.NEXTVAL
+  INTO:new.emp_id 
+  FROM DUAL;
+END;
+/
+
+--DROP TRIGGER EMP_ID_INCRE;
+
+--Creating sequnce for reiembursment id increment
+CREATE SEQUENCE REIM_ID_SEQ
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+/
+
+--DROP SEQUENCE REIM_ID_SEQ;
+--/
+
+--The trigger will then start using the seqeunce for the REIMBURSEMENT ID
+CREATE OR REPLACE TRIGGER REIM_ID_INCRE
+BEFORE INSERT
+  ON REIMBURSTMENT
+  FOR EACH ROW
+
+BEGIN
+  SELECT REIM_ID_SEQ.NEXTVAL
+  INTO:new.REIM_ID 
+  FROM DUAL;
+END;
+/
+
+INSERT INTO EMPLOYEE(FNAME, LNAME, DEPT_ID, ROLE_ID, USERNAME, PASSWORD, ALLOWANCE) 
+VALUES('Nicholas', 'Perez', 1, 1, 'nperez', 'admin', 0.0);
+INSERT INTO EMPLOYEE(FNAME, LNAME, DEPT_ID, ROLE_ID, USERNAME, PASSWORD, ALLOWANCE) 
+VALUES('Chuck', 'Berry', 1, 1, 'cberry', 'admin2',  0.0);
+/
+
+--Will need to create procedure for employee sign in
+--it will take in a username and "give out" two params or more
+CREATE OR REPLACE PROCEDURE EMP_SIGNIN(user_name in VARCHAR2, fname out VARCHAR2, lname out VARCHAR2, dep_id out number, role_id out number,
+pass out VARCHAR2, money out number)
+IS
+  --username that is passed in will get the remaining fields from the employee table
+  firstn VARCHAR2(25);
+  lastn VARCHAR2(25);
+  ID_dep NUMBER;
+  ID_role number;
+  pw VARCHAR2(25);
+  Allow number;
+BEGIN
+  SELECT FNAME, LNAME, DEPT_ID, ROLE_ID, PASSWORD, ALLOWANCE into
+  firstn, lastn, ID_dep, ID_role, pw, Allow FROM EMPLOYEE
+  WHERE USERNAME = user_name;
+  fname := firstn;
+  lname := lastn;
+  dep_id := ID_dep;
+  role_id := ID_role;
+  pass := pw;
+  money := Allow;
+END;
+/
