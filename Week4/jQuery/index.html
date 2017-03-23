@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task List</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <style>
+        html, body{
+            width: 100%;
+            padding: 0;
+            background-color: #394264;
+        }
+
+        .container{
+            margin: 0 auto;
+            padding: 10px;
+            width: 550px;
+            border: 1px solid #333
+        }
+
+        #controls, #task-list{
+            margin: 0 auto;
+            width: 275px;
+            font-size: 1.25em;
+            padding: 5px;
+        }
+
+        #controls input, #controls button{
+            font-size: .75em;
+        }
+
+        #task-list{
+            min-height: 500px;
+            list-style: none;
+        }
+
+        .item{
+            font-size: 1.5em;
+        }
+
+        .deleter{
+            color: red;
+            padding-left: 5px;
+            float:right;
+        }
+
+        .deleter:hover{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class ="container">
+
+        <div id="controls">
+            <input type="text" id="new-item"/>
+            <button id="add-item">Add</button><br>
+			<h3 style="color:red;" id="noTasks">"You have 0 tasks for the day"</h3>
+        </div>
+        <hr>
+        <ul id="task-list"></ul>
+		
+    </div>
+	
+    <script>
+
+	
+    var items = [];
+    //jQuery main()
+    $(document).ready(function(){
+        $("#add-item").click(addItem)
+		var condition = ($('#task-list li').length == 0);
+		console.log(condition);
+		if(condition){
+			$("#noTasks").show();
+		}
+		else{
+			$("#noTasks").hide();
+		}
+    });
+
+    function removeItem(item){
+        console.log("removing item", item)
+        delete items[item]
+        item.remove()
+		var condition = ($('#task-list li').length == 0);
+		console.log(condition);
+		if(condition){
+			$("#noTasks").show();
+		}
+		else{
+			$("#noTasks").hide();
+		}
+    }
+
+    function addItem(e){
+        //grab the value from new-item input
+        var text = $("#new-item").val()
+        console.log("new item entered", text)
+
+        //create a list item and span
+        item = document.createElement('li')
+        del = document.createElement('span')
+
+        //select the list element
+        list = $('#task-list')
+
+        //using jQuery select the newly create elements
+        item = $(item)
+        item.addClass('item')
+        item.html(text)
+
+        del = $(del)
+        del.addClass('deleter')
+        del.html('X')
+	
+        del.click(function(e){
+            item = $(e.target.parentNode)
+            
+            item.slideUp('fast', function(){
+                removeItem(item)
+            })
+
+        })
+
+        item.append(del)
+		$(item).append('<input type="checkbox" id="box" onclick="box">');
+        list.append(item)
+
+		var condition = ($('#task-list li').length == 0);
+		console.log(condition);
+		if(condition){
+			$("#noTasks").show();
+		}
+		else{
+			$("#noTasks").hide();
+		}
+		
+        //tracking purpose
+        items[item] = text
+        console.log(items)
+    }
+    </script>
+</body>
+</html>

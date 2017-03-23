@@ -1,0 +1,11 @@
+add the following use cases to the example
+if there are 0 items in the task list display a message to reflect that
+    "You have 0 tasks for the day"
+	
+add a check box to indicate whether the task is complete or not
+    You can change the styling to reflect this change
+	
+add a priority system to the mix
+    new items are automatically given the lowest priority
+    completed items don't get a priority
+    the list should always display highest to lowest priority
