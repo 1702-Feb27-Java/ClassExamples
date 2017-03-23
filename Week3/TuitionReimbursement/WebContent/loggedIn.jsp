@@ -32,6 +32,7 @@
 			}
 			.glyphicon-envelope {
 			    font-size: 50px;
+			    color: black;
 			}
 			.badge {
 				font-size: 20px;
@@ -80,7 +81,10 @@
 		  </div><!-- /.container-fluid -->
 		</nav>
 		
-
+		<%{
+			session.setAttribute("uId", request.getAttribute("id"));
+		}%>
+		
 		<div class="row">
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
@@ -88,15 +92,12 @@
 			</div>
 			<div class="col-md-3"></div>
 			<div class="col-md-1">
-					<span class="badge"><%= request.getAttribute("messages") %></span><span class="glyphicon glyphicon-envelope" > </span> 
-		
+					<a href="MessageServlet.do" method="POST">
+						<span class="badge"><%= request.getAttribute("messages") %></span><span class="glyphicon glyphicon-envelope" > </span> 
+					</a>
 			</div>
 		</div>
 		<br><br><br><br><br><br>
-
-		<%{
-			session.setAttribute("uId", request.getAttribute("id"));	
-		}%>
 		
 		<div class="row text-center">
 			  <div class="col-md-6">

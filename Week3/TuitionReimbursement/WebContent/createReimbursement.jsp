@@ -92,12 +92,6 @@
 		  </div><!-- /.container-fluid -->
 		</nav>
 		
-			<%--
-			
-			System.out.println(serveEmp.applyForReimbursement(emp_id, event, eventDate, time, location, formDate, description, cost, 
-				grading_id, typeOfEventId, urgentId, approval_step_id, approval_cutoff));
-			
-			 --%>	
 		<div class="row">
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
