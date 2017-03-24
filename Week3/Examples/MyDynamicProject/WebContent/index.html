@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<!-- This page will show servlet interactions. It will also show how to interact with a simple
+		FrontEndController design. All servlet urls that are labeled in the "action" attributes of
+		the forms end in .do
+		
+		So we can create a filter that intercepts all url patterns that end in .do and react to them
+		accordingly.  -->
+
+	<h1>Servlet Example</h1>
+	<hr>
+	<!-- Here we create a form that will direct the submission to the servlet url: ExampleServlet.do.
+		This will pass the information in the httpRequest body since we are using POST as the method.
+		The information passed will be key/value pairs with "name" being the key and "value" being the value. -->
+	<form action="ExampleServlet2.do" method="POST">
+		Username
+		<input type="text" name="uname"><br>
+		Password
+		<input type="password" name="pwd"><br>
+		Radio Buttons<br>
+		<input type="radio" name="myRadio" value="button1">button1 <!-- Note, for radio buttons, they must be named the same for them to be part of the same group. -->
+		<input type="radio" name="myRadio" value="button2">button2
+		<input type="radio" name="myRadio" value="button3">button3
+		<input type="submit" value="Login">
+	</form>
+	<hr> <!-- This form will submit a form to the "SessionHandler.do" url.
+			This will be sent as a GET since if you don't specify a "method" it will
+			default to GET.
+			You can use hidden type inputs to pass hidden values with a submission.
+			This is a way to perform session handling, though not a particularily powerful way  -->
+	<form action="SessionHandler.do">
+		<input type="hidden" name="ConstantValue" value="example">
+		<input type="submit" value="Visit">
+	</form>
+	<hr>
+	<!-- This will send a request to the OtherHandler.do url -->
+	<form action="OtherHandler.do">
+		<input type="hidden" name="ConstantValue" value="example">
+		<input type="submit" value="Other Visit">
+	</form>
+	<hr> <!-- Simple link so I can navigate to my index.jsp. Since index.html is higher in the welcome
+	file list in my web.xml, that makes index.html the launch page for my application. -->
+	<a href="index.jsp">To My JSP!</a>
+</body>
+</html>
