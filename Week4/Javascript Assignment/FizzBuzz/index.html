@@ -3,21 +3,25 @@
 	<head>
 	<meta charset="UTF-8">
 	<title>こんにちは！</title>
-	<form>
-  		Fizz Buzz Min:<br>
-  		<input type="text" name="Min"><br>
- 		Fizz Buzz Max:<br>
-  		<input type="text" name="Max"><br>
-  		Fizz Buzz Start!<br>
-  		<button type="button" name="Start">Submit</button><br>
-	</form>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="JSFizzBuzz.js"></script>
 
-	<script type="text/javascript" src="JSFizzBuzz.js">
-    	//TODO: Javascript homework
-	</script>
 	</head>
 
 	<body>
+	<div id="container">
+	<form id="fizzbuzz">
+  		Fizz Buzz Min:<br>
+  		<input type="text" name="start" id="start" placeholder="Minimum"><br>
+ 		Fizz Buzz Max:<br>
+  		<input type="text" name="finish" id="finish" placeholder="Maximum"><br>
+  		Fizz Buzz Start!<br>
+  		<button type="button" name="Start" id="submit">Submit</button><br>
+	</form>
+
+	 <div id="output"></div>
+     <div id="error"></div>
+     </div>
 
 	</body>
 </html>
