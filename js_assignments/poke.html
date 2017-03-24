@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="ex.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+
+<button onclick="$('#classID').hide(1000)"> hide</button><br>
+<p id=1>Hi this is my paragraph</p><br>
+
+<button onclick="$('.class').show(1000)"> show</button><br><br>
+<p class="class" id="classID">Showing </p>
+
+<button onclick="$('p').toggle(500)"> toggle</button><br>
+
+<button id="addSomething">add</button><br>
+<input id="input" type="text">
+
+<div id="newStuff">
+
+</div>
+<br><br>
+
+
+
+<p id="output">
+
+</p>
+
+
+
+
+<br><br><br>
+<input id="num" type="text">
+<button id="AJAXButton">AJAX Button</button>
+<br><br><br>
+
+<div id ="poke">
+
+</div>
+
+<script>
+	var xhtml = new XMLHttpRequest()
+	xhtml.onreadystatechange = function(){
+		if(xhtml.readyState == 4){
+			document.getElementById("output").innerHTML = this.responseText;
+		}
+		
+		
+	}
+	
+	xhtml.open("GET","resources/stuff.xml", true);
+	xhtml.send();
+	
+	//$("#output").load("resources/mytxt.txt");
+	$("#AJAXButton").click(function (){
+		//get number
+		var inp = $("#num").val()
+		var str = "http://pokeapi.co/api/v2/pokemon/" + inp + "/"
+		$.get(str, function(data, status){
+		
+				console.log(data.name)
+				if($("#newTable").length == 0){
+					var tableFormat = '<table border=1 id="newTable"></table>';
+					$("#poke").append(tableFormat)
+					//var input = $("#input").val(data.name); //change to data we get back
+					$("#newTable").append("<tr><td>Name</td><td>" + data.name + "</td></tr><tr><td>ID</td><td>"+  data.id + "</td></tr>" + "</td></tr><tr><td>Weight</td><td>"+  data.weight + "</td></tr>" + "</td></tr><tr><td>Base Experience</td><td>"+  data.base_experience + "</td></tr>" +  "</td></tr><tr><td>Image</td><td id='imagePoke'><img src="+  data.sprites.front_shiny + "></td></tr>")
+				}
+				else{
+					
+					var tableFormat = '<table border=1 id="newTable"></table>';
+					$("#newTable").empty()
+					//var input = $("#input").val(data.name); //change to data we get back
+					$("#newTable").append("<tr><td>Name</td><td>" + data.name + "</td></tr><tr><td>ID</td><td>"+  data.id + "</td></tr>" + "</td></tr><tr><td>Weight</td><td>"+  data.weight + "</td></tr>" + "</td></tr><tr><td>Base Experience</td><td>"+  data.base_experience + "</td></tr>" +  "</td></tr><tr><td>Image</td><td id='imagePoke'><img src="+  data.sprites.front_shiny + "></td></tr>")
+				
+				}
+			
+			
+			});
+		
+			
+			
+	
+		
+		
+		});
+		
+		
+	
+	
+</script>
+
+
+
+
+</body>
+</html>
