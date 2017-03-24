@@ -73,7 +73,7 @@ COMMIT;
 /******************************************************************************
 ADD THE DEFAULT DIRECT SUPERVISOR, DEPARTMENT HEAD, BENCO
 ******************************************************************************/
-SELECT * FROM Departments;
+SELECT * FROM GradingFormat;
 
 INSERT INTO Users (user_id, firstname, lastname, uname, pw, email, dept_id, role_id, reportsto) 
 VALUES (1, 'Bruno', 'Mars', 'bmars', '1234', 'dt1379@nyu.edu', 1, 3, null);
@@ -86,9 +86,58 @@ VALUES (3, 'Ed', 'Sheeran', 'esheeran', '1234', 'dt1379@nyu.edu', 2, 3, null);
 INSERT INTO Users (user_id, firstname, lastname, uname, pw, email, dept_id, role_id, reportsto) 
 VALUES (5, 'Danni', 'Tang', 'dtang', '1234', 'dt1379@nyu.edu', 3, 3, null);
 INSERT INTO Users (user_id, firstname, lastname, uname, pw, email, dept_id, role_id, reportsto) 
-VALUES (6, 'Miley', 'Cyrus', 'mcyrus', '1234', 'dt1379@nyu.edu', 3, 2, 1);
+VALUES (6, 'Miley', 'Cyrus', 'mcyrus', '1234', 'dt1379@nyu.edu', 3, 2, 5);
 
 COMMIT;
 /******************************************************************************
 SEQUENCES AND TRIGGERS
 ******************************************************************************/
+
+DROP SEQUENCE user_seq;
+DROP TRIGGER user_seq_trigger;
+DROP SEQUENCE app_seq;
+DROP TRIGGER app_seq_trigger;
+
+CREATE SEQUENCE user_seq
+  START WITH 7  -- because we already have 2 default accounts stored
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER user_seq_trigger
+  BEFORE INSERT ON Users
+    FOR EACH ROW
+  BEGIN
+    SELECT user_seq.NEXTVAL INTO :new.user_id FROM dual;
+  END;
+/
+
+CREATE SEQUENCE app_seq
+  START WITH 1
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER app_seq_trigger
+  BEFORE INSERT ON Applications
+    FOR EACH ROW
+  BEGIN
+    SELECT app_seq.NEXTVAL INTO :new.app_id FROM dual;
+  END;
+/
+
+/******************************************************************************
+PROCEDURES AND FUNCTIONS
+******************************************************************************/
+-- procedure to add a user
+CREATE OR REPLACE PROCEDURE addUser(fName IN VARCHAR2, lName IN VARCHAR2, uname IN VARCHAR2, 
+pw IN VARCHAR2, email IN VARCHAR2, deptID IN NUMBER, roleID IN NUMBER, reportsTo IN NUMBER)
+IS
+BEGIN
+  INSERT INTO Users (firstname, lastname, uname, pw, email, dept_id, role_id, reportsto) 
+  VALUES (fName, lName, uname, pw, email, deptID, roleID, reportsTO); -- only add customers
+END;
+/
+
+COMMIT;
+ROLLBACK;
+
+SELECT * FROM Users;

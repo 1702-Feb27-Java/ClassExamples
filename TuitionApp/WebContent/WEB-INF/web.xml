@@ -13,7 +13,7 @@
     <description></description>
     <display-name>LoginServlet</display-name>
     <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>servlets.LoginServlet</servlet-class>
+    <servlet-class>com.revature.servlets.LoginServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
@@ -28,5 +28,25 @@
   <servlet-mapping>
     <servlet-name>SignupServlet</servlet-name>
     <url-pattern>/SignupServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LogOutServlet</display-name>
+    <servlet-name>LogOutServlet</servlet-name>
+    <servlet-class>com.revature.servlets.LogOutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogOutServlet</servlet-name>
+    <url-pattern>/LogOutServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ApplicationServlet</display-name>
+    <servlet-name>ApplicationServlet</servlet-name>
+    <servlet-class>com.revature.servlets.ApplicationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApplicationServlet</servlet-name>
+    <url-pattern>/ApplicationServlet</url-pattern>
   </servlet-mapping>
 </web-app>

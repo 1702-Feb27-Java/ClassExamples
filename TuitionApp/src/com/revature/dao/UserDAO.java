@@ -17,9 +17,10 @@ public interface UserDAO {
 	public void updateNotif(UserClass uc);
 	
 	//read
-	ArrayList<UserClass> getAllUsers();
+	// ArrayList<UserClass> getManagement(); // anyone with role_id > 1
 	ArrayList<AppClass> getAppsByUserID();
 	ArrayList<NotifClass> getNotifByUserID();
+	UserClass getUserByUsername(String username);
 	
 	// for login authentication
 	Hashtable<String, String> getUsernamePW();

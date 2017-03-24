@@ -1,7 +1,9 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Revature TRMS</title>
 
 <link rel="stylesheet"
@@ -23,11 +25,13 @@
 </head>
 <body>
 	<div class="page-header">
-	<h1>Welcome to the TRMS!</h1>
+	<h1>Revature Internal Application</h1>
 	<h2>Tuition Reimbursement Management System</h2></div>
-	<hr>
-	<h2>Please sign in.</h2>
-	<br>
+	
+	<% if (request.getAttribute("error") != null) 
+	out.println(request.getAttribute("error"));
+	%>
+	<br><br>
 	<form action="LoginServlet" method="POST">
 		<div class="row">
 			<div class="col-xs-2">
@@ -43,16 +47,11 @@
 		<br><button type="submit" class="btn btn-default">Login</button>
 	</form>
 	
-
-	<!--   <form action="LoginServlet" method="POST">
-		Username <input type="text" name="uname"><br> 
-		Password <input type="password" name="pwd"><br> 
-		<input type="submit" value="Login">
-	</form> -->
 	<hr>
 	<p>
 		Are you a new employee? <a href="signup.html">Sign up here.</a>
 	</p>
+
 
 </body>
 </html>

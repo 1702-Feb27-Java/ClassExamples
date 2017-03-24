@@ -1,7 +1,16 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    
+<%@ page import="com.revature.pojo.*" %>
+<%@ page import="com.revature.dao.*" %>
+
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Hashtable" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Sign up for a TRMS account.</title>
 
 <!-- Latest compiled and minified CSS -->
@@ -34,7 +43,7 @@
 </head>
 <body>
 
-	<h1>New Account Signup</h1>
+	<h1>Welcome to the TRMS!</h1>
 	<h2>Tuition Reimbursement Management System</h2>
 	<hr>
 
@@ -92,7 +101,7 @@
 			<option>Department Head</option>
 		</select> </div>
 		<br>
-
+		
 		<h2>Please click the button to complete your
 		registration. </h2><br> 
 		<button type="submit" class="btn btn-default">Register</button>

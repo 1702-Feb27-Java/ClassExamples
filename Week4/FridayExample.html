@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- include jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="example.js"></script>
+
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+
+
+<body>
+<h1>Practicing JS/jQuery</h1>
+
+<p class="testClass">Parapgraph with text in it </p>
+<button onclick="$('#testID').hide(500)">Hide all paragraphs</button>
+<br>
+
+<p id="testID">Another paragraph with text</p>
+<button onclick="$('.testClass').show(500)">Show all paragraphs</button>
+
+<br>
+<button onclick="$('p').toggle(500)">Just a toggling option</button>
+
+<br><br>
+<input id="input" type="text">
+<button id="add">add it</button>
+<div id="newStuff"></div>
+
+<hr>
+
+<button id="AjaxButton">AJAX Button</button>
+<p id="output"></p>
+
+<input id="inputPoke" type="text">
+<button id="getPokemon">Get Pokemon!</button>
+<div id="pokeStuff"></div>
+
+
+<script>
+
+    $('#getPokemon').click(function(){
+
+        $('#pokeStuff').empty();
+        if ($('#newPokeTable').length==0){
+            var pokeTable = "<table border=2 id='newPokeTable'></table>";
+            $('#pokeStuff').append(pokeTable);
+        }
+
+        var input = $('#inputPoke').val();  //.html() .text()
+
+        //get the API
+
+        var url = "http://pokeapi.co/api/v2/pokemon/" + input;
+        console.log(url)
+        $.get(url, function(data, status){
+                //return data;
+            $('#newPokeTable').append("<tr><td>Name</td><td>" + data.name + "</td></tr>");
+            $('#newPokeTable').append("<tr><td>Height</td><td>" + data.height + "</td></tr>");
+
+            var primaryType = data.types[0]['type']['name'];
+            $('#newPokeTable').append("<tr><td>Primary Type</td><td>" + primaryType + "</td></tr>");
+
+            var defaultSprite = data.sprites.front_default;
+
+            $('#newPokeTable').append("<tr><td>Sprite</td><td><img src=" + defaultSprite + "></td></tr>");
+
+            var shinySprite = data.sprites.front_shiny;
+
+            $('#newPokeTable').append("<tr><td>Shiny Sprite</td><td><img src=" + shinySprite + "></td></tr>");
+        });
+
+    })
+
+
+    var xhtml = new XMLHttpRequest();
+    xhtml.onreadystatechange = function(){
+        if (xhtml.readyState==4){
+            document.getElementById("output").innerHTML = this.responseText;
+        }
+    }
+    xhtml.open("GET", "stuff.xml", true);
+    xhtml.send();
+
+    //jQuery version
+    //$('#output').load("stuff.xml");
+
+    //$('#AjaxButton').addEventListener("click", getExample(), false);
+    $('#AjaxButton').click(function(){
+        $.get("http://pokeapi.co/api/v2/pokemon/1/", function(data, status){
+            console.log(status);
+            console.log(data.name);
+        });
+    })
+
+
+</script>
+
+</body>
+</html>
