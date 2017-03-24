@@ -16,7 +16,7 @@
 			<div class="col-md-3"></div>
 			<div class="col-md-1">
 					<a href="MessageServlet.do" method="POST">
-						<span class="badge"><%= request.getAttribute("messages") %></span><span class="glyphicon glyphicon-envelope" > </span> 
+						<span class="badge"><%= session.getAttribute("messages") %></span><span class="glyphicon glyphicon-envelope" > </span> 
 					</a>
 			</div>
 		</div>

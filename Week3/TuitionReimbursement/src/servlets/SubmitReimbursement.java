@@ -69,7 +69,6 @@ public class SubmitReimbursement extends HttpServlet {
 		try {
 			date = format.parse(eventDate);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -83,20 +82,6 @@ public class SubmitReimbursement extends HttpServlet {
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 		java.sql.Date sqlDateToday = new java.sql.Date(todaysDate.getTime());
 		java.sql.Date cutoffDate = new java.sql.Date(cutoffDate2.getTime());
-
-/*		PrintWriter out = response.getWriter();
-		
-		out.println("<html><body>" +
-					"DATE TEST " + todaysDate + "<br>" +
-					"DATEUUU CONVERTUUUUU : " + date + "<br>" +
-					"CUtoff datuuuuuu : " + cutoffDate + "<br>" +
-					"DAYS APARTUUU : " + daysApart + "<br>" +
-					"sqlDateuuuuuu : " + sqlDate + "<br>" +
-					"SQLDATETODAYUUUUU : " + sqlDateToday + "<br>" +					
-						"emp_id: " + emp_id + "<br>"	+ 
-						"event: " + event + "<br>" +
-						"eventDate: " + eventDate + "<br>" +
-						"time: " + time + "<br>");*/
 		
 		int roleId = serveEmp.getRoleId(emp_id);
 		int typeOfEventId = serveEmp.getTypeOfEventid(typeOfEvent);
@@ -104,32 +89,19 @@ public class SubmitReimbursement extends HttpServlet {
 		int locationId = 0;
 		int gradeId = 0;
 		if(location2.length() != 0){
-			//out.println("location2: " + location2 + "<br>");
 			locationId = serveEmp.addLocation(location2);
 		}
 		else{
-			//out.println("location: " + location + "<br>");
 			locationId = serveEmp.getLocationId(location);
 		}
 		
-/*		out.println("description: " + description + "<br>" +
-						"cost: " + cost + "<br>");*/
-						
 		if(gradingId2.length() != 0){
-/*			out.println("gradingId2: " + gradingId2 + "<br>" +
-						"Passing grade : " + passingGrade + "<br>");*/
 			gradeId = serveEmp.addGrading(gradingId2, passingGrade);
 			
 		}
 		else{
-			//out.println("gradingId: " + gradingId + "<br>");
 			gradeId = serveEmp.getGradingId(gradingId);
 		}
-/*		out.println("typeOfEvent: " + typeOfEvent + "<br>" +
-						"role id : " + roleId + "<br>" + 
-						"type of event id : " + typeOfEventId  + "<br>" +
-						"</body></html>"
-				);*/
 		boolean submitResult = serveEmp.applyForReimbursement(emp_id, event, sqlDate, time, locationId, sqlDateToday, description, cost,
 				gradeId, typeOfEventId, urgent, roleId, cutoffDate);
 		request.setAttribute("submitResult", submitResult);

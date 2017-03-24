@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.revature.service.EmployeeService;
 
@@ -41,6 +42,11 @@ public class CreateReimbursement extends HttpServlet {
 		request.setAttribute("locationsList", locations);
 		request.setAttribute("gradingTypes", gradingTypes);
 		request.setAttribute("eventTypes", eventTypes);
+		
+		HttpSession ses = request.getSession();
+		ses.setAttribute("locationsList", locations);
+		ses.setAttribute("gradingTypes", gradingTypes);
+		ses.setAttribute("eventTypes", eventTypes);
 		
 		String nextJSP = "/createReimbursement.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);

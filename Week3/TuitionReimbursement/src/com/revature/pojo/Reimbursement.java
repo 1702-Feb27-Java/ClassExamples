@@ -3,7 +3,7 @@ package com.revature.pojo;
 import java.util.Date;
 
 public class Reimbursement {
-	String event, time, description;
+	String event, time, description, grading, approvalStep, location, typeOfEvent;
 	int locationId, gradingId, typeOfEventId, approvalStepId, cost;
 	Date eventDate, formDate;
 	public Reimbursement(String event, String time, String description, int cost, int locationId, int gradingId,
@@ -38,11 +38,29 @@ public class Reimbursement {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getCost() {
-		return cost;
+	public String getGrading() {
+		return grading;
 	}
-	public void setCost(int cost) {
-		this.cost = cost;
+	public void setGrading(String grading) {
+		this.grading = grading;
+	}
+	public String getApprovalStep() {
+		return approvalStep;
+	}
+	public void setApprovalStep(String approvalStep) {
+		this.approvalStep = approvalStep;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getTypeOfEvent() {
+		return typeOfEvent;
+	}
+	public void setTypeOfEvent(String typeOfEvent) {
+		this.typeOfEvent = typeOfEvent;
 	}
 	public int getLocationId() {
 		return locationId;
@@ -68,6 +86,12 @@ public class Reimbursement {
 	public void setApprovalStepId(int approvalStepId) {
 		this.approvalStepId = approvalStepId;
 	}
+	public int getCost() {
+		return cost;
+	}
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
 	public Date getEventDate() {
 		return eventDate;
 	}
@@ -82,10 +106,12 @@ public class Reimbursement {
 	}
 	@Override
 	public String toString() {
-		return "Reimbursement [event=" + event + ", time=" + time + ", description=" + description + ", cost=" + cost
+		return "Reimbursement [event=" + event + ", time=" + time + ", description=" + description + ", grading="
+				+ grading + ", approvalStep=" + approvalStep + ", location=" + location + ", typeOfEvent=" + typeOfEvent
 				+ ", locationId=" + locationId + ", gradingId=" + gradingId + ", typeOfEventId=" + typeOfEventId
-				+ ", approvalStepId=" + approvalStepId + ", eventDate=" + eventDate + ", formDate=" + formDate + "]";
+				+ ", approvalStepId=" + approvalStepId + ", cost=" + cost + ", eventDate=" + eventDate + ", formDate="
+				+ formDate + "]";
 	}
-	
+
 	
 }

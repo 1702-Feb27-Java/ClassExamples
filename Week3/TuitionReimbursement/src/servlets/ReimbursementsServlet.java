@@ -1,12 +1,17 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.revature.pojo.Reimbursement;
+import com.revature.service.EmployeeService;
 
 /**
  * Servlet implementation class ReimbursementsServlet
@@ -26,7 +31,31 @@ public class ReimbursementsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("in reimbursements");
+
+		EmployeeService serveEmp = new EmployeeService();
+		
+		ArrayList<String> locations = serveEmp.getAllLocations();
+		ArrayList<String> gradingTypes = serveEmp.getAllGradingTypes();
+		ArrayList<String> eventTypes = serveEmp.getAllTypeOfEvents();
+		System.out.println(locations);
+		System.out.println(gradingTypes);
+		System.out.println(eventTypes);
+		
+		request.setAttribute("locationsList", locations);
+		request.setAttribute("gradingTypes", gradingTypes);
+		request.setAttribute("eventTypes", eventTypes);
+		
+		HttpSession ses = request.getSession();
+		int empId = (int)ses.getAttribute("uId");
+		ses.setAttribute("locationsList", locations);
+		ses.setAttribute("gradingTypes", gradingTypes);
+		ses.setAttribute("eventTypes", eventTypes);
+		System.out.println("test");
+		ArrayList<Reimbursement> reimbursements = serveEmp.getReimbursements(empId);
+		System.out.println(reimbursements);
+		ses.setAttribute("reimbursements", reimbursements);
+		request.setAttribute("reimbursements", reimbursements);
+		
 		String nextJSP = "/reimbursements.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
 		dispatcher.forward(request,response);

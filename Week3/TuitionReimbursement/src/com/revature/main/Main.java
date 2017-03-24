@@ -35,6 +35,7 @@ public class Main {
 		//		grading_id, typeOfEventId, urgentId, approval_step_id, approval_cutoff));
 		//System.out.println(serveEmp.loginEmployee("mLin", "password"));
 		//System.out.println(serveEmp.getReimbursements(3));
+		System.out.println(serveEmp.getAllGradingTypes());
 	}
 	
 	public static void startTimer(){
