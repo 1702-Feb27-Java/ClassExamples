@@ -21,4 +21,9 @@ public class EventService {
 	
 		DAOImpl.insertEventData(e, tk, userid);
 	}
+	
+	public static void deleteEvent(int eventId){
+		Event e = new Event(eventId);
+		DAOImpl.deleteEventData(e.getEventId());
+	}
 }	

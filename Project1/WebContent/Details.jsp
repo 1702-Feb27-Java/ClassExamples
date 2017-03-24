@@ -8,18 +8,32 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 <style>
-	
+	input{text-align:center}
 </style>
 </head>
 <body>
 	<%
 	ArrayList<Event> eventList = (ArrayList<Event>)session.getAttribute("eventList");
 	ArrayList<Tracking> trackList = (ArrayList<Tracking>)session.getAttribute("trackingList");
-	Integer eventid = Integer.parseInt(request.getParameter("eventId"));
+	int eventid = Integer.parseInt(request.getParameter("eventId"));
+	System.out.println(eventid);
+	for (int i = 0; i<eventList.size();i++){
+		if (eventList.get(i).getEventId() == eventid)	
+			eventid=i;
+	}
 	%>
-	<div align="center"><form><table>
+	
+	<div align="center"><h1>Event Details Page</h1></div>
+	<div align="center">
+		<form = action="DeleteEvent" method="POST">
+			<table>
 				<tr><th>EVENT #:</th></tr>
-				<tr><td><input type="text" name="eventNum" value="<%=eventList.get(eventid).getEventId()%>"></td></tr>
+				<tr><td><input size="5" type="text" name="eventNum" value="<%=eventList.get(eventid).getEventId()%>"></td>
+				<td><input type="submit" value="Delete">
+			</table>
+		</form><br><br>
+		<form>
+			<table>
 				<tr><th>EVENT:</th><th>PRIORITY:</th><th>LOCATION:</th><th>COST:</th></tr>
 					<tr><td><input type="text" name="EventType" value="<%=eventList.get(eventid).getEventType()%>"></td>
 						<td><input type="text" name="Priority" value="<%=eventList.get(eventid).getPriority()%>"></td>
@@ -31,9 +45,11 @@
 						<td><input type="text" name="Stop" value="<%=eventList.get(eventid).getStopDate()%>"></td>
 						<td><input type="text" name="Grade" value="<%=eventList.get(eventid).getGradeFormat()%>"></td></tr>
 				<tr><th>DESCRIPTION:</th></tr>
-				<tr><td colspan="4"><input name="descr" size="100" style="line-height:4em"  value="<%=eventList.get(eventid).getDescription()%>"></textarea></td></tr>
+				<tr><td colspan="4"><input name="descr" size="100" style="line-height:4em;text-align:left"  value="<%=eventList.get(eventid).getDescription()%>"></textarea></td></tr>
 				<tr><th>JUSTIFICATION:</th></tr>
-				<tr><td colspan="4"><input name="jusify" size="100" style="line-height:4em" value="<%=eventList.get(eventid).getJustify()%>"></textarea></td></tr>
-		</table></form></div>
+				<tr><td colspan="4"><input name="jusify" size="100" style="line-height:4em;text-align:left" value="<%=eventList.get(eventid).getJustify()%>"></textarea></td></tr>
+			</table>
+		</form>
+		</div>
 	</body>
 </html>

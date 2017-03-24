@@ -13,10 +13,7 @@ public class Test {
 		// TODO Auto-generated method stub
 		//User u = new User("Michael", "Scott", "scott12","mike", "scottstots@yahoo.com", 3, 2, 1);
 		
-		ArrayList<Event> arrl = DAOImpl.getEventStats(1);
+		//DAOImpl.deleteEventData(6);
 		
-		for (Event e : arrl){
-			System.out.println(e.getEventId());
-		}
 	}
 }

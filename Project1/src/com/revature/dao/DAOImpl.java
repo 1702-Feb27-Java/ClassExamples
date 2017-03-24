@@ -268,6 +268,23 @@ public static ArrayList<Event> getEventNumbers(int userid) {
 		}
 		return list;
 	}
+	
+	public static int deleteEventData(int eventId){
+
+		try (Connection connect = FactoryConnection.getConnection();){
+			connect.setAutoCommit(false);
+			String sql = "CALL DELETE_EVENT(?)";
+			CallableStatement cs = connect.prepareCall(sql);		
+			cs.setInt(1, eventId);
+			int numRows = cs.executeUpdate();
+			connect.commit();
+			return numRows;
+		} catch (SQLException e) {
+				e.printStackTrace();
+		}
+		return 0;
+}
+
 }
 /**
 *********************************************************************************************************

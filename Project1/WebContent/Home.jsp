@@ -60,8 +60,8 @@
 			<option value="<%=item.getEventId()%>">
 			  <%=item.getEventId()%></option>
 		<%}%>
-		
-		<br><td><input type="submit" value="Details"></td>
+		</select>
+		<br><input type="submit" value="Details">
 	</form>
 	<br><hr>
 </body>

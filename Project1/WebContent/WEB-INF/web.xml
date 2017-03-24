@@ -39,4 +39,14 @@
     <servlet-name>ValidateLogin</servlet-name>
     <url-pattern>/ValidateLogin</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DeleteEvent</display-name>
+    <servlet-name>DeleteEvent</servlet-name>
+    <servlet-class>com.revature.servlets.DeleteEvent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteEvent</servlet-name>
+    <url-pattern>/DeleteEvent</url-pattern>
+  </servlet-mapping>
 </web-app>
