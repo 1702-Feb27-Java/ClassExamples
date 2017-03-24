@@ -36,8 +36,18 @@
 			  </div>
 			</div>
 		  </form>
+		 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+		<c:if test="${sessionScope.uId == 0}">
+			<c:if test="${sessionScope.uId != null}">
+			    <div class="alert alert-danger alert-dismissable fade in">
+				    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				    <strong>Login failed!</strong> Incorrect login information.
+				  </div>
+			</c:if>
+		</c:if>
 		</div>
-		
+
+		  
 	
 	
 		

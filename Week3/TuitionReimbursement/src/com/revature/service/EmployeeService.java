@@ -25,7 +25,7 @@ public class EmployeeService {
 				return employeeId;
 			}
 			else{
-				employeeId = 1;//password wrong
+				employeeId = 0;//password wrong
 				return employeeId;
 			}
 		}

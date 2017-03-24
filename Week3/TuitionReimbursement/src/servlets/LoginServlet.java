@@ -54,16 +54,24 @@ public class LoginServlet extends HttpServlet {
 		HttpSession ses = request.getSession();
 		int empId = serveEmp.loginEmployee(username, password);
 		request.setAttribute("id", empId);
-		int messages = serveEmp.getNumberOfMessages(empId);
-		request.setAttribute("messages", messages);
-		ses.setAttribute("messages", messages);
+		ses.setAttribute("uId", empId);
 		
+		if(empId != 0){
+			int messages = serveEmp.getNumberOfMessages(empId);
+			request.setAttribute("messages", messages);
+			ses.setAttribute("messages", messages);
+		}
 		
-		
-		String nextJSP = "/loggedIn.jsp";
-		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
-		dispatcher.forward(request,response);
-		
+		if(empId == 0){
+			System.out.println(empId);
+			String nextJSP = "/index.jsp";
+			RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
+			dispatcher.forward(request,response);
+		}else{	
+			String nextJSP = "/loggedIn.jsp";
+			RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
+			dispatcher.forward(request,response);
+		}
 	}
 
 	/**
