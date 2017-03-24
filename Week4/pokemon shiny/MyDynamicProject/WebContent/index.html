@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<style>
+		table {
+		    border-collapse: collapse;
+		}
+		
+		table, th, td {
+		    border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<h1>Servlet Example</h1>
+	<hr>
+	<form action="ExampleServlet2.do" method="POST">
+		Username
+		<input type="text" name="username">
+		Password
+		<input type="password" name="password"><br>
+		<input type="radio" name="myRadio" value="button1">button1<br>
+		<input type="radio" name="myRadio" value="button2">button2<br>
+		<input type="radio" name="myRadio" value="button3">button3<br>
+		<input type="submit" value="login">
+	</form>
+	<form action="SessionHandler2.do">
+		<br>
+		TESTU
+		<input type="TESTU" name="TESTU">
+		<input type="hidden" name="ConstantValue" value="example">
+		<input type="submit" value="Visit">
+	
+	</form><br>
+	<hr>
+	<a href="index.jsp">TO MY JSPUUUUUUUUUU</a><br><br>
+	
+	Pokemon number
+	<input id="num" required type="number" name="min">
+	<div id="pokemon"></div>
+	<button id="AJAXButton">AJAX Button</button>
+	<p id="output"></p>
+
+	<script>
+		var xhtml = new XMLHttpRequest();
+		xhtml.onreadystatechange = function(){
+			if(this.readyState == 4){
+				document.getElementById("output").innerHTML = this.responseText;
+			}
+		}
+		xhtml.open("GET", "resources/XML/stuff.xml", true);
+		xhtml.send();
+		
+		//jQuery version
+		//$("#output").load("resources/XML/myTextFile.txt");
+		
+		//false = bubble
+		//$("#AJAXButton").addEventListener("click", getExample(), false);
+		
+		$("#AJAXButton").click(function(){
+		//function getExample(){
+			var num = document.getElementById("num").value;
+			var poke = "http://pokeapi.co/api/v2/pokemon/" + num
+			$.get(poke, function(data, status){
+				$(document.createElement('table'));
+				console.log(data.name);
+				console.log(data.weight);
+				console.log(num);
+				console.log(data.sprites.front_shiny);
+				
+			    $("#pokemon").append(
+			            "<table><tr><td>Name</td>" +
+			            "<td>" + data.name + "</td></tr>" +
+			            "<tr><td>Weight</td>" +
+			            "<td>" + data.weight  + "</td></tr>" +
+			            "<table><tr><td>ID</td>" +
+			            "<td>" + num + "</td></tr>" +
+			            "<tr><td>Image</td>" +
+			            "<td><img src=" + data.sprites.front_shiny + "></td></tr></table>");
+				
+			});
+	
+			
+		})
+		
+	</script>
+</body>
+</html>
+
