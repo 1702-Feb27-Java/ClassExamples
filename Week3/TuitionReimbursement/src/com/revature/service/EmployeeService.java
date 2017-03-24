@@ -110,6 +110,19 @@ public class EmployeeService {
 
 	public ArrayList<Reimbursement> getReimbursements(int employeeId){
 		ArrayList<Reimbursement> reimbursements = daoEmp.getReimbursements(employeeId);
+		//System.out.println(reimbursements);
+		for(Reimbursement r : reimbursements){
+			String location = daoEmp.getLocation(r.getLocationId());
+			String grading = daoEmp.getGrading(r.getGradingId());
+			String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
+			String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
+			
+			r.setLocation(location);
+			r.setGrading(grading);
+			r.setTypeOfEvent(typeOfEvent);
+			r.setApprovalStep(approvalStep);
+		}
+		//System.out.println(reimbursements);
 		return reimbursements;
 	}
 }

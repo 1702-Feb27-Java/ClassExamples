@@ -58,16 +58,16 @@
 		            <c:out value="${reimbursement.getCost()}" />
 		        </td>
 		        <td>
-		            <c:out value="${reimbursement.getLocationId()}" />
+		            <c:out value="${reimbursement.getLocation()}" />
 		        </td>
 		        <td>
-		            <c:out value="${reimbursement.getGradingId()}" />
+		            <c:out value="${reimbursement.getGrading()}" />
 		        </td>
 		        <td>
-		            <c:out value="${reimbursement.getTypeOfEventId()}" />
+		            <c:out value="${reimbursement.getTypeOfEvent()}" />
 		        </td>
 		        <td>
-		            <c:out value="${reimbursement.getApprovalStepId()}" />
+		            <c:out value="${reimbursement.getApprovalStep()}" />
 		        </td>
 		        <td>
 		            <c:out value="${reimbursement.getEventDate()}" />

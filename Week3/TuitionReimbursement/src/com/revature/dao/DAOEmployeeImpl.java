@@ -437,4 +437,116 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		
 		return reimbursements;
 	}
+
+	@Override
+	public String getLocation(int locationId) {
+		String location = "";
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			String sql = "SELECT LOCATION FROM LOCATION"
+					+ " WHERE LOCATION_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, locationId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				location = rs.getString(1);
+			}
+			
+			connect.commit();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return location;
+	}
+
+	@Override
+	public String getGrading(int gradingId) {
+		String grading = "";
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			String sql = "SELECT GRADING FROM GRADING"
+					+ " WHERE GRADING_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, gradingId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				grading = rs.getString(1);
+			}
+			
+			connect.commit();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return grading;
+	}
+
+	@Override
+	public String getTypeOfEvent(int typeOfEventId) {
+		String typeOfEvent = "";
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			String sql = "SELECT TYPE_OF_EVENT FROM TYPE_OF_EVENT"
+					+ " WHERE TYPE_OF_EVENT_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, typeOfEventId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				typeOfEvent = rs.getString(1);
+			}
+			
+			connect.commit();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return typeOfEvent;
+	}
+
+	@Override
+	public String getApprovalStep(int approvalStepId) {
+		String approvalStep = "";
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			String sql = "SELECT APPROVAL_STEP FROM APPROVAL_STEP"
+					+ " WHERE APPROVAL_STEP_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, approvalStepId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				approvalStep = rs.getString(1);
+			}
+			
+			connect.commit();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return approvalStep;
+	}
 }

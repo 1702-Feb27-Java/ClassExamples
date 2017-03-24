@@ -39,4 +39,12 @@ public interface DAOEmployee {
 	
 	public ArrayList<Reimbursement> getReimbursements(int employeeId);
 	
+	public String getLocation(int locationId);
+	
+	public String getGrading(int gradingId);
+	
+	public String getTypeOfEvent(int typeOfEventId);
+	
+	public String getApprovalStep(int approvalId);
+	
 }
