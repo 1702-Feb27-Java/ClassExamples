@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<title>
+		POKEDEX
+	</title>
+
+	<style type="text/css">
+		body{
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+
+	<input id = "pokeNum" type = "number" name = "pokeNum">
+	<button id = "search">Search</button>
+
+	<div id= "result">
+		
+	</div>
+
+
+
+	<script>
+
+		var pokeName;
+		var pokeHeight;
+		var pokeWeight;
+		var pokeURL;
+
+		var pokeTable = document.createElement("table");
+		pokeTable.id = "pokeTable";
+		pokeTable.border = 2;
+
+
+		$("#search").click(
+				function() {
+					var num = $("#pokeNum").val()
+
+					$.get("http://pokeapi.co/api/v2/pokemon/" + num + "/", function(data) {
+						pokeName = data.name;
+						pokeWeight = data.weight;
+						pokeHeight = data.height;
+						pokeURL = "http://pokeapi.co/media/img/" + num + ".png";
+						$('#result').append(pokeTable);
+						
+						if($("#pokeTable").children().length == 0){
+							var addRows = "<tr><td>Name</td><td>" + pokeName + "</td></tr><tr><td>Height</td><td>" + pokeHeight + "</td></tr><tr><td>Weight</td><td>" + pokeWeight + "</td></tr><tr><td>Image</td><td>" + "<img src = '" + pokeURL + "'</td></tr>";
+							$('#pokeTable').append(addRows);
+							$('#result').append(pokeTable);
+						}else{
+							$('#pokeTable').empty();
+							var addRows = "<tr><td>Name</td><td>" + pokeName + "</td></tr><tr><td>Height</td><td>" + pokeHeight + "</td></tr><tr><td>Weight</td><td>" + pokeWeight + "</td></tr><tr><td>Image</td><td>" + "<img src = '" + pokeURL + "'</td></tr>";
+							$('#pokeTable').append(addRows);
+						}
+
+
+					})
+
+				})
+
+
+	</script>
+</body>
+</html>
