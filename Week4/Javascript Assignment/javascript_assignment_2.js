@@ -1,7 +1,7 @@
 /*
  * TITLE: JavaScript Assignment 2
  * AUTHOR: Michael Hobbs
- * DATE: 2017 March 23
+ * DATE: 2017 March 24
  *
  */
 
@@ -16,14 +16,14 @@ var displayElement; //displays the fizz buzz sequence in the user interface
  *
  */
 function init() {	
-	minIndexElement = document.getElementById("min-index");
-	maxIndexElement = document.getElementById("max-index");
-	startButtonElement = document.getElementById("start-button");
-	displayElement = document.getElementById("display");
+	minIndexElement = $("#min-index");
+	maxIndexElement = $("#max-index");
+	startButtonElement = $("#start-button");
+	displayElement = $("#display");
 	
-	minIndexElement.addEventListener('input', function() {validateInput(minIndexElement);}, false);
-	maxIndexElement.addEventListener('input', function() {validateInput(maxIndexElement);}, false);
-	startButtonElement.addEventListener('click', start, false);
+	minIndexElement.on('input', function() {validateInput(minIndexElement);});
+	maxIndexElement.on('input', function() {validateInput(maxIndexElement);});
+	startButtonElement.on('click', start);
 }
 
 /*
@@ -32,11 +32,14 @@ function init() {
  */
 function start() {
 	let str = '';
-	let min = parseInt(minIndexElement.value);
-	let max = parseInt(maxIndexElement.value);
+	let min = parseInt(minIndexElement.val());
+	let max = parseInt(maxIndexElement.val());
 	//console.log(min + ', ' + max);
+	//console.log(minIndexElement.attr('isValid'));
+	//console.log(maxIndexElement.attr('isValid'));
+	//console.log(minIndexElement.attr('isValid') && maxIndexElement.attr('isValid'));
 	
-	if (minIndexElement.isValid && maxIndexElement.isValid) { //do the sequence only if input is valid.
+	if ((minIndexElement.attr('isValid')) && (maxIndexElement.attr('isValid'))) { //do the sequence only if input is valid.
 		for (let i = min; i <= max; i++) { //print the numbers in the range from min to max, or 'fizz', 'buzz', or 'fizz-buzz' accordingly.
 			if (i % 3 === 0 && i % 5 !== 0) { //when is a multiple of 3 but not also a multiple of 5
 				str += 'FIZZ, ';
@@ -66,7 +69,7 @@ function start() {
  */
 function validateInput(elem) {
 	//let value = parseInt(elem.value);
-	let value = elem.value;
+	let value = elem.val();
 	console.log(value);
 	
 	let validInput = new RegExp('[1-9]+[0-9]*'); //valid input is a non-zero number.
@@ -77,15 +80,15 @@ function validateInput(elem) {
 	
 	//if (isNaN(value) || value <= 0) {
 	if (invalidInput.test(value) || !validInput.test(value) || value.length > 6) { //indicate input was invalid.
-		elem.style.border = '2px solid red';
+		elem.attr('style', 'border: 2px solid red');
 		//console.log(false);
-		elem.isValid = false;
+		elem.attr('isValid', false);
 		return false;
 	}
 	
-	elem.style.border = '2px solid green'; //indicate input was valid.
+	elem.attr('style', 'border: 2px solid green'); //indicate input was valid.
 	//console.log(true);
-	elem.isValid = true;
+	elem.attr('isValid', true);
 	return true;
 }
 
@@ -94,5 +97,5 @@ function validateInput(elem) {
  *
  */
 function updateDisplay(str) {
-	displayElement.innerHTML = str;
+	displayElement.text(str);
 }
