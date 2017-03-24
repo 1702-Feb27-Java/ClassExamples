@@ -16,7 +16,6 @@
 	ArrayList<Event> eventList = (ArrayList<Event>)session.getAttribute("eventList");
 	ArrayList<Tracking> trackList = (ArrayList<Tracking>)session.getAttribute("trackingList");
 	int eventid = Integer.parseInt(request.getParameter("eventId"));
-	System.out.println(eventid);
 	for (int i = 0; i<eventList.size();i++){
 		if (eventList.get(i).getEventId() == eventid)	
 			eventid=i;
@@ -31,8 +30,6 @@
 				<tr><td><input size="5" type="text" name="eventNum" value="<%=eventList.get(eventid).getEventId()%>"></td>
 				<td><input type="submit" value="Delete">
 			</table>
-		</form><br><br>
-		<form>
 			<table>
 				<tr><th>EVENT:</th><th>PRIORITY:</th><th>LOCATION:</th><th>COST:</th></tr>
 					<tr><td><input type="text" name="EventType" value="<%=eventList.get(eventid).getEventType()%>"></td>
@@ -49,7 +46,7 @@
 				<tr><th>JUSTIFICATION:</th></tr>
 				<tr><td colspan="4"><input name="jusify" size="100" style="line-height:4em;text-align:left" value="<%=eventList.get(eventid).getJustify()%>"></textarea></td></tr>
 			</table>
-		</form>
+		</form><br><br>
 		</div>
 	</body>
 </html>

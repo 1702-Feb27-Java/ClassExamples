@@ -269,13 +269,15 @@ public static ArrayList<Event> getEventNumbers(int userid) {
 		return list;
 	}
 	
-	public static int deleteEventData(int eventId){
+	public static int deleteEventData(int userId, int eventId, double cost){
 
 		try (Connection connect = FactoryConnection.getConnection();){
 			connect.setAutoCommit(false);
-			String sql = "CALL DELETE_EVENT(?)";
+			String sql = "CALL DELETE_EVENT(?, ?, ?)";
 			CallableStatement cs = connect.prepareCall(sql);		
-			cs.setInt(1, eventId);
+			cs.setInt(1, userId);
+			cs.setInt(2, eventId);
+			cs.setDouble(3, cost);
 			int numRows = cs.executeUpdate();
 			connect.commit();
 			return numRows;

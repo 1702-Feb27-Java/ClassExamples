@@ -25,7 +25,11 @@ public class DeleteEvent extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		int userid = (int)session.getAttribute("userid");
 		int eventid = Integer.parseInt(request.getParameter("eventNum"));
-		EventService.deleteEvent(eventid);
+		double cost = Double.parseDouble(request.getParameter("Cost"));
+		EventService.deleteEvent(userid, eventid, cost);
+		request.getRequestDispatcher("/Home.jsp").include(request, response);
 	}
 }
