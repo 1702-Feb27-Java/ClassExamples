@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<body>
+<head>
+<meta charset="ISO-8859-1">
+</head>
+
+<h1>FizzBuzz!!</h1>
+
+<form action="">
+		Min Value
+		<input type="text" name="username" id="min"><br><br>
+		Max Value
+		<input type="text" name="pwd"id="max"><br><br>
+		
+		<input type="button" value="start" onclick="fizzBuzz()" id="btn">	
+		
+</form>
+
+<div id="add">
+		
+		</div>
+
+
+<script type="text/javascript">
+ var button= document.getElementById('btn');
+	button.onclick= function fizzBuzz(){
+	var maxx = document.getElementById("max").value
+	var minn = document.getElementById("min").value
+	
+	if(maxx > 200 || minn < 0 || maxx < minn){
+		document.getElementById("add").innerHTML = "Error in input"
+		return;
+	}
+	document.getElementById("add").innerHTML = " "
+	
+	document.createTextNode("fizzbuzz");
+	for(i = minn; i <= maxx; i++){
+		if(i % 15 == 0){
+			document.getElementById("add").innerHTML += "fizzbuzz<br>"
+		}
+		else if(i % 3 == 0){
+			document.getElementById("add").innerHTML += "fizz<br>"
+		}
+		else if (i % 5 == 0){
+			document.getElementById("add").innerHTML += "buzz<br>"
+		}
+		else{
+			document.getElementById("add").innerHTML += i+ "<br>"
+		}
+	}
+   }
+  </script>
+</body>
+</html>

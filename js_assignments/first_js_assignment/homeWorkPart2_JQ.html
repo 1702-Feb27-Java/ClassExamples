@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<html lang="en">
+<body>
+<head>
+<meta charset="UTF-8">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+</head>
+
+<h1>FizzBuzz!!</h1>
+
+<form action="">
+		Min Value
+		<input type="text" name="username" id="min"><br><br>
+		Max Value
+		<input type="text" name="pwd"id="max"><br><br>
+		
+		<input type="button" value="start" id="btn">	
+		
+</form>
+
+<div id="add">
+		
+		</div>
+
+<script> 
+
+	$(document).ready(function(){
+		
+        $("#btn").click(runFizz)
+    });
+	function runFizz(e){
+		var max = $('#max').val()
+		var min = $('#min').val()
+		if(max > 200 || min < 0 || max < min){
+			item = $('#add')
+			item.html("Error in input")
+			return;
+		}
+		item = $('#add')
+		item.html("")
+		for(i = min; i <= max; i++){
+		
+		
+		if(i % 15 == 0){
+			//item = document.createElement('div')		
+			item = $('#add')
+			item.append("fizzbuzz<br>")
+		}
+		else if(i % 3 == 0){
+			//item = document.createElement('div')		
+			item = $('#add')
+			item.append("fizz<br>")
+		}
+		else if (i % 5 == 0){
+			//item = document.createElement('div')		
+			item = $('#add')
+			item.append("buzz<br>")
+		}
+		else{
+			//item = document.createElement('div')		
+			item = $('#add')
+			item.append(i + "<br>")
+		}     
+        
+	}
+	}
+</script>
+
+</body>
+</html>
