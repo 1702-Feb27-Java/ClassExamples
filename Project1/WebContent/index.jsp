@@ -5,15 +5,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>TRMS Login Screen</title>
+<style>
+	body {background-repeat: no-repeat;background-size:cover; 
+		background-position:top center; background-attachment:fixed;}
+	p {font-size:35px;}
+</style>
 </head>
 <body>
+	<div>
 	<% if (session.isNew()){ %>
-		<h1 align="center">Welcome to the TRMS!</h1>
+		<h1 align="center"><font size=35>Welcome to ... TRMS!</font></h1>
 	<% } else { %>
-		<h1 align="center">Welcome to the TRMS!</h1>
+		<h1 align="center"><font size=35>Welcome to ... TRMS!</font></h1>
 		<h3 align="center" style="color:red"># Invalid Username / Password, please try again.</h3>
 	<% } %>
-
+	</div>
  	<div align="center"><form action="ValidateLogin" method="POST">
 		<p>Username:
 		<input type="text" name="uname"></p>

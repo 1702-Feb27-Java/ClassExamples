@@ -39,4 +39,4 @@
     <servlet-name>ValidateLogin</servlet-name>
     <url-pattern>/ValidateLogin</url-pattern>
   </servlet-mapping>
- </web-app>
+</web-app>

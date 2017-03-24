@@ -20,6 +20,10 @@ public class Event {
 			
 	}
 	
+	public Event(int eventId) {
+		this.eventId = eventId;
+	}
+	
 	public Event(Date startDate, String startTime, Date stopDate, String location, String description,
 			double cost, String justify, String gradeFormat, String eventType, String priority) {
 		super();
