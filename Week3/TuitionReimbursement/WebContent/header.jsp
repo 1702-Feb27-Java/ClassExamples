@@ -79,9 +79,11 @@
 				</div>
 				<button type="submit" class="btn btn-default">Submit</button>
 			  </form>
-			  <ul class="nav navbar-nav navbar-right">
-				<li><a href="#">Logout</a></li>
-			  </ul>
+			  <div class="nav navbar-nav navbar-right">
+					<form action="LogoutServlet.do" method="POST">
+			  			<button type="submit" class="btn btn-primary btn-sm">Logout</button>
+			  		</form>
+			  </div>
 			</div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
