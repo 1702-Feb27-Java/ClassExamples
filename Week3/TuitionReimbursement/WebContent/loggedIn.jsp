@@ -2,6 +2,9 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
+
+	<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 	<%@include file="header.jsp"%>
 	<body>	
 		<%{
@@ -15,8 +18,17 @@
 			</div>
 			<div class="col-md-3"></div>
 			<div class="col-md-1">
-					<a href="MessageServlet.do" method="POST">
-						<span class="badge"><%= session.getAttribute("messages") %></span><span class="glyphicon glyphicon-envelope" > </span> 
+					<a href="MessageServlet.do" method="POST">	
+					<c:set var="val" value="${sessionScope.messages}"/>
+					<c:choose> 
+					<c:when test="${val == 0}">
+						<span class="glyphicon glyphicon-envelope" > </span>			
+					  </c:when>
+					  <c:when test="${val != 0}">
+					    <span class="badge"><%=session.getAttribute("messages")%></span><span class="glyphicon glyphicon-envelope" > </span> 
+					  </c:when>
+					</c:choose>
+						
 					</a>
 			</div>
 		</div>
