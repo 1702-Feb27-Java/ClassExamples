@@ -91,9 +91,45 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public boolean ApplyForReim(int e_id, String Location, int start_date, int end_date, int course_time,
-			int course_cost, int reim_amt, int reim_id, int app_num, int course_id, int grade_type, String grade) {
-		// TODO Auto-generated method stub
+	public boolean ApplyForReim(String Username, String Location, int add_date, int start_date, int end_date, int course_time, int course_cost,
+			 int app_num, int course_id, int grade_type, String grade) {
+		//setting boolean to false
+		boolean applyed = false;
+		
+		try (Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			/*
+			 * 
+			 * EMP_ID, LOCATION_, ADD_DATE, START_DATE_COURSE, END_DATE_COURSE, TIME_COURSE, COURSE_COST,
+  				APPROVAL_ID, COURSE_ID, GRADE_TYPE_ID, GRADE
+			 */
+			String SQL = "CALL REIMBURSTMENT_APPLY(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			CallableStatement cs = connect.prepareCall(SQL);
+			
+			cs.setString(1, Username);
+			cs.setString(2, Location);
+			cs.setInt(3, add_date);
+			cs.setInt(4, start_date);
+			cs.setInt(5, end_date);
+			cs.setInt(5, course_time);
+			cs.setInt(7, course_cost);
+			cs.setInt(8, app_num);
+			cs.setInt(9, course_id);
+			cs.setInt(10, grade_type);
+			cs.setString(11, grade);
+			
+			cs.executeUpdate();
+			connect.commit();
+			
+			//Switching boolean to true;
+			applyed = true;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		return false;
 	}
 

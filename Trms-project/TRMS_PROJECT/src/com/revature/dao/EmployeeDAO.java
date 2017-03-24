@@ -18,6 +18,6 @@ public interface EmployeeDAO {
 	//any further methods will be added upon further evaluation.
 	
 	public ArrayList<Employee> SignInEmployee(String Username, String Password);
-	public boolean ApplyForReim(int e_id, String Location, int start_date, int end_date, int course_time, int course_cost, int reim_amt,
-			int reim_id, int app_num, int course_id, int grade_type, String grade);
+	public boolean ApplyForReim(String Username, String Location, int add_date, int start_date, int end_date, int course_time, int course_cost,
+			 int app_num, int course_id, int grade_type, String grade);
 }

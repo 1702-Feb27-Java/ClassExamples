@@ -1,6 +1,6 @@
 package com.revature.test;
 import com.revature.dao.*;
-import com.revature.connect.*;
+
 
 /**
  * Main class to test out DAO methods to see if they work.
@@ -13,7 +13,7 @@ public class MainTest {
 		// TODO Auto-generated method stub
 		
 		String user_name = "nperez";
-		String pass_word = "admin222";
+		String pass_word = "admin";
 		
 		EmployeeDAOImpl this_emp = new EmployeeDAOImpl();
 		

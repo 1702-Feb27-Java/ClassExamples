@@ -212,3 +212,22 @@ BEGIN
   money := Allow;
 END;
 /
+
+--creating procedure for inserting into the reimbursmnet table 
+--NOTE approval id will start at 1 which is pending
+--reimbursment amount will zero to begin with
+CREATE OR REPLACE PROCEDURE REIMBURSTMENT_APPLY(USERN in VARCHAR, LOCA in VARCHAR, DATE_ADD in NUMBER, course_start in NUMBER, course_end in NUMBER,
+course_len in NUMBER, course_cost in NUMBER, app_id in number, course_id in number, grade_id in number, grade in varchar)
+IS
+  emp_id number;
+  --ID_COURSE number;
+BEGIN
+
+  --SELECTINT EMP ID FORM EMPLOYEE TABLE
+  SELECT EMP_ID INTO emp_id FROM EMPLOYEE where USERNAME = USERN;
+  
+  INSERT INTO REIMBURSTMENT(EMP_ID, LOCATION_, ADD_DATE, START_DATE_COURSE, END_DATE_COURSE, TIME_COURSE, COURSE_COST,
+  APPROVAL_ID, COURSE_ID, GRADE_TYPE_ID, GRADE)
+  VALUES(emp_id, LOCA, DATE_ADD, course_start, course_end, course_len, course_cost, 1, course_id, grade_id, grade);
+END;
+/
