@@ -88,4 +88,14 @@
     <servlet-name>LogoutServlet</servlet-name>
     <url-pattern>/LogoutServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EditReimbursementServlet</display-name>
+    <servlet-name>EditReimbursementServlet</servlet-name>
+    <servlet-class>servlets.EditReimbursementServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditReimbursementServlet</servlet-name>
+    <url-pattern>/EditReimbursementServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

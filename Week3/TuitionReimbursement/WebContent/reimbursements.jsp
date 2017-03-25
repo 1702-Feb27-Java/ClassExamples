@@ -43,55 +43,64 @@
 		        <th>Approval Step</th>
 		        <th>Event Date</th>
 		        <th>Date Filled out</th>
+		        <th>View Reimbursement</th>
 		    </tr>
 		    <c:forEach items="${reimbursements}" var="reimbursement">
-		    <tr>
-		     	<td>
-		            <c:out value="${reimbursement.getReimbId()}" />
-		        </td>
-		        <td>
-		            <c:out value="${reimbursement.getEvent()}" />
-		        </td>
-		        <td>
-		            <c:out value="${reimbursement.getTime()}" />
-		        </td>
-		        <td>
-		            <c:out value="${reimbursement.getDescription()}" />
-		        </td>
-		        <td>
-		            <c:out value="${reimbursement.getCost()}" />
-		        </td>
-		        <td>
-		            <c:out value="${reimbursement.getLocation()}" />
-		        </td>
-		        <td>
-		            <c:out value="${reimbursement.getGrading()}" />
-		        </td>
-		        <td>
-		            <c:out value="${reimbursement.getTypeOfEvent()}" />
-		        </td>
-		        <td>
-		            <c:out value="${reimbursement.getApprovalStep()}" />
-		        </td>
-		        <td>
-		            <c:out value="${reimbursement.getEventDate()}" />
-		        </td>
-		        <td>
-		            <c:out value="${reimbursement.getFormDate()}" />
-		        </td>
-		    </tr>
+		   <!--  <form action="" -->
+		   <form action="EditReimbursementServlet.do" method="POST">
+			    <tr id="${reimbursement.getReimbId()}">
+			    	<input type="hidden" name="reimbId" value="${reimbursement.getReimbId()}" style="visibility:hidden;">
+			     	<td>
+			            <c:out value="${reimbursement.getReimbId()}" />
+			        </td>
+			        <td>
+			            <c:out value="${reimbursement.getEvent()}" />
+			        </td>
+			        <td>
+			            <c:out value="${reimbursement.getTime()}" />
+			        </td>
+			        <td>
+			            <c:out value="${reimbursement.getDescription()}" />
+			        </td>
+			        <td>
+			            <c:out value="${reimbursement.getCost()}" />
+			        </td>
+			        <td>
+			            <c:out value="${reimbursement.getLocation()}" />
+			        </td>
+			        <td>
+			            <c:out value="${reimbursement.getGrading()}" />
+			        </td>
+			        <td>
+			            <c:out value="${reimbursement.getTypeOfEvent()}" />
+			        </td>
+			        <td>
+			            <c:out value="${reimbursement.getApprovalStep()}" />
+			        </td>
+			        <td>
+			            <c:out value="${reimbursement.getEventDate()}" />
+			        </td>
+			        <td>
+			            <c:out value="${reimbursement.getFormDate()}" />
+			        </td>
+			        <td>
+			        	<button type="submit">${reimbursement.getReimbId()}</button>
+			       	</td>
+			    </tr>
+		    </form>
 		    </c:forEach>
 		</table>
+		<p id="pid"></p>
 		</div>
 		<div class="col-md-2"></div>
 </div>
 
-	<script>
+<!-- 	<script>
 	function addRowHandlers() {
 	    var table = document.getElementById("tableId");
 	    var rows = table.getElementsByTagName("tr");
 	    for (i = 0; i < rows.length; i++) {
-	        var currentRow = table.rows[i];
+	        var currentRow = table.rows[i]	;
 	        var createClickHandler = 
 	            function(row) 
 	            {
@@ -99,7 +108,9 @@
 	                				
 	                                        var cell = row.getElementsByTagName("td")[0];
 	                                        var id = cell.innerHTML;
-	                                        alert("id:" + id);
+	                                        console.log(id);
+	                                        document.getElementById(id).children[0].setAttribute("blah", "rid");
+	                                        //$("#pid").append("<form action=LoginServlet.do action=post><p name='id' value=" + id + "> </p></form>");
 	                                 };
 	            };
 
@@ -107,7 +118,7 @@
 	    }
 	}
 	window.onload = addRowHandlers();
-	</script>
+	</script> -->
 	
 </body>
 </html>
