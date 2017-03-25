@@ -1,0 +1,155 @@
+<!--
+	DAY 20: jQuery Practice
+-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Day 20: jQuery Practice</title>
+	<style>
+		body {
+			padding-left: 50px;
+			padding-right: 50px
+		}
+		
+		section {
+			padding-top: 20px;
+			padding-bottom: 20px;
+		}
+		
+		.demo {
+			padding: 20px;
+		}
+		
+		#ajax-response {
+			border: 1px inset black;
+			padding: 10px;
+		}
+		
+		hr {
+			width: 35%;
+		}
+		
+		td {
+			padding: 10px;
+		}
+		
+		.class {
+			text-align: center;
+		}
+	</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="Day20jQueryPracticeReady.js"></script>
+</head>
+<body>
+
+	<header>
+		<h1>jQuery Practice</h1>
+	</header>
+
+	<section>
+		<h2>ready()</h2>
+		
+		<p>jQuery provides the <code>ready()</code> function which will execute when the web page has fully loaded. Attach it to the document object: <code>$(document).ready(function(){/*code to execute*/});</code></p>
+	</section>
+
+	<hr>
+	
+	<section>
+		<h2>show(), hide(), toggle()</h2>
+	
+		<p>jQuery's <code>show()</code> and <code>hide()</code> functions show or hide an element within the DOM.</p>
+		
+		<div class="demo">
+			<button onclick="$('p').show()">Show all &lt;p&gt; tags on this page</button> 
+			<button onclick="$('p').hide()">Hide all &lt;p&gt; tags on this page</button>
+		</div>
+		
+		<p>It is also possible to pass in an argument for the number of milliseconds over which the showing/hiding should take place over (animates the showing/hiding).</p>
+		
+		<div class="demo">
+			<button onclick="$('p').show(500)">Show all &lt;p&gt; tags on this page over 500 ms</button>
+			<button onclick="$('p').hide(500)">Hide all &lt;p&gt; tags on this page over 500 ms</button>
+		</div>
+		
+		<p>Alternatively, the <code>toggle()</code> function toggles the showing/hiding state of an element within the DOM. It also takes in a number-of-milliseconds argument.</p>
+		
+		<div class="demo">
+			<button onclick="$('p').toggle()">Toggle all &lt;p&gt; tags</button>
+		</div>
+		
+	</section>
+	
+	<hr>
+	
+	<section>
+		<h2>append(), val()</h2>
+		
+		<p>jQuery's <code>append()</code> function adds an element as a child to another element.</p>
+		
+		<p>jQuery's <code>val()</code> function gets the value of an input field. Passing in an argument, like <code>val(12)</code> assigns to it.</p>
+		
+		<div class="demo">
+			Input a value: <input type="text" id="input">
+			<button id="add">Add Input to table</button><br>
+			<div id="new"></div>
+		</div>
+	</section>
+	
+	<hr>
+	
+	<section>
+		<h2>parents(), parentsUntil(); children(), find(); siblings(), next(), nextAll(), nextUntil(), prev(), prevAll(), prevUntil()</h2>
+		
+		<h3>Parents of elements</h3>
+		
+		<p>jQuery's <code>parents()</code> function will return a list containing all the parent elements of an element. The <code>parentsUntil()</code> function takes in a string of a tag and will return all parents until it encounters that tag.</p>
+		
+		<h3>Children of elements</h3>
+		
+		<p>jQuery's <code>children()</code> function will return a list containing all the child elements of an element. The <code>find()</code> function takes in an selector argument for finding particular children that match the selector given.</p>
+		
+		<h3>Siblings of elements</h3>
+		<p>jQuery's <code>siblings()</code> function will return a list containing all the sibling elements of an element.</p>
+	</section>
+	
+	<hr>
+	
+	<section>
+		<h2>AJAX</h2>
+		
+		<h3>XMLHttpRequest object</h3>
+		
+		<p>TODO</p>
+		
+		<h3>readyState, readystatechange</h3>
+		
+		<p>The XMLHttpRequest object has 5 states, indexed 0 - 4, and the current state can be accessed in the <code>readyState</code> property. Each time this state changes, the <code>readystatechange</code> event is fired, so it is possible to act on a certain state. For example, you could write out the response only when the request and finished and a response returned.</p>
+		
+		<h3>open(); send(); response, responseText, responseXML</h3>
+		
+		<p>TODO</p>
+		
+		<div class="demo">
+			<button id="ajax">Start AJAX Request</button>
+			<div id="ajax-response"></div>
+		</div>
+	</section>
+	
+	<section>
+		<h2>Pokeapi via AJAX</h2>
+		
+		<p><a href="https://pokeapi.co">Pokeapi Home</a></p>
+		<p><a href="https://pokeapi.co/docsv2/#pokemon-section">Pokeapi Documentation</a></p>
+		
+		<div class="demo">
+			Pokemon no:
+			<input type="text" id="pokemonno">
+			<button id="pokeapi">Get Pokemon!</button>
+			<div id="pokeapi-box">
+			</div>
+		</div>
+	</section>
+	
+</body>
+</html>
