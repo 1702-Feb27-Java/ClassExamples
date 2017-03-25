@@ -29,9 +29,10 @@
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
-		<table >
+		<table id="tableId">
 		    <!-- here should go some titles... -->
 		    <tr>
+		    	<th>Reimb Id</th>
 		        <th>Event</th>
 		        <th>Time</th>
 		        <th>Description</th>
@@ -45,6 +46,9 @@
 		    </tr>
 		    <c:forEach items="${reimbursements}" var="reimbursement">
 		    <tr>
+		     	<td>
+		            <c:out value="${reimbursement.getReimbId()}" />
+		        </td>
 		        <td>
 		            <c:out value="${reimbursement.getEvent()}" />
 		        </td>
@@ -81,5 +85,32 @@
 		</div>
 		<div class="col-md-2"></div>
 </div>
+
+	<script>
+	function addRowHandlers() {
+	    var table = document.getElementById("tableId");
+	    var rows = table.getElementsByTagName("tr");
+	    for (i = 0; i < rows.length; i++) {
+	        var currentRow = table.rows[i];
+	        var createClickHandler = 
+	            function(row) 
+	            {
+	                return function() { 
+	                				
+	                                        var cell = row.getElementsByTagName("td")[0];
+	                                        var id = cell.innerHTML;
+	                                        alert("id:" + id);
+	                                 };
+	            };
+
+	        currentRow.onclick = createClickHandler(currentRow);
+	    }
+	}
+	window.onload = addRowHandlers();
+	</script>
+	
 </body>
 </html>
+
+
+

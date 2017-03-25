@@ -417,13 +417,14 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				int approvalStepId = rs.getInt(15);
 				Date eventDate = rs.getDate(5);
 				Date formDate = rs.getDate(8);
+				int reimbId = rs.getInt(1);
 				
 				
 				
 			
 				
 				Reimbursement r = new Reimbursement(event, time, description, cost, locationId, 
-												gradingId, typeOfEventId, approvalStepId, eventDate, formDate);
+												gradingId, typeOfEventId, approvalStepId, eventDate, formDate, reimbId);
 				reimbursements.add(r);
 				
 				r = null;

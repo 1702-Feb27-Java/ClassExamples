@@ -50,9 +50,9 @@ public class ReimbursementsServlet extends HttpServlet {
 		ses.setAttribute("locationsList", locations);
 		ses.setAttribute("gradingTypes", gradingTypes);
 		ses.setAttribute("eventTypes", eventTypes);
-		System.out.println("test");
+		
 		ArrayList<Reimbursement> reimbursements = serveEmp.getReimbursements(empId);
-		System.out.println(reimbursements);
+		
 		ses.setAttribute("reimbursements", reimbursements);
 		request.setAttribute("reimbursements", reimbursements);
 		

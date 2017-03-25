@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class Reimbursement {
 	String event, time, description, grading, approvalStep, location, typeOfEvent;
-	int locationId, gradingId, typeOfEventId, approvalStepId, cost;
+	int locationId, gradingId, typeOfEventId, approvalStepId, cost, reimbId;
 	Date eventDate, formDate;
 	public Reimbursement(String event, String time, String description, int cost, int locationId, int gradingId,
-			int typeOfEventId, int approvalStepId, Date eventDate, Date formDate) {
+			int typeOfEventId, int approvalStepId, Date eventDate, Date formDate, int reimbId) {
 		super();
 		this.event = event;
 		this.time = time;
@@ -19,6 +19,7 @@ public class Reimbursement {
 		this.approvalStepId = approvalStepId;
 		this.eventDate = eventDate;
 		this.formDate = formDate;
+		this.reimbId = reimbId;
 	}
 	public String getEvent() {
 		return event;
@@ -104,13 +105,19 @@ public class Reimbursement {
 	public void setFormDate(Date formDate) {
 		this.formDate = formDate;
 	}
+	public void setReimbId(int reimbId) {
+		this.reimbId = reimbId;
+	}
+	public int getReimbId() {
+		return reimbId;
+	}
 	@Override
 	public String toString() {
 		return "Reimbursement [event=" + event + ", time=" + time + ", description=" + description + ", grading="
 				+ grading + ", approvalStep=" + approvalStep + ", location=" + location + ", typeOfEvent=" + typeOfEvent
 				+ ", locationId=" + locationId + ", gradingId=" + gradingId + ", typeOfEventId=" + typeOfEventId
 				+ ", approvalStepId=" + approvalStepId + ", cost=" + cost + ", eventDate=" + eventDate + ", formDate="
-				+ formDate + "]";
+				+ formDate + ", reimbId=" + reimbId + "]";
 	}
 
 	
