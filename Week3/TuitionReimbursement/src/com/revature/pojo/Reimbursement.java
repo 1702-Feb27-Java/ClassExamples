@@ -21,6 +21,9 @@ public class Reimbursement {
 		this.formDate = formDate;
 		this.reimbId = reimbId;
 	}
+	public Reimbursement(){
+		
+	}
 	public String getEvent() {
 		return event;
 	}

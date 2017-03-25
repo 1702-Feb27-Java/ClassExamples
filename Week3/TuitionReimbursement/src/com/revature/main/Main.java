@@ -36,6 +36,7 @@ public class Main {
 		//System.out.println(serveEmp.loginEmployee("mLin", "password"));
 		//serveEmp.getReimbursements(3);
 		//System.out.println(serveEmp.getAllGradingTypes());
+		serveEmp.getReimbursementById(7);
 	}
 	
 	public static void startTimer(){

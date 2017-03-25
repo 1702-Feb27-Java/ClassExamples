@@ -550,4 +550,54 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		
 		return approvalStep;
 	}
+
+	
+	@Override
+	public Reimbursement getReimbursementByid(int reimbId) {
+		Reimbursement reimbursement = new Reimbursement();
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			String sql = "SELECT * FROM REIMBURSEMENT"
+					+ " WHERE REIMB_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, reimbId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				String event = rs.getString(4);
+				String time = rs.getString(6);
+				String description = rs.getString(9);
+				int cost = rs.getInt(10);
+				int locationId = rs.getInt(7);
+				int gradingId = rs.getInt(11);
+				int typeOfEventId = rs.getInt(12);
+				int approvalStepId = rs.getInt(15);
+				Date eventDate = rs.getDate(5);
+				Date formDate = rs.getDate(8);
+				
+				reimbursement.setReimbId(reimbId);
+				reimbursement.setEvent(event);
+				reimbursement.setTime(time);
+				reimbursement.setDescription(description);
+				reimbursement.setCost(cost);
+				reimbursement.setLocationId(locationId);
+				reimbursement.setGradingId(gradingId);
+				reimbursement.setTypeOfEventId(typeOfEventId);
+				reimbursement.setApprovalStepId(approvalStepId);
+				reimbursement.setEventDate(eventDate);
+				reimbursement.setFormDate(formDate);
+			}
+			
+			connect.commit();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return reimbursement;
+	}
 }

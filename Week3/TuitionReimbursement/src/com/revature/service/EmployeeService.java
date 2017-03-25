@@ -125,4 +125,22 @@ public class EmployeeService {
 		//System.out.println(reimbursements);
 		return reimbursements;
 	}
+
+	public Reimbursement getReimbursementById(int reimbId){
+		Reimbursement reimbursement = daoEmp.getReimbursementByid(reimbId);
+		System.out.println(reimbursement);
+		
+		String location = daoEmp.getLocation(reimbursement.getLocationId());
+		String grading = daoEmp.getGrading(reimbursement.getGradingId());
+		String typeOfEvent = daoEmp.getTypeOfEvent(reimbursement.getTypeOfEventId());
+		String approvalStep = daoEmp.getApprovalStep(reimbursement.getApprovalStepId());
+		
+		reimbursement.setLocation(location);
+		reimbursement.setGrading(grading);
+		reimbursement.setTypeOfEvent(typeOfEvent);
+		reimbursement.setApprovalStep(approvalStep);
+		
+		System.out.println(reimbursement);
+		return reimbursement;
+	}
 }

@@ -16,8 +16,12 @@
 		    border: 1px solid black;
 		}
 		td {
-			border: 1px solid black;
-			
+			border: 1px solid black;	
+		}
+		button {
+			border-radius: 25px;
+    		border: 2px solid #73AD21;
+    		width: 100%;
 		}
 	</style>
 </head>
@@ -32,7 +36,6 @@
 		<table id="tableId">
 		    <!-- here should go some titles... -->
 		    <tr>
-		    	<th>Reimb Id</th>
 		        <th>Event</th>
 		        <th>Time</th>
 		        <th>Description</th>
@@ -50,9 +53,6 @@
 		   <form action="EditReimbursementServlet.do" method="POST">
 			    <tr id="${reimbursement.getReimbId()}">
 			    	<input type="hidden" name="reimbId" value="${reimbursement.getReimbId()}" style="visibility:hidden;">
-			     	<td>
-			            <c:out value="${reimbursement.getReimbId()}" />
-			        </td>
 			        <td>
 			            <c:out value="${reimbursement.getEvent()}" />
 			        </td>

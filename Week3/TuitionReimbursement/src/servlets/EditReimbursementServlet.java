@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.revature.pojo.Reimbursement;
+import com.revature.service.EmployeeService;
+
 /**
  * Servlet implementation class EditReimbursementServlet
  */
@@ -26,13 +29,14 @@ public class EditReimbursementServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		EmployeeService serveEmp = new EmployeeService();
+		
 		PrintWriter out = response.getWriter();
 		int reimbId = Integer.parseInt(request.getParameter("reimbId"));
-		//System.out.println(reimbId);
+		Reimbursement reimbursement = serveEmp.getReimbursementById(reimbId);
 		out.println("<html>");
 		out.println("<body>");
-		out.println("<h1>" + reimbId + "</h1>");
-		//out.println("<h1>heroooooooo preasseeeeee</h1>");
+		out.println("<h1>" + reimbursement.toString() + "</h1>");
 		out.println("</body>");
 		out.println("</html>");
 	}
