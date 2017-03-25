@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="resources/js/examples.js"></script>
+		
+		<meta charset="ISO-8859-1">
+		<title>Insert title here</title>
+	</head>
+	<body>
+		<p class="thisGuy" id="thisGuy"> This paragraph specifically</p>
+		<p> This is a p </p>
+		<p> This is a p </p>
+		<p> This is a p </p>
+		<p> This is a p </p>
+		<p> This is a p </p>
+
+		<button onclick="$('p').hide(1000)">Hide test</button>
+		<br>
+		<button onclick="$('.thisGuy').hide(1000)">Hide this guy test</button>
+		<br>
+		<button onclick="$('#thisGuy').show(1000)">Show this guy test</button>
+		<br>
+		<button onclick="$('p').show(1000)">show test</button>
+		<br>
+		<button onclick="$('p').toggle(500)">toggle test</button>
+		<br>
+		
+		<input id="inputSomething" type="text">	
+		<button id="addSomething"> Add it!</button>
+		<div id="newStuff">
+		
+		</div>
+		
+		<hr>
+		<input type="text" id="check">	
+		<button id="AJAXButton"> AJAXButton</button>	
+		<p id="output"> </p>
+		<table id="pokemonTable" border="2">
+		</table>
+		
+<!-- ------------------------------------------------------------------------------- >
+				SCRIPT 	
+< ------------------------------------------------------------------------------- -->	
+		<script>
+/* 			var xhtml = new XMLHttpRequest();
+			console.log("here");
+			xhtml.onreadystatechange= function()
+									{
+										if (xhtml.readyState == 4)
+										{
+											document.getElementById("output").innerHTML = this.responseText;	
+										}
+										//xhtml.open("GET", "resources/XML/stuff.xml", true);
+									}
+			xhtml.open("GET", "resources/XML/stuff.xml", true);
+			//TRUE = ASYNCHRONOUS
+				//CAN DO MORE STUFF WHILE WAITING FOR RESPONSE
+			//FALSE = SYNCHRONOUS
+				//WAITS FOR RESPONSE
+			xhtml.send();
+			
+			//jQuery version
+			//$("#output").load("resource/XML/myTextFile.txt"); */
+		
+//======================================== POKEMON =============================================================================================
+			
+			//$("#AJAXButton").addEventListener("click", getExample(),false);
+			$("#AJAXButton").click(function()
+					{
+						var num = $("#check").val();
+						$.get("http://pokeapi.co/api/v2/pokemon/"+ num+ "/", function (data,status)
+															{
+																$("#pokemonTable").empty();
+																//NAME
+																var x = $("<td></td>").text(data.name);
+																var y = $("<tr></tr>").text("Name");
+																y.append(x);
+																$("#pokemonTable").append(y);
+																//WEIGHT
+																x = $("<td></td>").text(data.weight);
+																y = $("<tr></tr>").text("Weight");
+																y.append(x);
+																$("#pokemonTable").append(y);
+																//HEIGHT
+																x = $("<td></td>").text(data.height);
+																y = $("<tr></tr>").text("Height");
+																y.append(x);
+																$("#pokemonTable").append(y);
+																//PICTURE
+																x = $("<td></td>")
+																z = $("<img></>").attr("src",data.sprites.front_default)
+																x.append(z);
+																z = $("<img></>").attr("src",data.sprites.front_shiny)
+																x.append(z);
+																y = $("<tr></tr>").text("Picture");
+																y.append(x);
+																$("#pokemonTable").append(y);
+															}
+						);
+					});
+		</script>	
+		
+	</body>
+</html>
