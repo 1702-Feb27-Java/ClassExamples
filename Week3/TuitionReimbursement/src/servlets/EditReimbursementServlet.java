@@ -3,6 +3,7 @@ package servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,11 @@ public class EditReimbursementServlet extends HttpServlet {
 		out.println("<h1>" + reimbursement.toString() + "</h1>");
 		out.println("</body>");
 		out.println("</html>");
+		request.setAttribute("reimbursement", reimbursement);
+		
+		String nextJSP = "/editReimbursement.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
+		dispatcher.forward(request,response);
 	}
 
 	/**

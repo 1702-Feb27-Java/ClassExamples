@@ -48,5 +48,6 @@ public interface DAOEmployee {
 	public String getApprovalStep(int approvalId);
 	
 	public Reimbursement getReimbursementByid(int reimbId);
-	
+
+	public boolean submitEdit(int reimbId, Reimbursement reimbursement);
 }

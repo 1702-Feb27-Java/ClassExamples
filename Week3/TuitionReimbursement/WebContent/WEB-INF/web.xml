@@ -98,4 +98,14 @@
     <servlet-name>EditReimbursementServlet</servlet-name>
     <url-pattern>/EditReimbursementServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SubmitEditServlet</display-name>
+    <servlet-name>SubmitEditServlet</servlet-name>
+    <servlet-class>servlets.SubmitEditServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SubmitEditServlet</servlet-name>
+    <url-pattern>/SubmitEditServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

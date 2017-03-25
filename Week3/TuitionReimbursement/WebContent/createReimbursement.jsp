@@ -4,17 +4,7 @@
 <html>
 	<%@include file="header.jsp" %>
 	<body>
-		<div class="row">
-			<div class="col-md-4"></div>
-			<div class="col-md-4">
-				<h1>Logged in as: <%= session.getAttribute("uId") %></h1>
-			</div>
-			<div class="col-md-3"></div>
-			<div class="col-md-1">
-				<span class="badge">5</span><span class="glyphicon glyphicon-envelope" > </span>
-			</div>
-		</div>
-		<br><br><br><br><br><br>
+		<br><br>
 		<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 		<h1>Reimbursement Form</h1><br>
 		<div class="row text-center">

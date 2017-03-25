@@ -11,27 +11,6 @@
 			session.setAttribute("uId", request.getAttribute("id"));
 		}%>
 		
-		<div class="row">
-			<div class="col-md-4"></div>
-			<div class="col-md-4">
-				<h1>Logged in as: <%= request.getAttribute("id") %></h1>
-			</div>
-			<div class="col-md-3"></div>
-			<div class="col-md-1">
-					<a href="MessageServlet.do" method="POST">	
-					<c:set var="val" value="${sessionScope.messages}"/>
-					<c:choose> 
-					<c:when test="${val == 0}">
-						<span class="glyphicon glyphicon-envelope" > </span>			
-					  </c:when>
-					  <c:when test="${val != 0}">
-					    <span class="badge"><%=session.getAttribute("messages")%></span><span class="glyphicon glyphicon-envelope" > </span> 
-					  </c:when>
-					</c:choose>
-						
-					</a>
-			</div>
-		</div>
 		<br><br><br><br><br><br>
 		
 		<div class="row text-center">

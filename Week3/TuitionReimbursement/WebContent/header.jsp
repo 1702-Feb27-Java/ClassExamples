@@ -48,6 +48,8 @@
 	</head>
 	
 	<body>
+	
+	<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>	
 
 		<nav class="navbar navbar-default">
 		  <div class="container-fluid">
@@ -87,6 +89,29 @@
 			</div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
+		
+				<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+				<h1>Logged in as: <%= session.getAttribute("uId") %></h1>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-1">
+					<a href="MessageServlet.do" method="POST">	
+					<c:set var="val" value="${sessionScope.messages}"/>
+					<c:choose> 
+					<c:when test="${val == 0}">
+						<span class="glyphicon glyphicon-envelope" > </span>			
+					  </c:when>
+					  <c:when test="${val != 0}">
+					    <span class="badge"><%=session.getAttribute("messages")%></span><span class="glyphicon glyphicon-envelope" > </span> 
+					  </c:when>
+					</c:choose>
+						
+					</a>
+			</div>
+		</div>
+		
 		
 	</body>
 	</html>
