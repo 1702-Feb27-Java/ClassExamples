@@ -74,7 +74,7 @@ public class DAOImpl {
 *	@METHOD THAT VERIFYS THE USERNAME FOR UNIQUE
 *********************************************************************************************************
 */		
-	public static int insertEventData(Event ev, Tracking tk, int userid){
+	public static int insertEventData(Event ev, String roleId, int userid){
 		
 		java.sql.Date start = new java.sql.Date(ev.getStartDate().getTime());
 		java.sql.Date stop = new java.sql.Date(ev.getStopDate().getTime());
@@ -93,7 +93,7 @@ public class DAOImpl {
 			cs.setString(8, ev.getGradeFormat());
 			cs.setString(9, ev.getEventType());
 			cs.setString(10, ev.getPriority());
-			cs.setString(11, tk.getRoleId());
+			cs.setString(11, roleId);
 			cs.setInt(12, userid);  //get the users real id, hard coded
 			int numRows = cs.executeUpdate();
 			connect.commit();
@@ -232,7 +232,7 @@ public static ArrayList<Tracking> getTrackingStats(int userid) {
 		
 		try (Connection connect = FactoryConnection.getConnection();){
 			connect.setAutoCommit(false);
-			String sql = "SELECT DISTINCT s.STATUS, e.EVENTID, e.STARTDATE, e.STARTTIME, e.STOPDATE, e.LOCATION, e.DESCRIPTION, e.COST, e.JUSTIFICATION, gf.GFORMAT, et.EVENTTYPE, p.PRIORITY FROM EVENTS e INNER JOIN USEREVENTS ue ON e.EVENTID=ue.EVENTID INNER JOIN USERS u ON ue.USERID=u.USERID INNER JOIN GRADINGFORMATS gf ON e.GFORMATID=gf.GFORMATID INNER JOIN EVENTTYPES et ON e.EVENTTYPEID=et.EVENTTYPEID INNER JOIN EVENTTRACKING ek ON e.EVENTID=ek.EVENTID INNER JOIN TRACKING t ON ek.TRACKINGID=t.TRACKINGID INNER JOIN PRIORITYS p ON e.PRIORITYID=p.PRIORITYID INNER JOIN STATUS s ON t.STATUSID=s.STATUSID WHERE U.USERID=? AND ISCLOSED=0 ORDER BY EVENTID";
+			String sql = "SELECT DISTINCT s.STATUS, e.EVENTID, e.STARTDATE, e.STARTTIME, e.STOPDATE, e.LOCATION, e.DESCRIPTION, e.COST, e.JUSTIFICATION, gf.GFORMAT, et.EVENTTYPE, p.PRIORITY FROM EVENTS e INNER JOIN USEREVENTS ue ON e.EVENTID=ue.EVENTID INNER JOIN USERS u ON ue.USERID=u.USERID INNER JOIN GRADINGFORMATS gf ON e.GFORMATID=gf.GFORMATID INNER JOIN EVENTTYPES et ON e.EVENTTYPEID=et.EVENTTYPEID INNER JOIN EVENTTRACKING ek ON e.EVENTID=ek.EVENTID INNER JOIN TRACKING t ON ek.TRACKINGID=t.TRACKINGID INNER JOIN PRIORITYS p ON e.PRIORITYID=p.PRIORITYID INNER JOIN STATUS s ON t.STATUSID=s.STATUSID WHERE ISCLOSED=0 AND U.USERID=? ORDER BY EVENTID";
 			PreparedStatement ps = connect.prepareStatement(sql);		//user specifics
 			ps.setInt(1, userid);
 			ResultSet rs = ps.executeQuery();

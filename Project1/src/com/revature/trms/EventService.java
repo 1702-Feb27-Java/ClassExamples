@@ -17,9 +17,10 @@ public class EventService {
 		
 		Event e = new Event(startDate, startTime, stopDate, location, description,
 				cost, justify, gradeFormat, eventType, priority);
-		Tracking tk = new Tracking(roleId);
-	
-		DAOImpl.insertEventData(e, tk, userid);
+		
+		System.out.println(roleId);
+			
+		DAOImpl.insertEventData(e, roleId, userid);
 	}
 	
 	public static void deleteEvent(int userId, int eventId, double cost){

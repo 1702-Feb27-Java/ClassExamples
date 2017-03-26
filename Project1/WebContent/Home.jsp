@@ -51,7 +51,7 @@
 					<td><%=tList.get(i).getStatus()%></td>
 				</tr>
 			<%}%>
-		</table>
+		</table><br><br>
 		To view / change / delete the details of any request listed,<br>select from the drop down menu:
 		<%ArrayList<Event> getEventIds = DAOImpl.getEventNumbers(userid);%> 
 		<select name="eventId" required>
