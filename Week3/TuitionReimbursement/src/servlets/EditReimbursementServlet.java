@@ -32,14 +32,9 @@ public class EditReimbursementServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		EmployeeService serveEmp = new EmployeeService();
 		
-		PrintWriter out = response.getWriter();
 		int reimbId = Integer.parseInt(request.getParameter("reimbId"));
 		Reimbursement reimbursement = serveEmp.getReimbursementById(reimbId);
-		out.println("<html>");
-		out.println("<body>");
-		out.println("<h1>" + reimbursement.toString() + "</h1>");
-		out.println("</body>");
-		out.println("</html>");
+
 		request.setAttribute("reimbursement", reimbursement);
 		
 		String nextJSP = "/editReimbursement.jsp";

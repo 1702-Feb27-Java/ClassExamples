@@ -143,4 +143,12 @@ public class EmployeeService {
 		System.out.println(reimbursement);
 		return reimbursement;
 	}
+
+	public boolean submitEdit(int reimbId, ArrayList<String> attachmentLinks){
+		boolean link = false;
+		for(String s : attachmentLinks){
+			link = daoEmp.submitEdit(reimbId, s);
+		}
+		return link;
+	}
 }

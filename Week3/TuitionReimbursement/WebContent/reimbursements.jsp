@@ -18,7 +18,7 @@
 		td {
 			border: 1px solid black;	
 		}
-		button {
+		#subButton {
 			border-radius: 25px;
     		border: 2px solid #73AD21;
     		width: 100%;
@@ -34,7 +34,6 @@
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
 		<table id="tableId">
-		    <!-- here should go some titles... -->
 		    <tr>
 		        <th>Event</th>
 		        <th>Time</th>
@@ -48,8 +47,7 @@
 		        <th>Date Filled out</th>
 		        <th>View Reimbursement</th>
 		    </tr>
-		    <c:forEach items="${reimbursements}" var="reimbursement">
-		   <!--  <form action="" -->
+		    <c:forEach items="${reimbursements}" var="reimbursement">	
 		   <form action="EditReimbursementServlet.do" method="POST">
 			    <tr id="${reimbursement.getReimbId()}">
 			    	<input type="hidden" name="reimbId" value="${reimbursement.getReimbId()}" style="visibility:hidden;">
@@ -84,41 +82,14 @@
 			            <c:out value="${reimbursement.getFormDate()}" />
 			        </td>
 			        <td>
-			        	<button type="submit">${reimbursement.getReimbId()}</button>
+			        	<button id="subButton" type="submit">${reimbursement.getReimbId()}</button>
 			       	</td>
 			    </tr>
 		    </form>
 		    </c:forEach>
 		</table>
-		<p id="pid"></p>
 		</div>
-		<div class="col-md-2"></div>
 </div>
-
-<!-- 	<script>
-	function addRowHandlers() {
-	    var table = document.getElementById("tableId");
-	    var rows = table.getElementsByTagName("tr");
-	    for (i = 0; i < rows.length; i++) {
-	        var currentRow = table.rows[i]	;
-	        var createClickHandler = 
-	            function(row) 
-	            {
-	                return function() { 
-	                				
-	                                        var cell = row.getElementsByTagName("td")[0];
-	                                        var id = cell.innerHTML;
-	                                        console.log(id);
-	                                        document.getElementById(id).children[0].setAttribute("blah", "rid");
-	                                        //$("#pid").append("<form action=LoginServlet.do action=post><p name='id' value=" + id + "> </p></form>");
-	                                 };
-	            };
-
-	        currentRow.onclick = createClickHandler(currentRow);
-	    }
-	}
-	window.onload = addRowHandlers();
-	</script> -->
 	
 </body>
 </html>

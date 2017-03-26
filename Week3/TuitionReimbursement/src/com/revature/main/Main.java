@@ -1,5 +1,6 @@
 package com.revature.main;
 
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -36,7 +37,11 @@ public class Main {
 		//System.out.println(serveEmp.loginEmployee("mLin", "password"));
 		//serveEmp.getReimbursements(3);
 		//System.out.println(serveEmp.getAllGradingTypes());
-		serveEmp.getReimbursementById(7);
+		ArrayList<String> attachments = new ArrayList<String>();
+		attachments.add("attachment1.com/yes");
+		attachments.add("attachment2.net/no");
+		attachments.add("attachment3");
+		System.out.println(serveEmp.submitEdit(3, attachments));
 	}
 	
 	public static void startTimer(){

@@ -332,7 +332,8 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			connect.setAutoCommit(false);
 
 			String sql = "SELECT * FROM MESSAGE"
-					+ " WHERE EMP_ID = ?";
+					+ " WHERE EMP_ID = ?"
+					+ "AND READBOOLEAN = 0";
 			
 			PreparedStatement ps = connect.prepareStatement(sql);
 			
@@ -341,9 +342,11 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				Message m = new Message();
+				int messageId = rs.getInt(1);
 				String message = rs.getString(2);
 				int messagerId = rs.getInt(4);
 				
+				m.setMessageId(messageId);
 				m.setMessage(message);
 				m.setMessagerId(messagerId);
 				
@@ -602,4 +605,31 @@ public class DAOEmployeeImpl implements DAOEmployee{
 	}
 
 	
+	@Override
+	public boolean submitEdit(int reimbId, String attachmentLink) {
+		boolean link = false;
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			String sql = "INSERT INTO ATTACHMENT(ATTACHMENT_ID, ATTACHMENT, REIM_ID)"
+					+ "VALUES(1, ?, ?)";
+
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setString(1, attachmentLink);
+			ps.setInt(2, reimbId);
+			
+			ps.execute();
+			
+			connect.commit();
+			
+			link = true;
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		return link;
+	}
+
+
 }

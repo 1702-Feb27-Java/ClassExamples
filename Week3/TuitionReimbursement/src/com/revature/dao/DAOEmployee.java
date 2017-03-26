@@ -49,5 +49,8 @@ public interface DAOEmployee {
 	
 	public Reimbursement getReimbursementByid(int reimbId);
 
-	public boolean submitEdit(int reimbId, Reimbursement reimbursement);
+	public boolean submitEdit(int reimbId, String attachment);
+
+	
+	
 }

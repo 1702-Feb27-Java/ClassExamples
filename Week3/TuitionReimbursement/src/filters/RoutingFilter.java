@@ -79,6 +79,10 @@ public class RoutingFilter implements Filter {
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;
+		case "SubmitEditServlet":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
 		default:
 		}
 		

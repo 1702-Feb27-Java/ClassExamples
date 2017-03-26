@@ -10,7 +10,7 @@
 		<div class="row text-center">
 			<div class="col-sm-4"></div>
 			<div class="col-md-4">
-				<form action="SubmitReimbursement.do" method="POST">
+				<form action="SubmitEditServlet.do" method="POST">
 				  <div class="form-group">
 				    <label for="event">Event Name</label>
 				    <input type="text" required class="form-control" id="event" placeholder="Event" name="event" disabled value="${reimbursement.getEvent()}">
@@ -58,9 +58,13 @@
 				    <label for="time">Event Type</label>
 				    <input type="text" required class="form-control" id="eventType" placeholder="eventType" name="eventType" disabled value="${reimbursement.getTypeOfEvent()}">
 				  </div>
+				  <div class="form-group" style="visibility:hidden;">
+				    <label for="time">Reimb id</label>
+				    <input type="text" required class="form-control" id="reimbId" placeholder="reimbId" name="reimbId" value="${reimbursement.getReimbId()}">
+				  </div>
 				  <div class="form-group">
 				    <label for="exampleInputFile">File input</label>
-				    <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+				    <input type="file" class="form-control-file" id="fileInput" aria-describedby="fileHelp" name="fileInput">
 				    <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
 				  </div>
 				  <button type="submit" class="btn btn-primary">Submit Edit</button>
