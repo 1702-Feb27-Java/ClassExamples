@@ -727,4 +727,30 @@ public class DAOEmployeeImpl implements DAOEmployee{
 	}
 
 	
+	@Override
+	public int getDepartment(int empId) {
+		int department = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+	
+			String sql = "SELECT DEPT_ID FROM EMPLOYEE WHERE EMPLOYEE_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, empId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				department = rs.getInt(1);
+			}
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return department;
+	}
+
+	
 }

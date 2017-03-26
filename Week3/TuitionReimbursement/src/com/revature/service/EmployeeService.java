@@ -168,4 +168,9 @@ public class EmployeeService {
 		
 		return reimbursements;
 	}
+
+	public int getDepartment(int empId){
+		int department = daoEmp.getDepartment(empId);
+		return department;		
+	}
 }

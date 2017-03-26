@@ -58,8 +58,16 @@ public class LoginServlet extends HttpServlet {
 		
 		if(empId != 0){
 			int messages = serveEmp.getNumberOfMessages(empId);
+			int roleId = serveEmp.getRoleId(empId);
+			int deptId = serveEmp.getDepartment(empId);
+			
 			request.setAttribute("messages", messages);
+			request.setAttribute("roleId", roleId);
+			request.setAttribute("deptId", deptId);
+			
+			ses.setAttribute("roleId", roleId);
 			ses.setAttribute("messages", messages);
+			ses.setAttribute("deptId", deptId);
 		}
 		
 		if(empId == 0){

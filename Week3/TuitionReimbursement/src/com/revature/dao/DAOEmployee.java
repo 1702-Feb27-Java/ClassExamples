@@ -55,4 +55,6 @@ public interface DAOEmployee {
 	
 	public ArrayList<Integer> getEmployeesByDepartment(int departmentId);
 	
+	public int getDepartment(int empId);
+	
 }
