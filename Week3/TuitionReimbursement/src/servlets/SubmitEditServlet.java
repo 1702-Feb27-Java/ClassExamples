@@ -36,17 +36,12 @@ public class SubmitEditServlet extends HttpServlet {
 		attachmentLinks.add(fileInput);
 		int reimbId = Integer.parseInt(request.getParameter("reimbId"));
 		
-/*		PrintWriter out = response.getWriter();
-		out.println(fileInput);
-		out.println(reimbId);*/
 		serveEmp.submitEdit(reimbId, attachmentLinks);
 		  
 		
 		String nextJSP = "/reimbursements.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
 		dispatcher.forward(request,response);
-		
-		
 	}
 
 	/**

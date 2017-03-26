@@ -410,6 +410,9 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
+				Reimbursement reimbursement = new Reimbursement();
+				
+				int empId = rs.getInt(3);
 				String event = rs.getString(4);
 				String time = rs.getString(6);
 				String description = rs.getString(9);
@@ -422,15 +425,22 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				Date formDate = rs.getDate(8);
 				int reimbId = rs.getInt(1);
 				
+				reimbursement.setReimbId(reimbId);
+				reimbursement.setEmpId(empId);
+				reimbursement.setEvent(event);
+				reimbursement.setTime(time);
+				reimbursement.setDescription(description);
+				reimbursement.setCost(cost);
+				reimbursement.setLocationId(locationId);
+				reimbursement.setGradingId(gradingId);
+				reimbursement.setTypeOfEventId(typeOfEventId);
+				reimbursement.setApprovalStepId(approvalStepId);
+				reimbursement.setEventDate(eventDate);
+				reimbursement.setFormDate(formDate);
 				
+				reimbursements.add(reimbursement);
 				
-			
-				
-				Reimbursement r = new Reimbursement(event, time, description, cost, locationId, 
-												gradingId, typeOfEventId, approvalStepId, eventDate, formDate, reimbId);
-				reimbursements.add(r);
-				
-				r = null;
+				reimbursement = null;
 			}
 			
 			connect.commit();
@@ -631,5 +641,90 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		return link;
 	}
 
+	
+	@Override
+	public ArrayList<Reimbursement> getPendingReimbursementsByApprovalStep(int approvalStepId) {
+		ArrayList<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
 
+			String sql = "SELECT * FROM REIMBURSEMENT"
+					+ " WHERE APPROVAL_STEP_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, approvalStepId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				Reimbursement reimbursement = new Reimbursement();
+
+				int reimbId = rs.getInt(1);
+				int empId = rs.getInt(3);
+				String event = rs.getString(4);
+				String time = rs.getString(6);
+				String description = rs.getString(9);
+				int cost = rs.getInt(10);
+				int locationId = rs.getInt(7);
+				int gradingId = rs.getInt(11);
+				int typeOfEventId = rs.getInt(12);
+				Date eventDate = rs.getDate(5);
+				Date formDate = rs.getDate(8);
+				
+				reimbursement.setReimbId(reimbId);
+				reimbursement.setEmpId(empId);
+				reimbursement.setEvent(event);
+				reimbursement.setTime(time);
+				reimbursement.setDescription(description);
+				reimbursement.setCost(cost);
+				reimbursement.setLocationId(locationId);
+				reimbursement.setGradingId(gradingId);
+				reimbursement.setTypeOfEventId(typeOfEventId);
+				reimbursement.setApprovalStepId(approvalStepId);
+				reimbursement.setEventDate(eventDate);
+				reimbursement.setFormDate(formDate);
+				
+				reimbursements.add(reimbursement);
+			}
+			
+			connect.commit();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return reimbursements;
+	}
+
+	@Override
+	public ArrayList<Integer> getEmployeesByDepartment(int departmentId) {
+		ArrayList<Integer> employees = new ArrayList<Integer>();
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			String sql = "SELECT EMPLOYEE_ID FROM EMPLOYEE"
+					+ " WHERE DEPT_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, departmentId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				int empId = rs.getInt(1);
+				employees.add(empId);
+			}
+			
+			connect.commit();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return employees;
+	}
+
+	
 }

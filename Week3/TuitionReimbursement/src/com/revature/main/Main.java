@@ -37,11 +37,12 @@ public class Main {
 		//System.out.println(serveEmp.loginEmployee("mLin", "password"));
 		//serveEmp.getReimbursements(3);
 		//System.out.println(serveEmp.getAllGradingTypes());
-		ArrayList<String> attachments = new ArrayList<String>();
+/*		ArrayList<String> attachments = new ArrayList<String>();
 		attachments.add("attachment1.com/yes");
 		attachments.add("attachment2.net/no");
-		attachments.add("attachment3");
-		System.out.println(serveEmp.submitEdit(3, attachments));
+		attachments.add("attachment3");*/
+		System.out.println(serveEmp.getReimbursementsByApprovalStep(3, 3));
+		//serveEmp.getReimbursementsByApprovalStep(1, 3);
 	}
 	
 	public static void startTimer(){

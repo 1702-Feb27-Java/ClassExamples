@@ -7,6 +7,8 @@ import com.revature.dao.DAOEmployeeImpl;
 import com.revature.pojo.Message;
 import com.revature.pojo.Reimbursement;
 
+import jdk.nashorn.internal.runtime.RecompilableScriptFunctionData;
+
 public class EmployeeService {
 	
 	static DAOEmployeeImpl daoEmp = new DAOEmployeeImpl();
@@ -150,5 +152,20 @@ public class EmployeeService {
 			link = daoEmp.submitEdit(reimbId, s);
 		}
 		return link;
+	}
+
+	public ArrayList<Reimbursement> getReimbursementsByApprovalStep(int approvalStepId, int departmentId){
+		ArrayList<Reimbursement> tempReimbursements = daoEmp.getPendingReimbursementsByApprovalStep(approvalStepId);
+		ArrayList<Integer> employees = daoEmp.getEmployeesByDepartment(departmentId);
+		ArrayList<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
+		
+		for(Reimbursement r : tempReimbursements){
+			for(Integer empId : employees){
+				if(r.getEmpId() == empId)
+					reimbursements.add(r);
+			}
+		}
+		
+		return reimbursements;
 	}
 }
