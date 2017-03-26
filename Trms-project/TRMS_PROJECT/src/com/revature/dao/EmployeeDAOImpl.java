@@ -32,7 +32,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		
 		//Executing SQL below in try and catch block.
 		try( Connection connect = ConnectionUtil.getConnection();) {
-			
+			System.out.println("TEST");
 			//setting auto commit to false
 			connect.setAutoCommit(false);
 			
@@ -76,7 +76,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			}
 			else
 				System.out.println("Incorrect Password!");
-			
+				
 
 			//print out test
 			for ( Employee e: workers)
@@ -87,7 +87,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return workers;
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			cs.setInt(3, add_date);
 			cs.setInt(4, start_date);
 			cs.setInt(5, end_date);
-			cs.setInt(5, course_time);
+			cs.setInt(6, course_time);
 			cs.setInt(7, course_cost);
 			cs.setInt(8, app_num);
 			cs.setInt(9, course_id);
@@ -130,7 +130,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 		
 		
-		return false;
+		return applyed;
 	}
-
 }

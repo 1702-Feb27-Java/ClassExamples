@@ -23,6 +23,14 @@ public class ConnectionUtil {
 	
 	private ConnectionUtil() {
 		try {
+				try
+				{
+					Class.forName("oracle.jdbc.OracleDriver");
+				}
+				catch(ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
 			prop = new Properties();
 			fis = new FileInputStream("C:/Users/Nick/Documents/workspace-sts-3.8.3.RELEASE/TRMS_PROJECT/DBProp.properties");
 			prop.load(fis);
@@ -32,7 +40,7 @@ public class ConnectionUtil {
 			//System.out.println(pUrl);
 			//System.out.println(pUname);
 			//System.out.println(pPword);
-			System.out.println("Connection established");
+			//System.out.println("Connection established");
 			
 		} catch(FileNotFoundException e) {
 			e.printStackTrace();
@@ -52,7 +60,6 @@ public class ConnectionUtil {
 		if ( cU == null) {
 			cU = new ConnectionUtil();
 		}
-		
 		return DriverManager.getConnection(pUrl, pUname, pPword);
 	}
 	
