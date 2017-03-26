@@ -9,8 +9,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <style>
 	table {width:100%;}
-	th {text-align: center; font-weight:bold; font-size: 20px; padding: 10px;}
-	td {text-align: left;padding: 10px;}
+	.left {text-align: left; font-size: 15px; padding: 10px;}
+	.center {text-align: center; font-size: 15px; padding: 10px;}
+	th {font-weight: bold}
 
 </style>
 <title>Home</title>
@@ -32,23 +33,26 @@
 	<% 
 		ArrayList<Event> eventList = DAOImpl.getEventStats(userid);
 		ArrayList<Tracking> tList = DAOImpl.getTrackingStats(userid);
+		ArrayList<String> sList = DAOImpl.getSupervisorStats(userid);
 		session.setAttribute("eventList", eventList);
 		session.setAttribute("trackingList", tList);
+		session.setAttribute("suplist", sList);
 	%>
 	<form action="Details.jsp" method="POST">
 		<table>
-			<tr><th>EVENT-ID:</th><th style="text-align:left">EVENT:</th><th>START DATE:</th><th>START TIME:</th><th>STOP DATE:</th>
-				<th>LOCATION:</th><th>COST:</th><th>STATUS:</th></tr>
+			<tr><th = class="center">EVENT-ID:</th><th class="left">EVENT:</th><th class="center">START DATE:</th><th class="center">START TIME:</th><th class="center">STOP DATE:</th>
+				<th>LOCATION:</th><th class="center">COST:</th><th class="left">STATUS:</th><th class="left">CURRENTLY AT:</th></tr>
 				<% for (int i = 0; i < eventList.size();i++){%>
 				<tr>
-					<td style="text-align: center"><%=eventList.get(i).getEventId()%></td>
-					<td><%=eventList.get(i).getEventType()%></td>
-					<td style="text-align: center"><%=eventList.get(i).getStartDate()%></td>
-					<td style="text-align: center"><%=eventList.get(i).getStartTime()%></td>
-					<td style="text-align: center"><%=eventList.get(i).getStopDate()%></td>
-					<td><%=eventList.get(i).getLocation()%></td>
-					<td>$<%=eventList.get(i).getCost()%></td>
-					<td><%=tList.get(i).getStatus()%></td>
+					<td class="center"><%=eventList.get(i).getEventId()%></td>
+					<td class="left"><%=eventList.get(i).getEventType()%></td>
+					<td class="center"><%=eventList.get(i).getStartDate()%></td>
+					<td class="center"><%=eventList.get(i).getStartTime()%></td>
+					<td class="center"><%=eventList.get(i).getStopDate()%></td>
+					<td class="left"><%=eventList.get(i).getLocation()%></td>
+					<td class="center">$<%=eventList.get(i).getCost()%></td>
+					<td class="left"><%=tList.get(i).getStatus()%></td>
+					<td class="left"><%=sList.get(i)%></td>
 				</tr>
 			<%}%>
 		</table><br><br>
