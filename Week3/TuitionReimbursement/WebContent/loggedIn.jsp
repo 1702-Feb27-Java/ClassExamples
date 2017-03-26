@@ -25,12 +25,16 @@
 			  	</form>
 			  </div>
 		</div><br><br>
+		<%{
+			session.setAttribute("roleId", request.getAttribute("roleId"));
+			session.setAttribute("deptId", request.getAttribute("deptId"));
+		}%>
 		<c:choose>
 			<c:when test="${roleId == 2}">
 				<div class="row">
 					<div class="col-md-5"></div>
 					<div class="col-md-2">
-						<form>
+						<form action="PendingReimbursementsServlet.do" method="POST">
 					  		<button type="submit" class="btn btn-default btn-lg">Supervisor Button</button>
 					  	</form>
 					</div>
@@ -41,7 +45,7 @@
 				<div class="row">
 					<div class="col-md-5"></div>
 					<div class="col-md-2">
-					  	<form>
+					  	<form action="PendingReimbursementsServlet.do" method="POST">
 					  		<button type="submit" class="btn btn-default btn-lg">Department Head Button</button>
 					  	</form>
 					</div>
@@ -52,7 +56,7 @@
 				<div class="row">
 					<div class="col-md-5"></div>
 					<div class="col-md-2">
-					  	<form>
+					  	<form action="PendingReimbursementsServlet.do" method="POST">
 					  		<button type="submit" class="btn btn-default btn-lg">Benco Button</button>
 					  	</form>
 					</div>
@@ -60,21 +64,6 @@
 				</div>
 			</c:when>
 		</c:choose>
-<!-- 		<div class="row">
-			<div class="col-md-5"></div>
-			<div class="col-md-2">
-				<form>
-			  		<button type="submit" class="btn btn-default btn-lg">Supervisor Button</button>
-			  	</form>
-			  	<form>
-			  		<button type="submit" class="btn btn-default btn-lg">Department Head Button</button>
-			  	</form>
-			  	<form>
-			  		<button type="submit" class="btn btn-default btn-lg">Benco Button</button>
-			  	</form>
-			</div>
-			<div class="col-md-5"></div>
-		</div> -->
 	
 	
 		

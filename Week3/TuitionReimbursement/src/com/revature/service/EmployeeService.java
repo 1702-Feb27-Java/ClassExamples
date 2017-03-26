@@ -154,7 +154,7 @@ public class EmployeeService {
 		return link;
 	}
 
-	public ArrayList<Reimbursement> getReimbursementsByApprovalStep(int approvalStepId, int departmentId){
+	public ArrayList<Reimbursement> getReimbursements(int approvalStepId, int departmentId){
 		ArrayList<Reimbursement> tempReimbursements = daoEmp.getPendingReimbursementsByApprovalStep(approvalStepId);
 		ArrayList<Integer> employees = daoEmp.getEmployeesByDepartment(departmentId);
 		ArrayList<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
@@ -166,11 +166,41 @@ public class EmployeeService {
 			}
 		}
 		
+		for(Reimbursement r : reimbursements){
+			String location = daoEmp.getLocation(r.getLocationId());
+			String grading = daoEmp.getGrading(r.getGradingId());
+			String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
+			String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
+			
+			r.setLocation(location);
+			r.setGrading(grading);
+			r.setTypeOfEvent(typeOfEvent);
+			r.setApprovalStep(approvalStep);
+		}
+		
 		return reimbursements;
 	}
 
 	public int getDepartment(int empId){
 		int department = daoEmp.getDepartment(empId);
 		return department;		
+	}
+
+	public ArrayList<Reimbursement> getReimbursementsByApprovalStep(int approvalStepId){
+		ArrayList<Reimbursement> reimbursements = daoEmp.getPendingReimbursementsByApprovalStep(approvalStepId);
+		
+		for(Reimbursement r : reimbursements){
+			String location = daoEmp.getLocation(r.getLocationId());
+			String grading = daoEmp.getGrading(r.getGradingId());
+			String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
+			String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
+			
+			r.setLocation(location);
+			r.setGrading(grading);
+			r.setTypeOfEvent(typeOfEvent);
+			r.setApprovalStep(approvalStep);
+		}
+		
+		return reimbursements;
 	}
 }
