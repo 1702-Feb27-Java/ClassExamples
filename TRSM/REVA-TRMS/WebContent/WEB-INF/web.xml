@@ -28,4 +28,14 @@
     <servlet-name>LoginServ</servlet-name>
     <url-pattern>/LoginServ</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FormServ</display-name>
+    <servlet-name>FormServ</servlet-name>
+    <servlet-class>servlets.FormServ</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FormServ</servlet-name>
+    <url-pattern>/FormServ</url-pattern>
+  </servlet-mapping>
 </web-app>

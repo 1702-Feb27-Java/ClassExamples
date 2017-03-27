@@ -2,6 +2,7 @@ package service;
 
 import java.util.ArrayList;
 import objects.Employee;
+import objects.Reimburse;
 import dao.DAOObject;
 
 public class Service {
@@ -36,6 +37,10 @@ public class Service {
 	
 	public Employee getEmployee(String userName){
 		return db.getEmployee(userName);
+	}
+	
+	public void addReimburseRequest(String username, Reimburse req){
+		db.addRequest(username, req);
 	}
 	
 

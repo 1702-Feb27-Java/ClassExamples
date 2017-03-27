@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 
 
 import objects.Employee;
+import objects.Reimburse;
 import connect.ConnectionUtil;
 
 
@@ -188,6 +190,40 @@ public class DAOObject {
 		return null;
 	}
 	
+	
+	public int addRequest(String username, Reimburse req) {
+		int temp = 0;
+		
+	
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			//?s can be set
+			String sql = "CALL addReim(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			//seting the call
+			CallableStatement cs = connect.prepareCall(sql);
+			cs.setString(1, username);
+			cs.setString(2, req.getEvent_date());
+			cs.setString(3, req.getEventLength());
+			cs.setString(4, req.getLocation());
+			cs.setString(5, req.getDescription());
+			cs.setInt(6, req.getCost());
+			cs.setInt(7, req.getGrade());
+			cs.setString(8, req.getJustification());
+			cs.setInt(9, req.getCourseID());
+			cs.setInt(10, 0);
+			cs.executeUpdate();
+			
+			//Statement statement = connect.createStatement();			
+			connect.commit();
+			connect.setAutoCommit(true);
+			return 1;
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	
 	
 	
