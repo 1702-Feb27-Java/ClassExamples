@@ -1,12 +1,17 @@
 package com.revature.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.revature.pojo.Employee;
+import com.revature.pojo.Reimbursement;
 
 /**
  * Servlet implementation class ReimbursementServlet
@@ -27,7 +32,16 @@ public class ReimbursementServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher rd = request.getServletContext().getRequestDispatcher("/reimbursement.jsp");
+		HttpSession currSession = request.getSession();
+		Employee e = (Employee) currSession.getAttribute("employee");
+		System.out.println(e);
+		
+		// get all reimbursements related to employee
+		// ArrayList<Reimbursement> reimbList = e.getEmployeeId();
+		
+		
+		String nextJSP = "/reimbursement_form.jsp";
+		RequestDispatcher rd = request.getRequestDispatcher(nextJSP);
 		rd.forward(request, response);
 	}
 

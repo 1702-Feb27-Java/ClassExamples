@@ -64,11 +64,11 @@ public class EmployeeDaoImpl {
 		        String sql = "SELECT * FROM EMPLOYEES WHERE USERNAME = ? AND PASSWORD = ?"; 
 		        PreparedStatement ps = null;
 		        ps = conn.prepareStatement(sql);
-				employee = new Employee();
 		        ps.setString(1, username);
 		        ps.setString(2, password);
 		        ResultSet result = ps.executeQuery();
 		        if (result.next()) {
+		        	 employee = new Employee();
 		        	 employee.setEmployeeId(result.getInt("EMPLOYEE_ID"));
 		             employee.setFirstName(result.getString("FIRST_NAME")); 
 		             employee.setLastName(result.getString("LAST_NAME")); 
@@ -86,7 +86,6 @@ public class EmployeeDaoImpl {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
 		return employee;
     }
 

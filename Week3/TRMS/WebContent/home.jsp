@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -15,7 +16,8 @@
 <title>Home Page</title>
 </head>
 <body>
-	
+	<% HttpSession currSession = request.getSession();
+		currSession.invalidate(); %>
 	<!-- Space reserved for header -->
 	<div class="container-fluid">
 		<jsp:include page="_header.jsp"></jsp:include>
@@ -25,9 +27,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<ul class="breadcrumb">
-				  <li><a href="#">Home</a></li>
-				  <li><a href="#">Library</a></li>
-				  <li class="active">Data</li>
+				  <li class="active">Home</li>
 				</ul>
 			</div>
 		</div>
@@ -40,7 +40,7 @@
 			<div class="col-md-5">
 				<div class="loginpanel" style="padding-left:30px">
 					  <div class="wrapper" style="width:400px">
-					    <form class="form-signin" action="LoginServlet">       
+					    <form class="form-signin" action="LoginServlet" method="POST">       
 					      <h2 class="form-signin-heading">Login</h2>
 					      <input type="text" class="form-control" name="username" placeholder="Username" maxlength="25"/>
 					      <input type="password" class="form-control" name="password" placeholder="Password" maxlength="25"/>      
