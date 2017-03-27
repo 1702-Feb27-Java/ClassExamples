@@ -118,4 +118,14 @@
     <servlet-name>PendingReimbursementsServlet</servlet-name>
     <url-pattern>/PendingReimbursementsServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ApproveReimbursementServlet</display-name>
+    <servlet-name>ApproveReimbursementServlet</servlet-name>
+    <servlet-class>servlets.ApproveReimbursementServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApproveReimbursementServlet</servlet-name>
+    <url-pattern>/ApproveReimbursementServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

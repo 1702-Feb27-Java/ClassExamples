@@ -48,7 +48,7 @@
 		        <th>View Reimbursement</th>
 		    </tr>
 		    <c:forEach items="${reimbursements}" var="reimbursement">	
-		   <form action="EditReimbursementServlet.do" method="POST">
+		   <form action="ApproveReimbursementServlet.do" method="POST">
 			    <tr id="${reimbursement.getReimbId()}">
 			    	<input type="hidden" name="reimbId" value="${reimbursement.getReimbId()}" style="visibility:hidden;">
 			        <td>
