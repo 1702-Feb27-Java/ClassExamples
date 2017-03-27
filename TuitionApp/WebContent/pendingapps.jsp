@@ -81,16 +81,16 @@
   <li role="presentation"><a href="appstatus.jsp">Application Status</a></li>
   <li role="presentation"><a href="application.jsp">New Application</a></li>
   
-<% if (thisUser.getDeptID() == 3) {%>
-  <li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
-  <% } else { %>
+	<% if (thisUser.getDeptID() == 3) {%>
+  	<li role="presentation" class="active"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  		<% } else { %>
   
      <% if (thisUser.getRoleID() == 2) {%>
-  		<li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  		<li role="presentation" class="active"><a href="pendingapps.jsp">View Pending Apps</a></li>
   	<% } %>
   
   	<% if (thisUser.getRoleID() == 3) {%>
-  		<li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  		<li role="presentation" class="active"><a href="pendingapps.jsp">View Pending Apps</a></li>
   	<% } %>
   
    <% } %>

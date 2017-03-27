@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Running FizzBuzz</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    
+</head>
+
+<body>
+<h1>This is where FizzBuzz will run!</h1>
+
+    Enter a min number:
+    <input id="min" type="text"><p id="minCheck"></p><br>
+    Enter a max number:
+    <input id="max" type="text"><p id="maxCheck"></p><br>
+    <button id="calculate">Print FizzBuzz</button>
+
+<ul id="result"></ul>
+
+
+<script>
+
+    $('#calculate').click(function (){
+
+    var min = parseInt($('#min').val());
+    var max = parseInt($('#max').val());
+    var list = $('#result');
+    var listIt ="";
+
+        if (min < 1){
+            $('#minCheck').append("You cannot enter a number smaller than 1!");
+            return;
+        }
+        if (max > 200){
+            $('#maxCheck').append("You cannot enter a number bigger than 200!");
+            return;
+        }
+
+        interval = max-min;
+        for (i = 0; i <= interval; i++){
+
+            listIt += "<li>";
+            if ((i + min)%3 == 0){
+                listIt +="fizz";
+            }
+            else if ( (i + min)%5 == 0 ){
+                listIt +="buzz";
+            }
+            else if ( (i + min)%3 == 0 && (i+min)%5==0 ) {
+                listIt +="fizzbuzz";
+            }
+            else {
+                listIt +=(i+min);
+            }
+
+            listIt += "</li>";
+        }
+
+        list.html(listIt);
+    })
+
+
+</script>
+</body>
+
+</html>

@@ -97,6 +97,22 @@ DROP SEQUENCE user_seq;
 DROP TRIGGER user_seq_trigger;
 DROP SEQUENCE app_seq;
 DROP TRIGGER app_seq_trigger;
+DROP SEQUENCE cdt_seq;
+DROP TRIGGER cdt_seq_trigger;
+DROP SEQUENCE grading_seq;
+DROP TRIGGER grading_seq_trigger;
+DROP SEQUENCE attach_seq;
+DROP TRIGGER attach_seq_trigger;
+DROP SEQUENCE grade_attach_seq;
+DROP TRIGGER grade_attach_seq_trigger;
+DROP SEQUENCE reimbursement_seq;
+DROP TRIGGER reimbursement_seq_trigger;
+DROP SEQUENCE addInfo_seq;
+DROP TRIGGER addInfo_seq_trigger;
+DROP SEQUENCE approval_seq;
+DROP TRIGGER approval_seq_trigger;
+DROP SEQUENCE infoRe_seq;
+DROP TRIGGER infoRe_seq_trigger;
 
 CREATE SEQUENCE user_seq
   START WITH 7  -- because we already have 2 default accounts stored
@@ -124,6 +140,123 @@ CREATE OR REPLACE TRIGGER app_seq_trigger
   END;
 /
 
+CREATE SEQUENCE cdt_seq
+  START WITH 1
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER cdt_seq_trigger
+  BEFORE INSERT ON ClassDateTime
+    FOR EACH ROW
+  BEGIN
+    SELECT cdt_seq.NEXTVAL INTO :new.cdt_id FROM dual;
+  END;
+/
+
+CREATE SEQUENCE grading_seq
+  START WITH 1
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER grading_seq_trigger
+  BEFORE INSERT ON Grading
+    FOR EACH ROW
+  BEGIN
+    SELECT grading_seq.NEXTVAL INTO :new.grading_id FROM dual;
+  END;
+/
+
+CREATE SEQUENCE attach_seq
+  START WITH 1
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER attach_seq_trigger
+  BEFORE INSERT ON Attachments
+    FOR EACH ROW
+  BEGIN
+    SELECT attach_seq.NEXTVAL INTO :new.attachment_id FROM dual;
+  END;
+/
+
+CREATE SEQUENCE grade_attach_seq
+  START WITH 1
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER grade_attach_seq_trigger
+  BEFORE INSERT ON GradeAttachments
+    FOR EACH ROW
+  BEGIN
+    SELECT grade_attach_seq.NEXTVAL INTO :new.grade_attach_id FROM dual;
+  END;
+/
+
+CREATE SEQUENCE reimbursement_seq
+  START WITH 1
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER reimbursement_seq_trigger
+  BEFORE INSERT ON Reimbursements
+    FOR EACH ROW
+  BEGIN
+    SELECT reimbursement_seq.NEXTVAL INTO :new.reimbursement_id FROM dual;
+  END;
+/
+
+CREATE SEQUENCE addInfo_seq
+  START WITH 1
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER addInfo_seq_trigger
+  BEFORE INSERT ON AdditionalInfo
+    FOR EACH ROW
+  BEGIN
+    SELECT addInfo_seq.NEXTVAL INTO :new.additional_info_id FROM dual;
+  END;
+/
+
+CREATE SEQUENCE infoRe_seq  --inforeturned seq
+  START WITH 1
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER infoRe_seq_trigger
+  BEFORE INSERT ON InfoReturned
+    FOR EACH ROW
+  BEGIN
+    SELECT infoRe_seq.NEXTVAL INTO :new.info_id FROM dual;
+  END;
+/
+
+CREATE SEQUENCE approval_seq
+  START WITH 1
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER approval_seq_trigger
+  BEFORE INSERT ON Approvals
+    FOR EACH ROW
+  BEGIN
+    SELECT approval_seq.NEXTVAL INTO :new.approval_app_id FROM dual;
+  END;
+/
+
+CREATE SEQUENCE notif_seq
+  START WITH 1
+  INCREMENT BY 1;
+/ 
+
+CREATE OR REPLACE TRIGGER notif_seq_trigger
+  BEFORE INSERT ON Notifications
+    FOR EACH ROW
+  BEGIN
+    SELECT notif_seq.NEXTVAL INTO :new.notification_id FROM dual;
+  END;
+/
+
 /******************************************************************************
 PROCEDURES AND FUNCTIONS
 ******************************************************************************/
@@ -133,11 +266,97 @@ pw IN VARCHAR2, email IN VARCHAR2, deptID IN NUMBER, roleID IN NUMBER, reportsTo
 IS
 BEGIN
   INSERT INTO Users (firstname, lastname, uname, pw, email, dept_id, role_id, reportsto) 
-  VALUES (fName, lName, uname, pw, email, deptID, roleID, reportsTO); -- only add customers
+  VALUES (fName, lName, uname, pw, email, deptID, roleID, reportsTo); 
+END;
+/
+
+-- procedure to add an application
+CREATE OR REPLACE PROCEDURE addApp(userID IN NUMBER, priorityLevel IN NUMBER, event IN NUMBER, 
+loc IN VARCHAR2, totalCost IN DECIMAL, justification IN VARCHAR2)
+IS
+BEGIN
+  INSERT INTO Applications (user_id, priority_id, event_id, loc, total_cost, justification) 
+  VALUES (userID, priorityLevel, event, loc, totalCost, justification);
+END;
+/
+
+--creating the 1:1 tables
+-- procedure to add a class date and time row. this info is filled out at the time of the application
+CREATE OR REPLACE PROCEDURE addClassDateTime(appID IN NUMBER, startDate IN DATE, endDate IN DATE,
+daysPerWeek IN NUMBER)
+IS 
+BEGIN
+  INSERT INTO ClassDateTime (start_date, end_date, days_per_week) VALUES (startDate, endDate, daysPerWeek);
+  UPDATE Applications SET cdt_id = (SELECT MAX(classdatetime.cdt_id) FROM ClassDateTime) WHERE Applications.app_id = appID;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE addGrading(appID IN NUMBER, gradingFormat IN NUMBER, gradeCutoff IN VARCHAR2, 
+defaultGrade IN VARCHAR2)
+IS
+BEGIN
+  INSERT INTO Grading (grading_format_id, grade_cutoff, default_grade) VALUES (gradingFormat, gradeCutoff, defaultGrade);
+  UPDATE Applications SET grading_id = (SELECT MAX(Grading.grading_id) FROM Grading) WHERE Applications.app_id = appID;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE addReimbursement(appID IN NUMBER, projected IN DECIMAL)
+IS 
+BEGIN
+  INSERT INTO Reimbursements (projected_reimbursement) VALUES (projected);
+  UPDATE Applications SET reimbursement_id = (SELECT MAX(Reimbursements.reimbursement_id) FROM Reimbursements)
+    WHERE Applications.app_id = appID;
+END;
+/
+
+--creating the 1:n tables
+CREATE OR REPLACE PROCEDURE addAttachments(appID IN NUMBER, attachType IN NUMBER, attachURL IN VARCHAR2)
+IS
+BEGIN
+  INSERT INTO Attachments (app_id, attachment_type_id, attachment_url) VALUES (appID, attachType, attachURL);
+END;
+/
+CREATE OR REPLACE PROCEDURE addGradeAttachments(appID IN NUMBER, gradeAttachType IN NUMBER, GradeAttachURL IN VARCHAR2)
+IS
+BEGIN
+  INSERT INTO GradeAttachments (app_id, grade_attach_type_id, grade_attach_url) VALUES (appID, gradeAttachType, GradeAttachURL);
+END;
+/
+
+-- add approvals to table (added every time the approval is changed) 
+CREATE OR REPLACE PROCEDURE addApprovals(appID IN NUMBER, approvalLevel IN NUMBER, approvalStatus IN NUMBER, 
+approver IN NUMBER, message IN VARCHAR2)
+IS
+BEGIN
+  INSERT INTO Approvals (app_id, approval_level, approval_status, approver_id, approval_message) VALUES
+  (appID, approvalLevel, approvalStatus, approver, message);
+END;
+/
+
+CREATE OR REPLACE PROCEDURE addAdditionalInfo(appID IN NUMBER, resolution IN NUMBER, requester IN NUMBER, 
+message IN VARCHAR2)
+IS
+BEGIN
+  INSERT INTO AdditionalInfo (app_id, resolution_id, requester_id, request_message) VALUES 
+  (appID, resolution, requester, message);
+END;
+/ 
+
+CREATE OR REPLACE PROCEDURE addInfoReturned(additionalInfo IN NUMBER, message IN VARCHAR2)
+IS
+BEGIN
+  INSERT INTO InfoReturned (additional_info_id, returned_message) VALUES
+  (additionalInfo, message);
+END;
+/
+
+CREATE OR REPLACE PROCEDURE addNotifications(userID IN NUMBER, resolution in NUMBER, requester IN NUMBER,
+notifMessage IN VARCHAR2)
+IS
+BEGIN
+  INSERT INTO Notifications (user_id, resolution_id, requester_id, notification_message) VALUES
+  (userID, resolution, requester, notifMessage);
 END;
 /
 
 COMMIT;
-ROLLBACK;
-
-SELECT * FROM Users;

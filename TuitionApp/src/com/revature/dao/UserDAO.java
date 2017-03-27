@@ -11,10 +11,8 @@ public interface UserDAO {
 
 	//add
 	public void addUser(UserClass uc);
-	
-	//upate
-	public void updateApp(UserClass uc);
-	public void updateNotif(UserClass uc);
+	public void addApp(UserClass uc, AppClass ac);
+	public void addNotif(UserClass uc);
 	
 	//read
 	// ArrayList<UserClass> getManagement(); // anyone with role_id > 1

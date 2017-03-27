@@ -15,7 +15,7 @@ import com.revature.pojo.UserClass;
 
 public class UserDAOImp implements UserDAO {
 	
-	CallableStatement insert;
+	CallableStatement newUser, newApp;
 	PreparedStatement getByUser, getUnamePW, getManagement;
 
 	@Override
@@ -26,58 +26,58 @@ public class UserDAOImp implements UserDAO {
 			connect.setAutoCommit(false);
 
 			// calls the procedure in the database to add a new user
-			insert = connect.prepareCall("CALL addUser(?, ?, ?, ?, ?, ?, ?, ?)");
+			newUser = connect.prepareCall("CALL addUser(?, ?, ?, ?, ?, ?, ?, ?)");
 
 			// set user input into the statement
-			insert.setString(1, uc.getFirstname());
-			insert.setString(2, uc.getLastname());
-			insert.setString(3, uc.getUsername());
-			insert.setString(4, uc.getPw());
-			insert.setString(5,  uc.getEmail());
-			insert.setInt(6, uc.getDeptID());
-			insert.setInt(7,  uc.getRoleID());
+			newUser.setString(1, uc.getFirstname());
+			newUser.setString(2, uc.getLastname());
+			newUser.setString(3, uc.getUsername());
+			newUser.setString(4, uc.getPw());
+			newUser.setString(5,  uc.getEmail());
+			newUser.setInt(6, uc.getDeptID());
+			newUser.setInt(7,  uc.getRoleID());
 			
 			// logic for setting reportsto for the new user depending on
 			// role and department
 			if (uc.getDeptID() == 1){ // in Marketing
 				if (uc.getRoleID() == 1){ // if an employee
 					uc.setReportsto(2);
-					insert.setInt(8, uc.getReportsto());
+					newUser.setInt(8, uc.getReportsto());
 				} else if (uc.getRoleID() == 2){ // if a supervisor
 					uc.setReportsto(1);
-					insert.setInt(8, uc.getReportsto());
+					newUser.setInt(8, uc.getReportsto());
 				} else { // if a dept head
 					//uc.setReportsto();
-					insert.setNull(8, java.sql.Types.NUMERIC);
+					newUser.setNull(8, java.sql.Types.NUMERIC);
 				}
 			}
 			else if (uc.getDeptID() == 2) { // in Human Resources
 				if (uc.getRoleID() == 1){ // if an employee
 					uc.setReportsto(3);
-					insert.setInt(8, uc.getReportsto());
+					newUser.setInt(8, uc.getReportsto());
 				} else if (uc.getRoleID() == 2){ // if a supervisor
 					uc.setReportsto(3);
-					insert.setInt(8, uc.getReportsto());
+					newUser.setInt(8, uc.getReportsto());
 				} else { // if a dept head
 					//uc.setReportsto(2);
-					insert.setNull(8, java.sql.Types.NUMERIC);
+					newUser.setNull(8, java.sql.Types.NUMERIC);
 				}
 			}
 			else { // in Benco
 				if (uc.getRoleID() == 1){ // if an employee
 					uc.setReportsto(6);
-					insert.setInt(8, uc.getReportsto());
+					newUser.setInt(8, uc.getReportsto());
 				} else if (uc.getRoleID() == 2){ // if a supervisor
 					uc.setReportsto(5);
-					insert.setInt(8, uc.getReportsto());
+					newUser.setInt(8, uc.getReportsto());
 				} else { // if a dept head
 					//uc.setReportsto(2);
-					insert.setNull(8, java.sql.Types.NUMERIC);
+					newUser.setNull(8, java.sql.Types.NUMERIC);
 				}
 			}
 			
 			// execute the callable statement
-			insert.execute();
+			newUser.execute();
 
 			//System.out.println("Success! You've added a new user.");
 			connect.commit();
@@ -91,13 +91,26 @@ public class UserDAOImp implements UserDAO {
 	}
 
 	@Override
-	public void updateApp(UserClass uc) {
+	public void addApp(UserClass uc, AppClass ac) {
 		// TODO Auto-generated method stub
-
+		try (Connection connect = ConnectionClass.getConnection();) {
+			// TODO Auto-generated method stub
+			connect.setAutoCommit(false);
+			
+			newApp = connect.prepareCall("addApp(?, ?, ?, ?, ?, ?)");
+			
+			newApp.setInt(1, uc.getUserID());
+			
+			connect.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e2) {
+			e2.printStackTrace();
+		}
 	}
 
 	@Override
-	public void updateNotif(UserClass uc) {
+	public void addNotif(UserClass uc) {
 		// TODO Auto-generated method stub
 
 	}
@@ -111,7 +124,19 @@ public class UserDAOImp implements UserDAO {
 	@Override
 	public ArrayList<NotifClass> getNotifByUserID() {
 		// TODO Auto-generated method stub
-		return null;
+		
+		ArrayList<NotifClass> notifications = new ArrayList<NotifClass>();
+		
+		try (Connection connect = ConnectionClass.getConnection();) {
+			connect.setAutoCommit(false);
+			
+			
+			
+			connect.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return notifications;
 	}
 
 	@Override
