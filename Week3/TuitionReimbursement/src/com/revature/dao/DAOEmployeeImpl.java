@@ -345,10 +345,12 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				int messageId = rs.getInt(1);
 				String message = rs.getString(2);
 				int messagerId = rs.getInt(4);
+				int reimbId = rs.getInt(6);
 				
 				m.setMessageId(messageId);
 				m.setMessage(message);
 				m.setMessagerId(messagerId);
+				m.setReimbId(reimbId);
 				
 				messages.add(m);
 				

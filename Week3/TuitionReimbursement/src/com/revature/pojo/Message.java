@@ -2,13 +2,14 @@ package com.revature.pojo;
 
 public class Message {
 	String message, messager;
-	int messagerId, messageId;
-	public Message(String message, String messager, int messagerId, int messageId) {
+	int messagerId, messageId, reimbId;
+	public Message(String message, String messager, int messagerId, int messageId, int reimbId) {
 		super();
 		this.message = message;
 		this.messager = messager;
 		this.messagerId = messagerId;
 		this.messageId = messageId;
+		this.reimbId = reimbId;
 	}
 	public Message(){
 		
@@ -37,9 +38,15 @@ public class Message {
 	public void setMessageId(int messageId) {
 		this.messageId = messageId;
 	}
+	public int getReimbId() {
+		return reimbId;
+	}
+	public void setReimbId(int reimbId) {
+		this.reimbId = reimbId;
+	}
 	@Override
 	public String toString() {
-		return "Message [message=" + message + ", messager=" + messager + ", messagerId=" + messagerId + ", messageId=" + messageId + "]";
+		return "Message [message=" + message + ", messager=" + messager + ", messagerId=" + messagerId + ", messageId=" + messageId + ", reimbId=" + reimbId + "]";
 	}
 
 
