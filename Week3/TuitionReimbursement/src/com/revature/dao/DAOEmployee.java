@@ -56,5 +56,8 @@ public interface DAOEmployee {
 	public ArrayList<Integer> getEmployeesByDepartment(int departmentId);
 	
 	public int getDepartment(int empId);
+
+	public boolean updateReimbursement(int reimbId,int empId, int roleId, int deptId, boolean approve);
+	
 	
 }

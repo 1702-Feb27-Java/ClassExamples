@@ -7,6 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.revature.pojo.Reimbursement;
+import com.revature.service.EmployeeService;
 
 /**
  * Servlet implementation class ApproveReimbursementServlet
@@ -26,6 +30,17 @@ public class ApproveReimbursementServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		EmployeeService serveEmp = new EmployeeService();
+		HttpSession ses = request.getSession();
+		
+		int reimbId = Integer.parseInt(request.getParameter("reimbId"));
+		
+		ses.setAttribute("reimbId", reimbId);
+		
+		Reimbursement reimbursement = serveEmp.getReimbursementById(reimbId);
+		
+		request.setAttribute("reimbursement", reimbursement);
+		
 		String nextJSP = "/approveReimbursement.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
 		dispatcher.forward(request,response);

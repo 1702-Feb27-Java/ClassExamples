@@ -753,4 +753,71 @@ public class DAOEmployeeImpl implements DAOEmployee{
 	}
 
 	
+	@Override
+	public boolean updateReimbursement(int reimbId, int empId, int roleId, int deptId, boolean approve) {
+		boolean result = false;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			String sql = "";
+			if(roleId == 2){
+				if(!approve){
+					sql = "UPDATE REIMBURSEMENT "
+							+ "SET APPROVAL_STEP_ID = ?,  SUPERVISOR_APPROVER_ID = ?"
+							+ " WHERE REIMB_ID = ?";
+				}
+				else{
+					sql = "UPDATE REIMBURSEMENT "
+							+ "SET APPROVAL_STEP_ID = ?,  SUPERVISOR_APPROVER_ID = ?"
+							+ " WHERE REIMB_ID = ?";
+				}
+			}
+			else if(roleId == 3)
+			{
+				if(!approve){
+					sql = "UPDATE REIMBURSEMENT "
+							+ "SET APPROVAL_STEP_ID = ?,  DEPARTMENT_HEAD_APPROVER_ID = ?"
+							+ " WHERE REIMB_ID = ?";
+				}
+				else{
+					sql = "UPDATE REIMBURSEMENT "
+							+ "SET APPROVAL_STEP_ID = ?,  DEPARTMENT_HEAD_APPROVER_ID = ?"
+							+ " WHERE REIMB_ID = ?";
+				}
+			}
+			else if(deptId == 1){
+				if(!approve){
+					sql = "UPDATE REIMBURSEMENT "
+							+ "SET APPROVAL_STEP_ID = ?,  BENCO_APPROVER_ID = ?"
+							+ " WHERE REIMB_ID = ?";
+				}
+				else{
+					sql = "UPDATE REIMBURSEMENT "
+							+ "SET APPROVAL_STEP_ID = ?,  BENCO_APPROVER_ID = ?"
+							+ " WHERE REIMB_ID = ?";
+				}
+			}
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			if(!approve)
+				ps.setInt(1, 6);
+			else if(deptId == 1)
+				ps.setInt(1, 4);
+			else
+				ps.setInt(1, roleId);
+			ps.setInt(2, empId);
+			ps.setInt(3, reimbId);
+			
+			ps.execute();
+			
+			result = true;
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return result;
+	}
+	
 }

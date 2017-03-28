@@ -128,4 +128,14 @@
     <servlet-name>ApproveReimbursementServlet</servlet-name>
     <url-pattern>/ApproveReimbursementServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ConfirmApproveServlet</display-name>
+    <servlet-name>ConfirmApproveServlet</servlet-name>
+    <servlet-class>servlets.ConfirmApproveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ConfirmApproveServlet</servlet-name>
+    <url-pattern>/ConfirmApproveServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
