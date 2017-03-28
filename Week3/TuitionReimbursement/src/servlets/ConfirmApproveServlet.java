@@ -47,6 +47,8 @@ public class ConfirmApproveServlet extends HttpServlet {
 		
 		String act = request.getParameter("edit");
 		boolean result = false;
+		String empName = "";
+		int empMessage = 0;
 		if (act == null) {
 			System.out.println(false);
 		} else if (act.equals("approve")) {
@@ -54,7 +56,8 @@ public class ConfirmApproveServlet extends HttpServlet {
 		} else if (act.equals("decline")) {
 			result = serveEmp.updateReimbursement(reimbId, empId, roleId, deptId, false);
 		} else if (act.equals("request")) {
-		    //someone has altered the HTML and sent a different value!
+		   empMessage = serveEmp.getEmployeeIdByReimbursementId(reimbId);
+		   empName = serveEmp.getEmployeeName(empMessage);
 		}
 		
 		ArrayList<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
@@ -71,9 +74,22 @@ public class ConfirmApproveServlet extends HttpServlet {
 		ses.setAttribute("reimbursements", reimbursements);
 		request.setAttribute("reimbursements", reimbursements);
 		
-		String nextJSP = "/pendingReimbursements.jsp";
-		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
-		dispatcher.forward(request,response);
+		if(act.equals("request")){
+			request.setAttribute("empName", empName);
+			request.setAttribute("empMessage", empMessage);
+			System.out.println(empName);
+			System.out.println(empMessage);
+			
+			String nextJSP = "/sendMessage.jsp";
+			RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
+			dispatcher.forward(request,response);
+		}
+		else{
+			String nextJSP = "/pendingReimbursements.jsp";
+			RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
+			dispatcher.forward(request,response);
+		}
+		
 	}
 
 	/**

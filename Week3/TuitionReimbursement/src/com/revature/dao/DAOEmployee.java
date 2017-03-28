@@ -59,5 +59,8 @@ public interface DAOEmployee {
 
 	public boolean updateReimbursement(int reimbId,int empId, int roleId, int deptId, boolean approve);
 	
+	public int getEmployeeIdByReimbursementId(int reimbId);
+	
+	public String getEmployeeName(int empId);
 	
 }

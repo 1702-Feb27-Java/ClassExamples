@@ -1,11 +1,16 @@
 package com.revature.service;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.revature.dao.DAOEmployeeImpl;
 import com.revature.pojo.Message;
 import com.revature.pojo.Reimbursement;
+import com.revature.util.ConnectionUtil;
 
 import jdk.nashorn.internal.runtime.RecompilableScriptFunctionData;
 
@@ -206,5 +211,16 @@ public class EmployeeService {
 		boolean result = daoEmp.updateReimbursement(reimbId, empId, roleId, deptId, approve);
 		return result;
 	}
+	
+	public int getEmployeeIdByReimbursementId(int reimbId){
+		int empId = daoEmp.getEmployeeIdByReimbursementId(reimbId);
+		return empId;
+	}
+	
+	public String getEmployeeName(int empId){
+		String employee = daoEmp.getEmployeeName(empId);
+		return employee;
+	}
+
 	
 }

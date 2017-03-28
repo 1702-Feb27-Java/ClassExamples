@@ -43,6 +43,8 @@ public class Main {
 		attachments.add("attachment3");*/
 		//System.out.println(serveEmp.getReimbursementsByApprovalStep(3, 3));
 		//serveEmp.getReimbursementsByApprovalStep(1, 3);
+		//System.out.println(serveEmp.getEmployeeIdByReimbursementId(6));
+		//System.out.println(serveEmp.getEmployeeName(3));
 	}
 	
 	public static void startTimer(){

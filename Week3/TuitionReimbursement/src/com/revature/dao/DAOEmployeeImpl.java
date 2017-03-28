@@ -804,5 +804,60 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		
 		return result;
 	}
+
+	
+	@Override
+	public int getEmployeeIdByReimbursementId(int reimbId) {
+		int empId = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+	
+			String sql = "SELECT EMPLOYEE_ID"
+					+ " FROM REIMBURSEMENT"
+					+ " WHERE REIMB_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, reimbId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				empId = rs.getInt(1);
+			}
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return empId;
+	}
+
+	public String getEmployeeName(int empId){
+		String employee = "";
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+	
+			String sql = "SELECT *"
+					+ " FROM EMPLOYEE"
+					+ " WHERE EMPLOYEE_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, empId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				String first = rs.getString(5);
+				String last = rs.getString(6);
+				employee = first + " " + last;
+			}
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return employee;
+	}
 	
 }
