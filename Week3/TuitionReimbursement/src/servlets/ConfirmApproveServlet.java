@@ -77,8 +77,6 @@ public class ConfirmApproveServlet extends HttpServlet {
 		if(act.equals("request")){
 			request.setAttribute("empName", empName);
 			request.setAttribute("empMessage", empMessage);
-			System.out.println(empName);
-			System.out.println(empMessage);
 			
 			String nextJSP = "/sendMessage.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);

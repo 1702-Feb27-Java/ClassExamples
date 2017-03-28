@@ -138,4 +138,14 @@
     <servlet-name>ConfirmApproveServlet</servlet-name>
     <url-pattern>/ConfirmApproveServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SendMessageServlet</display-name>
+    <servlet-name>SendMessageServlet</servlet-name>
+    <servlet-class>servlets.SendMessageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SendMessageServlet</servlet-name>
+    <url-pattern>/SendMessageServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -10,16 +10,14 @@
 		<div class="row text-center">
 			<div class="col-sm-4"></div>
 			<div class="col-md-4">
-			<% request.setAttribute("empMessage", request.getAttribute("empMessage")); %>
-				<form action="SubmitReimbursement.do" method="POST">
+				<form action="SendMessageServlet.do" method="POST">
 				  <div class="form-group">
-				    <label for="event">Employee</label>
+				    <label for="event">Employee: </label>
 				    <input type="text" required class="form-control" id="event" placeholder="${empName}" name="event" disabled>
+				    <input type="hidden" name="empMessage" value="${empMessage}" style="visibility:hidden;">
 				  </div>
-				  
-				   <div class="form-group">
-				    <label for="event">Message</label>
-				    <input type="text" required class="form-control" id="message" placeholder="Message" name="message">
+				  <div class="form-group">
+				    <input type="text" required class="form-control" id="message" placeholder="Message body" name="message">
 				  </div>
 				  
 				  <button type="submit" class="btn btn-primary">Send</button>
