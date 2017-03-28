@@ -252,6 +252,7 @@ CREATE TABLE Employee
   last_name varchar2(30) NOT NULL,
   username varchar2(30) UNIQUE NOT NULL,
   pass varchar2(30) NOT NULL,
+  balance number DEFAULT(1000) CHECK(balance >= 0),
   
   CONSTRAINT emp_id_pk PRIMARY KEY(employee_id),
   CONSTRAINT sup_id_fk FOREIGN KEY(supervisor_id) REFERENCES Employee(employee_id),
@@ -271,7 +272,7 @@ CREATE TABLE Message
   CONSTRAINT msg_id_pk PRIMARY KEY(message_id),
   CONSTRAINT emplo_id_fk FOREIGN KEY(emp_id) REFERENCES Employee(employee_id),  
   CONSTRAINT msger_id_fk FOREIGN KEY(messager_id) REFERENCES Employee(employee_id),
-  CONSTRAINT msgreimb_id_fk FOREIGN KEY(reimbId) REFERENCES Reimbursement(reimb_id)
+  CONSTRAINT msgreimb_id_fk FOREIGN KEY(reimb_Id) REFERENCES Reimbursement(reimb_id)
 ); 
 /
 CREATE SEQUENCE message_seq

@@ -645,18 +645,20 @@ public class DAOEmployeeImpl implements DAOEmployee{
 
 	
 	@Override
-	public ArrayList<Reimbursement> getPendingReimbursementsByApprovalStep(int approvalStepId) {
+	public ArrayList<Reimbursement> getPendingReimbursementsByApprovalStep(int approvalStepId, int employeeId) {
 		ArrayList<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
 		
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
 
 			String sql = "SELECT * FROM REIMBURSEMENT"
-					+ " WHERE APPROVAL_STEP_ID = ?";
+					+ " WHERE APPROVAL_STEP_ID = ?"
+					+ "AND EMPLOYEE_ID <> ?";
 			
 			PreparedStatement ps = connect.prepareStatement(sql);
 			
 			ps.setInt(1, approvalStepId);
+			ps.setInt(2, employeeId);
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){

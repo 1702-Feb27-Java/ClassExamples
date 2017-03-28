@@ -51,7 +51,7 @@ public interface DAOEmployee {
 
 	public boolean submitEdit(int reimbId, String attachment);
 
-	public ArrayList<Reimbursement> getPendingReimbursementsByApprovalStep(int approvalStepId);
+	public ArrayList<Reimbursement> getPendingReimbursementsByApprovalStep(int approvalStepId, int empId);
 	
 	public ArrayList<Integer> getEmployeesByDepartment(int departmentId);
 	

@@ -157,8 +157,8 @@ public class EmployeeService {
 		return link;
 	}
 
-	public ArrayList<Reimbursement> getReimbursements(int approvalStepId, int departmentId){
-		ArrayList<Reimbursement> tempReimbursements = daoEmp.getPendingReimbursementsByApprovalStep(approvalStepId);
+	public ArrayList<Reimbursement> getReimbursements(int approvalStepId, int departmentId, int employeeId){
+		ArrayList<Reimbursement> tempReimbursements = daoEmp.getPendingReimbursementsByApprovalStep(approvalStepId, employeeId);
 		ArrayList<Integer> employees = daoEmp.getEmployeesByDepartment(departmentId);
 		ArrayList<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
 		
@@ -189,8 +189,8 @@ public class EmployeeService {
 		return department;		
 	}
 
-	public ArrayList<Reimbursement> getReimbursementsByApprovalStep(int approvalStepId){
-		ArrayList<Reimbursement> reimbursements = daoEmp.getPendingReimbursementsByApprovalStep(approvalStepId);
+	public ArrayList<Reimbursement> getReimbursementsByApprovalStep(int approvalStepId, int employeeId){
+		ArrayList<Reimbursement> reimbursements = daoEmp.getPendingReimbursementsByApprovalStep(approvalStepId, employeeId);
 		
 		for(Reimbursement r : reimbursements){
 			String location = daoEmp.getLocation(r.getLocationId());

@@ -41,13 +41,13 @@ public class PendingReimbursementsServlet extends HttpServlet {
 		
 		ArrayList<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
 		if(roleId == 3){//department head
-			reimbursements = serveEmp.getReimbursements(2, deptId);
+			reimbursements = serveEmp.getReimbursements(2, deptId, empId);
 		}
 		else if(roleId == 2){//direct supervisor
-			reimbursements = serveEmp.getReimbursements(1, deptId);
+			reimbursements = serveEmp.getReimbursements(1, deptId, empId);
 		}
 		else if(deptId == 1){//benco
-			reimbursements = serveEmp.getReimbursementsByApprovalStep(3);
+			reimbursements = serveEmp.getReimbursementsByApprovalStep(3, empId);
 		}
 		
 		ses.setAttribute("reimbursements", reimbursements);
