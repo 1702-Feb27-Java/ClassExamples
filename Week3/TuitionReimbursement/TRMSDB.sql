@@ -27,6 +27,10 @@ DROP TABLE Approval_step;
 /
 DROP SEQUENCE employee_seq;
 /
+DROP SEQUENCE attachment_seq;
+/
+DROP SEQUENCE message_seq;
+/
 DROP SEQUENCE reimbursement_seq;
 /
 DROP SEQUENCE location_seq;
@@ -260,35 +264,6 @@ CREATE TABLE Employee
   CONSTRAINT dep_id_fk FOREIGN KEY(dept_id) REFERENCES Department(dept_id)
 ); 
 /
-CREATE TABLE Message 
-(
-  message_id NUMBER,
-  message varchar2(200) NOT NULL,
-  emp_id NUMBER NOT NULL,
-  messager_id NUMBER NOT NULL,
-  readBoolean NUMBER DEFAULT(0),
-  reimb_Id NUMBER NOT NULL,
-  
-  CONSTRAINT msg_id_pk PRIMARY KEY(message_id),
-  CONSTRAINT emplo_id_fk FOREIGN KEY(emp_id) REFERENCES Employee(employee_id),  
-  CONSTRAINT msger_id_fk FOREIGN KEY(messager_id) REFERENCES Employee(employee_id),
-  CONSTRAINT msgreimb_id_fk FOREIGN KEY(reimb_Id) REFERENCES Reimbursement(reimb_id)
-); 
-/
-CREATE SEQUENCE message_seq
-  MINVALUE 1
-  START WITH 1
-  INCREMENT BY 1;
-/
-CREATE OR REPLACE TRIGGER message_trigger
-    BEFORE INSERT ON  Message -- upon what event
-    FOR EACH ROW --how often 
-    BEGIN -- start what actually happens
-      SELECT message_seq.NEXTVAL
-      INTO :new.message_id
-      FROM dual;
-    END;
-/
 CREATE TABLE Reimbursement 
 (
   reimb_id NUMBER,
@@ -325,6 +300,35 @@ CREATE TABLE Reimbursement
   CONSTRAINT benco_approver_id_fk FOREIGN KEY(benco_approver_id) REFERENCES Employee(employee_id),
   CONSTRAINT final_approver_id_fk FOREIGN KEY(final_approver_id) REFERENCES Employee(employee_id)
 ); 
+/
+CREATE TABLE Message 
+(
+  message_id NUMBER,
+  message varchar2(200) NOT NULL,
+  emp_id NUMBER NOT NULL,
+  messager_id NUMBER NOT NULL,
+  readBoolean NUMBER DEFAULT(0),
+  reimb_Id NUMBER NOT NULL,
+  
+  CONSTRAINT msg_id_pk PRIMARY KEY(message_id),
+  CONSTRAINT emplo_id_fk FOREIGN KEY(emp_id) REFERENCES Employee(employee_id),  
+  CONSTRAINT msger_id_fk FOREIGN KEY(messager_id) REFERENCES Employee(employee_id),
+  CONSTRAINT msgreimb_id_fk FOREIGN KEY(reimb_Id) REFERENCES Reimbursement(reimb_id)
+); 
+/
+CREATE SEQUENCE message_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+/
+CREATE OR REPLACE TRIGGER message_trigger
+    BEFORE INSERT ON  Message -- upon what event
+    FOR EACH ROW --how often 
+    BEGIN -- start what actually happens
+      SELECT message_seq.NEXTVAL
+      INTO :new.message_id
+      FROM dual;
+    END;
 /
 CREATE SEQUENCE  employee_seq
   MINVALUE 1
@@ -461,8 +465,6 @@ BEGIN
   VALUES(gradId, passingGrade);
   gradingId := gradId;
 END addGrading;
-/
-SELECT COUNT(*) FROM MESSAGE WHERE EMP_ID = 3;
 /
 
 

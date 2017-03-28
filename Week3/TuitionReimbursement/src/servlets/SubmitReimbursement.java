@@ -16,12 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.FilenameUtils;
-
 import com.revature.service.EmployeeService;
 
 /**
@@ -42,81 +36,7 @@ public class SubmitReimbursement extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		EmployeeService serveEmp = new EmployeeService();
-/*		int emp_id = 0;
-		String event = ""; 
-		String eventDate = ""; 
-		String time = "";
-		String location = ""; 
-		String location2 = ""; 
-		String description = "";
-		String cost2 = ""; 
-		String gradingId = ""; 
-		String gradingId2 = ""; 
-		String typeOfEvent = ""; 
-		String passingGrade = "";
-		
-		
-		 try {
-		        List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-		        for (FileItem item : items) {
-		            if (item.isFormField()) {
-		                // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
-		                String fieldName = item.getFieldName();
-		                String fieldValue = item.getString();
-		                switch(fieldName){
-			                case "uId":
-			                	emp_id = Integer.parseInt(fieldValue);
-			                	break;
-			                case "event":
-			                	event = fieldValue;
-			                	break;
-			                case "eventDate":
-			                	eventDate = fieldValue;
-			                	break;
-			                case "time":
-			                	time = fieldValue;
-			                	break;
-			                case "location":
-			                	location = fieldValue;
-			                	break;
-			                case "location2":
-			                	location2 = fieldValue;
-			                	break;
-			                case "description":
-			                	description = fieldValue;
-			                	break;
-			                case "cost2":
-			                	cost2 = fieldValue;
-			                	break;
-			                case "gradingId":
-			                	gradingId = fieldValue;
-			                	break;
-			                case "gradingId2":
-			                	gradingId2 = fieldValue;
-			                	break;
-			                case "typeOfEvent":
-			                	typeOfEvent = fieldValue;
-			                	break;
-			                case "passingGrade":
-			                	passingGrade = fieldValue;
-			                	break;                 	
-		                }
-		            } else {
-		                // Process form file field (input type="file").
-		                String fieldName = item.getFieldName();
-		                String fileName = FilenameUtils.getName(item.getName());
-		                InputStream fileContent = item.getInputStream();
-		                System.out.println(fileContent);
-		                // ... (do your job here)
-		            }
-		        }
-		    } catch (FileUploadException e) {
-		        throw new ServletException("Cannot parse multipart request.", e);
-		    }*/
-		
-		
-		
+		EmployeeService serveEmp = new EmployeeService();		
 		
 		HttpSession ses = request.getSession();
 		int emp_id = (int) ses.getAttribute("uId");
