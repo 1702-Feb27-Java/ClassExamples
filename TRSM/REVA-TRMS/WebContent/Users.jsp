@@ -17,7 +17,7 @@
      user="trms"  password="p4ssw0rd"/>
 
 	<sql:query dataSource="${snapshot}" var="result">
-	SELECT * from EMPLOYEE
+	SELECT * from EMPLOYEE where EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>'
 	</sql:query>
  
 	<table border="1" width="100%">

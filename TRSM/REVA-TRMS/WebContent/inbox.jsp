@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <!-- Latest compiled and minified CSS -->
+ <%@ page import="objects.Employee" %>
+ <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+ <%@taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 <!-- Optional theme -->
@@ -10,15 +16,13 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-
-</nav>
-<title>Menu</title>
+<title>Inbox</title>
 </head>
 <body>
+<sql:setDataSource var="snapshot" driver="oracle.jdbc.driver.OracleDriver"
+     url="jdbc:oracle:thin:@localhost:1521:xe"
+     user="trms"  password="p4ssw0rd"/>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- SEND TO INEXT -->    
@@ -37,8 +41,27 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-<h2>Welcome to the Revature TRMS System!</h2>
-<p>Use the navigation bar above to submit reimbursement requests, approve requests, and view status of submitted requests</p>
-
+	<%if(((Employee)session.getAttribute("employee")).getRole().equals("Associate")) {%>
+		Sorry you can't approve requests
+		<%}else{ %>
+		<sql:query dataSource="${snapshot}" var="result">
+		SELECT REIMBURSE.REIM_ID from REIMBURSE, EMPLOYEE, APPROVE where EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND APPROVE.E_ID = EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID
+		</sql:query>
+		
+		<table border="1" width="100%">
+	<tr>
+	<th>Emp ID</th>	
+	</tr>
+	<c:forEach var="row" items="${result.rows}">
+	<tr>
+	<td><c:out value="${row.REIM_ID}"/></td>	
+	</tr>
+	</c:forEach>
+	</table>
+		<%} %>
+	
+	
+	
+	
 </body>
 </html>

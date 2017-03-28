@@ -191,7 +191,7 @@ public class DAOObject {
 	}
 	
 	
-	public int addRequest(String username, Reimburse req) {
+	public int addRequest(String username, Reimburse req, Employee em) {
 		int temp = 0;
 		
 	
@@ -199,7 +199,7 @@ public class DAOObject {
 			connect.setAutoCommit(false);
 			
 			//?s can be set
-			String sql = "CALL addReim(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "CALL addReim(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			//seting the call
 			CallableStatement cs = connect.prepareCall(sql);
 			cs.setString(1, username);
@@ -212,6 +212,8 @@ public class DAOObject {
 			cs.setString(8, req.getJustification());
 			cs.setInt(9, req.getCourseID());
 			cs.setInt(10, 0);
+			cs.setInt(11, 3);
+			cs.setInt(12, em.getReportsto());
 			cs.executeUpdate();
 			
 			//Statement statement = connect.createStatement();			
@@ -223,6 +225,54 @@ public class DAOObject {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	
+	
+	
+	
+	
+	public Reimburse getReimbursement(int id) {
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "SELECT * FROM REIMBURSE WHERE REIM_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1,id);
+			
+			ResultSet rs = ps.executeQuery();
+			Reimburse n = new Reimburse();
+			
+			//gets the info
+			while(rs.next()){
+				n.setCost(rs.getInt("REIMBURSE_COST"));
+				n.setCourseID(rs.getInt("COURSE_ID"));
+				n.setDescription(rs.getString("DESCRIPTION"));
+				n.setEmployee_id(rs.getInt("EMPLOYEE_ID"));
+				n.setEvent_date(rs.getString("EVENT_DATE"));
+				n.setEventLength(rs.getString("EVENT_TIME"));
+				n.setGrade(rs.getInt("GRADE_FORMAT"));
+				n.setJustification(rs.getString("JUSTIFICATION"));
+				n.setLocation(rs.getString("LOCATION"));
+				n.setNumDay(rs.getInt("NUM_DAY"));
+				n.setReim_id(rs.getInt("REIM_ID"));
+				
+				
+			}
+			
+			connect.commit();
+			connect.setAutoCommit(true);
+			//if its a customer i need more info
+			
+			//// put get savings/ account balance here;
+			return n;
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	

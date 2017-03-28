@@ -1,0 +1,208 @@
+-- SET UP LOOKUP TABLES
+CREATE TABLE DEPARTMENT(
+  D_ID NUMBER,
+  DEPARTMENT_NAME VARCHAR2(200),
+  PRIMARY KEY (D_ID)
+);
+INSERT INTO DEPARTMENT(D_ID, DEPARTMENT_NAME) VALUES (1, 'BenCo');
+INSERT INTO DEPARTMENT(D_ID, DEPARTMENT_NAME) VALUES (2, 'RnD');
+INSERT INTO DEPARTMENT(D_ID, DEPARTMENT_NAME) VALUES (3, 'Marketing');
+
+CREATE TABLE ROLE(
+  role_id NUMBER,
+  role_name VARCHAR2(200),
+  PRIMARY KEY (ROLE_ID)
+);
+INSERT INTO ROLE(ROLE_ID, ROLE_NAME) VALUES(1, 'Associate');
+INSERT INTO ROLE(ROLE_ID, ROLE_NAME) VALUES(2, 'Manager');
+INSERT INTO ROLE(ROLE_ID, ROLE_NAME) VALUES(3, 'Department Head');
+
+CREATE TABLE COURSE(
+  COURSE_ID NUMBER,
+  COURSE_TYPE VARCHAR2(200),
+  PERCENT_COVERED NUMBER,
+  PRIMARY KEY (COURSE_ID)
+);
+SELECT * FROM COURSE;
+INSERT INTO COURSE(COURSE_ID, COURSE_TYPE, PERCENT_COVERED) VALUES (1, 'University Course', 80);
+INSERT INTO COURSE(COURSE_ID, COURSE_TYPE, PERCENT_COVERED) VALUES (2, 'Seminar', 60);
+INSERT INTO COURSE(COURSE_ID, COURSE_TYPE, PERCENT_COVERED) VALUES (3, 'Certification Preparation Class', 75);
+INSERT INTO COURSE(COURSE_ID, COURSE_TYPE, PERCENT_COVERED) VALUES (4, 'Certification', 100);
+INSERT INTO COURSE(COURSE_ID, COURSE_TYPE, PERCENT_COVERED) VALUES (5, 'Technical Training', 90);
+INSERT INTO COURSE(COURSE_ID, COURSE_TYPE, PERCENT_COVERED) VALUES (6, 'Other', 30);
+
+CREATE TABLE GRADE(
+  GRADE_ID NUMBER,
+  GRADE_TYPE VARCHAR2(2000),
+  PASS_GRADE VARCHAR2(2000),
+  PRIMARY KEY (GRADE_ID)
+);
+SELECT * FROM GRADE;
+DROP TABLE GRADE;
+INSERT INTO GRADE(GRADE_ID, GRADE_TYPE, PASS_GRADE) VALUES(1,'A-F', 'C');
+INSERT INTO GRADE(GRADE_ID, GRADE_TYPE, PASS_GRADE) VALUES(2,'P/F', 'P');
+INSERT INTO GRADE(GRADE_ID, GRADE_TYPE, PASS_GRADE) VALUES(3,'0-100', '70');
+INSERT INTO GRADE(GRADE_ID, GRADE_TYPE, PASS_GRADE) VALUES(4,'Presentation', 'Presentation');
+
+CREATE TABLE EMPLOYEE(
+  EMPLOYEE_ID NUMBER,
+  REPORTSTO NUMBER,
+  DEPARTMENT_ID NUMBER,
+  PENDING_RE NUMBER,
+  AWARDED_RE NUMBER,
+  FIRST_NAME VARCHAR2(100),
+  LAST_NAME VARCHAR2(100),
+  USERNAME VARCHAR2(200) UNIQUE NOT NULL,
+  PASS VARCHAR2(200) NOT NULL,
+  EMAIL VARCHAR2(200) UNIQUE NOT NULL,
+  ROLE_ID NUMBER,
+  PRIMARY KEY (EMPLOYEE_ID),
+  FOREIGN KEY(REPORTSTO) REFERENCES EMPLOYEE(EMPLOYEE_ID),
+  FOREIGN KEY(DEPARTMENT_ID) REFERENCES DEPARTMENT(D_ID),
+  FOREIGN KEY(ROLE_ID) REFERENCES ROLE(ROLE_ID)  
+);
+DROP TABLE EMPLOYEE;
+Select * from Employee;
+commit;
+INSERT INTO EMPLOYEE(REPORTSTO, DEPARTMENT_ID, PENDING_RE, AWARDED_RE, FIRST_NAME, LAST_NAME, USERNAME, PASS, EMAIL, ROLE_ID)
+VALUES (null, 1, 0, 0,'Ben', 'Co', 'BenCo', 'BenCo', 'BenCo@BenCo.com', 3);
+INSERT INTO EMPLOYEE(REPORTSTO, DEPARTMENT_ID, PENDING_RE, AWARDED_RE, FIRST_NAME, LAST_NAME, USERNAME, PASS, EMAIL, ROLE_ID)
+VALUES (21, 1, 0, 0,'Albert', 'Fattington ', 'abc', 'Al', 'Albert@BenCo.com', 2);
+INSERT INTO EMPLOYEE(REPORTSTO, DEPARTMENT_ID, PENDING_RE, AWARDED_RE, FIRST_NAME, LAST_NAME, USERNAME, PASS, EMAIL, ROLE_ID)
+VALUES (22, 1, 0, 0,'Mad', 'Hatter', 'hat', 'mad', 'hatter@BenCo.com', 1);
+
+select * from employee;
+
+commit;
+CREATE SEQUENCE employee_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+  /
+ -- before insert on table of logs select from log sequence
+CREATE OR REPLACE TRIGGER employee_trigger --name
+BEFORE INSERT ON EMPLOYEE --on event
+FOR EACH ROW --how often
+BEGIN
+  SELECT employee_seq.NEXTVAL
+  INTO :new.employee_id
+  FROM dual;
+END;
+
+CREATE TABLE REIMBURSE(
+  REIM_ID NUMBER,
+  EMPLOYEE_ID NUMBER,
+  EVENT_DATE VARCHAR2(200),
+  EVENT_TIME VARCHAR2 (200),
+  LOCATION VARCHAR2(500), 
+  DESCRIPTION VARCHAR2(2000),
+  REIMBURSE_COST NUMBER,
+  GRADE_FORMAT NUMBER,
+  JUSTIFICATION VARCHAR(2000),
+  COURSE_ID NUMBER,
+  NUM_DAY NUMBER,
+  PRIMARY KEY (REIM_ID),
+  FOREIGN KEY(EMPLOYEE_ID) REFERENCES EMPLOYEE(EMPLOYEE_ID) ON DELETE CASCADE,
+  FOREIGN KEY(COURSE_ID) REFERENCES COURSE(COURSE_ID),
+  FOREIGN KEY(GRADE_FORMAT) REFERENCES GRADE(GRADE_ID)
+);
+
+CREATE SEQUENCE reim_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+  /
+ -- before insert on table of logs select from log sequence
+CREATE OR REPLACE TRIGGER reim_trigger --name
+BEFORE INSERT ON REIMBURSE --on event
+FOR EACH ROW --how often
+BEGIN
+  SELECT reim_seq.NEXTVAL
+  INTO :new.reim_id
+  FROM dual;
+END;
+/
+DROP TABLE REIMBURSE;
+
+
+
+
+
+
+
+
+
+CREATE OR REPLACE PROCEDURE addReim(use_name in varchar, e_date in varchar, e_time in varchar, loc in varchar, des in varchar, r_cost in number, grade_for in number, just in varchar, c_id in number, num_day in number, stat in number, report_to in number)
+IS
+  employee_id_num number;
+  reimburse_num number;
+BEGIN
+  select employee_id INTO employee_id_num FROM EMPLOYEE WHERE USERNAME = use_name;
+  INSERT INTO REIMBURSE (EMPLOYEE_ID, EVENT_DATE, EVENT_TIME, LOCATION, DESCRIPTION, REIMBURSE_COST, GRADE_FORMAT, JUSTIFICATION, COURSE_ID, NUM_DAY)
+    VALUES (employee_id_num,e_date, e_time, loc, des, r_cost, grade_for, just,c_id, num_day);
+    
+    SELECT MAX(REIM_ID) INTO reimburse_num FROM REIMBURSE; 
+    INSERT INTO APPROVE(E_ID, STATUS_NUM, R_ID) VALUES (report_to, stat, reimburse_num);
+end;
+
+call addReim('BenCo', '3/26/2017', '2 hours', 'blacksburg', 'this is the description', 200, 3, 'this is justified', 1,0);
+select * from employee;
+select * from reimburse;
+select * from approve;
+delete from reimburse where reim_id = 41;
+truncate table reimburse;
+commit;
+
+
+CREATE TABLE APPROVE(
+    approve_id number,
+    e_id number,
+    status_num number,
+    r_id number, 
+    PRIMARY KEY (approve_id),
+    FOREIGN KEY (e_id) REFERENCES EMPLOYEE(EMPLOYEE_ID),
+    FOREIGN KEY (status_num) REFERENCES STATUS(STATUS_ID),
+    FOREIGN KEY (r_id) REFERENCES REIMBURSE(REIM_ID) ON DELETE CASCADE
+);
+DROP TABLE APPROVE;
+
+CREATE TABLE STATUS(
+  STATUS_ID NUMBER,
+  STATUS_APPROVE VARCHAR2(200),
+  PRIMARY KEY (STATUS_ID)
+);
+select * from status;
+INSERT INTO STATUS values (1,'none');
+INSERT INTO STATUS values (2,'supervisor needs information');
+INSERT INTO STATUS values (3,'supervisor approval');
+INSERT INTO STATUS values (4,'department head needs information');
+INSERT INTO STATUS values (5,'department head approval');
+INSERT INTO STATUS values (6,'benco needs information');
+INSERT INTO STATUS values (7,'benco approval');
+INSERT INTO STATUS values (8,'benco increased');
+INSERT INTO STATUS values (9,'benco decreased');
+INSERT INTO STATUS values (10,'denied');
+
+
+CREATE SEQUENCE apr_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+  /
+ -- before insert on table of logs select from log sequence
+CREATE OR REPLACE TRIGGER apr_trigger --name
+BEFORE INSERT ON APPROVE --on event
+FOR EACH ROW --how often
+BEGIN
+  SELECT apr_seq.NEXTVAL
+  INTO :new.approve_id
+  FROM dual;
+END;
+
+
+
+
+
+
+------------
+SELECT DEPARTMENT_NAME FROM DEPARTMENT, EMPLOYEE WHERE EMPLOYEE.USERNAME = 'BenCo' AND DEPARTMENT.D_ID = EMPLOYEE.DEPARTMENT_ID;
