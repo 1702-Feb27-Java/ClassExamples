@@ -63,4 +63,6 @@ public interface DAOEmployee {
 	
 	public String getEmployeeName(int empId);
 	
+	public boolean addMessage(String message, int empId, int messagerId, int reimbId);
+	
 }

@@ -222,5 +222,9 @@ public class EmployeeService {
 		return employee;
 	}
 
+	public boolean addMessage(String message, int empId, int messagerId, int reimbId){
+		boolean result = daoEmp.addMessage(message, empId, messagerId, reimbId);
+		return result;
+	}
 	
 }

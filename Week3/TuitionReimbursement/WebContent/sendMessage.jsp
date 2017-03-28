@@ -14,7 +14,7 @@
 				  <div class="form-group">
 				    <label for="event">Employee: </label>
 				    <input type="text" required class="form-control" id="event" placeholder="${empName}" name="event" disabled>
-				    <input type="hidden" name="empMessage" value="${empMessage}" style="visibility:hidden;">
+				    <input type="hidden" id="empMessage" name="empMessage" value="${empMessage}" style="visibility:hidden;">
 				  </div>
 				  <div class="form-group">
 				    <input type="text" required class="form-control" id="message" placeholder="Message body" name="message">

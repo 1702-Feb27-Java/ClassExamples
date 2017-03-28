@@ -859,5 +859,36 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		
 		return employee;
 	}
+
+	
+	@Override
+	public boolean addMessage(String message, int empId, int messagerId, int reimbId) {
+		boolean result = false;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			String sql = "INSERT INTO MESSAGE(MESSAGE, EMP_ID, MESSAGER_ID, READBOOLEAN, REIMB_ID)"
+					+ "VALUES(?, ?, ?, 0, ?)";
+
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setString(1, message);
+			ps.setInt(2, empId);
+			ps.setInt(3, messagerId);
+			ps.setInt(4, reimbId);
+			
+			ps.execute();
+			
+			connect.commit();
+			
+			result = true;
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return result;
+	}
 	
 }

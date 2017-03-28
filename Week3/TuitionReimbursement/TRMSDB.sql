@@ -80,6 +80,7 @@ CREATE TABLE TYPE_OF_EVENT
 (
   type_of_event_id NUMBER,
   type_of_event VARCHAR2(25) NOT NULL,
+  percentAwarded number(3,2) NOT NULL,
   
   CONSTRAINT t_id_pk PRIMARY KEY(type_of_event_id)
 );
@@ -189,23 +190,23 @@ VALUES (2, 'Pass');
 INSERT INTO Passing_grade(grading_id, passing_grade)
 VALUES (3, '3');
 /
-INSERT INTO type_of_event(type_of_event_id, type_of_event)
-VALUES (1, 'University Courses');
+INSERT INTO type_of_event(type_of_event_id, type_of_event, percentAwarded)
+VALUES (1, 'University Courses', 0.80);
 /
-INSERT INTO type_of_event(type_of_event_id, type_of_event)
-VALUES (2, 'Seminars');
+INSERT INTO type_of_event(type_of_event_id, type_of_event, percentAwarded)
+VALUES (2, 'Seminars', 0.60);
 /
-INSERT INTO type_of_event(type_of_event_id, type_of_event)
-VALUES (3, 'Cert. Prep. Classes');
+INSERT INTO type_of_event(type_of_event_id, type_of_event, percentAwarded)
+VALUES (3, 'Cert. Prep. Classes', 0.75);
 /
-INSERT INTO type_of_event(type_of_event_id, type_of_event)
-VALUES (4, 'Certification');
+INSERT INTO type_of_event(type_of_event_id, type_of_event, percentAwarded)
+VALUES (4, 'Certification', 1.00);
 /
-INSERT INTO type_of_event(type_of_event_id, type_of_event)
-VALUES (5, 'Technical Training');
+INSERT INTO type_of_event(type_of_event_id, type_of_event, percentAwarded)
+VALUES (5, 'Technical Training', 0.90);
 /
-INSERT INTO type_of_event(type_of_event_id, type_of_event)
-VALUES (6, 'Other');
+INSERT INTO type_of_event(type_of_event_id, type_of_event, percentAwarded)
+VALUES (6, 'Other', 0.30);  
 /
 INSERT INTO Urgent(urgent_id, urgent)
 VALUES (1, 'Urgent');
@@ -263,10 +264,29 @@ CREATE TABLE Message
   message_id NUMBER,
   message varchar2(200) NOT NULL,
   emp_id NUMBER NOT NULL,
+  messager_id NUMBER NOT NULL,
+  readBoolean NUMBER DEFAULT(0),
+  reimb_Id NUMBER NOT NULL,
   
   CONSTRAINT msg_id_pk PRIMARY KEY(message_id),
-  CONSTRAINT emplo_id_fk FOREIGN KEY(emp_id) REFERENCES Employee(employee_id)
+  CONSTRAINT emplo_id_fk FOREIGN KEY(emp_id) REFERENCES Employee(employee_id),  
+  CONSTRAINT msger_id_fk FOREIGN KEY(messager_id) REFERENCES Employee(employee_id),
+  CONSTRAINT msgreimb_id_fk FOREIGN KEY(reimbId) REFERENCES Reimbursement(reimb_id)
 ); 
+/
+CREATE SEQUENCE message_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+/
+CREATE OR REPLACE TRIGGER message_trigger
+    BEFORE INSERT ON  Message -- upon what event
+    FOR EACH ROW --how often 
+    BEGIN -- start what actually happens
+      SELECT message_seq.NEXTVAL
+      INTO :new.message_id
+      FROM dual;
+    END;
 /
 CREATE TABLE Reimbursement 
 (
@@ -279,7 +299,7 @@ CREATE TABLE Reimbursement
   location_id number(10) NOT NULL,
   form_date DATE NOT NULL,
   event_description varchar2(30) NOT NULL, 
-  event_cost varchar2(30) NOT NULL,
+  event_cost number(30) NOT NULL,
   grading_id number NOT NULL,
   type_of_event_id number NOT NULL,
   urgent_id number NOT NULL,
@@ -342,6 +362,20 @@ CREATE TABLE Attachment
   CONSTRAINT attach_id_pk PRIMARY KEY(attachment_id),
   CONSTRAINT reimur_id_fk FOREIGN KEY(reim_id) REFERENCES Reimbursement(reimb_id)
 );
+/
+CREATE SEQUENCE attachment_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+/
+CREATE OR REPLACE TRIGGER attachment_trigger
+    BEFORE INSERT ON  Attachment -- upon what event
+    FOR EACH ROW --how often 
+    BEGIN -- start what actually happens
+      SELECT attachment_seq.NEXTVAL
+      INTO :new.attachment_id
+      FROM dual;
+    END;
 /
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
   VALUES(1, 3, 1, 'Mary', 'Conley', 'mConley', 'password');
@@ -427,7 +461,7 @@ BEGIN
   gradingId := gradId;
 END addGrading;
 /
-
-
+SELECT COUNT(*) FROM MESSAGE WHERE EMP_ID = 3;
+/
 
 
