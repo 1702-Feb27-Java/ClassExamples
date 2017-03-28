@@ -41,18 +41,23 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>	
+
 	Current status of requests
 	<sql:query dataSource="${snapshot}" var="result">
-	SELECT REIMBURSE.REIM_ID from REIMBURSE, EMPLOYEE where EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND REIMBURSE.EMPLOYEE_ID = EMPLOYEE.EMPLOYEE_ID
+	SELECT REIMBURSE.REIM_ID, STATUS.STATUS_APPROVE from REIMBURSE, EMPLOYEE, STATUS, APPROVE where EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND REIMBURSE.EMPLOYEE_ID = EMPLOYEE.EMPLOYEE_ID AND STATUS.STATUS_ID = APPROVE.STATUS_NUM AND APPROVE.R_ID = REIMBURSE.REIM_ID
 	</sql:query>
 		
 	<table border="1" width="100%">
 	<tr>
-	<th>Reimbursement ID</th>	
+	<th>Reimbursement ID</th>
+	<th>Status</th>
+	<th>View Request</th>	
 	</tr>
 	<c:forEach var="row" items="${result.rows}">
 	<tr>
-	<td><c:out value="${row.REIM_ID}"/></td>	
+	<td><c:out value="${row.REIM_ID}"/></td>
+	<td><c:out value="${row.STATUS_APPROVE}"/></td>
+	<td><form action="Users.jsp"><input type="submit" name="action" value="${row.REIM_ID}" id="${row.REIM_ID}"></form></td>		
 	</tr>
 	</c:forEach>
 	</table>

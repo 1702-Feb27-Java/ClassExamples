@@ -38,8 +38,8 @@
 	</table>
 	
 	<br>
-		<h2> This is by Employee who logged in</h2>	
-		<%=((Employee)session.getAttribute("employee")).getUserName() %>
+		<h2> This is by request viewed</h2>	
+		<%=request.getParameter("action") %>
 		
 		
 		

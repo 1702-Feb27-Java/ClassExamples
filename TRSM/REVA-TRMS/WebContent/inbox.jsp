@@ -44,21 +44,29 @@
 	<%if(((Employee)session.getAttribute("employee")).getRole().equals("Associate")) {%>
 		Sorry you can't approve requests
 		<%}else{ %>
+		
 		<sql:query dataSource="${snapshot}" var="result">
-		SELECT REIMBURSE.REIM_ID from REIMBURSE, EMPLOYEE, APPROVE where EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND APPROVE.E_ID = EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID
+		SELECT REIMBURSE.REIM_ID, REIMBURSE.EMPLOYEE_ID, REIMBURSE.REIMBURSE_COST from REIMBURSE, EMPLOYEE, APPROVE where EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND APPROVE.E_ID = EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID
 		</sql:query>
 		
-		<table border="1" width="100%">
+		Here is the list of Request for your attention
+	<table border="1" width="100%">
 	<tr>
-	<th>Emp ID</th>	
+	<th>Reim ID</th>
+	<th>Employee ID</th>
+	<th>Amount Requested</th>	
+	<th>View Request</th>	
 	</tr>
 	<c:forEach var="row" items="${result.rows}">
 	<tr>
-	<td><c:out value="${row.REIM_ID}"/></td>	
+	<td><c:out value="${row.REIM_ID}"/></td>
+	<td><c:out value="${row.EMPLOYEE_ID}"/></td>
+	<td><c:out value="${row.REIMBURSE_COST}"/></td>
+	<td><form action="Users.jsp"><input type="submit" name="action" value="${row.REIM_ID}" id="${row.REIM_ID}"></form></td>	
 	</tr>
 	</c:forEach>
 	</table>
-		<%} %>
+	<%} %>
 	
 	
 	
