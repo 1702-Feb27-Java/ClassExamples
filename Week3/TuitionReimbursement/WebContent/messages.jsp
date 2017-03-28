@@ -38,7 +38,7 @@
 		        <th>Edit Reimbursement</th>
 		    </tr>
 		    <c:forEach items="${messageList}" var="message">	
-		   <form action="" method="POST">
+		   <form action="EditReimbursementServlet.do" method="POST">
 			    <tr id="${message.getReimbId()}">
 			    	<input type="hidden" name="reimbId" value="${message.getReimbId()}" style="visibility:hidden;">
 			        <td>
