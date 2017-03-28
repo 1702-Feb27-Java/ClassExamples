@@ -65,8 +65,7 @@ CREATE TABLE REIMBURSTMENT
     reimburst_amt number,
     approval_id number,
     course_id number,
-    gradetype_id number,
-    gradetype varchar(25)
+    gradetype_id number
 );
 
 --Foreign keys
@@ -103,6 +102,16 @@ alter table reimburstment drop constraint fk_reimburst_emp_id;
 alter table reimburstment drop constraint fk_reimburst_approval_id;
 alter table reimburstment drop constraint fk_reimburst_course_id;
 alter table reimburstment drop constraint fk_reimburst_gradetype_id;
+
+--Drop Tables
+drop table approval;
+drop table attachments;
+drop table course;
+drop table crole;
+drop table department;
+drop table employee;
+drop table gradetype;
+drop table reimburstment;
 
 --Sequences
 create sequence emp_seq
@@ -158,3 +167,28 @@ create or replace TRIGGER reim_trigger --name
 --Procedures
 
 --Seeded Users
+INSERT INTO EMPLOYEE (FNAME, LNAME, ADDRESS, DEPT_ID, REPORTSTO, ROLE_ID, USERNAME, PASS, EMAIL, ALLOWANCE) 
+VALUES ('Xavier', 'Grogan', '1544 Ratliff Rd.', 4, 1, 3, 'xpgrogan', 'password', 'xavier.grogan@aol.com', 1000);
+
+--Crole Table Seeds
+INSERT INTO CROLE VALUES (1, 'Employee');
+INSERT INTO CROLE VALUES (2, 'Supervisor');
+INSERT INTO CROLE VALUES (3, 'Department Head');
+
+--Approval Seeds
+INSERT INTO APPROVAL VALUES (1, 'Pending');
+INSERT INTO APPROVAL VALUES (2, 'Waiting on Supervisor');
+INSERT INTO APPROVAL VALUES (3, 'Waiting on Dept. Head');
+INSERT INTO APPROVAL VALUES (4, 'Waiting on BenCo');
+INSERT INTO APPROVAL VALUES (5, 'Approved');
+INSERT INTO APPROVAL VALUES (6, 'Declined');
+
+--Department Seeds
+INSERT INTO DEPARTMENT VALUES (1, 'Sales');
+INSERT INTO DEPARTMENT VALUES (2, 'Marketing');
+INSERT INTO DEPARTMENT VALUES (3, 'Accounting');
+INSERT INTO DEPARTMENT VALUES (4, 'BenCo');
+
+--Gradetype Seeds
+INSERT INTO GRADETYPE VALUES (1, 'Pass-Fail');
+INSERT INTO GRADETYPE VALUES (2, 'A-F');
