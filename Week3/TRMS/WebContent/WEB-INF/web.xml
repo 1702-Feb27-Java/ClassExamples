@@ -9,14 +9,41 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <context-param>
+    <param-name>ApplicationWideName</param-name>
+    <param-value>ApplicationWideValue</param-value>
+  </context-param>
   <servlet>
     <description></description>
-    <display-name>testservlet</display-name>
-    <servlet-name>testservlet</servlet-name>
-    <servlet-class>com.revature.servlet.testservlet</servlet-class>
+    <display-name>LoginServlet</display-name>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>com.revature.servlet.LoginServlet</servlet-class>
+    <init-param>
+      <param-name>InitialName</param-name>
+      <param-value>InitialValue</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>testservlet</servlet-name>
-    <url-pattern>/testservlet</url-pattern>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/LoginServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SessionHandler</display-name>
+    <servlet-name>SessionHandler</servlet-name>
+    <servlet-class>com.revature.servlet.SessionHandler</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SessionHandler</servlet-name>
+    <url-pattern>/SessionHandler</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <display-name>TestFilter</display-name>
+    <filter-name>TestFilter</filter-name>
+    <filter-class>com.revature.filter.TestFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>TestFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
 </web-app>
