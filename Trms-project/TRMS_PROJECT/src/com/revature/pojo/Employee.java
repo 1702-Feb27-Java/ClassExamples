@@ -5,12 +5,20 @@ public class Employee {
 	private String Fname;
 	private String Lname;
 	private int Dept_id;
+	private int Emp_id;
 	private int Role_id;
 	private String username;
 	private String password;
 	private int Allowance;
 	
 	//getters and setters
+	public int getEmp_id() {
+		return Emp_id;
+	}
+	public void setEmp_id(int emp_id) {
+		Emp_id = emp_id;
+	}
+	
 	public String getFname() {
 		return Fname;
 	}
@@ -56,9 +64,12 @@ public class Employee {
 	
 	@Override
 	public String toString() {
-		return "Employee [Fname=" + Fname + ", Lname=" + Lname + ", Dept_id=" + Dept_id + ", Role_id=" + Role_id
-				+ ", username=" + username + ", password=" + password + ", Allowance=" + Allowance + "]";
+		return "Employee [Fname=" + Fname + ", Lname=" + Lname + ", Dept_id=" + Dept_id + ", Emp_id=" + Emp_id
+				+ ", Role_id=" + Role_id + ", username=" + username + ", password=" + password + ", Allowance="
+				+ Allowance + "]";
 	}
+	
+	
 	
 	
 	

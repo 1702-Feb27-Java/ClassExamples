@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.revature.dao.*;
 import com.revature.connect.ConnectionUtil;
-import com.revature.service.*;
+import com.revature.service.ServiceDAOImpl;
+
+import javafx.concurrent.WorkerStateEvent;
 
 /**
  * Servlet implementation class Login
@@ -40,9 +42,9 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceDAOImpl DAO = new ServiceDAOImpl();
+		
 		//doGet(request, response);
 		
-		//System.out.println("Marco help!!!!!!! 0.o");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		
@@ -51,8 +53,31 @@ public class Login extends HttpServlet {
 		
 		if(DAO.EMP_LOGIN(n, p) == true){
 			System.out.println("Login and validation successful");
-			RequestDispatcher rd=request.getRequestDispatcher("Login.html");  
-	        rd.forward(request,response); 
+			//need to check the employee role and point them to the page
+			if( DAO.Emp_Role_Check(n) == 1 ) {
+				//System.out.println("Goes to employee jsp");
+				RequestDispatcher rd=request.getRequestDispatcher("Employee.jsp");  
+				rd.forward(request,response); 
+			}
+			
+			else if ( DAO.Emp_Role_Check(n) == 2 ) {
+				System.out.println("Goes to district supervisor jsp");
+				RequestDispatcher rd=request.getRequestDispatcher("Login.html");  
+				rd.forward(request,response); 
+			}
+			
+			else if ( DAO.Emp_Role_Check(n) == 3 ) {
+				System.out.println("Goes to deparment head jsp");
+				RequestDispatcher rd=request.getRequestDispatcher("Login.html");  
+				rd.forward(request,response); 	
+			}
+			
+			else if ( DAO.Emp_Role_Check(n) == 4 & DAO.Emp_Role_Check(n) == 1) {
+				System.out.println("Goes to Benco jsp");
+				RequestDispatcher rd=request.getRequestDispatcher("Login.html");  
+				rd.forward(request,response); 
+			}
+			
 		}
 		
 		else{

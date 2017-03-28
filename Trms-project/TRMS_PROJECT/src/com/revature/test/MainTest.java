@@ -17,7 +17,7 @@ public class MainTest {
 		
 		EmployeeDAOImpl this_emp = new EmployeeDAOImpl();
 		
-		this_emp.SignInEmployee(user_name, pass_word);
+		this_emp.SignInEmployee(user_name);
 
 	}
 

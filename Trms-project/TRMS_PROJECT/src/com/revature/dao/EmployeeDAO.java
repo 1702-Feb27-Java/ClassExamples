@@ -11,13 +11,11 @@ import java.util.ArrayList;
  */
 public interface EmployeeDAO {
 	
-	//methods to be declared below
-	
 	//method to get all employees from a database and store them into a data structure
-	//method to apply to the reimbursement form (inserting into the reimbursement table)
-	//any further methods will be added upon further evaluation.
+	public ArrayList<Employee> SignInEmployee(String Username);
+	//Function to return role number for the said employee. 1 = employee, 2 = direct supervisor, 3 = department head, 4 Benco
+	public int getEmployeeRoleNum(String username);
+	public int getEmployeeDeptNum(String username);
 	
-	public ArrayList<Employee> SignInEmployee(String Username, String Password);
-	public boolean ApplyForReim(String Username, String Location, int add_date, int start_date, int end_date, int course_time, int course_cost,
-			 int app_num, int course_id, int grade_type, String grade);
+	
 }
