@@ -65,4 +65,5 @@ public interface DAOEmployee {
 	
 	public boolean addMessage(String message, int empId, int messagerId, int reimbId);
 	
+	public int getBalance(int empId);
 }

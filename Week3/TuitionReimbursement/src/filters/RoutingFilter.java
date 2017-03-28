@@ -99,6 +99,14 @@ public class RoutingFilter implements Filter {
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;
+		case "GetApprovedReimbursements":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
+		case "AddGrade":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
 		default:
 		}
 		

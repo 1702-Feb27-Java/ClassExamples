@@ -14,17 +14,22 @@
 		<br><br><br><br><br><br>
 		
 		<div class="row text-center">
-			  <div class="col-md-6">
+			  <div class="col-md-4">
 			  	<form action="CreateReimbursement.do" method="POST">
 			  		<button type="submit" class="btn btn-default btn-lg">Apply for a reimbursement</button>
 			  	</form>
 			  </div>
-			  <div class="col-md-6">
-			  	<form action="ReimbursementsServlet.do" method="POST">
-			  		<button type="submit" class="btn btn-default btn-lg">View Pending Reimbursements</button>
+			  <div class="col-md-4">
+			  	<form action="GetApprovedReimbursements.do" method="POST">
+			  		<button type="submit" class="btn btn-default btn-lg">Approved Reimbursements</button>
 			  	</form>
 			  </div>
-		</div><br><br>
+			  <div class="col-md-4">
+			  	<form action="ReimbursementsServlet.do" method="POST">
+			  		<button type="submit" class="btn btn-default btn-lg">Pending Reimbursements</button>
+			  	</form>
+			  </div>
+		</div><br><br><br><br>
 		<%{
 			session.setAttribute("roleId", request.getAttribute("roleId"));
 			session.setAttribute("deptId", request.getAttribute("deptId"));
@@ -63,8 +68,20 @@
 					<div class="col-md-5"></div>
 				</div>
 			</c:when>
-		</c:choose>
-	
+		</c:choose><br><br><br><br>
+		
+		<div class="row text-center">
+			  <div class="col-md-6">
+			  	<form action="" method="POST">
+			  		<button type="submit" class="btn btn-default btn-lg">Paid Reimbursements</button>
+			  	</form>
+			  </div>
+			  <div class="col-md-6">
+			  	<form action="" method="POST">
+			  		<button type="submit" class="btn btn-default btn-lg">Declined Reimbursements</button>
+			  	</form>
+			  </div>
+		</div>
 	
 		
 	

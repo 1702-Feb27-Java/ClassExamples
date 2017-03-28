@@ -894,5 +894,31 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		
 		return result;
 	}
+
+	public int getBalance(int empId){
+		int balanace = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+	
+			String sql = "SELECT BALANCE"
+					+ " FROM EMPLOYEE "
+					+ "WHERE EMPLOYEE_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, empId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				balanace = rs.getInt(1);
+			}
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return balanace;
+	}
 	
 }

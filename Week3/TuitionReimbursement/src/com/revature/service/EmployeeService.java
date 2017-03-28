@@ -227,4 +227,22 @@ public class EmployeeService {
 		return result;
 	}
 	
+	public int getBalance(int empId){
+		int balance = daoEmp.getBalance(empId);
+		return balance;
+	}
+	
+	public ArrayList<Reimbursement> getApprovedReimbursements(int employeeId){
+		ArrayList<Reimbursement> approvedReimbursements = new ArrayList<Reimbursement>();
+		ArrayList<Reimbursement> reimbursements = daoEmp.getReimbursements(employeeId);
+		
+		for(Reimbursement r : reimbursements){
+			if(r.getApprovalStepId() == 4){
+				approvedReimbursements.add(r);
+			}
+		}
+		
+		return approvedReimbursements;
+	}
+	
 }

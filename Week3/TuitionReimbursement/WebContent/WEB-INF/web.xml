@@ -148,4 +148,24 @@
     <servlet-name>SendMessageServlet</servlet-name>
     <url-pattern>/SendMessageServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetApprovedReimbursements</display-name>
+    <servlet-name>GetApprovedReimbursements</servlet-name>
+    <servlet-class>servlets.GetApprovedReimbursements</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetApprovedReimbursements</servlet-name>
+    <url-pattern>/GetApprovedReimbursements</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddGrade</display-name>
+    <servlet-name>AddGrade</servlet-name>
+    <servlet-class>servlets.AddGrade</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddGrade</servlet-name>
+    <url-pattern>/AddGrade</url-pattern>
+  </servlet-mapping>
 </web-app>
