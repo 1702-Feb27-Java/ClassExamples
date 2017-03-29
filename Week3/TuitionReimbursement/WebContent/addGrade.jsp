@@ -10,7 +10,7 @@
 		<div class="row text-center">
 			<div class="col-sm-4"></div>
 			<div class="col-md-4">
-				<form action="SubmitEditServlet.do" method="POST">
+				<form action="SubmitGrade.do" method="POST">
 				  <div class="form-group">
 				    <label for="event">Event Name</label>
 				    <input type="text" required class="form-control" id="event" placeholder="Event" name="event" disabled value="${reimbursement.getEvent()}">
@@ -71,7 +71,7 @@
 				    <input type="file" class="form-control-file" id="fileInput" aria-describedby="fileHelp" name="fileInput">
 				    <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
 				  </div>
-				  <button type="submit" class="btn btn-primary">Submit Edit</button>
+				  <button type="submit" class="btn btn-primary">Submit Grade</button>
 				</form><br>
 				<script>
 					boolean submitResult = (boolean)request.getAttribute("submitResult");

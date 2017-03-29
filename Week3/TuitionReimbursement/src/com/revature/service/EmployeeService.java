@@ -241,8 +241,22 @@ public class EmployeeService {
 				approvedReimbursements.add(r);
 			}
 		}
+		for(Reimbursement r : approvedReimbursements){
+			String location = daoEmp.getLocation(r.getLocationId());
+			String grading = daoEmp.getGrading(r.getGradingId());
+			String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
+			String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
+			
+			r.setLocation(location);
+			r.setGrading(grading);
+			r.setTypeOfEvent(typeOfEvent);
+			r.setApprovalStep(approvalStep);
+		}
 		
 		return approvedReimbursements;
 	}
 	
+	public void submitGrade(int reimbId, String grade){
+		daoEmp.submitGrade(reimbId, grade);
+	}
 }

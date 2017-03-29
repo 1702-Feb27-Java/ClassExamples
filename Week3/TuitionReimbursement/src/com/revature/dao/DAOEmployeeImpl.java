@@ -920,5 +920,27 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		
 		return balanace;
 	}
+
+	public void submitGrade(int reimbId, String grade){
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "UPDATE REIMBURSEMENT "
+					+ "SET FINAL_GRADE = ?, APPROVAL_STEP_ID = 5"
+					+ " WHERE REIMB_ID = ?";
+		
+			PreparedStatement ps = connect.prepareStatement(sql);
 	
+			ps.setString(1, grade);
+			ps.setInt(2, reimbId);
+			
+			ps.execute();
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+	}
 }

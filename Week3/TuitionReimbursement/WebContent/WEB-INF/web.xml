@@ -168,4 +168,14 @@
     <servlet-name>AddGrade</servlet-name>
     <url-pattern>/AddGrade</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SubmitGrade</display-name>
+    <servlet-name>SubmitGrade</servlet-name>
+    <servlet-class>servlets.SubmitGrade</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SubmitGrade</servlet-name>
+    <url-pattern>/SubmitGrade</url-pattern>
+  </servlet-mapping>
 </web-app>

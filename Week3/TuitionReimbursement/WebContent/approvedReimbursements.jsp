@@ -45,10 +45,10 @@
 		        <th>Approval Step</th>
 		        <th>Event Date</th>
 		        <th>Date Filled out</th>
-		        <th>View Reimbursement</th>
+		        <th>Add Grade</th>
 		    </tr>
 		    <c:forEach items="${approvedReimbursements}" var="reimbursement">	
-		   <form action="" method="POST">
+		   <form action="AddGrade.do" method="POST">
 			    <tr id="${reimbursement.getReimbId()}">
 			    	<input type="hidden" name="reimbId" value="${reimbursement.getReimbId()}" style="visibility:hidden;">
 			        <td>
