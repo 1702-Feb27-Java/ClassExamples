@@ -47,7 +47,6 @@ public class EditReimbursementServlet extends HttpServlet {
 		request.setAttribute("messagerId", request.getParameter("messagerId"));
 		
 		String message = request.getParameter("message");
-		System.out.println(message);
 		
 		if(message.equals("Reimbursement Updated")){
 			String nextJSP = "/approveReimbursement.jsp";

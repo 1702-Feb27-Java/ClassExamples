@@ -329,4 +329,17 @@ public class EmployeeService {
 	public void finalUpdate(int reimbId, boolean approve){
 		daoEmp.finalUpdate(reimbId, approve);
 	}
+	
+	public ArrayList<Reimbursement> getPendingReimbursements(int employeeId){
+			ArrayList<Reimbursement> pendingReimbursements = new ArrayList<Reimbursement>();
+			ArrayList<Reimbursement> reimbursements = getReimbursements(employeeId);
+			
+			for(Reimbursement r : reimbursements){
+				if(r.getApprovalStepId() == 1 || r.getApprovalStepId() == 2 || r.getApprovalStepId() == 3){
+					pendingReimbursements.add(r);
+				}
+			}
+			
+			return pendingReimbursements;
+	}
 }

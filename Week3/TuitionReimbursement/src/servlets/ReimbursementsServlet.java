@@ -51,7 +51,7 @@ public class ReimbursementsServlet extends HttpServlet {
 		ses.setAttribute("gradingTypes", gradingTypes);
 		ses.setAttribute("eventTypes", eventTypes);
 		
-		ArrayList<Reimbursement> reimbursements = serveEmp.getReimbursements(empId);
+		ArrayList<Reimbursement> reimbursements = serveEmp.getPendingReimbursements(empId);
 		
 		ses.setAttribute("reimbursements", reimbursements);
 		request.setAttribute("reimbursements", reimbursements);
