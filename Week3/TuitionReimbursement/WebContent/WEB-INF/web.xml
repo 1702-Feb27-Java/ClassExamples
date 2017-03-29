@@ -198,4 +198,14 @@
     <servlet-name>DenialReason</servlet-name>
     <url-pattern>/DenialReason</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DeclinedReimbursement</display-name>
+    <servlet-name>DeclinedReimbursement</servlet-name>
+    <servlet-class>servlets.DeclinedReimbursement</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeclinedReimbursement</servlet-name>
+    <url-pattern>/DeclinedReimbursement</url-pattern>
+  </servlet-mapping>
 </web-app>

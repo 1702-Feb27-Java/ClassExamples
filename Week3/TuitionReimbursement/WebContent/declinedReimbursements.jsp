@@ -48,7 +48,7 @@
 		        <th>Reason for Decline</th>
 		    </tr>
 		    <c:forEach items="${declinedReimbursements}" var="reimbursement">	
-		   <form action="AddGrade.do" method="POST">
+		   <form action="DeclinedReimbursement.do" method="POST">
 			    <tr id="${reimbursement.getReimbId()}">
 			    	<input type="hidden" name="reimbId" value="${reimbursement.getReimbId()}" style="visibility:hidden;">
 			        <td>

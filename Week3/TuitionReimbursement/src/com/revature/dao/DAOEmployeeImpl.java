@@ -593,6 +593,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				int approvalStepId = rs.getInt(15);
 				Date eventDate = rs.getDate(5);
 				Date formDate = rs.getDate(8);
+				String reason = rs.getString(22);
 				
 				reimbursement.setReimbId(reimbId);
 				reimbursement.setEvent(event);
@@ -605,6 +606,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				reimbursement.setApprovalStepId(approvalStepId);
 				reimbursement.setEventDate(eventDate);
 				reimbursement.setFormDate(formDate);
+				reimbursement.setReason(reason);
 			}
 			
 			connect.commit();

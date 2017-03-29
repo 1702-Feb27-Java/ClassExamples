@@ -3,10 +3,10 @@ package com.revature.pojo;
 import java.util.Date;
 
 public class Reimbursement {
-	String event, time, description, grading, approvalStep, location, typeOfEvent;
+	String event, time, description, grading, approvalStep, location, typeOfEvent, reason;
 	int locationId, gradingId, typeOfEventId, approvalStepId, cost, reimbId, empId;
 	Date eventDate, formDate;
-	public Reimbursement(String event, String time, String description, int cost, int locationId, int gradingId,
+	public Reimbursement(String event, String time, String description, String reason, int cost, int locationId, int gradingId,
 			int typeOfEventId, int approvalStepId, Date eventDate, Date formDate, int reimbId, int empId) {
 		super();
 		this.event = event;
@@ -21,6 +21,7 @@ public class Reimbursement {
 		this.formDate = formDate;
 		this.reimbId = reimbId;
 		this.empId = empId;
+		this.reason = reason;
 	}
 	public Reimbursement(){
 		
@@ -121,13 +122,19 @@ public class Reimbursement {
 	public int getEmpId() {
 		return empId;
 	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+	public String getReason() {
+		return reason;
+	}
 	@Override
 	public String toString() {
 		return "Reimbursement [event=" + event + ", time=" + time + ", description=" + description + ", grading="
 				+ grading + ", approvalStep=" + approvalStep + ", location=" + location + ", typeOfEvent=" + typeOfEvent
 				+ ", locationId=" + locationId + ", gradingId=" + gradingId + ", typeOfEventId=" + typeOfEventId
 				+ ", approvalStepId=" + approvalStepId + ", cost=" + cost + ", eventDate=" + eventDate + ", formDate="
-				+ formDate + ", reimbId=" + reimbId +  ", empId=" + empId + "]\n";
+				+ formDate + ", reimbId=" + reimbId +  ", empId=" + empId + ", reason=" + reason + "]\n";
 	}
 
 	
