@@ -208,4 +208,24 @@
     <servlet-name>DeclinedReimbursement</servlet-name>
     <url-pattern>/DeclinedReimbursement</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetPaidReimbursements</display-name>
+    <servlet-name>GetPaidReimbursements</servlet-name>
+    <servlet-class>servlets.GetPaidReimbursements</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetPaidReimbursements</servlet-name>
+    <url-pattern>/GetPaidReimbursements</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PaidReimbursement</display-name>
+    <servlet-name>PaidReimbursement</servlet-name>
+    <servlet-class>servlets.PaidReimbursement</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PaidReimbursement</servlet-name>
+    <url-pattern>/PaidReimbursement</url-pattern>
+  </servlet-mapping>
 </web-app>

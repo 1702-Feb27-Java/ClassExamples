@@ -287,4 +287,29 @@ public class EmployeeService {
 	public void markMessageRead(int messageId){
 		daoEmp.markMessageRead(messageId);
 	}
+	
+	public ArrayList<Reimbursement> getPaidReimbursements(int employeeId){
+		ArrayList<Reimbursement> paidReimbursements = new ArrayList<Reimbursement>();
+		ArrayList<Reimbursement> reimbursements = daoEmp.getReimbursements(employeeId);
+		
+		for(Reimbursement r : reimbursements){
+			if(r.getApprovalStepId() == 7){
+				paidReimbursements.add(r);
+			}
+		}
+		for(Reimbursement r : paidReimbursements){
+			String location = daoEmp.getLocation(r.getLocationId());
+			String grading = daoEmp.getGrading(r.getGradingId());
+			String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
+			String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
+			
+			r.setLocation(location);
+			r.setGrading(grading);
+			r.setTypeOfEvent(typeOfEvent);
+			r.setApprovalStep(approvalStep);
+		}
+		
+		return paidReimbursements;
+	}
+	
 }

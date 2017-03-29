@@ -72,7 +72,7 @@
 		
 		<div class="row text-center">
 			  <div class="col-md-6">
-			  	<form action="" method="POST">
+			  	<form action="GetPaidReimbursements.do" method="POST">
 			  		<button type="submit" class="btn btn-default btn-lg">Paid Reimbursements</button>
 			  	</form>
 			  </div>
