@@ -594,6 +594,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				Date eventDate = rs.getDate(5);
 				Date formDate = rs.getDate(8);
 				String reason = rs.getString(22);
+				String finalGrade = rs.getString(14);
 				
 				reimbursement.setReimbId(reimbId);
 				reimbursement.setEvent(event);
@@ -607,6 +608,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				reimbursement.setEventDate(eventDate);
 				reimbursement.setFormDate(formDate);
 				reimbursement.setReason(reason);
+				reimbursement.setFinalGrade(finalGrade);
 			}
 			
 			connect.commit();

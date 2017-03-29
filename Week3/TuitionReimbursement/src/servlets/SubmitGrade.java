@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.revature.pojo.Reimbursement;
 import com.revature.service.EmployeeService;
 
 /**
@@ -36,6 +38,13 @@ public class SubmitGrade extends HttpServlet {
 		String finalGrade = request.getParameter("finalGrade");
 		
 		serveEmp.submitGrade(reimbId, finalGrade);
+		
+		int empId = (int)ses.getAttribute("uId");
+		
+		ArrayList<Reimbursement> approvedReimbursements = serveEmp.getApprovedReimbursements(empId);
+		request.setAttribute("approvedReimbursements", approvedReimbursements);
+
+		
 		
 		String nextJSP = "/approvedReimbursements.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
