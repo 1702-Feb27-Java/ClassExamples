@@ -45,14 +45,19 @@ public class ConfirmApproveServlet extends HttpServlet {
 		boolean result = false;
 		String empName = "";
 		int empMessage = 0;
+		String reason = "";
+		
 		if (act == null) {
 			System.out.println(false);
 		} else if (act.equals("approve")) {
 		    result = serveEmp.updateReimbursement(reimbId, empId, roleId, deptId, true, "");
 		} else if (act.equals("decline")) {
-			String reason = request.getParameter("reason");
+			reason = request.getParameter("reason");
 			System.out.println(reason);
 			result = serveEmp.updateReimbursement(reimbId, empId, roleId, deptId, false, reason);
+			empMessage = serveEmp.getEmployeeIdByReimbursementId(reimbId);
+			empName = serveEmp.getEmployeeName(empMessage);
+			serveEmp.addMessage(reason, empMessage, empId, reimbId);
 		} else if (act.equals("request")) {
 		   empMessage = serveEmp.getEmployeeIdByReimbursementId(reimbId);
 		   empName = serveEmp.getEmployeeName(empMessage);

@@ -58,6 +58,11 @@ public class EditReimbursementServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
 			dispatcher.forward(request,response);
 		}
+		else if(reimbursement.getApprovalStepId() == 6){
+			String nextJSP = "/declinedReimbursement.jsp";
+			RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
+			dispatcher.forward(request,response);
+		}
 		else{
 			String nextJSP = "/editReimbursement.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
