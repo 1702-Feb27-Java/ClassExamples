@@ -59,17 +59,6 @@
 		    </c:forEach>
 		</table>
 		</div>
-<%-- 	==================================================================================	
-
-		<h1>Messages</h1>
-	
-		    <ul>
-			      <c:forEach items="${messageList}" var="message">
-			      	<option value=${message}>
-			      		<li>From: ${message.messager} --- ${message.message}</li>
-			      </c:forEach>
-		     </ul>
-		====================================================================== --%>
 </div>
 	
 </body>

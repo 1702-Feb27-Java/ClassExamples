@@ -71,5 +71,5 @@ public interface DAOEmployee {
 	
 	public void markMessageRead(int messageId);
 
-	
+	public void finalUpdate(int reimbId, boolean approve);
 }

@@ -2,24 +2,16 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-
-
-	<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
-	<%@include file="header.jsp"%>
-	<body>	
-		<%{
-			request.setAttribute("uId", request.getAttribute("id"));
-			
-		}%>
-		
-		<br><br><br>
-		
+	<%@include file="header.jsp" %>
+	<body>
+		<br><br>
 		<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-		<h1>Reimbursement Form</h1><br>
+		<h1>Declined Reimbursement</h1>
+		<h3 style="text-align: center;">Amount Reimbursed: amount here</h3><br>
 		<div class="row text-center">
 			<div class="col-sm-4"></div>
 			<div class="col-md-4">
-				<form action="SubmitEditServlet.do" method="POST">
+				<form>
 				  <div class="form-group">
 				    <label for="event">Event Name</label>
 				    <input type="text" required class="form-control" id="event" placeholder="Event" name="event" disabled value="${reimbursement.getEvent()}">
@@ -67,48 +59,18 @@
 				    <label for="time">Event Type</label>
 				    <input type="text" required class="form-control" id="eventType" placeholder="eventType" name="eventType" disabled value="${reimbursement.getTypeOfEvent()}">
 				  </div>
-				  <div class="form-group">
-				    <label for="time">Final Grade</label>
-				    <input type="text" required class="form-control" id="finalGrade" placeholder="Final Grade" name="finalGrade" disabled value="${reimbursement.getFinalGrade()}">
-				  </div>
 				  <div class="form-group" style="visibility:hidden;">
 				    <label for="time">Reimb id</label>
 				    <input type="text" required class="form-control" id="reimbId" placeholder="reimbId" name="reimbId" value="${reimbursement.getReimbId()}">
 				  </div>
-				  <div class="form-group">
-				    <label for="exampleInputFile">File input</label>
-				    <input type="file" class="form-control-file" id="fileInput" aria-describedby="fileHelp" name="fileInput">
-				    <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
-				  </div>
 				</form><br>
-		
+
+
+				<br><br><br><br>
 				</div>
 			<div class="col-sm-4"></div>
 		</div>
-		<br><br>
 		
-		<div class="row">
-			<div class="col-md-2"></div>
-			<div class="col-md-3">
-			  	<form action="ConfirmApproveServlet.do" method="POST">
-			  		<button name="edit" value="approve" type="submit" class="btn btn-default btn-lg">Approve Reimbursement</button>
-			  	</form>
-			</div>
-			<div class="col-md-3">
-				<form action="ConfirmApproveServlet.do" method="POST">
-					<button name="edit" value="decline" type="submit" class="btn btn-default btn-lg">Decline Reimbursement</button><br>
-					<label for="reason">Reason for Decline</label>
-					<input type="text" required class="form-control" id="reason" placeholder="Reason" name="reason">
-			  	</form>
-			</div>
-			<div class="col-md-3">
-				<form action="ConfirmApproveServlet.do" method="POST">
-			  		<button name="edit" value="request" type="submit" class="btn btn-default btn-lg">Request more information</button>
-			  	</form>
-			</div>
-		</div>
-=
-				<br><br><br><br>
 	
 	</body>
 </html>

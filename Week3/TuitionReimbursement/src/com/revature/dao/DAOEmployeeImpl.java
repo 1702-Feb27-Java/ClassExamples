@@ -677,6 +677,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				int typeOfEventId = rs.getInt(12);
 				Date eventDate = rs.getDate(5);
 				Date formDate = rs.getDate(8);
+				String finalGrade = rs.getString(14);
 				
 				reimbursement.setReimbId(reimbId);
 				reimbursement.setEmpId(empId);
@@ -690,6 +691,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				reimbursement.setApprovalStepId(approvalStepId);
 				reimbursement.setEventDate(eventDate);
 				reimbursement.setFormDate(formDate);
+				reimbursement.setFinalGrade(finalGrade);
 				
 				reimbursements.add(reimbursement);
 			}
@@ -969,4 +971,25 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		}
 	}
 	
+	public void finalUpdate(int reimbId, boolean approve){
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			String sql = "UPDATE REIMBURSEMENT "
+						+ "SET APPROVAL_STEP_ID = ?"
+						+ " WHERE REIMB_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			if(approve)
+				ps.setInt(1, 7);
+			else
+				ps.setInt(1, 6);
+			ps.setInt(2, reimbId);
+			
+			ps.execute();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+	}
 }

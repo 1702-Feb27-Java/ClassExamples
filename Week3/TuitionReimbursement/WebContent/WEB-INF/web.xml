@@ -228,4 +228,34 @@
     <servlet-name>PaidReimbursement</servlet-name>
     <url-pattern>/PaidReimbursement</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FinalApprovalServlet</display-name>
+    <servlet-name>FinalApprovalServlet</servlet-name>
+    <servlet-class>servlets.FinalApprovalServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FinalApprovalServlet</servlet-name>
+    <url-pattern>/FinalApprovalServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FinalApprove</display-name>
+    <servlet-name>FinalApprove</servlet-name>
+    <servlet-class>servlets.FinalApprove</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FinalApprove</servlet-name>
+    <url-pattern>/FinalApprove</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ConfirmFinalApprove</display-name>
+    <servlet-name>ConfirmFinalApprove</servlet-name>
+    <servlet-class>servlets.ConfirmFinalApprove</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ConfirmFinalApprove</servlet-name>
+    <url-pattern>/ConfirmFinalApprove</url-pattern>
+  </servlet-mapping>
 </web-app>

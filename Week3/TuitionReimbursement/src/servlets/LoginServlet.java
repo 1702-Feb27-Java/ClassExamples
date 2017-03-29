@@ -54,6 +54,7 @@ public class LoginServlet extends HttpServlet {
 		HttpSession ses = request.getSession();
 		int empId = serveEmp.loginEmployee(username, password);
 		int balance = serveEmp.getBalance(empId);
+		
 		ses.setAttribute("balance", balance);
 		request.setAttribute("id", empId);
 		ses.setAttribute("uId", empId);

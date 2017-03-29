@@ -159,6 +159,20 @@ public class EmployeeService {
 
 	public ArrayList<Reimbursement> getReimbursements(int approvalStepId, int departmentId, int employeeId){
 		ArrayList<Reimbursement> tempReimbursements = daoEmp.getPendingReimbursementsByApprovalStep(approvalStepId, employeeId);
+		if(departmentId == 0){
+			for(Reimbursement r : tempReimbursements){
+				String location = daoEmp.getLocation(r.getLocationId());
+				String grading = daoEmp.getGrading(r.getGradingId());
+				String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
+				String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
+				
+				r.setLocation(location);
+				r.setGrading(grading);
+				r.setTypeOfEvent(typeOfEvent);
+				r.setApprovalStep(approvalStep);
+			}
+			return tempReimbursements;
+		}
 		ArrayList<Integer> employees = daoEmp.getEmployeesByDepartment(departmentId);
 		ArrayList<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
 		
@@ -312,4 +326,7 @@ public class EmployeeService {
 		return paidReimbursements;
 	}
 	
+	public void finalUpdate(int reimbId, boolean approve){
+		daoEmp.finalUpdate(reimbId, approve);
+	}
 }

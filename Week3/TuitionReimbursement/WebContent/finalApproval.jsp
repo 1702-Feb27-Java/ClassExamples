@@ -19,7 +19,7 @@
 		<div class="row text-center">
 			<div class="col-sm-4"></div>
 			<div class="col-md-4">
-				<form action="SubmitEditServlet.do" method="POST">
+				<form>
 				  <div class="form-group">
 				    <label for="event">Event Name</label>
 				    <input type="text" required class="form-control" id="event" placeholder="Event" name="event" disabled value="${reimbursement.getEvent()}">
@@ -89,21 +89,17 @@
 		
 		<div class="row">
 			<div class="col-md-2"></div>
-			<div class="col-md-3">
-			  	<form action="ConfirmApproveServlet.do" method="POST">
+			<div class="col-md-4">
+			  	<form action="ConfirmFinalApprove.do" method="POST">
 			  		<button name="edit" value="approve" type="submit" class="btn btn-default btn-lg">Approve Reimbursement</button>
 			  	</form>
 			</div>
-			<div class="col-md-3">
-				<form action="ConfirmApproveServlet.do" method="POST">
+			<div class="col-md-1"></div>
+			<div class="col-md-4">
+				<form action="ConfirmFinalApprove.do" method="POST">
 					<button name="edit" value="decline" type="submit" class="btn btn-default btn-lg">Decline Reimbursement</button><br>
 					<label for="reason">Reason for Decline</label>
 					<input type="text" required class="form-control" id="reason" placeholder="Reason" name="reason">
-			  	</form>
-			</div>
-			<div class="col-md-3">
-				<form action="ConfirmApproveServlet.do" method="POST">
-			  		<button name="edit" value="request" type="submit" class="btn btn-default btn-lg">Request more information</button>
 			  	</form>
 			</div>
 		</div>

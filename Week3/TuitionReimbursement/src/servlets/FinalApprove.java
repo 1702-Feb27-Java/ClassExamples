@@ -13,15 +13,15 @@ import com.revature.pojo.Reimbursement;
 import com.revature.service.EmployeeService;
 
 /**
- * Servlet implementation class EditReimbursementServlet
+ * Servlet implementation class FinalApprove
  */
-public class EditReimbursementServlet extends HttpServlet {
+public class FinalApprove extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EditReimbursementServlet() {
+    public FinalApprove() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,38 +32,18 @@ public class EditReimbursementServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		EmployeeService serveEmp = new EmployeeService();
 		HttpSession ses = request.getSession();
-		int empId = (int) ses.getAttribute("uId");
-		int reimbId = Integer.parseInt(request.getParameter("reimbId"));
-		int messageId = Integer.parseInt(request.getParameter("messageId"));
 		
-		serveEmp.markMessageRead(messageId);
-		int messages = serveEmp.getNumberOfMessages(empId);
-		ses.setAttribute("messages", messages);
+		int reimbId = Integer.parseInt(request.getParameter("reimbId"));
+		
+		ses.setAttribute("reimbId", reimbId);
 		
 		Reimbursement reimbursement = serveEmp.getReimbursementById(reimbId);
 		
 		request.setAttribute("reimbursement", reimbursement);
-		ses.setAttribute("reimbId", reimbId);
-		request.setAttribute("messagerId", request.getParameter("messagerId"));
 		
-		String message = request.getParameter("message");
-		System.out.println(message);
-		
-		if(message.equals("Reimbursement Updated")){
-			String nextJSP = "/approveReimbursement.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
-			dispatcher.forward(request,response);
-		}
-		else if(message.equals("Reimbursement Processed")){
-			String nextJSP = "/finalReimbursement.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
-			dispatcher.forward(request,response);
-		}
-		else{
-			String nextJSP = "/editReimbursement.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
-			dispatcher.forward(request,response);
-		}
+		String nextJSP = "/finalApproval.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
+		dispatcher.forward(request,response);
 	}
 
 	/**

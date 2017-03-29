@@ -131,6 +131,18 @@ public class RoutingFilter implements Filter {
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;
+		case "FinalApprovalServlet":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
+		case "FinalApprove":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
+		case "ConfirmFinalApprove":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
 		default:
 		}
 		

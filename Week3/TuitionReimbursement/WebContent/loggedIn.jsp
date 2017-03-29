@@ -40,7 +40,7 @@
 					<div class="col-md-5"></div>
 					<div class="col-md-2">
 						<form action="PendingReimbursementsServlet.do" method="POST">
-					  		<button type="submit" class="btn btn-default btn-lg">Supervisor Button</button>
+					  		<button type="submit" class="btn btn-default btn-lg">Pending Reimbursements</button>
 					  	</form>
 					</div>
 					<div class="col-md-5"></div>
@@ -51,7 +51,7 @@
 					<div class="col-md-5"></div>
 					<div class="col-md-2">
 					  	<form action="PendingReimbursementsServlet.do" method="POST">
-					  		<button type="submit" class="btn btn-default btn-lg">Department Head Button</button>
+					  		<button type="submit" class="btn btn-default btn-lg">Pending Reimbursements</button>
 					  	</form>
 					</div>
 					<div class="col-md-5"></div>
@@ -59,13 +59,18 @@
 			</c:when>
 			<c:when test="${deptId == 1}">
 				<div class="row">
-					<div class="col-md-5"></div>
-					<div class="col-md-2">
+					<div class="col-md-3"></div>
+					<div class="col-md-3">
 					  	<form action="PendingReimbursementsServlet.do" method="POST">
-					  		<button type="submit" class="btn btn-default btn-lg">Benco Button</button>
+					  		<button type="submit" class="btn btn-default btn-lg">Pending Reimbursements</button>
 					  	</form>
 					</div>
-					<div class="col-md-5"></div>
+					<div class="col-md-3">
+					  	<form action="FinalApprovalServlet.do" method="POST">
+					  		<button type="submit" class="btn btn-default btn-lg">Final Approvals</button>
+					  	</form>
+					</div>
+					<div class="col-md-3"></div>
 				</div>
 			</c:when>
 		</c:choose><br><br><br><br>
