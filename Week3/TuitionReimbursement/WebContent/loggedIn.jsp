@@ -77,7 +77,7 @@
 			  	</form>
 			  </div>
 			  <div class="col-md-6">
-			  	<form action="" method="POST">
+			  	<form action="GetDeclinedReimbursements.do" method="POST">
 			  		<button type="submit" class="btn btn-default btn-lg">Declined Reimbursements</button>
 			  	</form>
 			  </div>

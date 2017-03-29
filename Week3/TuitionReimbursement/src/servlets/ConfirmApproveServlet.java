@@ -38,12 +38,8 @@ public class ConfirmApproveServlet extends HttpServlet {
 		int empId = (int) ses.getAttribute("uId");
 		int roleId = (int) ses.getAttribute("roleId");
 		int deptId = (int) ses.getAttribute("deptId");
-		String reason = request.getParameter("reason");
 		
-		System.out.println(reimbId);
-		System.out.println(empId);
-		System.out.println(roleId);
-		System.out.println(deptId);
+		
 		
 		String act = request.getParameter("edit");
 		boolean result = false;
@@ -52,8 +48,10 @@ public class ConfirmApproveServlet extends HttpServlet {
 		if (act == null) {
 			System.out.println(false);
 		} else if (act.equals("approve")) {
-		    result = serveEmp.updateReimbursement(reimbId, empId, roleId, deptId, true);
+		    result = serveEmp.updateReimbursement(reimbId, empId, roleId, deptId, true, "");
 		} else if (act.equals("decline")) {
+			String reason = request.getParameter("reason");
+			System.out.println(reason);
 			result = serveEmp.updateReimbursement(reimbId, empId, roleId, deptId, false, reason);
 		} else if (act.equals("request")) {
 		   empMessage = serveEmp.getEmployeeIdByReimbursementId(reimbId);

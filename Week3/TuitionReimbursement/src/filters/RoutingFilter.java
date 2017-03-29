@@ -115,6 +115,10 @@ public class RoutingFilter implements Filter {
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;
+		case "DenialReason":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
 		default:
 		}
 		

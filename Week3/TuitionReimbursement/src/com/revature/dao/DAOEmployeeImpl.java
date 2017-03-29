@@ -766,18 +766,18 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			String sql = "";
 			if(roleId == 2){
 				sql = "UPDATE REIMBURSEMENT "
-						+ "SET APPROVAL_STEP_ID = ?,  SUPERVISOR_APPROVER_ID = ?"
+						+ "SET APPROVAL_STEP_ID = ?,  SUPERVISOR_APPROVER_ID = ?, DENIAL_REASON = ?"
 						+ " WHERE REIMB_ID = ?";
 			}
 			else if(roleId == 3)
 			{
 				sql = "UPDATE REIMBURSEMENT "
-						+ "SET APPROVAL_STEP_ID = ?,  DEPARTMENT_HEAD_APPROVER_ID = ?"
+						+ "SET APPROVAL_STEP_ID = ?,  DEPARTMENT_HEAD_APPROVER_ID = ?, DENIAL_REASON = ?"
 						+ " WHERE REIMB_ID = ?";
 			}
 			else if(deptId == 1){
 				sql = "UPDATE REIMBURSEMENT "
-						+ "SET APPROVAL_STEP_ID = ?,  BENCO_APPROVER_ID = ?"
+						+ "SET APPROVAL_STEP_ID = ?,  BENCO_APPROVER_ID = ?, DENIAL_REASON = ?"
 						+ " WHERE REIMB_ID = ?";
 			}
 			
@@ -792,10 +792,13 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			}
 			else{
 				ps.setInt(1, 6);
+				ps.setString(3, reason);
 			}
 
 			ps.setInt(2, empId);
-			ps.setInt(3, reimbId);
+			if(approve)
+				ps.setString(3, "");
+			ps.setInt(4, reimbId);
 			
 			ps.execute();
 			

@@ -188,4 +188,14 @@
     <servlet-name>GetDeclinedReimbursements</servlet-name>
     <url-pattern>/GetDeclinedReimbursements</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DenialReason</display-name>
+    <servlet-name>DenialReason</servlet-name>
+    <servlet-class>servlets.DenialReason</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DenialReason</servlet-name>
+    <url-pattern>/DenialReason</url-pattern>
+  </servlet-mapping>
 </web-app>
