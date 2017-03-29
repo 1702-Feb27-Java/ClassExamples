@@ -1,45 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
-
-<!-- SCRIPT BELOW DOESN'T WORK 
-	resource not found error OR
-	GET http://localhost:8085/TRMS/WebContent/resources/reimb_form.js 404 ()
-	-->
-
-
-
-
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <title>Reimbursement Form</title>
-<script src="resources/reimb_form.js"></script>
 </head>
 <body>
-
 	<!-- Space reserved for header -->
 	<div class="container-fluid">
 		<jsp:include page="_header.jsp"></jsp:include>
+		<script src="resources/reimb_form.js"></script>
 	</div>
 	<!-- Breadcrumb container -->	
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
 				<ul class="breadcrumb">
+				  <!-- TODO: link to LogoutServlet -->
 				  <li><a href="#">Home </a></li>
 				  <span class="arrow sep">►</span>
-				  <li><a href="#">Login</a></li>
+				  <li><a href="employee_menu.jsp">Menu</a></li>
 				  <span class="arrow sep">►</span>
 				  <li class="active">Reimbursement Form</li>
 				</ul>
@@ -50,11 +33,11 @@
 		<div class="row">
 		<div class="col-md-3"></div>
 		<div class="col-md-6">
-			<form class="form-horizontal" action="LoginServlet" method="POST">
+			<form class="form-horizontal" action="ApplyReimbursementServlet" method="POST">
 				<!-- Event Title -->
 			    <div class="form-group">
-					<label for="sel1">Event Title:</label>
-					<select name="event-type" class="form-control" id="sel1">
+					<label for="eventTitle">Event Title:</label>
+					<select name="event-type" class="form-control" id="eventTitle">
 						<!-- forEach jstl to generate options -->
 						<option id="filler-option" value="-1">Please select an option...</option>
 						<option id="other-option" value="0">Other</option>
@@ -68,8 +51,8 @@
 				</div>
 				<!-- Grade Format -->
 			    <div class="form-group">
-					<label for="sel2">Grade Format:</label>
-					<select name="grade-format" class="form-control" id="sel2">
+					<label for="gradeFormat">Grade Format:</label>
+					<select name="grade-format" class="form-control" name="gradeFormat">
 						<!-- forEach jstl to generate options -->
 						<option id="filler-option" value="-1">Please select an option...</option>
 						<option id="other-option" value="0">Other</option>
@@ -79,49 +62,78 @@
 					<div id="other-grade-input" style="display:none;">
 						<input type="text" class="form-control" name="otherGradeFormat" maxlength="50" placeholder="Grade Format" aria-describedby="basic-addon2">
 					</div>
-					
 				</div>
-				<!-- Date -->
-				<div class="form-group">
-					<div class="input-append date form_datetime" data-date="2012-12-21T15:25:00Z">
-					    <input size="16" type="text" name="reimbDate" value="" readonly>
-					    <span class="add-on"><i class="icon-remove"></i></span>
-					    <span class="add-on"><i class="icon-th"></i></span>
+				
+			    <div class="form-group">
+			    	<div class="row">
+			    		<!-- Date -->
+				    	<div class="col-md-6">
+				        	<label for="dateRangePicker">Event Date:</label>
+	
+				            <div class="input-group input-append date" id="dateRangePicker">
+				                <input type="text" required class="form-control" name="eventDate" />
+				                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+				            </div>
+			            </div>
+			            <!-- Cost -->
+			            <div class="col-md-6">
+			            	<label for="costOfEvent">Event Cost:</label>
+		      				<div class="input-group" id="costOfEvent">
+							  <span class="input-group-addon">$</span>
+							  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							  <span class="input-group-addon">.00</span>
+							</div>
+						</div>
 					</div>
-					 
-					<script type="text/javascript">
-					    $(".form_datetime").datetimepicker({
-					        format: "dd MM yyyy - HH:ii P",
-					        showMeridian: true,
-					        autoclose: true,
-					        todayBtn: true
-					    });
-					</script>  
-				</div>
-				<!-- Time -->
+			    </div>
+			    <!-- Event Description -->
+			    <div class="form-group">
+				  <label for="eventDesc">Event Description:</label>
+				  <textarea class="form-control" rows="5" id="eventDesc" maxlength="250"></textarea>
+			    </div>
+			    <!-- Work Justification -->
+  			    <div class="form-group">
+				  <label for="workJust">Work Justification:</label>
+				  <textarea class="form-control" rows="5" id="workJust" maxlength="250"></textarea>
+			    </div>
+				
+				<br>
+				<!-- Read Only Projected Reimbursement -->
+				<label for="basic-url">Projected Reimbursement:</label>
 				<div class="input-group">
 				  <span class="input-group-addon">$</span>
-				  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-				  <span class="input-group-addon">.00</span>
+				  <span class="form-control" id="basic-addon3">Read Only Field</span>
+				  <span class="input-group-addon">.00</span>	
 				</div>
-				<br>
-				<label for="basic-url">Your vanity URL</label>
-				<div class="input-group">
-				  <span class="input-group-addon" id="basic-addon3">https://example.com/users/</span>
-				  <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-				</div>	
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Apply</button>
 			</form>
 		</div>
 		<div class="col-md-3"></div>
 		</div>
 	</div>
-	
-	<!-- Javascript code -->
-
-	
-	
 	<br>
+	<!-- Optional Form Fields -->
+	<hr>
+	<br>
+	<div class="container">
+		<div class="row">
+			<form action="ApplyReimbursementServlet" method="POST" enctype="multipart/form-data">
+				<!-- Event Attachments -->
+				<div class="col-md-3"></div>
+				<div class="col-md-3">
+					<label class="btn btn-primary" for="my-file-selector">
+					    <input id="my-file-selector" type="file" style="display:none;" onchange="$('#upload-file-info').html($(this).val());">Choose File</label>
+					<span class='label label-info' id="upload-file-info"></span>
+				</div>
+				<!-- Approval Attachments -->
+				<div class="col-md-3">
+					<label class="control-label">Select File</label>
+					<input id="appAttach" name="appAttach[]" multiple type="file" class="file file-loading" data-allowed-file-extensions="['msg']">
+				</div>
+			</form>	
+		</div>
+	</div>
+	<br>
+	<hr>
 	<jsp:include page="_footer.jsp"></jsp:include>
 </body>
 </html>

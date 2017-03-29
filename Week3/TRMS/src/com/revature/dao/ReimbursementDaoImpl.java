@@ -40,6 +40,7 @@ public class ReimbursementDaoImpl {
 
             if (result.next()) {
 	            valueObject.setReimbId(result.getInt("REIMB_ID")); 
+	            valueObject.setEmployeeId(result.getInt("EMPLOYEE_ID"));
 	            valueObject.setLocation(result.getString("LOCATION")); 
 	            valueObject.setCost(result.getDouble("COST")); 
 	            valueObject.setEventTitleId(result.getInt("EVENT_TITLE_ID")); 
@@ -47,7 +48,8 @@ public class ReimbursementDaoImpl {
 	            valueObject.setEventDesc(result.getString("EVENT_DESC")); 
 	            valueObject.setWorkJust(result.getString("WORK_JUST")); 
 	            valueObject.setGradeId(result.getInt("GRADE_ID")); 
-	            valueObject.setStatusId(result.getInt("STATUS_ID")); 
+	            valueObject.setUrgencyId(result.getInt("URGENCY_ID")); 
+	            valueObject.setAppLevel(result.getInt("APP_LEVEL"));
             }
 			
 			conn.commit();
@@ -66,7 +68,7 @@ public class ReimbursementDaoImpl {
      * @param conn         This method requires working database connection.
      * @param stmt         This parameter contains the SQL statement to be excuted.
      */
-    public ArrayList<Reimbursement> listReimbursements() {
+    public ArrayList<Reimbursement> listAllReimbursements() {
 
           ArrayList<Reimbursement> searchResults = new ArrayList<>();
           ResultSet result = null;
@@ -83,6 +85,7 @@ public class ReimbursementDaoImpl {
               while (result.next()) {
 
                    temp.setReimbId(result.getInt("REIMB_ID")); 
+                   temp.setEmployeeId(result.getInt("EMPLOYEE_ID"));
                    temp.setLocation(result.getString("LOCATION")); 
                    temp.setCost(result.getDouble("COST")); 
                    temp.setEventTitleId(result.getInt("EVENT_TITLE_ID")); 
@@ -90,7 +93,8 @@ public class ReimbursementDaoImpl {
                    temp.setEventDesc(result.getString("EVENT_DESC")); 
                    temp.setWorkJust(result.getString("WORK_JUST")); 
                    temp.setGradeId(result.getInt("GRADE_ID")); 
-                   temp.setStatusId(result.getInt("STATUS_ID")); 
+                   temp.setUrgencyId(result.getInt("URGENCY_ID")); 
+                   temp.setAppLevel(result.getInt("APP_LEVEL"));
 
                    searchResults.add(temp);
               }
@@ -104,6 +108,47 @@ public class ReimbursementDaoImpl {
           return searchResults;
     }
 
+    public ArrayList<Reimbursement> listReimbursementsByEmployee(int empId) {
+
+        ArrayList<Reimbursement> searchResults = new ArrayList<>();
+        ResultSet result = null;
+        PreparedStatement stmt = null;
+        Reimbursement temp = new Reimbursement();
+
+        try (Connection conn = ConnectionFactory.getConnection()){
+      	  conn.setAutoCommit(false);
+      	  
+      	  String sql = "SELECT * FROM REIMBS WHERE EMPLOYEE_ID = ? ORDER BY REIMB_ID ASC";
+      	  stmt = conn.prepareStatement(sql);
+      	  stmt.setInt(1, empId);
+            result = stmt.executeQuery();
+
+            while (result.next()) {
+
+                 temp.setReimbId(result.getInt("REIMB_ID")); 
+                 temp.setEmployeeId(result.getInt("EMPLOYEE_ID"));
+                 temp.setLocation(result.getString("LOCATION")); 
+                 temp.setCost(result.getDouble("COST")); 
+                 temp.setEventTitleId(result.getInt("EVENT_TITLE_ID")); 
+                 temp.setEventDate(result.getDate("EVENT_DATE")); 
+                 temp.setEventDesc(result.getString("EVENT_DESC")); 
+                 temp.setWorkJust(result.getString("WORK_JUST")); 
+                 temp.setGradeId(result.getInt("GRADE_ID")); 
+                 temp.setUrgencyId(result.getInt("URGENCY_ID")); 
+                 temp.setAppLevel(result.getInt("APP_LEVEL"));
+
+                 searchResults.add(temp);
+            }
+            
+            conn.commit();
+
+        } catch (SQLException e) {
+      	  e.printStackTrace();
+        }
+
+        return searchResults;
+  }    
+    
     /**
      * create-method. This will create new row in database according to supplied
      * valueObject contents. Make sure that values for all NOT NULL columns are
@@ -125,19 +170,21 @@ public class ReimbursementDaoImpl {
 
           try (Connection conn = ConnectionFactory.getConnection()){
         	  conn.setAutoCommit(false);
-               sql = "INSERT INTO REIMBS ( LOCATION, COST, EVENT_TITLE_ID, "
+               sql = "INSERT INTO REIMBS ( EMPLOYEE_ID, LOCATION, COST, EVENT_TITLE_ID, "
                + "EVENT_DATE, EVENT_DESC, WORK_JUST, "
-               + "GRADE_ID, STATUS_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
+               + "GRADE_ID, URGENCY_ID, APP_LEVEL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
                stmt = conn.prepareStatement(sql);
-
-               stmt.setString(1, valueObject.getLocation()); 
-               stmt.setDouble(2, valueObject.getCost()); 
-               stmt.setInt(3, valueObject.getEventTitleId()); 
-               stmt.setDate(4, valueObject.getEventDate()); 
-               stmt.setString(5, valueObject.getEventDesc()); 
-               stmt.setString(6, valueObject.getWorkJust()); 
-               stmt.setInt(7, valueObject.getGradeId()); 
-               stmt.setInt(8, valueObject.getStatusId()); 
+               
+               stmt.setInt(1, valueObject.getEmployeeId());
+               stmt.setString(2, valueObject.getLocation()); 
+               stmt.setDouble(3, valueObject.getCost()); 
+               stmt.setInt(4, valueObject.getEventTitleId()); 
+               stmt.setDate(5, valueObject.getEventDate()); 
+               stmt.setString(6, valueObject.getEventDesc()); 
+               stmt.setString(7, valueObject.getWorkJust()); 
+               stmt.setInt(8, valueObject.getGradeId()); 
+               stmt.setInt(9, valueObject.getUrgencyId()); 
+               stmt.setInt(10, valueObject.getAppLevel());
 
                int rowcount = stmt.executeUpdate();
                if (rowcount != 1) {
@@ -184,24 +231,26 @@ public class ReimbursementDaoImpl {
     public void save(Reimbursement valueObject) 
           {
 
-          String sql = "UPDATE REIMBS SET LOCATION = ?, COST = ?, EVENT_TITLE_ID = ?, "
+          String sql = "UPDATE REIMBS SET EMPLOYEE_ID = ?, LOCATION = ?, COST = ?, EVENT_TITLE_ID = ?, "
                + "EVENT_DATE = ?, EVENT_DESC = ?, WORK_JUST = ?, "
-               + "GRADE_ID = ?, STATUS_ID = ? WHERE (REIMB_ID = ? ) ";
+               + "GRADE_ID = ?, URGENCY_ID = ?, APP_LEVEL = ? WHERE (REIMB_ID = ? ) ";
           PreparedStatement stmt = null;
 
           try (Connection conn = ConnectionFactory.getConnection()){
         	  conn.setAutoCommit(false);
               stmt = conn.prepareStatement(sql);
-              stmt.setString(1, valueObject.getLocation()); 
-              stmt.setDouble(2, valueObject.getCost()); 
-              stmt.setInt(3, valueObject.getEventTitleId()); 
-              stmt.setDate(4, valueObject.getEventDate()); 
-              stmt.setString(5, valueObject.getEventDesc()); 
-              stmt.setString(6, valueObject.getWorkJust()); 
-              stmt.setInt(7, valueObject.getGradeId()); 
-              stmt.setInt(8, valueObject.getStatusId()); 
+              stmt.setInt(1, valueObject.getEmployeeId());
+              stmt.setString(2, valueObject.getLocation()); 
+              stmt.setDouble(3, valueObject.getCost()); 
+              stmt.setInt(4, valueObject.getEventTitleId()); 
+              stmt.setDate(5, valueObject.getEventDate()); 
+              stmt.setString(6, valueObject.getEventDesc()); 
+              stmt.setString(7, valueObject.getWorkJust()); 
+              stmt.setInt(8, valueObject.getGradeId()); 
+              stmt.setInt(9, valueObject.getUrgencyId()); 
+              stmt.setInt(10, valueObject.getAppLevel());
 
-              stmt.setInt(9, valueObject.getReimbId()); 
+              stmt.setInt(11, valueObject.getReimbId()); 
 
               int rowcount = stmt.executeUpdate();
               if (rowcount == 0) {

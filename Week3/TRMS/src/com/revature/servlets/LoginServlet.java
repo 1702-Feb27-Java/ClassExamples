@@ -44,6 +44,9 @@ public class LoginServlet extends HttpServlet {
 		
 		Employee e = es.loginEmployee(uname, pass);
 		String nextJSP;
+		
+		// TODO: Store Reimbursement info related to employee
+		// in Servlet
 		if(e != null) {
 			currSession.setAttribute("employee", e);
 			
@@ -55,7 +58,7 @@ public class LoginServlet extends HttpServlet {
 			
 			currSession.setAttribute("firstname", firstname);
 			currSession.setAttribute("lastname", lastname);
-			nextJSP = "/login.jsp";
+			nextJSP = "/employee_menu.jsp";
 		}
 		else {
 			currSession.invalidate();

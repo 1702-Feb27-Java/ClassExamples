@@ -43,4 +43,14 @@
     <filter-name>DispatchFilter</filter-name>
     <url-pattern>*.do</url-pattern>
   </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ApplyReimbursementServlet</display-name>
+    <servlet-name>ApplyReimbursementServlet</servlet-name>
+    <servlet-class>com.revature.servlets.ApplyReimbursementServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApplyReimbursementServlet</servlet-name>
+    <url-pattern>/ApplyReimbursementServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

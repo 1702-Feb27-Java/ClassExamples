@@ -12,14 +12,16 @@ public class Reimbursement {
      * mapped to the columns of database table.
      */
     private int reimbId;
+    private int employeeId;
     private String location;
     private double cost;
     private int eventTitleId;
     private java.sql.Date eventDate;
     private String eventDesc;
     private String workJust;
-    private int gradeId;
-    private int statusId;
+	private int gradeId;
+    private int urgencyId;
+    private int appLevel;
 
 
 
@@ -53,7 +55,15 @@ public class Reimbursement {
     public void setReimbId(int reimbIdIn) {
           this.reimbId = reimbIdIn;
     }
+    
+    public int getEmployeeId() {
+		return employeeId;
+	}
 
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
+    
     public String getLocation() {
           return this.location;
     }
@@ -103,12 +113,20 @@ public class Reimbursement {
           this.gradeId = gradeIdIn;
     }
 
-    public int getStatusId() {
-          return this.statusId;
+    public int getUrgencyId() {
+          return this.urgencyId;
     }
-    public void setStatusId(int statusIdIn) {
-          this.statusId = statusIdIn;
+    public void setUrgencyId(int statusIdIn) {
+          this.urgencyId = statusIdIn;
     }
+
+	public int getAppLevel() {
+		return appLevel;
+	}
+
+	public void setAppLevel(int appLevel) {
+		this.appLevel = appLevel;
+	}
 
 
 
@@ -128,7 +146,9 @@ public class Reimbursement {
           String eventDescIn,
           String workJustIn,
           int gradeIdIn,
-          int statusIdIn) {
+          int urgencyIdIn,
+          int employeeIdIn,
+          int appLevelIn) {
           this.reimbId = reimbIdIn;
           this.location = locationIn;
           this.cost = costIn;
@@ -137,7 +157,9 @@ public class Reimbursement {
           this.eventDesc = eventDescIn;
           this.workJust = workJustIn;
           this.gradeId = gradeIdIn;
-          this.statusId = statusIdIn;
+          this.urgencyId = urgencyIdIn;
+          this.employeeId = employeeIdIn;
+          this.appLevel = appLevelIn;
     }
 
 
@@ -156,7 +178,6 @@ public class Reimbursement {
     }
 
 
-
     /**
      * toString will return String object representing the state of this 
      * valueObject. This is useful during application development, and 
@@ -166,7 +187,8 @@ public class Reimbursement {
         StringBuffer out = new StringBuffer();
         out.append("\nclass Reimbursement, mapping to table REIMBS\n");
         out.append("Persistent attributes: \n"); 
-        out.append("reimbId = " + this.reimbId + "\n"); 
+        out.append("reimbId = " + this.reimbId + "\n");
+        out.append("employeeId = " + this.employeeId + "\n");
         out.append("location = " + this.location + "\n"); 
         out.append("cost = " + this.cost + "\n"); 
         out.append("eventTitleId = " + this.eventTitleId + "\n"); 
@@ -174,7 +196,8 @@ public class Reimbursement {
         out.append("eventDesc = " + this.eventDesc + "\n"); 
         out.append("workJust = " + this.workJust + "\n"); 
         out.append("gradeId = " + this.gradeId + "\n"); 
-        out.append("statusId = " + this.statusId + "\n"); 
+        out.append("urgencyId = " + this.urgencyId + "\n");
+        out.append("appLevel = " + this.appLevel + "\n");
         return out.toString();
     }
 }
