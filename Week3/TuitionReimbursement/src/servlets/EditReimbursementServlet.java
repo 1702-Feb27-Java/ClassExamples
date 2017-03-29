@@ -1,13 +1,13 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.revature.pojo.Reimbursement;
 import com.revature.service.EmployeeService;
@@ -31,15 +31,34 @@ public class EditReimbursementServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		EmployeeService serveEmp = new EmployeeService();
-		
+		HttpSession ses = request.getSession();
+		int empId = (int) ses.getAttribute("uId");
 		int reimbId = Integer.parseInt(request.getParameter("reimbId"));
-		Reimbursement reimbursement = serveEmp.getReimbursementById(reimbId);
-
-		request.setAttribute("reimbursement", reimbursement);
+		int messageId = Integer.parseInt(request.getParameter("messageId"));
 		
-		String nextJSP = "/editReimbursement.jsp";
-		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
-		dispatcher.forward(request,response);
+		serveEmp.markMessageRead(messageId);
+		int messages = serveEmp.getNumberOfMessages(empId);
+		ses.setAttribute("messages", messages);
+		
+		Reimbursement reimbursement = serveEmp.getReimbursementById(reimbId);
+		
+		request.setAttribute("reimbursement", reimbursement);
+		ses.setAttribute("reimbId", reimbId);
+		request.setAttribute("messagerId", request.getParameter("messagerId"));
+		
+		String message = request.getParameter("message");
+		System.out.println(message);
+		
+		if(message.equals("Reimbursement Updated")){
+			String nextJSP = "/approveReimbursement.jsp";
+			RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
+			dispatcher.forward(request,response);
+		}
+		else{
+			String nextJSP = "/editReimbursement.jsp";
+			RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
+			dispatcher.forward(request,response);
+		}
 	}
 
 	/**

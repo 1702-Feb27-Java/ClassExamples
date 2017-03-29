@@ -307,7 +307,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
 	
-			String sql = "SELECT COUNT(*) FROM MESSAGE WHERE EMP_ID = ?";
+			String sql = "SELECT COUNT(*) FROM MESSAGE WHERE EMP_ID = ? AND READBOOLEAN = 0";
 			PreparedStatement ps = connect.prepareStatement(sql);
 			
 			ps.setInt(1, employeeId);
@@ -948,4 +948,25 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		}
 		
 	}
+
+	public void markMessageRead(int messageId){
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "UPDATE MESSAGE "
+					+ "SET READBOOLEAN = 1"
+					+ " WHERE MESSAGE_ID = ?";
+		
+			PreparedStatement ps = connect.prepareStatement(sql);
+	
+			ps.setInt(1, messageId);
+			
+			ps.execute();
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+	}
+	
 }

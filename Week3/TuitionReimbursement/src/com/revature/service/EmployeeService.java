@@ -283,4 +283,8 @@ public class EmployeeService {
 		
 		return declinedReimbursements;
 	}
+	
+	public void markMessageRead(int messageId){
+		daoEmp.markMessageRead(messageId);
+	}
 }

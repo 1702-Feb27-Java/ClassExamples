@@ -14,6 +14,8 @@
 				  <div class="form-group">
 				    <label for="event">Event Name</label>
 				    <input type="text" required class="form-control" id="event" placeholder="Event" name="event" disabled value="${reimbursement.getEvent()}">
+				 	<input type="hidden" name="messagerId" value="${messagerId}" style="visibility:hidden;">
+				 	<input type="hidden" name="messageId" value="${messageId}" style="visibility:hidden;">
 				  </div>
 				  
 					<div class="row">

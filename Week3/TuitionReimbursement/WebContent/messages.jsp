@@ -41,6 +41,8 @@
 		   <form action="EditReimbursementServlet.do" method="POST">
 			    <tr id="${message.getReimbId()}">
 			    	<input type="hidden" name="reimbId" value="${message.getReimbId()}" style="visibility:hidden;">
+			    	<input type="hidden" name="message" value="${message.getMessage()}" style="visibility:hidden;">
+			    	<input type="hidden" name="messageId" value="${message.getMessageId()}" style="visibility:hidden;">
 			        <td>
 			            <c:out value="${message.getMessager()}" />
 			        </td>
@@ -50,6 +52,7 @@
 			        <td>
 			        	<button id="subButton" type="submit">${message.getReimbId()}</button>
 			       	</td>
+			       	<input type="hidden" name="messagerId" value="${message.getMessagerId()}" style="visibility:hidden;">
 			       
 			    </tr>
 		    </form>
