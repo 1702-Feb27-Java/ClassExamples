@@ -23,7 +23,17 @@ public class Event {
 	public Event(int eventId) {
 		this.eventId = eventId;
 	}
-	
+		
+	public Event(int eventId, Date startDate, Date stopDate, double cost, String eventType, String priority) {
+		super();
+		this.eventId = eventId;
+		this.startDate = startDate;
+		this.stopDate = stopDate;
+		this.cost = cost;
+		this.eventType = eventType;
+		this.priority = priority;
+	}
+
 	public Event(Date startDate, String startTime, Date stopDate, String location, String description,
 			double cost, String justify, String gradeFormat, String eventType, String priority) {
 		super();

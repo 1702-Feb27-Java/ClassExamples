@@ -2,7 +2,7 @@ package com.revature.trms;
 
 public class Tracking {
 	private int trackingId = 0;
-	private long eventDate = 0;
+	private String eventDate;
 	private String roleId;
 	private String status = "1";
 	private String comments = null;
@@ -15,7 +15,16 @@ public class Tracking {
 		super();
 		this.status = status;
 	}
-	
+		
+	public Tracking(int trackingId, String eventDate, String roleId, String status, String comments) {
+		super();
+		this.trackingId = trackingId;
+		this.eventDate = eventDate;
+		this.roleId = roleId;
+		this.status = status;
+		this.comments = comments;
+	}
+
 	@Override
 	public String toString() {
 		return "EventService [trackingId=" + trackingId + ", eventDate=" + eventDate + ", roleId=" + roleId
@@ -30,11 +39,11 @@ public class Tracking {
 		this.trackingId = trackingId;
 	}
 
-	public long getEventDate() {
+	public String getEventDate() {
 		return eventDate;
 	}
 
-	public void setEventDate(long eventDate) {
+	public void setEventDate(String eventDate) {
 		this.eventDate = eventDate;
 	}
 

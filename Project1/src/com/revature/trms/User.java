@@ -17,6 +17,11 @@ public class User {
 		
 	}
 	
+	public User(String firstName) {
+		super();
+		this.firstName = firstName;
+	}
+	
 	public User(String firstName, String lastName) {
 		super();
 		this.firstName = firstName;

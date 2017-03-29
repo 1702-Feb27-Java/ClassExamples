@@ -19,15 +19,16 @@
 <body>
 	<%
 	int userid = (int)session.getAttribute("userid");
-	User u = UserService.getUserInfo(userid); 
+	User u = UserService.getUserInfo(userid);
+	String role = u.getRole();
 	%>
 	<h1>Welcome <%=" " + u.getFirstName() + " " + u.getLastName()%></h1>
 	<hr><h2>Amount Available: $	 
-	<%=u.getAmount()%><br></h2><hr>
+	<%=u.getAmount()%><br></h2>
 
 	<form action="EventForm.jsp">
 	<input type="submit" value="Add Event">
-	</form>
+	</form><hr>
 	<h2>REQUESTS:</h2><hr>
 			
 	<% 
@@ -56,17 +57,53 @@
 				</tr>
 			<%}%>
 		</table><br><br>
-		To view / change / delete the details of any request listed,<br>select from the drop down menu:
-		<%ArrayList<Event> getEventIds = DAOImpl.getEventNumbers(userid);%> 
+		To view / delete the details of any request listed, select from the drop down menu:
 		<select name="eventId" required>
 		<option disabled selected value> -- select an option -- </option>
-		<%for(Event item:getEventIds){	%>
+		<%for(Event item:eventList){	%>
 			<option value="<%=item.getEventId()%>">
 			  <%=item.getEventId()%></option>
 		<%}%>
 		</select>
-		<br><input type="submit" value="Details">
+		<input type="submit" value="Details"><hr>
 	</form>
-	<br><hr>
+
+	<form action="ApprovalDetails.jsp" method="POST">
+	
+	<%
+	ArrayList<Event> prList = DAOImpl.getPendingRequests(userid);
+	ArrayList<User> prList2 = DAOImpl.getPendingRequests2(userid);
+	session.setAttribute("eventPr", prList);
+	session.setAttribute("userPr", prList2);
+	
+	if(!role.equals("1")){ %>
+	<h2>PENDING REQUESTS:</h2><hr>
+		<table>
+			<tr><th = class="center">EVENT-ID:</th><th class="left">NAME:</th><th class="left">TYPE:</th><th class="center">COST:</th><th class="center">START DATE:</th>
+				<th>STOP DATE:</th><th class="center">PRIORITY:</th></tr>
+				<% for (int i = 0; i < prList.size();i++){%>
+				<tr>
+					<td class="center"><%=prList.get(i).getEventId()%></td>
+					<td class="left"><%=prList2.get(i).getFirstName()%></td>
+					<td class="left"><%=prList.get(i).getEventType()%></td>
+					<td class="center">$<%=prList.get(i).getCost()%></td>
+					<td class="center"><%=prList.get(i).getStartDate()%></td>
+					<td class="center"><%=prList.get(i).getStopDate()%></td>
+					<td class="center"><%=prList.get(i).getPriority()%></td>
+				</tr>
+				<%}%>
+		</table>
+		<%}%>
+		<br><br>
+		To view and approve the request listed, select from the drop down menu:
+		<select name="eventIdApproval" required>
+		<option disabled selected value> -- select an option -- </option>
+		<%for(Event item:prList){	%>
+			<option value="<%=item.getEventId()%>">
+			  <%=item.getEventId()%></option>
+		<%}%>
+		</select>
+		<input type="submit" value="Details"><hr>
+	</form>
 </body>
 </html>

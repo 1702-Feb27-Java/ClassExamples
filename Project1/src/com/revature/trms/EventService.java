@@ -26,4 +26,16 @@ public class EventService {
 	public static void deleteEvent(int userId, int eventId, double cost){
 		DAOImpl.deleteEventData(userId, eventId, cost);
 	}
+	
+	public static String approveEvent(String roleId){
+		switch(roleId){
+		case "4":
+			return "3";
+		case "3":
+			return "2";
+		case "2":
+			return "1";
+		}
+		return "1";
+	}
 }	
