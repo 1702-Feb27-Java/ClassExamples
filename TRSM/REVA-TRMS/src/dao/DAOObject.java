@@ -191,6 +191,63 @@ public class DAOObject {
 	}
 	
 	
+	
+	public Employee getEmployee(int id) {
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "SELECT * FROM Employee WHERE EMPLOYEE_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1,id);
+			
+			ResultSet rs = ps.executeQuery();
+			Employee n = new Employee();
+			
+			//gets the info
+			while(rs.next()){
+			
+				n.setFirstName(rs.getString("FIRST_NAME"));
+				
+				n.setEmail(rs.getString("EMAIL"));
+				
+				n.setLastName(rs.getString("LAST_NAME"));
+				
+				n.setPassword(rs.getString("PASS"));
+				
+				try{
+					n.setReportsto(rs.getInt("REPORTSTO"));
+					
+				}catch(Exception e){
+					n.setReportsto(0);
+				}
+				n.setPending(rs.getInt("PENDING_RE"));
+				
+				n.setAwarded(rs.getInt("AWARDED_RE"));
+				
+				n.setUserName(rs.getString("USERNAME"));
+				
+				n.setDepart(this.getDepartment(n.getUserName()));
+				
+				n.setRole(this.getRole(n.getUserName()));
+				
+			}
+			
+			connect.commit();
+			connect.setAutoCommit(true);
+			//if its a customer i need more info
+			
+			//// put get savings/ account balance here;
+			return n;
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 	public int addRequest(String username, Reimburse req, Employee em) {
 		int temp = 0;
 		

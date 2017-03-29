@@ -39,6 +39,10 @@ public class Service {
 		return db.getEmployee(userName);
 	}
 	
+	public Employee getEmployee(int id)	{
+		return db.getEmployee(id);
+		
+	}
 	public void addReimburseRequest(String username, Reimburse req, Employee em){
 		db.addRequest(username, req, em);
 	}

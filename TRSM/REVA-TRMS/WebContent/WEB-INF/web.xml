@@ -38,4 +38,14 @@
     <servlet-name>FormServ</servlet-name>
     <url-pattern>/FormServ</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ViewRequest</display-name>
+    <servlet-name>ViewRequest</servlet-name>
+    <servlet-class>servlets.ViewRequest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewRequest</servlet-name>
+    <url-pattern>/ViewRequest</url-pattern>
+  </servlet-mapping>
 </web-app>
