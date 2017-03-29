@@ -57,7 +57,7 @@ public interface DAOEmployee {
 	
 	public int getDepartment(int empId);
 
-	public boolean updateReimbursement(int reimbId,int empId, int roleId, int deptId, boolean approve);
+	public boolean updateReimbursement(int reimbId,int empId, int roleId, int deptId, boolean approve, String reason);
 	
 	public int getEmployeeIdByReimbursementId(int reimbId);
 	
@@ -68,4 +68,5 @@ public interface DAOEmployee {
 	public int getBalance(int empId);
 	
 	public void submitGrade(int reimbId, String grade);
+	
 }

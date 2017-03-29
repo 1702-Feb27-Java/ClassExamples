@@ -92,6 +92,8 @@
 			</div>
 			<div class="col-md-3">
 				<form action="ConfirmApproveServlet.do" method="POST">
+					<label for="reason">Reason for Decline</label>
+					<input type="text" required class="form-control" id="reason" placeholder="Reason" name="reason">
 			  		<button name="edit" value="decline" type="submit" class="btn btn-default btn-lg">Decline Reimbursement</button>
 			  	</form>
 			</div>

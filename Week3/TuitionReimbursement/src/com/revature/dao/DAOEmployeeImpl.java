@@ -758,7 +758,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 
 	
 	@Override
-	public boolean updateReimbursement(int reimbId, int empId, int roleId, int deptId, boolean approve) {
+	public boolean updateReimbursement(int reimbId, int empId, int roleId, int deptId, boolean approve, String reason) {
 		boolean result = false;
 		
 		try(Connection connect = ConnectionUtil.getConnection();){

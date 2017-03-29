@@ -178,4 +178,14 @@
     <servlet-name>SubmitGrade</servlet-name>
     <url-pattern>/SubmitGrade</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetDeclinedReimbursements</display-name>
+    <servlet-name>GetDeclinedReimbursements</servlet-name>
+    <servlet-class>servlets.GetDeclinedReimbursements</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetDeclinedReimbursements</servlet-name>
+    <url-pattern>/GetDeclinedReimbursements</url-pattern>
+  </servlet-mapping>
 </web-app>

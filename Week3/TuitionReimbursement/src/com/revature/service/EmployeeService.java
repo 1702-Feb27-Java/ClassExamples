@@ -207,8 +207,8 @@ public class EmployeeService {
 		return reimbursements;
 	}
 	
-	public boolean updateReimbursement(int reimbId, int empId, int roleId, int deptId, boolean approve){
-		boolean result = daoEmp.updateReimbursement(reimbId, empId, roleId, deptId, approve);
+	public boolean updateReimbursement(int reimbId, int empId, int roleId, int deptId, boolean approve, String reason){
+		boolean result = daoEmp.updateReimbursement(reimbId, empId, roleId, deptId, approve, reason);
 		return result;
 	}
 	
@@ -258,5 +258,29 @@ public class EmployeeService {
 	
 	public void submitGrade(int reimbId, String grade){
 		daoEmp.submitGrade(reimbId, grade);
+	}
+	
+	public ArrayList<Reimbursement> getDeclinedReimbursements(int employeeId){
+		ArrayList<Reimbursement> declinedReimbursements = new ArrayList<Reimbursement>();
+		ArrayList<Reimbursement> reimbursements = daoEmp.getReimbursements(employeeId);
+		
+		for(Reimbursement r : reimbursements){
+			if(r.getApprovalStepId() == 6){
+				declinedReimbursements.add(r);
+			}
+		}
+		for(Reimbursement r : declinedReimbursements){
+			String location = daoEmp.getLocation(r.getLocationId());
+			String grading = daoEmp.getGrading(r.getGradingId());
+			String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
+			String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
+			
+			r.setLocation(location);
+			r.setGrading(grading);
+			r.setTypeOfEvent(typeOfEvent);
+			r.setApprovalStep(approvalStep);
+		}
+		
+		return declinedReimbursements;
 	}
 }

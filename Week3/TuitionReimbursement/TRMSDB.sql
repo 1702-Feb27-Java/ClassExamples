@@ -287,6 +287,7 @@ CREATE TABLE Reimbursement
   department_head_approver_id number,
   benco_approver_id number,
   final_approver_id number,
+  denial_reason varchar2(100),
   
   CONSTRAINT reimb_id_pk PRIMARY KEY(reimb_id),
   CONSTRAINT stat_id_fk FOREIGN KEY(status_id) REFERENCES Status(status_id),
