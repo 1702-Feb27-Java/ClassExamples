@@ -60,6 +60,10 @@
 				    <input type="number" required class="form-control" id="cost" placeholder="Cost" name="cost" disabled value="${reimbursement.getCost()}">
 				  </div>
 				  <div class="form-group">
+				    <label for="cost">Reimbursement</label>
+				    <input type="number" required class="form-control" id="reimbursementAmt" placeholder="Reimbursement" name="reimbursementAmt" disabled value="${reimbursement.getProjectedReimbursement()}">
+				  </div>
+				  <div class="form-group">
 				    <label for="time">Grading Scale</label>
 				    <input type="text" required class="form-control" id="gradingScale" placeholder="gradingScale" name="gradingScale" disabled value="${reimbursement.getGrading()}">
 				  </div>

@@ -39,6 +39,7 @@
 		        <th>Time</th>
 		        <th>Description</th>
 		        <th>Cost</th>
+		        <th>Reimbursement</th>
 		        <th>Location</th>
 		        <th>Grading Scale</th>
 		        <th>Type of Event</th>
@@ -62,6 +63,9 @@
 			        </td>
 			        <td>
 			            <c:out value="${reimbursement.getCost()}" />
+			        </td>
+			        <td>
+			            <c:out value="${reimbursement.getProjectedReimbursment()}" />
 			        </td>
 			        <td>
 			            <c:out value="${reimbursement.getLocation()}" />
