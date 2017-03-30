@@ -61,5 +61,26 @@ public class Service {
 				
 	}
 	
+	/**
+	 * gets if the given value is the department head. Make sure to no envoke on the boss 
+	 * @param id the reportsto field of an employee
+	 * @return true if the boss is the department head
+	 */
+	public boolean isBossDepartmentHead(int id){
+		Employee boss = db.getEmployee(id);
+		if(boss.getReportsto() == 0) return true;
+		
+		return false;
+	}
+	
+	
+	public Employee getDepartmentHead(int id){
+		Employee boss = db.getEmployee(id);
+		while(boss.getReportsto() != 0){
+			boss = db.getEmployee(boss.getReportsto());
+		}
+		return boss;
+	}
+	
 
 }

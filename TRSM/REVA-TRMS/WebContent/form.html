@@ -5,6 +5,7 @@
 			  src="https://code.jquery.com/jquery-3.1.1.js"
 			  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
 			  crossorigin="anonymous"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -15,7 +16,7 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <meta charset="ISO-8859-1">
-<title> HELLO</title>
+<title> Reimbursement request form</title>
 <style>
 #second{
 	color: red;
@@ -127,14 +128,12 @@ table, tr, th{
   </div>
 </div>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="total">Projected Reimbursement</label>  
-  <div class="col-md-4">
-  <input id="total" name="total" placeholder="" class="form-control input-md" type="text">
-    
-  </div>
+
+<div id="totalCost" align="center">
+
 </div>
+<br>
+
 
 <!-- Textarea -->
 <div class="form-group">
@@ -158,7 +157,16 @@ table, tr, th{
 </form>
 	
 	
+<script>
+$("#totalCost").html("projected reimbursement is: ");
+$("#eventCost").blur(function(){
+	var x = $("#courseType").val();
+	if(x == 1){
+		$("#totalCost").html("projected reimbursement is: $" + ($("#eventCost").val() * .8))
+	}
 	
+});
+</script>	
 	
 </body>
 
