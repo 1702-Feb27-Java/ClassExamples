@@ -334,6 +334,51 @@ public class DAOObject {
 	
 	
 	
+	public void updateStatus(int id, int stat) {
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "UPDATE APPROVE SET APPROVE.STATUS_NUM = ? WHERE APPROVE.R_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1,stat);
+			ps.setInt(2,id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	public int getStatus(int id) {
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "SELECT APPROVE.STATUS_NUM FROM APPROVE WHERE APPROVE.R_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1,id);
+			
+			ResultSet rs = ps.executeQuery();
+			int temp = 0;
+			while(rs.next()){
+				temp = rs.getInt("STATUS_NUM");
+			}
+				return temp;	
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return 0;
+		
+	}
+	
+	
+	
 	
 	
 	

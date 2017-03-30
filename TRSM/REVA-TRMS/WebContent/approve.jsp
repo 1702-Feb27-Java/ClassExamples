@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <%@ page import="objects.Employee" %>
     <%@ page import="objects.Reimburse" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -51,9 +52,113 @@
 	<td>Employee Name</td>
 	<td> <%=((Employee)session.getAttribute("reimEm")).getFirstName() %> <%= ((Employee)session.getAttribute("reimEm")).getLastName() %></td>			
 	</tr>
+	<tr>
+	<td>Awarded Reimbursements</td>
+	<td> <%=((Employee)session.getAttribute("reimEm")).getAwarded() %></td>			
+	</tr>
+	<tr>
+	<td>Pending Reimbursements</td>
+	<td> <%=((Employee)session.getAttribute("reimEm")).getPending() %></td>			
+	</tr>
+	<tr>
+	<td>Employee Email</td>
+	<td> <%=((Employee)session.getAttribute("reimEm")).getEmail() %></td>			
+	</tr>
+	<tr>
+	<td>Event Date</td>
+	<td> <%=((Reimburse)session.getAttribute("reim")).getEvent_date() %></td>			
+	</tr>
+	<tr>
+	<td>Event Length</td>
+	<td> <%=((Reimburse)session.getAttribute("reim")).getEventLength() %></td>			
+	</tr>
+	<tr>
+	<td>Location</td>
+	<td> <%=((Reimburse)session.getAttribute("reim")).getLocation() %></td>			
+	</tr>
+	<tr>
+	<td>Description of Event</td>
+	<td> <%=((Reimburse)session.getAttribute("reim")).getDescription() %></td>			
+	</tr>
+	<tr>
+	<td>Type of Event</td>
+	<td> <% if(((Reimburse)session.getAttribute("reim")).getCourseID() == 1){%>
+				University Course
+			<%} %>
+			<% if(((Reimburse)session.getAttribute("reim")).getCourseID() == 2){%>
+				Seminar
+			<%} %>
+			<% if(((Reimburse)session.getAttribute("reim")).getCourseID() == 3){%>
+				Certification Preparation Class
+			<%} %>
+			<% if(((Reimburse)session.getAttribute("reim")).getCourseID() == 4){%>
+				Certification
+			<%} %>
+			<% if(((Reimburse)session.getAttribute("reim")).getCourseID() == 5){%>
+				Technical Training
+			<%} %>
+			<% if(((Reimburse)session.getAttribute("reim")).getCourseID() == 6){%>
+				Other
+			<%} %>	
+	</td>			
+	</tr>
+	<tr>
+	<td>Grading Format</td>
+	<td><%if(((Reimburse)session.getAttribute("reim")).getGrade() == 1) {%> 
+ 		A-F
+ 		<%} %>
+ 		<%if(((Reimburse)session.getAttribute("reim")).getGrade() == 2) {%> 
+ 		P/F
+ 		<%} %>
+ 		<%if(((Reimburse)session.getAttribute("reim")).getGrade() == 3) {%> 
+ 		0-100
+ 		<%} %>
+ 		<%if(((Reimburse)session.getAttribute("reim")).getGrade() == 4) {%> 
+ 		Presentation
+ 		<%} %> 		
+		
+	</td>			
+	</tr>
+	<tr>
+	<td>Cost</td>
+	<td> <%=((Reimburse)session.getAttribute("reim")).getCost() %></td>			
+	</tr>
+	<tr>
+	<td>Justification</td>
+	<td> <%=((Reimburse)session.getAttribute("reim")).getJustification() %></td>			
+	</tr>
+	
+	
 	
 	</table>
-
-
+	
+	<br>
+	<br>
+	<br>
+	<form action="ApproveServ.do" method="POST">
+	<br>
+	<div class="btn-group btn-group-justified" role="group" aria-label="...">
+  	<div class="btn-group" role="group">
+    <input type="submit" class="btn btn-default" value="approve" name="choice">
+  	</div>
+ 	 <div class="btn-group" role="group">
+    <input type="submit" class="btn btn-default" value="request info" name="choice">
+  	</div>
+  	<div class="btn-group" role="group">
+    <input type="submit" class="btn btn-default" value="deny" name="choice">
+  	</div>
+  	
+  	
+  	
+</div>
+<br><br>
+<!-- Textarea -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="message">Message</label>
+  <div class="col-md-4">                     
+    <textarea class="form-control" id="message" name="message"></textarea>
+  </div>
+</div>
+</form>
 </body>
 </html>

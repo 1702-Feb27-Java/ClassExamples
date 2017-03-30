@@ -52,5 +52,14 @@ public class Service {
 		
 	}
 	
+	public void updateStatus(int rID, int newStatus){
+		db.updateStatus(rID, newStatus);
+	}
+	
+	public int getStatus(int id){
+		return db.getStatus(id);
+				
+	}
+	
 
 }

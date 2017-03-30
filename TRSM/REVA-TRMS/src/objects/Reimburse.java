@@ -14,13 +14,13 @@ public class Reimburse {
 		private int courseID;
 		public Reimburse(){
 			this.employee_id = 0;
-			this.event_date = null;
-			this.eventLength = null;
-			this.location = null;
-			this.description = null;
+			this.event_date = " ";
+			this.eventLength = " ";
+			this.location = " ";
+			this.description = " ";
 			this.cost = 0;
 			this.grade = 0;
-			this.justification = null;
+			this.justification = " ";
 			this.numDay = 0;
 			this.courseID = 0;
 			
