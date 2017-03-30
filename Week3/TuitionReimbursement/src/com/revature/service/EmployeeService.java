@@ -387,4 +387,14 @@ public class EmployeeService {
 		double percentAwarded = daoEmp.getPercentAwarded(typeOfEventId);
 		return percentAwarded;
 	}
+
+	public boolean sendMoney(int empId, double amount){
+		boolean success = false;
+		
+		double balance = daoEmp.getBalance(empId);
+		balance -= amount;
+		success = daoEmp.setBalance(empId, balance);
+		
+		return success;
+	}
 }

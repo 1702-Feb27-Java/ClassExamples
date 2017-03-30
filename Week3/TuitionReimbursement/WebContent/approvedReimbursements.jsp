@@ -65,7 +65,7 @@
 			            <c:out value="${reimbursement.getCost()}" />
 			        </td>
 			        <td>
-			            <c:out value="${reimbursement.getProjectedReimbursment()}" />
+			            <c:out value="${reimbursement.getProjectedReimbursement()}" />
 			        </td>
 			        <td>
 			            <c:out value="${reimbursement.getLocation()}" />

@@ -74,4 +74,6 @@ public interface DAOEmployee {
 	public void finalUpdate(int reimbId, boolean approve);
 	
 	public double getPercentAwarded(int typeOfEventId);
+	
+	public boolean setBalance(int empId, double newBalance);
 }

@@ -6,8 +6,8 @@
 	<body>
 		<br><br>
 		<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-		<h1>Declined Reimbursement</h1>
-		<h3 style="text-align: center;">Amount Reimbursed: amount here</h3><br>
+		<h1>Processed Reimbursement</h1>
+		<h3 style="text-align: center;">Amount Reimbursed: ${reimbursement.getProjectedReimbursement()}</h3><br>
 		<div class="row text-center">
 			<div class="col-sm-4"></div>
 			<div class="col-md-4">

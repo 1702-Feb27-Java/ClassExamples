@@ -19,7 +19,7 @@
 		<div class="row text-center">
 			<div class="col-sm-4"></div>
 			<div class="col-md-4">
-				<form>
+				<form  action="ConfirmFinalApprove.do" method="POST">
 				  <div class="form-group">
 				    <label for="event">Event Name</label>
 				    <input type="text" required class="form-control" id="event" placeholder="Event" name="event" disabled value="${reimbursement.getEvent()}">
@@ -60,8 +60,8 @@
 				    <input type="number" required class="form-control" id="cost" placeholder="Cost" name="cost" disabled value="${reimbursement.getCost()}">
 				  </div>
 				  <div class="form-group">
-				    <label for="cost">Reimbursement</label>
-				    <input type="number" required class="form-control" id="reimbursementAmt" placeholder="Reimbursement" name="reimbursementAmt" disabled value="${reimbursement.getProjectedReimbursement()}">
+				    <label for="reimbursementAmt">Reimbursement</label>
+				    <input type="text" required class="form-control" id="reimbursementAmt" placeholder="Reimbursement" name="reimbursementAmt" disabled value="${reimbursement.getProjectedReimbursement()}">
 				  </div>
 				  <div class="form-group">
 				    <label for="time">Grading Scale</label>
@@ -95,13 +95,13 @@
 			<div class="col-md-2"></div>
 			<div class="col-md-4">
 			  	<form action="ConfirmFinalApprove.do" method="POST">
-			  		<button name="edit" value="approve" type="submit" class="btn btn-default btn-lg">Approve Reimbursement</button>
+			  		<button type="submit" name="edit" value="approve" type="submit" class="btn btn-default btn-lg">Approve Reimbursement</button>
 			  	</form>
 			</div>
 			<div class="col-md-1"></div>
 			<div class="col-md-4">
 				<form action="ConfirmFinalApprove.do" method="POST">
-					<button name="edit" value="decline" type="submit" class="btn btn-default btn-lg">Decline Reimbursement</button><br>
+					<button type="submit" name="edit" value="decline" type="submit" class="btn btn-default btn-lg">Decline Reimbursement</button><br>
 					<label for="reason">Reason for Decline</label>
 					<input type="text" required class="form-control" id="reason" placeholder="Reason" name="reason">
 			  	</form>

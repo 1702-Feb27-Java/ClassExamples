@@ -40,6 +40,7 @@ public class FinalApprove extends HttpServlet {
 		Reimbursement reimbursement = serveEmp.getReimbursementById(reimbId);
 		
 		request.setAttribute("reimbursement", reimbursement);
+		ses.setAttribute("reimbursementAmt", reimbursement.getProjectedReimbursement());
 		
 		String nextJSP = "/finalApproval.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);

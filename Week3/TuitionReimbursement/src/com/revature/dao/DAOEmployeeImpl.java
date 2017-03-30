@@ -1022,4 +1022,36 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		
 		return percentAwarded;
 	}
+
+	public boolean setBalance(int empId, double newBalance){
+		boolean success = false;
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "UPDATE EMPLOYEE "
+					+ "SET BALANCE = ?"
+					+ " WHERE EMPLOYEE_ID = ?";
+		
+			PreparedStatement ps = connect.prepareStatement(sql);
+	
+			ps.setDouble(1, newBalance);
+			ps.setInt(2, empId);
+			
+			ps.execute();
+			
+			success = true;
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		return success;
+		
+	}
+	
+	
+	
+	
 }
+
+
+

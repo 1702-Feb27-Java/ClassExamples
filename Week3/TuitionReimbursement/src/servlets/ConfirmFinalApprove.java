@@ -41,11 +41,19 @@ public class ConfirmFinalApprove extends HttpServlet {
 		
 		int empMessage = serveEmp.getEmployeeIdByReimbursementId(reimbId);
 		String empName = serveEmp.getEmployeeName(empMessage);
+		//String reimbursementAmt = request.getParameter("reimbursementAmt");
 		
-		if (act == null) {
+		System.out.println(ses.getAttribute("reimbursementAmt"));
+		double reimbursementAmt = (double)ses.getAttribute("reimbursementAmt");
+		System.out.println(reimbursementAmt);
+		//double reimbAmt = Double.parseDouble(reimbursementAmt);
+		
+		
+		if (act == null) {	
 			System.out.println(false);
 		} else if (act.equals("approve")) {
 		    serveEmp.finalUpdate(reimbId, true);
+			serveEmp.sendMoney(empMessage, reimbursementAmt);
 		    serveEmp.addMessage("Reimbursement Processed", empMessage, empId, reimbId);		    
 		} else if (act.equals("decline")) {
 			String reason = request.getParameter("reason");
