@@ -19,6 +19,7 @@
 			Start Date of course: <input type ="date" name="start_date"><br>
 			End Date of course: <input type = "date" name="end_date"><br> 
 			length of Course(In minutes): <input type = "time" name="course_length"><br>
+			Course Cost: <input type = "number" name="course_cost"><br>
 			Course Type: <input type = "text" name="course_type"><br>
 			Grade Type: <input type = "text" name="grade type"><br>
 			Grade: <input type="text" name="actual_grade"><br>

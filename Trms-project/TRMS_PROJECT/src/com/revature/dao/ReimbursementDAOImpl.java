@@ -23,11 +23,11 @@ course_len in NUMBER, course_cost in NUMBER, app_id in number, course_id in numb
 
 public class ReimbursementDAOImpl implements ReimbursementDAO {
 	
-	static public ArrayList<Reimbursement> forms = new ArrayList<Reimbursement>();
+	//static public ArrayList<Reimbursement> forms = new ArrayList<Reimbursement>();
 	
 	//note: for the app_id param it will be one which is pending going up the chain of command as need be
 	@Override
-	public boolean InsertIntoReimTable(String username, String location, Date form_add, Date start_course, Date end_course,
+	public boolean InsertIntoReimTable(String username, String location, String form_add, String start_course, String end_course,
 			int course_length, int course_cost, int app_id, int id_course, int id_grade, String grade) {
 		
 			//creating reimbursement object and local variables for its setter
@@ -36,14 +36,14 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 			try( Connection connect = ConnectionUtil.getConnection();) {
 				connect.setAutoCommit(false);
 				
-				String sql = "CALL REIMBURSTMENT_APPLY(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				String sql = "CALL REIMBURSTMENT_APPLY(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				CallableStatement cs = connect.prepareCall(sql);
 				
 				cs.setString(1, username);
 				cs.setString(2, location);
-				cs.setDate(3, form_add);
-				cs.setDate(4, start_course);
-				cs.setDate(5, end_course);
+				cs.setString(3, form_add);
+				cs.setString(4, start_course);
+				cs.setString(5, end_course);
 				cs.setInt(6, course_length);
 				cs.setInt(7, course_cost);
 				cs.setInt(8, app_id = 1);

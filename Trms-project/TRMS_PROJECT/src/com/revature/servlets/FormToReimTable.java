@@ -53,31 +53,33 @@ public class FormToReimTable extends HttpServlet {
 		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		
-		String un = request.getParameter("uname");
+	
 		
 		HttpSession sessh = request.getSession(false);
 		Employee e = (Employee)sessh.getAttribute("user");
 		//sessh.setAttribute("user", e );
 		
-		
 		String l = request.getParameter("loca");
 		String d = request.getParameter("Current_date");	
 		String sd = request.getParameter("start_date");
 		String ed = request.getParameter("end_date");
-		String cl = request.getParameter("course_length");
+		int cl = Integer.parseInt(request.getParameter("course_length"));
+		int cc = Integer.parseInt(request.getParameter("course_cost"));
 		String ct = request.getParameter("course_type");
 		String gt = request.getParameter("grade type");
 		String g = request.getParameter("actual_grade");
+		
+		RfDAO.InsertIntoReimTable(e.getUsername(), l, d, sd, ed, cl, cc, 1, RfDAO.getCourseID(ct), RfDAO.getGradeID(gt), g);
 		
 		Rform.setEmp_id(e.getEmp_id());
 		Rform.setLocation_(l);
 		Rform.setAdd_date(d);
 		Rform.setStart_course(sd);
 		Rform.setEnd_course(ed);
-		Rform.setCourse_time(cl);
+		Rform.setCourse_time((Integer.toString(cl)));
+		Rform.setCourse_cost(Integer.toString(cc));
 		Rform.setCourse_id( RfDAO.getCourseID(ct) );
-		Rform.setGrade_type_id(RfDAO.getGradeID(gt));
+		Rform.setGrade_type_id( RfDAO.getGradeID(gt) );
 		Rform.setGrade(g);
 		
 		this_form.add(Rform);

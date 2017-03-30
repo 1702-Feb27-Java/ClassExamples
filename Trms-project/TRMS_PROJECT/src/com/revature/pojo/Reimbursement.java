@@ -14,7 +14,7 @@ public class Reimbursement {
 	private String start_course;
 	private String end_course;
 	private String course_time;
-	private int course_cost;
+	private String course_cost;
 	private int Reim_id;
 	private int Appr_id;
 	private int course_id;
@@ -58,10 +58,10 @@ public class Reimbursement {
 	public void setCourse_time(String course_time) {
 		this.course_time = course_time;
 	}
-	public int getCourse_cost() {
+	public String getCourse_cost() {
 		return course_cost;
 	}
-	public void setCourse_cost(int course_cost) {
+	public void setCourse_cost(String course_cost) {
 		this.course_cost = course_cost;
 	}
 	public int getReim_id() {
