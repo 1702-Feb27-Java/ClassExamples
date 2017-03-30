@@ -124,6 +124,11 @@ public class EmployeeService {
 			String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
 			String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
 			
+			int typeOfEventId = r.getTypeOfEventId();
+			double percentAwarded = daoEmp.getPercentAwarded(typeOfEventId);
+			double projectedReimbursement = percentAwarded * r.getCost();
+			
+			r.setpProjectedReimbursement(projectedReimbursement);
 			r.setLocation(location);
 			r.setGrading(grading);
 			r.setTypeOfEvent(typeOfEvent);
@@ -141,6 +146,11 @@ public class EmployeeService {
 		String typeOfEvent = daoEmp.getTypeOfEvent(reimbursement.getTypeOfEventId());
 		String approvalStep = daoEmp.getApprovalStep(reimbursement.getApprovalStepId());
 		
+		int typeOfEventId = reimbursement.getTypeOfEventId();
+		double percentAwarded = daoEmp.getPercentAwarded(typeOfEventId);
+		double projectedReimbursement = percentAwarded * reimbursement.getCost();
+		
+		reimbursement.setpProjectedReimbursement(projectedReimbursement);
 		reimbursement.setLocation(location);
 		reimbursement.setGrading(grading);
 		reimbursement.setTypeOfEvent(typeOfEvent);
@@ -166,6 +176,11 @@ public class EmployeeService {
 				String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
 				String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
 				
+				int typeOfEventId = r.getTypeOfEventId();
+				double percentAwarded = daoEmp.getPercentAwarded(typeOfEventId);
+				double projectedReimbursement = percentAwarded * r.getCost();
+				
+				r.setpProjectedReimbursement(projectedReimbursement);
 				r.setLocation(location);
 				r.setGrading(grading);
 				r.setTypeOfEvent(typeOfEvent);
@@ -189,6 +204,11 @@ public class EmployeeService {
 			String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
 			String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
 			
+			int typeOfEventId = r.getTypeOfEventId();
+			double percentAwarded = daoEmp.getPercentAwarded(typeOfEventId);
+			double projectedReimbursement = percentAwarded * r.getCost();
+			
+			r.setpProjectedReimbursement(projectedReimbursement);
 			r.setLocation(location);
 			r.setGrading(grading);
 			r.setTypeOfEvent(typeOfEvent);
@@ -212,6 +232,11 @@ public class EmployeeService {
 			String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
 			String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
 			
+			int typeOfEventId = r.getTypeOfEventId();
+			double percentAwarded = daoEmp.getPercentAwarded(typeOfEventId);
+			double projectedReimbursement = percentAwarded * r.getCost();
+			
+			r.setpProjectedReimbursement(projectedReimbursement);
 			r.setLocation(location);
 			r.setGrading(grading);
 			r.setTypeOfEvent(typeOfEvent);
@@ -261,6 +286,11 @@ public class EmployeeService {
 			String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
 			String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
 			
+			int typeOfEventId = r.getTypeOfEventId();
+			double percentAwarded = daoEmp.getPercentAwarded(typeOfEventId);
+			double projectedReimbursement = percentAwarded * r.getCost();
+			
+			r.setpProjectedReimbursement(projectedReimbursement);
 			r.setLocation(location);
 			r.setGrading(grading);
 			r.setTypeOfEvent(typeOfEvent);
@@ -289,6 +319,11 @@ public class EmployeeService {
 			String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
 			String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
 			
+			int typeOfEventId = r.getTypeOfEventId();
+			double percentAwarded = daoEmp.getPercentAwarded(typeOfEventId);
+			double projectedReimbursement = percentAwarded * r.getCost();
+			
+			r.setpProjectedReimbursement(projectedReimbursement);
 			r.setLocation(location);
 			r.setGrading(grading);
 			r.setTypeOfEvent(typeOfEvent);
@@ -317,6 +352,11 @@ public class EmployeeService {
 			String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
 			String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
 			
+			int typeOfEventId = r.getTypeOfEventId();
+			double percentAwarded = daoEmp.getPercentAwarded(typeOfEventId);
+			double projectedReimbursement = percentAwarded * r.getCost();
+			
+			r.setpProjectedReimbursement(projectedReimbursement);
 			r.setLocation(location);
 			r.setGrading(grading);
 			r.setTypeOfEvent(typeOfEvent);
@@ -341,5 +381,10 @@ public class EmployeeService {
 			}
 			
 			return pendingReimbursements;
+	}
+	
+	public double getPercentAwarded(int typeOfEventId){
+		double percentAwarded = daoEmp.getPercentAwarded(typeOfEventId);
+		return percentAwarded;
 	}
 }

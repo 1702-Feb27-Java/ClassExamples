@@ -994,4 +994,32 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			e.printStackTrace(); 	
 		}
 	}
+
+	
+	@Override
+	public double getPercentAwarded(int typeOfEventId) {
+		double percentAwarded = 0;
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+	
+			String sql = "SELECT PERCENTAWARDED"
+					+ " FROM TYPE_OF_EVENT "
+					+ "WHERE TYPE_OF_EVENT_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, typeOfEventId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				percentAwarded = rs.getDouble(1); 
+			}
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return percentAwarded;
+	}
 }

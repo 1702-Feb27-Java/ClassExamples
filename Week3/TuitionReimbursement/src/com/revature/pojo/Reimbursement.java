@@ -6,8 +6,10 @@ public class Reimbursement {
 	String event, time, description, grading, approvalStep, location, typeOfEvent, reason, finalGrade;
 	int locationId, gradingId, typeOfEventId, approvalStepId, cost, reimbId, empId;
 	Date eventDate, formDate;
+	double projectedReimbursement;
+	
 	public Reimbursement(String event, String time, String description, String reason, String finalGrade, int cost, int locationId, int gradingId,
-			int typeOfEventId, int approvalStepId, Date eventDate, Date formDate, int reimbId, int empId) {
+			int typeOfEventId, int approvalStepId, Date eventDate, Date formDate, int reimbId, int empId, double projectedReimbursement) {
 		super();
 		this.event = event;
 		this.time = time;
@@ -23,6 +25,7 @@ public class Reimbursement {
 		this.empId = empId;
 		this.reason = reason;
 		this.finalGrade = finalGrade;
+		this.projectedReimbursement = projectedReimbursement;
 	}
 	public Reimbursement(){
 		
@@ -135,13 +138,20 @@ public class Reimbursement {
 	public String getFinalGrade() {
 		return finalGrade;
 	}
+	public void setpProjectedReimbursement(double projectedReimbursement){
+		this.projectedReimbursement = projectedReimbursement;
+	}
+	public double getProjectedReimbursement(){
+		return projectedReimbursement;
+	}
 	@Override
 	public String toString() {
 		return "Reimbursement [event=" + event + ", time=" + time + ", description=" + description + ", grading="
 				+ grading + ", approvalStep=" + approvalStep + ", location=" + location + ", typeOfEvent=" + typeOfEvent
 				+ ", locationId=" + locationId + ", gradingId=" + gradingId + ", typeOfEventId=" + typeOfEventId
 				+ ", approvalStepId=" + approvalStepId + ", cost=" + cost + ", eventDate=" + eventDate + ", formDate="
-				+ formDate + ", reimbId=" + reimbId +  ", empId=" + empId + ", reason=" + reason + ", finalGrade=" + finalGrade + "]\n";
+				+ formDate + ", reimbId=" + reimbId +  ", empId=" + empId + ", reason=" + reason + ", finalGrade=" + finalGrade + 
+				", projectedReimbursement=" + projectedReimbursement +"]\n";
 	}
 
 	
