@@ -1,8 +1,10 @@
 package com.revature.service;
 
 import java.util.ArrayList;
+
 import com.revature.dao.DAOImpl;
 import com.revature.pojo.Employee;
+import com.revature.pojo.Reimburstment;
 
 public class Service
 {
@@ -18,5 +20,24 @@ public class Service
 		ArrayList<Employee> arr = new ArrayList();
 		arr = dao.getAllUsers();
 		return arr;
+	}
+	
+	public Reimburstment myReimburstment(int emp_id)
+	{
+		Reimburstment reim = new Reimburstment();
+		reim = dao.getReim(emp_id);
+		return reim;
+	}
+	
+	public ArrayList<Reimburstment> viewAllReimburstments()
+	{
+		ArrayList<Reimburstment> arr = new ArrayList();
+		arr = dao.allReims();
+		return arr;
+	}
+	
+	public void makeReimburstment(Reimburstment reim)
+	{
+		dao.makeReim(reim);
 	}
 }

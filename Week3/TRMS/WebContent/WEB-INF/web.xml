@@ -37,6 +37,16 @@
     <servlet-name>SessionHandler</servlet-name>
     <url-pattern>/SessionHandler</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MakeReimServlet</display-name>
+    <servlet-name>MakeReimServlet</servlet-name>
+    <servlet-class>com.revature.servlet.MakeReimServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MakeReimServlet</servlet-name>
+    <url-pattern>/MakeReimServlet</url-pattern>
+  </servlet-mapping>
   <filter>
     <display-name>TestFilter</display-name>
     <filter-name>TestFilter</filter-name>
@@ -46,4 +56,14 @@
     <filter-name>TestFilter</filter-name>
     <url-pattern>*.do</url-pattern>
   </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MyReimServlet</display-name>
+    <servlet-name>MyReimServlet</servlet-name>
+    <servlet-class>com.revature.servlet.MyReimServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MyReimServlet</servlet-name>
+    <url-pattern>/MyReimServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

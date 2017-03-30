@@ -46,11 +46,14 @@ public class TestFilter implements Filter {
 		switch(action)
 		{
 		case "LoginServlet":
-			System.out.println("al;ksdjfgnlksdjgjsdlk");
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;
 		case "SessionHandler":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
+		case "MakeReimServlet":
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;

@@ -83,15 +83,15 @@ public class DAOImpl implements DAO
 	}
 
 	@Override
-	public Reimburstment getReim(int reim_id)
+	public Reimburstment getReim(int emp_id)
 	{
 		Reimburstment reim = new Reimburstment();
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{
 			connect.setAutoCommit(false);
-			String sql = "SELECT * FROM REIMBURSTMENT WHERE reim_id = ?";
+			String sql = "SELECT * FROM REIMBURSTMENT WHERE emp_id = ?";
 			PreparedStatement ps = connect.prepareStatement(sql);
-			ps.setInt(1, reim_id);
+			ps.setInt(1, emp_id);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next())
 			{
@@ -193,5 +193,36 @@ public class DAOImpl implements DAO
 			e.printStackTrace();
 		}
 		return temp;
+	}
+
+	@Override
+	public void makeReim(Reimburstment reim)
+	{
+		// TODO Auto-generated method stub
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String sql = "INSERT INTO REIMBURSTMENT (EMP_ID, RELOCATION, ADDDATE, "
+					+ "STARTDATE, ENDDATE, COURSETIME, COURSECOST, REIMBURST_AMT, "
+					+ "APPROVAL_ID, COURSE_ID, GRADETYPE_ID) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?);";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, reim.getEmp_id());
+			ps.setString(2, reim.getLocation());
+			ps.setString(3, reim.getAddDate());
+			ps.setString(4, reim.getCourseStartDate());
+			ps.setString(5, reim.getCourseEndDate());
+			ps.setString(6, reim.getTime());
+			ps.setInt(7, reim.getCourseCost());
+			ps.setInt(8, reim.getReimburstAmt());
+			ps.setInt(9, reim.getApproval());
+			ps.setInt(10, reim.getCourseID());
+			ps.setInt(11, reim.getGradeTypeID());
+			ps.executeQuery();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

@@ -2,6 +2,7 @@ package com.revature.main;
 
 import java.util.ArrayList;
 import com.revature.pojo.Employee;
+import com.revature.pojo.Reimburstment;
 import com.revature.service.Service;
 
 public class Main
@@ -20,6 +21,13 @@ public class Main
 		for(Employee e : array)
 		{
 			System.out.println(e.getUsername() + " " + e.getAddress());
+		}
+		
+		ArrayList<Reimburstment> reims = new ArrayList();
+		reims = service.viewAllReimburstments();
+		for(Reimburstment r : reims)
+		{
+			System.out.println(r.getEmp_id());
 		}
 	}
 }

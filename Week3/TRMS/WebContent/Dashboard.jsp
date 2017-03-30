@@ -11,14 +11,15 @@
 		<h1 align="center" style="color:blue">Welcome to your dashboard!</h1><hr><br>
 		<h2 align="center" style="color:blue">Please select an option below:</h2><br>
 		
-		<form align="center" style="color:blue">
-	     	<input type="button" name="reqButton" value="Request a Reimbursement"><br>
-	     	<input type="button" name="viewRemButton" value="View Reimbursements"><br>
-	     	<input type="radio" name="myRadio" value="button3">button3<br>
-	     	<input type="radio" name="myRadio" value="button4">button4<br>
-	     	<input type="radio" name="myRadio" value="button5">button5<br>
-	     	<input type="radio" name="myRadio" value="button6">button6<br><br>
-	     	<input type="submit" value="Login">
+		<form align="center" action="MakeReimbursementPage.html" style="color:blue">
+			<input type="submit" name="reqButton" value="Request a Reimbursement"><br>
 		</form>
+		<form align="center" action="MyReimServlet.do" style="color:blue">
+			<input type="button" name="myReim" id=2 value="View My Reimbursement"><br>
+		</form>
+		<form align="center" style="color:blue">
+			<input type="button" name="reqButton" id=3 value="View Reimbursements For Your Department"><br>
+		</form>
+		
 	</body>
 </html>
