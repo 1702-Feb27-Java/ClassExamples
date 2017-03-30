@@ -76,7 +76,7 @@
 	session.setAttribute("eventPr", prList);
 	session.setAttribute("userPr", prList2);
 	
-	if(!role.equals("1")){ %>
+	if(!role.equals("4")){ %>
 	<h2>PENDING REQUESTS:</h2><hr>
 		<table>
 			<tr><th = class="center">EVENT-ID:</th><th class="left">NAME:</th><th class="left">TYPE:</th><th class="center">COST:</th><th class="center">START DATE:</th>
@@ -93,10 +93,9 @@
 				</tr>
 				<%}%>
 		</table>
-		<%}%>
 		<br><br>
 		To view and approve the request listed, select from the drop down menu:
-		<select name="eventIdApproval" required>
+		<select name="eventId" required>
 		<option disabled selected value> -- select an option -- </option>
 		<%for(Event item:prList){	%>
 			<option value="<%=item.getEventId()%>">
@@ -104,6 +103,7 @@
 		<%}%>
 		</select>
 		<input type="submit" value="Details"><hr>
+	<%}%>
 	</form>
 </body>
 </html>

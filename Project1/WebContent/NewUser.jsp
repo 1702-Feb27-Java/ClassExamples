@@ -7,6 +7,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script><meta charset="ISO-8859-1">
+<script src="NewUser.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Create New User</title>
 <style>
@@ -29,10 +31,10 @@
 		<p><label>First Name:</label><input type="text" name="fname" required></p>
 		<p><label>Last Name:</label><input type="text" name="lname" required></p>
 		<p><label>Username:</label><input type="text" name="uname" required></p>
-		<p><label>Password:</label><input type="password" maxlength=16 name="password" required></p>
-		<p><label>Re-Enter Password:</label><input type="password" name="password1" required></p>
-		<p><label>Email:</label><input type="text" name="email" required></p>
-		<p><label>Re-Enter Email:</label><input type="text" name="reemail" required></p>
+		<p><label>Password:</label><input type="password" maxlength=16 name="password" id="pwd1" required></p>
+		<p><label>Re-Enter Password:</label><input type="password" name="password1" id="pwd2"required></p>
+		<p><label>Email:</label><input type="text" name="email" id="email1" required></p>
+		<p><label>Re-Enter Email:</label><input type="text" name="reemail" id="email2" required></p>
 		<p><label>Role:</label>
 		<select name="role" required>
 			<option disabled selected value> -- select an option -- </option>

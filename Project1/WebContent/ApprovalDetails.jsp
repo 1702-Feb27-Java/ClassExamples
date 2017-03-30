@@ -19,36 +19,36 @@
 <body>
 	<%
 	ArrayList<Event> eventList = (ArrayList<Event>)session.getAttribute("eventPr");
-	int eventid = Integer.parseInt(request.getParameter("eventIdApproval"));
-	ArrayList<Tracking> detailsList = DAOImpl.getTrackingDetails(eventid);
-	ArrayList<User> detailUser = DAOImpl.getTrackingDetails2(eventid);
+	int eventId = Integer.parseInt(request.getParameter("eventId"));
+	ArrayList<Tracking> detailsList = DAOImpl.getTrackingDetails(eventId);
+	ArrayList<User> detailUser = DAOImpl.getTrackingDetails2(eventId);
 	for (int i = 0; i<eventList.size();i++){
-		if (eventList.get(i).getEventId() == eventid)	
-			eventid=i;
+		if (eventList.get(i).getEventId() == eventId)	
+			eventId=i;
 	}
 	%>
 	
 	<div align="center"><h1>Event Details Approval Page</h1>
-		<form = action="" method="POST">
+		<form = action="ApproveEvent" method="POST">
 			<table width=100%>
 				<tr><th>EVENT #:</th></tr>
-				<tr><td style="text-align: center"><input name="eventNum" value="<%=eventList.get(eventid).getEventId()%>"></td></tr>
+				<tr><td style="text-align: center"><input name="eventNum" value="<%=eventList.get(eventId).getEventId()%>"></td></tr>
 			</table>
 			<table width=100%>
 				<tr><th>EVENT:</th><th>PRIORITY:</th><th>LOCATION:</th><th>COST:</th>
 				<th>START DATE:</th><th>TIME:</th><th>STOP DATE:</th><th>GRADING FORMAT:</th></tr>
-				<tr><td><input type="text" name="EventType" value="<%=eventList.get(eventid).getEventType()%>"></td>
-				<td><input type="text" name="Priority" value="<%=eventList.get(eventid).getPriority()%>"></td>
-				<td><input type="text" name="Location" value="<%=eventList.get(eventid).getLocation()%>"></td>
-				<td><input type="text" name="Cost" value="<%=eventList.get(eventid).getCost()%>"></td>
-				<td><input type="text" name="Start" value="<%=eventList.get(eventid).getStartDate()%>"></td>
-				<td><input type="text" name="STime" value="<%=eventList.get(eventid).getStartTime()%>"></td>
-				<td><input type="text" name="Stop" value="<%=eventList.get(eventid).getStopDate()%>"></td>
-				<td><input type="text" name="Grade" value="<%=eventList.get(eventid).getGradeFormat()%>"></td></tr>
+				<tr><td><input type="text" name="EventType" value="<%=eventList.get(eventId).getEventType()%>"></td>
+				<td><input type="text" name="Priority" value="<%=eventList.get(eventId).getPriority()%>"></td>
+				<td><input type="text" name="Location" value="<%=eventList.get(eventId).getLocation()%>"></td>
+				<td><input type="text" name="Cost" value="<%=eventList.get(eventId).getCost()%>"></td>
+				<td><input type="text" name="Start" value="<%=eventList.get(eventId).getStartDate()%>"></td>
+				<td><input type="text" name="STime" value="<%=eventList.get(eventId).getStartTime()%>"></td>
+				<td><input type="text" name="Stop" value="<%=eventList.get(eventId).getStopDate()%>"></td>
+				<td><input type="text" name="Grade" value="<%=eventList.get(eventId).getGradeFormat()%>"></td></tr>
 				<tr><th colspan="8">DESCRIPTION:</th></tr>
-				<tr><td colspan="8"><input name="descr" size="200%" style="border:none;text-align:left"  value="<%=eventList.get(eventid).getDescription()%>"></textarea></td></tr>
+				<tr><td colspan="8"><input name="descr" size="200%" style="border:none;text-align:left"  value="<%=eventList.get(eventId).getDescription()%>"></textarea></td></tr>
 				<tr><th colspan="8">JUSTIFICATION:</th></tr>
-				<tr><td colspan="8"><input name="jusify" size="200%" style="border:none;text-align:left" value="<%=eventList.get(eventid).getJustify()%>"></textarea></td></tr>
+				<tr><td colspan="8"><input name="jusify" size="200%" style="border:none;text-align:left" value="<%=eventList.get(eventId).getJustify()%>"></textarea></td></tr>
 			</table>
 			<table width=100%>
 				<%for (int i = 0; i < detailsList.size();i++){ %>
@@ -62,7 +62,7 @@
 						<td><%=detailUser.get(i).getFirstName()%></td>
 						<td><%=detailsList.get(i).getComments()%></td></tr>
 				<%}%>
-			<tr><th name="comments" colspan="8">APPROVAL COMMENTS:</th></tr>
+			<tr><th name="comments" colspan="8" required>APPROVAL COMMENTS:</th></tr>
 			<tr><td colspan="8"><input name="comments" size="200%" style="border:none;text-align:left"></td></tr>			
 		</table><br>						
 			<input class="button" type="submit" value="Approve" style="width: 100px">

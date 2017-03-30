@@ -36,6 +36,6 @@ public class EventService {
 		case "2":
 			return "1";
 		}
-		return "1";
+		return "0";
 	}
 }	

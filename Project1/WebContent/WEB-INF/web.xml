@@ -49,4 +49,14 @@
     <servlet-name>DeleteEvent</servlet-name>
     <url-pattern>/DeleteEvent</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ApproveEvent</display-name>
+    <servlet-name>ApproveEvent</servlet-name>
+    <servlet-class>com.revature.servlets.ApproveEvent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApproveEvent</servlet-name>
+    <url-pattern>/ApproveEvent</url-pattern>
+  </servlet-mapping>
 </web-app>
