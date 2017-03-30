@@ -18,7 +18,7 @@
 			<div class="col-lg-12">
 				<ul class="breadcrumb">
 				  <!-- TODO: link to Logout Servlet -->
-				  <li><a href="#">Home </a></li>
+				  <li><a href="#">Home</a></li>
 				  <span class="arrow sep">►</span>
 				  <li class="active">Menu</li>
 				  <span class="arrow sep">►</span>
@@ -35,20 +35,20 @@
 		
 		  <!-- Nav tabs -->
 		  <ul class="nav nav-tabs" role="tablist">
-		    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+		    <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
 		    <li role="presentation"><a href="#pending" aria-controls="pending" role="tab" data-toggle="tab">Pending Reimbursements</a></li>
 		    <li role="presentation"><a href="#awarded" aria-controls="awarded" role="tab" data-toggle="tab">Awarded Reimbursements</a></li>
 		  </ul>
 		
 		  <!-- Tab panes -->
 		  <div class="tab-content">
-		    <div role="tabpanel" class="tab-pane active" id="home">	<!-- See Employee Details / Available reimbursements / date -->
+		    <div role="tabpanel" class="tab-pane active" id="profile">	<!-- See Employee Details / Available reimbursements / date -->
 				<!-- Employee details and apply for reimbursement button --> 
 				<div class="container-fluid">
 			
 						<a href="ReimbursementServlet" class="btn btn-default">Apply for a New Reimbursement</a></div>
 			
-				</div> <!-- end of Employee Profile-->
+				</div> <!-- end of Employee Profile--> <!-- use %include file instead of jsp:include because of request scope -->
 		    <div role="tabpanel" class="tab-pane" id="pending"><jsp:include page="pending_reimbursements.jsp"></jsp:include><!-- JSP INCLUDE PENDING REIMB --></div>
 		    <div role="tabpanel" class="tab-pane" id="awarded"><jsp:include page="awarded_reimbursements.jsp"></jsp:include><!-- JSP INCLUDE AWARDED REIMB --></div>
 		  </div>

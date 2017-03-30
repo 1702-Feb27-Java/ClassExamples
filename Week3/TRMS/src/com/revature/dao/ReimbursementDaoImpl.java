@@ -1,6 +1,7 @@
 package com.revature.dao;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -179,7 +180,7 @@ public class ReimbursementDaoImpl {
                stmt.setString(2, valueObject.getLocation()); 
                stmt.setDouble(3, valueObject.getCost()); 
                stmt.setInt(4, valueObject.getEventTitleId()); 
-               stmt.setDate(5, valueObject.getEventDate()); 
+               stmt.setDate(5, (java.sql.Date) valueObject.getEventDate()); 
                stmt.setString(6, valueObject.getEventDesc()); 
                stmt.setString(7, valueObject.getWorkJust()); 
                stmt.setInt(8, valueObject.getGradeId()); 
@@ -243,7 +244,7 @@ public class ReimbursementDaoImpl {
               stmt.setString(2, valueObject.getLocation()); 
               stmt.setDouble(3, valueObject.getCost()); 
               stmt.setInt(4, valueObject.getEventTitleId()); 
-              stmt.setDate(5, valueObject.getEventDate()); 
+              stmt.setDate(5, (java.sql.Date) valueObject.getEventDate()); 
               stmt.setString(6, valueObject.getEventDesc()); 
               stmt.setString(7, valueObject.getWorkJust()); 
               stmt.setInt(8, valueObject.getGradeId()); 
@@ -334,7 +335,7 @@ public class ReimbursementDaoImpl {
 
 
     /**
-     * coutAll-method. This method will return the number of all rows from table that matches
+     * countAll-method. This method will return the number of all rows from table that matches
      * this Dao. The implementation will simply execute "select count(primarykey) from table".
      * If table is empty, the return value is 0. This method should be used before calling
      * loadAll, to make sure table has not too many rows.

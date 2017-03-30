@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.revature.pojo.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,6 +16,7 @@
 				<div class="panel-body">
 
 				<!-- Table -->
+				
 				<table class="table">
 					<tr>
 						<th>ID</th>
@@ -26,11 +28,21 @@
 						<th>Status</th>
 					</tr>
 					<!-- Generate table records using JSTL forEach -->
-					<c:forEach var="i" begin="0" end="5">
+					
+					<c:forEach items="${sessionScope.pendingReimbursements}" var="reimbursement">
 						<!-- iterate over each reimbursement -->
 						<tr>
-							<!-- iterate over each field in reimbursement -->
-							<td><c:out value="${i}" /></td>
+							<td>${reimbursement.getReimbId()}</td>
+							<td>${reimbursement.getLocation()}</td>
+							<td>${reimbursement.getCost()}</td>
+							<!-- TODO: Event Title Id to Event Title String -->
+							<td>${reimbursement.getEventTitleId()}</td>
+							<td>${reimbursement.getEventDate()}</td>
+							<!-- TODO: Event Grade Id to Event Grade Format String -->
+							<td>${reimbursement.getGradeId()}</td>
+							<!-- TODO: App Level Id to Pending/Approved/Declined (Hide pending level?) -->
+							<td>${reimbursement.getAppLevel()}</td>
+							
 						</tr>
 					</c:forEach>
 				</table>

@@ -1,7 +1,9 @@
 package com.revature.test;
 
 import com.revature.dao.EmployeeDaoImpl;
+import com.revature.dao.ReimbursementDaoImpl;
 import com.revature.pojo.Employee;
+import com.revature.pojo.Reimbursement;
 
 public class DAOTest {
 
@@ -30,6 +32,10 @@ public class DAOTest {
 		System.out.println("in login method: " + e);
 		
 		// REIMBURSEMENT TEST
+		Reimbursement r = new Reimbursement();
+		ReimbursementDaoImpl rDao = new ReimbursementDaoImpl();
+		r = rDao.getReimbursement(1);
+		System.out.println(r);
 	}
 
 }

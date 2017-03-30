@@ -1,8 +1,8 @@
 package com.revature.test;
 
-import com.revature.dao.EmployeeDaoImpl;
 import com.revature.pojo.Employee;
 import com.revature.service.EmployeeService;
+import com.revature.service.ReimbursementService;
 
 public class ServiceTest {
 
@@ -13,6 +13,10 @@ public class ServiceTest {
 		System.out.println(testEmp);
 		Employee nullEmp = es.loginEmployee("admin", "pass");
 		System.out.println(nullEmp);
+		
+		// TESTING REIMBURSEMENT SERVICE
+		ReimbursementService rs = new ReimbursementService();
+		System.out.println(rs.getPendingReimbursementsForEmployee(testEmp));
 	}
 
 }

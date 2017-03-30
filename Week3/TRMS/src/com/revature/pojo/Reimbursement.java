@@ -1,6 +1,8 @@
 package com.revature.pojo;
 
- /**
+import java.util.Date;
+
+/**
   * Reimbursement Value Object.
   * This class is value object representing database table REIMBS
   * This class is intended to be used together with associated Dao object.
@@ -16,7 +18,7 @@ public class Reimbursement {
     private String location;
     private double cost;
     private int eventTitleId;
-    private java.sql.Date eventDate;
+    private Date eventDate;
     private String eventDesc;
     private String workJust;
 	private int gradeId;
@@ -85,10 +87,10 @@ public class Reimbursement {
           this.eventTitleId = eventTitleIdIn;
     }
 
-    public java.sql.Date getEventDate() {
+    public Date getEventDate() {
           return this.eventDate;
     }
-    public void setEventDate(java.sql.Date eventDateIn) {
+    public void setEventDate(Date eventDateIn) {
           this.eventDate = eventDateIn;
     }
 
@@ -142,7 +144,7 @@ public class Reimbursement {
           String locationIn,
           double costIn,
           int eventTitleIdIn,
-          java.sql.Date eventDateIn,
+          Date eventDateIn,
           String eventDescIn,
           String workJustIn,
           int gradeIdIn,
