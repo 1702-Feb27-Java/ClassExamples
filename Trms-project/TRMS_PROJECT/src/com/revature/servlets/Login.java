@@ -9,7 +9,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.revature.dao.*;
+import com.revature.pojo.Employee;
 import com.revature.connect.ConnectionUtil;
 import com.revature.service.ServiceDAOImpl;
 
@@ -42,7 +45,7 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceDAOImpl DAO = new ServiceDAOImpl();
-		
+		EmployeeDAOImpl EDAO = new EmployeeDAOImpl();
 		//doGet(request, response);
 		
 		response.setContentType("text/html");
@@ -51,11 +54,18 @@ public class Login extends HttpServlet {
 		String n = request.getParameter("uname");
 		String p = request.getParameter("pwd");
 		
-		if(DAO.EMP_LOGIN(n, p) == true){
+		if(DAO.EMP_LOGIN(n, p) == true) {
 			System.out.println("Login and validation successful");
 			//need to check the employee role and point them to the page
+			
+			HttpSession sessh = request.getSession(true);
+			Employee e = EDAO.getUser(n);
+			sessh.setAttribute("user", e );
+			
+			
 			if( DAO.Emp_Role_Check(n) == 1 ) {
 				//System.out.println("Goes to employee jsp");
+
 				RequestDispatcher rd=request.getRequestDispatcher("Employee.jsp");  
 				rd.forward(request,response); 
 			}

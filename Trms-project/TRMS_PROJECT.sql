@@ -186,27 +186,35 @@ INSERT INTO EMPLOYEE(FNAME, LNAME, DEPT_ID, ROLE_ID, USERNAME, PASSWORD, ALLOWAN
 VALUES('Nicholas', 'Perez', 1, 1, 'nperez', 'admin', 0.0);
 INSERT INTO EMPLOYEE(FNAME, LNAME, DEPT_ID, ROLE_ID, USERNAME, PASSWORD, ALLOWANCE) 
 VALUES('Chuck', 'Berry', 1, 1, 'cberry', 'admin2',  0.0);
+INSERT INTO EMPLOYEE(FNAME, LNAME, DEPT_ID, ROLE_ID, USERNAME, PASSWORD, ALLOWANCE) 
+VALUES('Will', 'Smith', 1, 2,'wsmith', 'MIB',  0.0);
+INSERT INTO EMPLOYEE(FNAME, LNAME, DEPT_ID, ROLE_ID, USERNAME, PASSWORD, ALLOWANCE) 
+VALUES('Bruce', 'Wayne', 1, 3, 'bwayne', 'batman',  0.0);
+INSERT INTO EMPLOYEE(FNAME, LNAME, DEPT_ID, ROLE_ID, USERNAME, PASSWORD, ALLOWANCE) 
+VALUES('Han', 'Solo', 3, 1, 'hsolo', 'wookie',  0.0);
 /
 
 --Will need to create procedure for employee sign in
 --it will take in a username and "give out" two params or more
-CREATE OR REPLACE PROCEDURE EMP_SIGNIN(user_name in VARCHAR2, fname out VARCHAR2, lname out VARCHAR2, dep_id out number, role_id out number,
+CREATE OR REPLACE PROCEDURE EMP_SIGNIN(user_name in VARCHAR2, fname out VARCHAR2, lname out VARCHAR2, dep_id out number, emp_id out number, role_id out number,
 pass out VARCHAR2, money out number)
 IS
   --username that is passed in will get the remaining fields from the employee table
   firstn VARCHAR2(25);
   lastn VARCHAR2(25);
   ID_dep NUMBER;
+  ID_emp NUMBER;
   ID_role number;
   pw VARCHAR2(25);
   Allow number;
 BEGIN
-  SELECT FNAME, LNAME, DEPT_ID, ROLE_ID, PASSWORD, ALLOWANCE into
-  firstn, lastn, ID_dep, ID_role, pw, Allow FROM EMPLOYEE
+  SELECT FNAME, LNAME, DEPT_ID, EMP_ID, ROLE_ID, PASSWORD, ALLOWANCE into
+  firstn, lastn, ID_dep, ID_emp, ID_role, pw, Allow FROM EMPLOYEE
   WHERE USERNAME = user_name;
   fname := firstn;
   lname := lastn;
   dep_id := ID_dep;
+  emp_id := ID_emp;
   role_id := ID_role;
   pass := pw;
   money := Allow;
@@ -216,7 +224,7 @@ END;
 --creating procedure for inserting into the reimbursmnet table 
 --NOTE approval id will start at 1 which is pending
 --reimbursment amount will zero to begin with
-CREATE OR REPLACE PROCEDURE REIMBURSTMENT_APPLY(USERN in VARCHAR, LOCA in VARCHAR, DATE_ADD in NUMBER, course_start in NUMBER, course_end in NUMBER,
+CREATE OR REPLACE PROCEDURE REIMBURSTMENT_APPLY(USERN in VARCHAR, LOCA in VARCHAR, DATE_ADD in DATE, course_start in DATE, course_end in DATE,
 course_len in NUMBER, course_cost in NUMBER, app_id in number, course_id in number, grade_id in number, grade in varchar)
 IS
   emp_id number;
@@ -231,3 +239,7 @@ BEGIN
   VALUES(emp_id, LOCA, DATE_ADD, course_start, course_end, course_len, course_cost, 1, course_id, grade_id, grade);
 END;
 /
+
+DROP PROCEDURE REIMBURSTMENT_APPLY;
+/
+

@@ -16,6 +16,7 @@ public interface EmployeeDAO {
 	//Function to return role number for the said employee. 1 = employee, 2 = direct supervisor, 3 = department head, 4 Benco
 	public int getEmployeeRoleNum(String username);
 	public int getEmployeeDeptNum(String username);
+	public Employee getUser(String n);
 	
 	
 }

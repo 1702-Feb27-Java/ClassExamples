@@ -10,10 +10,10 @@ public class Reimbursement {
  
 	private int Emp_id;
 	private String Location_;
-	private int Add_date;
-	private int start_course;
-	private int end_course;
-	private int course_time;
+	private String Add_date;
+	private String start_course;
+	private String end_course;
+	private String course_time;
 	private int course_cost;
 	private int Reim_id;
 	private int Appr_id;
@@ -34,28 +34,28 @@ public class Reimbursement {
 	public void setLocation_(String location_) {
 		Location_ = location_;
 	}
-	public int getAdd_date() {
+	public String getAdd_date() {
 		return Add_date;
 	}
-	public void setAdd_date(int add_date) {
+	public void setAdd_date(String add_date) {
 		Add_date = add_date;
 	}
-	public int getStart_course() {
+	public String getStart_course() {
 		return start_course;
 	}
-	public void setStart_course(int start_course) {
+	public void setStart_course(String start_course) {
 		this.start_course = start_course;
 	}
-	public int getEnd_course() {
+	public String getEnd_course() {
 		return end_course;
 	}
-	public void setEnd_course(int end_course) {
+	public void setEnd_course(String end_course) {
 		this.end_course = end_course;
 	}
-	public int getCourse_time() {
+	public String getCourse_time() {
 		return course_time;
 	}
-	public void setCourse_time(int course_time) {
+	public void setCourse_time(String course_time) {
 		this.course_time = course_time;
 	}
 	public int getCourse_cost() {

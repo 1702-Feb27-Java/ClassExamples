@@ -32,7 +32,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		
 		//Executing SQL below in try and catch block.
 		try( Connection connect = ConnectionUtil.getConnection();) {
-			System.out.println("TEST");
+			//System.out.println("TEST");
 			//setting auto commit to false
 			connect.setAutoCommit(false);
 			
@@ -139,6 +139,44 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		//System.out.println(Dept_id);
 		return Dept_id;
 		
+	}
+
+	@Override
+	public Employee getUser(String n) {
+		
+		Employee e = null;
+		
+		try( Connection connect = ConnectionUtil.getConnection();) {
+			
+			connect.setAutoCommit(false);
+			String sql = "SELECT * FROM EMPLOYEE WHERE USERNAME = ?";
+			
+			PreparedStatement statement = connect.prepareStatement(sql);
+			statement.setString(1, n);
+			ResultSet rs = statement.executeQuery();
+			
+			while( rs.next() ){
+				e = new Employee();
+				e.setFname(rs.getString("FNAME"));
+				e.setLname(rs.getString("LNAME"));
+				e.setDept_id(rs.getInt("DEPT_ID"));
+				e.setRole_id(rs.getInt("ROLE_ID"));
+				e.setEmp_id(rs.getInt("EMP_ID"));
+				e.setUsername(rs.getString("USERNAME"));
+				e.setPassword(rs.getString("PASSWORD"));
+				e.setAllowance(rs.getInt("ALLOWANCE"));
+				
+				
+			}
+			
+			connect.commit();
+			
+		} catch (SQLException E) {
+			// TODO Auto-generated catch block
+			E.printStackTrace();
+		}
+		
+		return e;
 	}
 
 	

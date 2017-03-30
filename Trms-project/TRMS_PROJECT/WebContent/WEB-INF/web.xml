@@ -19,4 +19,14 @@
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FormToReimTable</display-name>
+    <servlet-name>FormToReimTable</servlet-name>
+    <servlet-class>com.revature.servlets.FormToReimTable</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FormToReimTable</servlet-name>
+    <url-pattern>/FormToReimTable</url-pattern>
+  </servlet-mapping>
 </web-app>
