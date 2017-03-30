@@ -5,24 +5,42 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
+
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.revature.service.EmployeeService;
+
 
 /**
  * Servlet implementation class SubmitReimbursement
  */
 public class SubmitReimbursement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private String bucketName = "tuitionreimbursement"; //bucket's name in s3. hardcoded here.
+	private String keyName; //file's name in s3. should be unique name within bucket. to be written by user.
+	private InputStream file; //file uploaded.
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,24 +54,93 @@ public class SubmitReimbursement extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		EmployeeService serveEmp = new EmployeeService();		
+		EmployeeService serveEmp = new EmployeeService();	
+		ArrayList<String> files = new ArrayList<String>();
 		
 		HttpSession ses = request.getSession();
 		int emp_id = (int) ses.getAttribute("uId");
-		String event = request.getParameter("event");
-		String eventDate = request.getParameter("eventDate");
-		String time = request.getParameter("time");
-		String location = request.getParameter("location");
-		String location2 = request.getParameter("location2");
-		String description = request.getParameter("description");
-		String cost2 = request.getParameter("cost");
-		String gradingId = request.getParameter("gradingId");
-		String gradingId2 = request.getParameter("gradingId2");
-		String typeOfEvent = request.getParameter("typeOfEvent");
-		String passingGrade = request.getParameter("passingGrade");
+		String event = "";
+		String eventDate = "";
+		String time = "";
+		String location = "";
+		String location2 = "";
+		String description = "";
+		String cost2 = "";
+		String gradingId = "";
+		String gradingId2 = "";
+		String typeOfEvent = "";
+		String passingGrade = "";
 		
-		System.out.println(event);
-		System.out.println(description);
+		@SuppressWarnings("deprecation")
+		AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider()); //accesses default profile defined in C:/users/YOUR_USER_NAME/.aws/credentials.
+		
+		// parse form fields and uploaded file.
+		try {
+	        List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+	        for (FileItem item : items) {
+	            if (item.isFormField()) {
+	            	String input = item.getFieldName();
+	            	switch(input){
+	            	case "event" : 
+	            		event = item.getString();
+	            		break;
+	            	case "eventDate" :
+	            		eventDate = item.getString();
+	            		break;
+	            	case "time" :
+	            		time = item.getString();
+	            		break;
+	            	case "location" :
+	            		location = item.getString();
+	            		break;
+	            	case "location2" :
+	            		location2 = item.getString();
+	            		break;
+	            	case "description" :
+	            		description = item.getString();
+	            		break;
+	            	case "cost" : 
+	            		cost2 = item.getString();
+	            		break;
+	            	case "gradingId" :
+	            		gradingId = item.getString();
+	            		break;
+	            	case "gradingId2" :
+	            		gradingId2 = item.getString();
+	            		break;
+	            	case "typeOfEvent" :
+	            		typeOfEvent = item.getString();
+	            		break;
+	            	case "passingGrade" :
+	            		passingGrade = item.getString();
+	            		break;
+	            	}
+	            	
+	            	
+	                if (item.getFieldName().equals("filename")) {
+	                	keyName = item.getString(); //get filename input by user.
+	                	
+	                }
+	            } else {
+	                // the <input type="file"> field will be processed here.
+	                //String fieldName = item.getFieldName();
+	                //String fileName = FilenameUtils.getName(item.getName()); //getting filename of file uploaded; but not using..
+	                //fileName += FilenameUtils.getExtension(item.getName()); //add extension onto name
+	            	keyName += "." + FilenameUtils.getExtension(item.getName());
+	            	files.add(keyName);
+	                file = item.getInputStream(); //get file uploaded by user.
+	            }
+	        }
+	    } catch (FileUploadException e) {
+			e.printStackTrace();
+		}
+		System.out.println(file);
+		System.out.println(keyName); //test printing the file name written by user.
+		
+		s3Client.putObject(new PutObjectRequest(bucketName, keyName, file, new ObjectMetadata())); //upload file to s3 bucket with the given name.
+		
+		file.close();		
+		
 		int cost = Integer.parseInt(cost2);
 		
 		DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
@@ -104,13 +191,15 @@ public class SubmitReimbursement extends HttpServlet {
 		else{
 			gradeId = serveEmp.getGradingId(gradingId);
 		}
-		boolean submitResult = serveEmp.applyForReimbursement(emp_id, event, sqlDate, time, locationId, sqlDateToday, description, cost,
+		int rId = serveEmp.applyForReimbursement(emp_id, event, sqlDate, time, locationId, sqlDateToday, description, cost,
 				gradeId, typeOfEventId, urgent, roleId, cutoffDate);
-		request.setAttribute("submitResult", submitResult);
 		
-/*		String nextJSP = "/createReimbursement.jsp";
+		serveEmp.submitEdit(rId, files);
+		//request.setAttribute("submitResult", submitResult);
+		
+		String nextJSP = "/loggedIn.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
-		dispatcher.forward(request,response);*/
+		dispatcher.forward(request,response);
 	}
 
 	/**

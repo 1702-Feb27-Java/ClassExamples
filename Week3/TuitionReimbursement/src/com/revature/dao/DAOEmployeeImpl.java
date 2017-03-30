@@ -47,14 +47,14 @@ public class DAOEmployeeImpl implements DAOEmployee{
 	}
 
 	@Override
-	public boolean applyForReimbursement(int emp_id, String event, Date eventDate, String time, int location, Date formDate,
+	public int applyForReimbursement(int emp_id, String event, Date eventDate, String time, int location, Date formDate,
 			String description, int cost, int gradingId, int typeOfEventId, int urgentId, int approvalStepId, Date approvalCutoff) {
 		
-		boolean applied = false;
+		int reimbId = 0;
 			try(Connection connect = ConnectionUtil.getConnection();){
 				connect.setAutoCommit(false);
 				
-				String sql = "CALL APPLYFORREIMBURSEMENT(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				String sql = "CALL APPLYFORREIMBURSEMENT(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				CallableStatement cs = connect.prepareCall(sql);
 				
 				cs.setInt(1, emp_id);
@@ -70,19 +70,20 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				cs.setInt(11, urgentId);
 				cs.setInt(12, approvalStepId);
 				cs.setDate(13, approvalCutoff);
+				cs.registerOutParameter(14, java.sql.Types.INTEGER);
 			
 				cs.executeUpdate();
 				
 				connect.commit();	
 				
-				applied = true;
+				reimbId = cs.getInt(14);
 		
 			}
 			catch(SQLException e){
 				e.printStackTrace(); 	
 			}
 		
-		return applied;
+		return reimbId;
 	}
 
 	@Override

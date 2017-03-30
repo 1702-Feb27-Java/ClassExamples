@@ -82,7 +82,7 @@
 				<button type="submit" class="btn btn-default">Submit</button>
 			  </form>
 			  <div class="nav navbar-nav">
-			  	<h3>        Balance: $${sessionScope.balance}</h3>
+			  	<h3>        Reimbursement Available: $${sessionScope.balance}</h3>
 			  </div>
 			  <div class="nav navbar-nav navbar-right">
 					<form action="LogoutServlet.do" method="POST">
@@ -96,7 +96,6 @@
 				<div class="row">
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
-				<h1>Logged in as: <%= session.getAttribute("uId") %></h1>
 			</div>
 			<div class="col-md-3"></div>
 			<div class="col-md-1">

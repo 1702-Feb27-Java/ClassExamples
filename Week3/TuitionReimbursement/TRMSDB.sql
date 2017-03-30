@@ -432,13 +432,19 @@ BEGIN
 END loginEmployee;
 /
 CREATE OR REPLACE PROCEDURE applyForReimbursement(emp_id IN number, event IN varchar2, event_date IN DATE, event_time IN varchar2, location_id IN number, form_date IN DATE, 
-description IN varchar2, event_cost IN number, grading_id IN number, type_of_event_id IN number, urgent_id IN number, approval_step_id IN number, cutoff IN DATE)
+description IN varchar2, event_cost IN number, grading_id IN number, type_of_event_id IN number, urgent_id IN number, approval_step_id IN number, cutoff IN DATE, r_id OUT number)
 IS
+  reimbId number(5);
 BEGIN
   INSERT INTO REIMBURSEMENT(REIMB_ID, STATUS_ID, EMPLOYEE_ID, EVENT, EVENT_DATE, EVENT_TIME, LOCATION_ID, FORM_DATE, EVENT_DESCRIPTION, EVENT_COST, GRADING_ID, TYPE_OF_EVENT_ID,
                               URGENT_ID, APPROVAL_STEP_ID, CUTOFF_DATE)
   VALUES(1, 1, emp_id, event, event_date, event_time, location_id, form_date, description, event_cost, grading_id, 
                   type_of_event_id, urgent_id, approval_step_id, cutoff);
+   SELECT REIMB_ID INTO reimbId
+   FROM REIMBURSEMENT
+   WHERE ROWNUM = 1 
+   ORDER BY REIMB_ID DESC;
+   r_id := reimbId;
 END applyForReimbursement;
 /
 CREATE OR REPLACE PROCEDURE addLocation(loc IN varchar2, locationId OUT number)
