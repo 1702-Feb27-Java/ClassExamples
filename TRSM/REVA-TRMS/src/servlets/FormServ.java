@@ -43,11 +43,14 @@ public class FormServ extends HttpServlet {
 		temp.setNumDay(0);
 		
 		
+		
 		Service serv = new Service();
 		HttpSession sess = request.getSession();
+		Employee e = ((Employee)sess.getAttribute("employee"));
 		
 		String str = ((Employee)sess.getAttribute("employee")).getUserName();
-		serv.addReimburseRequest(str, temp, ((Employee)sess.getAttribute("employee")));
+		serv.addReimburseRequest(str, temp, e);
+		
 		
 		
 		HttpServletRequest req = (HttpServletRequest)request;

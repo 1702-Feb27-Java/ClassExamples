@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import objects.Employee;
 import objects.Reimburse;
 import service.Service;
 
@@ -36,12 +37,14 @@ public class ApproveServ extends HttpServlet {
 		
 		if(decision.equals("approve")){
 			Reimburse re = ((Reimburse)sess.getAttribute("reim"));
+			Employee e = ((Employee)sess.getAttribute("reimEm"));
 			int stat = serv.getStatus(re.getReim_id());
 			
 			
 			if(stat == 1 || stat == 2){ //superviser approved need to set approve to dehead
 				serv.updateStatus(re.getReim_id(), 3);
-				//update to d head
+				Employee dH = serv.getDepartmentHead(e.getReportsto());
+				serv.setApprover(re.getReim_id(), dH.geteId());
 			}
 			else if(stat == 3 || stat == 4){
 				serv.updateStatus(re.getReim_id(), 5);
@@ -55,6 +58,17 @@ public class ApproveServ extends HttpServlet {
 		else if(decision.equals("request info")){
 			Reimburse re = ((Reimburse)sess.getAttribute("reim"));
 			int stat = serv.getStatus(re.getReim_id());
+			
+			if(stat == 1 || stat == 2){
+				serv.updateStatus(re.getReim_id(), 2);
+			}
+			else if(stat == 3 || stat == 4){
+				serv.updateStatus(re.getReim_id(), 4);
+			}
+			else if(stat == 5 || stat == 8 || stat == 9){
+				serv.updateStatus(re.getReim_id(), 6);
+			}
+				
 		}
 		else if(decision.equals("deny")){
 			Reimburse re = ((Reimburse)sess.getAttribute("reim"));

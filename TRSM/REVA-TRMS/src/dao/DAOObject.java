@@ -228,6 +228,8 @@ public class DAOObject {
 				
 				n.setUserName(rs.getString("USERNAME"));
 				
+				n.seteId(rs.getInt("EMPLOYEE_ID"));
+				
 				n.setDepart(this.getDepartment(n.getUserName()));
 				
 				n.setRole(this.getRole(n.getUserName()));
@@ -269,8 +271,20 @@ public class DAOObject {
 			cs.setString(8, req.getJustification());
 			cs.setInt(9, req.getCourseID());
 			cs.setInt(10, 0);
-			cs.setInt(11, 3);
-			cs.setInt(12, em.getReportsto());
+			
+			if(em.getReportsto() == 0){ //he is the department head
+				cs.setInt(11, 5);
+				cs.setInt(12, 21);
+			}
+			else if(this.isBossDepartmentHead(em.getReportsto())){
+				cs.setInt(11, 3);
+				cs.setInt(12, em.getReportsto());
+			}
+			else{
+				cs.setInt(11, 1);
+				cs.setInt(12, em.getReportsto());
+			}
+			
 			cs.executeUpdate();
 			
 			//Statement statement = connect.createStatement();			
@@ -354,6 +368,26 @@ public class DAOObject {
 	}
 	
 	
+	public void updateApprover(int id, int eI) {
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "UPDATE APPROVE SET APPROVE.E_ID = ? WHERE APPROVE.R_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1,eI);
+			ps.setInt(2,id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 	public int getStatus(int id) {
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -375,6 +409,13 @@ public class DAOObject {
 		}
 		return 0;
 		
+	}
+	
+	public boolean isBossDepartmentHead(int id){
+		Employee boss = this.getEmployee(id);
+		if(boss.getReportsto() == 0) return true;
+		
+		return false;
 	}
 	
 	

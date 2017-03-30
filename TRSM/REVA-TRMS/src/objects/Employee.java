@@ -1,6 +1,7 @@
 package objects;
 
 public class Employee {
+	  private int eId;
 	  private int reportsto;
 	  private String depart;
 	  private int pending;
@@ -23,10 +24,11 @@ public class Employee {
 		  this.userName = null;
 		  this.email = null;
 		  this.role = null;
+		  this.eId = 0;
 	  }
 	  
 	  public Employee(int reportsto, String depart, int pending, int awarded, String firstName, String lastName,
-			  String userName, String password, String email, String role){
+			  String userName, String password, String email, String role, int eId){
 		  
 		  this.reportsto = reportsto;
 		  this.depart = depart;
@@ -38,6 +40,7 @@ public class Employee {
 		  this.password = password;
 		  this.email = email;
 		  this.role = role;
+		  this.eId = eId;
 		  
 	  }
 
@@ -127,6 +130,16 @@ public class Employee {
 				+ awarded + ", firstName=" + firstName + ", lastName=" + lastName + ", userName=" + userName
 				+ ", password=" + password + ", email=" + email + ", role=" + role + "]";
 	}
+
+	public int geteId() {
+		return eId;
+	}
+
+	public void seteId(int eId) {
+		this.eId = eId;
+	}
+	
+	
 	
 	
 	  

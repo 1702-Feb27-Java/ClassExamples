@@ -67,10 +67,7 @@ public class Service {
 	 * @return true if the boss is the department head
 	 */
 	public boolean isBossDepartmentHead(int id){
-		Employee boss = db.getEmployee(id);
-		if(boss.getReportsto() == 0) return true;
-		
-		return false;
+		return db.isBossDepartmentHead(id);
 	}
 	
 	
@@ -80,6 +77,10 @@ public class Service {
 			boss = db.getEmployee(boss.getReportsto());
 		}
 		return boss;
+	}
+	
+	public void setApprover(int id, int newApproverId){
+		db.updateApprover(id, newApproverId);
 	}
 	
 
