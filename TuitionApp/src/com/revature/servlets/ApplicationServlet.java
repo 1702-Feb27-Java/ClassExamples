@@ -2,6 +2,9 @@ package com.revature.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.revature.dao.AppDAOImp;
+import com.revature.pojo.AppClass;
+import com.revature.pojo.CDTClass;
+import com.revature.pojo.GradingClass;
 import com.revature.pojo.UserClass;
 
 /**
@@ -43,6 +50,9 @@ public class ApplicationServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		UserClass thisUser = new UserClass();
+		AppClass thisApp = new AppClass();
+		CDTClass cdt = new CDTClass();
+		GradingClass grading = new GradingClass();
 		thisUser = (UserClass)session.getAttribute("userInfo");
 		
 		// pull the userID from session object
@@ -52,16 +62,78 @@ public class ApplicationServlet extends HttpServlet {
 		
 		// use startdate to write logic for priority level
 		String startdate = request.getParameter("startdate"); 
-		
 		String enddate = request.getParameter("enddate");
 		String hours = request.getParameter("hours");
+		
+		// here we will calculate if the application is priority is urgent
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+		Date date = new Date(); // get current day
+		String today = sdf.format(date);
+		Date start = null;
+		Date todaysDate = null;
+		
+		try {
+			todaysDate = new SimpleDateFormat("MM-dd-yyyy").parse(today);
+			start = new SimpleDateFormat("MM-dd-yyyy").parse(startdate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		long diff = Math.abs(todaysDate.getTime() - start.getTime());
+		long diffDays = diff / (24 * 60 * 60 * 1000);
+		
+		// depending on the # of days between today and the start date
+		// we will mark the priority for this application
+		
+		if (diffDays < 14){ // urgent
+			thisApp.setPriority(2);
+		} else // normal
+			thisApp.setPriority(1);
+		
+		cdt.setStartdate(startdate);
+		cdt.setEnddate(enddate);
+		cdt.setHoursPerWeek(Integer.parseInt(hours));
+		
 		String location = request.getParameter("location");
 		String cost = request.getParameter("cost");
+		String just = request.getParameter("justification");
 		String gradingFormat = request.getParameter("gradingFormat");
 		String gradeCutoff = request.getParameter("gradeCutoff");
 		
 		
-		// call the AppClass DAO method to add application
+		if (gradingFormat.equals("Pass/Fail"))
+			grading.setGradingFormatID(1);
+		else if (gradingFormat.equals("A-F"))
+			grading.setGradingFormatID(2);
+		else if (gradingFormat.equals("Percentage"))
+			grading.setGradingFormatID(3);
+		else 
+			grading.setGradingFormatID(4);
+		
+		grading.setGradeCutoff(gradeCutoff);
+				
+		thisApp.setUserID(userID);
+		
+		if (courseType.equals("University Courses"))
+			thisApp.setEventID(1);
+		else if (courseType.equals("Seminars")) 
+			thisApp.setEventID(2);
+		else if (courseType.equals("Certification Prep Classes")) 
+			thisApp.setEventID(3);
+		else if (courseType.equals("Certification")) 
+			thisApp.setEventID(4);
+		else if (courseType.equals("Technical Training")) 
+			thisApp.setEventID(5);
+		else 
+			thisApp.setEventID(6);
+		
+		thisApp.setLoc(location);
+		thisApp.setTotalCost(Double.parseDouble(cost));
+		thisApp.setJustification(just);
+		
+		AppDAOImp appDAO = new AppDAOImp();
+		appDAO.addApp(thisUser, thisApp, cdt, grading);
 		
 		out.println("<html><head>");
         out.println("<title>Servlet Parameter</title>");
@@ -74,11 +146,11 @@ public class ApplicationServlet extends HttpServlet {
         
         // where to redirect based on your account type
         if (thisUser.getRoleID() == 1){
-        	response.setHeader("Refresh", "5;url=empaccount.jsp");
+        	response.setHeader("Refresh", "5; url=empaccount.jsp");
         } else if (thisUser.getRoleID() == 2){
-        	response.setHeader("Refresh", "5;url=supervisoraccount.jsp");
+        	response.setHeader("Refresh", "5; url=supervisoraccount.jsp");
         } else {
-        	response.setHeader("Refresh", "5;url=dept-headaccount.jsp");
+        	response.setHeader("Refresh", "5; url=dept-headaccount.jsp");
         }
 	}
 

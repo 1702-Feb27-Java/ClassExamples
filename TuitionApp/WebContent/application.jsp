@@ -96,11 +96,10 @@
   
    <% } %>
   
-    <ul class="nav navbar-nav navbar-right">
+
   <li role="presentation"><form action="LogOutServlet" method="POST">
 	<button type="submit" class="btn btn-default">Logout</button>
 	</form></li>
-	</ul>
 </ul>
 	<br><br>
 	<form action="ApplicationServlet" method="POST">
@@ -147,6 +146,14 @@
 			<div class="col-xs-2">
 				<label for="inputCost">Total Cost:</label> <input type="text"
 					class="form-control" name="cost">
+			</div>
+		</div>
+		<br>
+		
+		<div class="row">
+			<div class="col-xs-2">
+				<label for="inputJust">Justification:</label> <input type="text"
+					class="form-control" name="justification" placeholder="Limit to 250 characters">
 			</div>
 		</div>
 		<br>

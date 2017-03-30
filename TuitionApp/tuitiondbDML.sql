@@ -113,6 +113,8 @@ DROP SEQUENCE approval_seq;
 DROP TRIGGER approval_seq_trigger;
 DROP SEQUENCE infoRe_seq;
 DROP TRIGGER infoRe_seq_trigger;
+DROP SEQUENCE notif_seq;
+DROP TRIGGER notif_seq_trigger;
 
 CREATE SEQUENCE user_seq
   START WITH 7  -- because we already have 2 default accounts stored
@@ -282,20 +284,21 @@ END;
 
 --creating the 1:1 tables
 -- procedure to add a class date and time row. this info is filled out at the time of the application
-CREATE OR REPLACE PROCEDURE addClassDateTime(appID IN NUMBER, startDate IN DATE, endDate IN DATE,
-daysPerWeek IN NUMBER)
-IS 
+CREATE OR REPLACE PROCEDURE addClassDateTime(appID IN NUMBER, startDate IN VARCHAR2, endDate IN VARCHAR2,
+hoursPerWeek IN NUMBER)
+IS sDate DATE; eDate DATE;
 BEGIN
-  INSERT INTO ClassDateTime (start_date, end_date, days_per_week) VALUES (startDate, endDate, daysPerWeek);
+  SELECT TO_DATE(startDate, 'mm-dd-yyyy') INTO sDate FROM dual;
+  SELECT TO_DATE(endDate, 'mm-dd-yyyy') INTO eDate FROM dual;
+  INSERT INTO ClassDateTime (start_date, end_date, hours_per_week) VALUES (sDate, eDate, hoursPerWeek);
   UPDATE Applications SET cdt_id = (SELECT MAX(classdatetime.cdt_id) FROM ClassDateTime) WHERE Applications.app_id = appID;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addGrading(appID IN NUMBER, gradingFormat IN NUMBER, gradeCutoff IN VARCHAR2, 
-defaultGrade IN VARCHAR2)
+CREATE OR REPLACE PROCEDURE addGrading(appID IN NUMBER, gradingFormat IN NUMBER, gradeCutoff IN VARCHAR2)
 IS
 BEGIN
-  INSERT INTO Grading (grading_format_id, grade_cutoff, default_grade) VALUES (gradingFormat, gradeCutoff, defaultGrade);
+  INSERT INTO Grading (grading_format_id, grade_cutoff) VALUES (gradingFormat, gradeCutoff);
   UPDATE Applications SET grading_id = (SELECT MAX(Grading.grading_id) FROM Grading) WHERE Applications.app_id = appID;
 END;
 /
@@ -323,8 +326,17 @@ BEGIN
 END;
 /
 
+-- add a default approval the first time the application is created
+CREATE OR REPLACE PROCEDURE addApprovals(appID IN NUMBER, approvalLevel IN NUMBER, approvalStatus IN NUMBER)
+IS
+BEGIN
+  INSERT INTO Approvals (app_id, approval_level, approval_status) VALUES
+  (appID, approvalLevel, approvalStatus);
+END;
+/
+
 -- add approvals to table (added every time the approval is changed) 
-CREATE OR REPLACE PROCEDURE addApprovals(appID IN NUMBER, approvalLevel IN NUMBER, approvalStatus IN NUMBER, 
+CREATE OR REPLACE PROCEDURE updateApprovals(appID IN NUMBER, approvalLevel IN NUMBER, approvalStatus IN NUMBER, 
 approver IN NUMBER, message IN VARCHAR2)
 IS
 BEGIN
@@ -332,6 +344,7 @@ BEGIN
   (appID, approvalLevel, approvalStatus, approver, message);
 END;
 /
+
 
 CREATE OR REPLACE PROCEDURE addAdditionalInfo(appID IN NUMBER, resolution IN NUMBER, requester IN NUMBER, 
 message IN VARCHAR2)
@@ -359,4 +372,32 @@ BEGIN
 END;
 /
 
+-- NEEED TO REWRITE THIS
+CREATE OR REPLACE FUNCTION getAwarded(appID IN NUMBER)
+RETURN DECIMAL
+IS awarded DECIMAL;
+BEGIN
+  SELECT re.AWARDED_REIMBURSEMENT INTO awarded FROM Applications apps INNER JOIN Reimbursements re ON apps.reimbursement_id = appID;
+  RETURN awarded;
+END;
+/
+
+-- update current approval level for an app
+-- approval level has to be the same role level as the current manager
+CREATE OR REPLACE PROCEDURE approveAsManager(appID IN NUMBER, apprLvl IN NUMBER, currUser IN NUMBER, approvalMes IN VARCHAR2)
+IS
+BEGIN
+  -- update from pending to approved, add approver_id, and approval message
+  UPDATE Approvals SET approval_status = 2, approver_id = currUser, approval_message = approvalMes
+  WHERE app_id = appID AND approval_level = apprLvl AND approval_status = 1;
+END;
+/
+
+--if the first procedure is successful, insert a new approval level for that app
+CREATE OR REPLACE PROCEDURE setAppToNextAppr(appID IN NUMBER, newApprLvl IN NUMBER)
+IS
+BEGIN
+  INSERT INTO Approvals (app_id, approval_level, approval_status) VALUES (appID, newApprLvl, 1);
+END;
+/
 COMMIT;

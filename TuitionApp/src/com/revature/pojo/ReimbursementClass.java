@@ -4,16 +4,18 @@ public class ReimbursementClass {
 	
 	private int reimburseID;
 	private double projected;
+	private double awarded;
 	private String changeReason;
 	
 	public ReimbursementClass(){
 		
 	}
 	
-	public ReimbursementClass(int reimburseID, double projected, String changeReason) {
+	public ReimbursementClass(int reimburseID, double projected, double awarded, String changeReason) {
 		super();
 		this.reimburseID = reimburseID;
 		this.projected = projected;
+		this.awarded = awarded;
 		this.changeReason = changeReason;
 	}
 
@@ -45,6 +47,14 @@ public class ReimbursementClass {
 	public String toString() {
 		return "ReimbursementClass [reimburseID=" + reimburseID + ", projected=" + projected + ", changeReason="
 				+ changeReason + "]";
+	}
+
+	public double getAwarded() {
+		return awarded;
+	}
+
+	public void setAwarded(double awarded) {
+		this.awarded = awarded;
 	}
 
 }

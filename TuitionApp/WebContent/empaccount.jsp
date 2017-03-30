@@ -97,11 +97,9 @@
    <% } %>
   
   
-  <ul class="nav navbar-nav navbar-right">
   <li role="presentation"><form action="LogOutServlet" method="POST">
 	<button type="submit" class="btn btn-default">Logout</button>
 	</form></li>
-	</ul>
 </ul>
 
 <% if (thisUser!=null) {%>

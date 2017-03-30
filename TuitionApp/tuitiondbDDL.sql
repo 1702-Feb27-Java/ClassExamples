@@ -35,7 +35,7 @@ CREATE TABLE Applications(
   event_id NUMBER NOT NULL, --FK to Event Type
   cdt_id NUMBER, --FK to ClassDateTime
   loc VARCHAR2(60), -- could be null, address of class?
-  total_cost DECIMAL(6,2) NOT NULL,
+  total_cost DECIMAL(12,2) NOT NULL,
   grading_id NUMBER, -- FK to Grading
   justification VARCHAR2(60), --explains how this class relates to work
   reimbursement_id NUMBER, --FK to reimbusements table
@@ -51,7 +51,7 @@ CREATE TABLE ClassDateTime(
   end_date DATE NOT NULL,
   --start_time TIME NOT NULL,
   --end_time TIME NOT NULL,
-  days_per_week NUMBER NOT NULL,
+  hours_per_week NUMBER NOT NULL,
 
   CONSTRAINT PK_CDT PRIMARY KEY (cdt_id)
 );
@@ -61,7 +61,6 @@ CREATE TABLE Grading(
   grading_id NUMBER,
   grading_format_id NUMBER NOT NULL, --FK to grading format 
   grade_cutoff VARCHAR2(25), -- required for A-F and percentage based grading formats
-  default_grade VARCHAR2(25),
   grade_awarded VARCHAR2(25), -- for grading formats 1-3
   presentation_review VARCHAR2(25), -- for grading format 4
 

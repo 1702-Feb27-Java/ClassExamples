@@ -1,13 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
 <%@ page import="com.revature.pojo.*" %>
 <%@ page import="com.revature.dao.*" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Your Account</title>
+<title>Your Account - Pending Tasks</title>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -49,7 +53,8 @@
 <div class="page-header">
 	<h1>Tuition Reimbursement Management System</h1>
 
-<%! UserClass thisUser = new UserClass(); %>
+<%! UserClass thisUser = new UserClass(); 
+	UserDAOImp userDAO = new UserDAOImp(); %>
 <% thisUser = (UserClass)session.getAttribute("userInfo"); %>
 
 	<% if (thisUser.getDeptID() == 1) {%>
@@ -95,14 +100,95 @@
   
    <% } %>
   
-    <ul class="nav navbar-nav navbar-right">
+
   <li role="presentation"><form action="LogOutServlet" method="POST">
 	<button type="submit" class="btn btn-default">Logout</button>
 	</form></li>
-	</ul>
+
 </ul>
 
 
+<% AppDAOImp appDAO = new AppDAOImp(); 
+	int flag = 0;
+	ArrayList<AppClass> pending = new ArrayList<AppClass>();
+	int apprLvl = 0;
+	boolean check = userDAO.checkForSuper(thisUser.getDeptID());
+	System.out.println(check);
+	
+	// if this user is in depts other than benco
+	if (thisUser.getDeptID() == 1 || thisUser.getDeptID() == 2){
+		if (thisUser.getRoleID() == 2){ // if supervisor
+			apprLvl = 1;
+			pending = appDAO.getPendingAppsByManager(apprLvl, 1, thisUser);
+		}
+		else if (thisUser.getRoleID() == 3){ // if department head
+			if (check == false){ // no supers, we go down one approval level
+				apprLvl = 1;  // look for apps on supervisor approval level
+				pending = appDAO.getPendingAppsByManager(apprLvl, 1, thisUser);
+				flag = 1;
+			}
+			else { // otherwise
+				apprLvl = 2;
+				pending = appDAO.getPendingAppsByManager(apprLvl, 1, thisUser);
+			}
+		}
+	}
+	else { // if BenCo
+		apprLvl = 3;
+		pending = appDAO.getPendingAppsByBenco(thisUser);
+	}
+	
+	request.setAttribute("pending", pending);
+	session.setAttribute("flag", flag); %>
+
+<br>
+<p>There are a total of <%= pending.size() %> pending app(s) to be reviewed.</p>
+<br>
+<table class="table">
+	<c:forEach var="pend" items="${requestScope['pending']}">
+	
+		<tr>
+		<th>First Name</th>
+		<th>App ID</th>
+		<th>Priority</th>
+		<th>Event Type</th>
+		<th>Cost</th>
+		<th>Justification</th>
+		<th colspan="2">Actions</th>
+		</tr>
+		<tr>
+			<td><c:out value="${pend.userID}" /></td>
+			<td><c:out value="${pend.appID}" /></td>
+			<c:choose>
+				<c:when test="${pend.priority == '1'}"><td>normal</td></c:when>
+				<c:otherwise><td>urgent</td></c:otherwise>
+			</c:choose>
+			<c:choose>
+				<c:when test="${pend.eventID == '1'}"><td>University Courses</td></c:when>
+				<c:when test="${pend.eventID == '2'}"><td>Seminars</td></c:when>
+				<c:when test="${pend.eventID == '3'}"><td>Certification Prep.</td></c:when>
+				<c:when test="${pend.eventID == '4'}"><td>Certification</td></c:when>
+				<c:when test="${pend.eventID == '5'}"><td>Technical Training</td></c:when>
+				<c:otherwise><td>Other</td></c:otherwise>
+			</c:choose>
+			<td><c:out value="${pend.totalCost}" /></td>
+			<td><c:out value="${pend.justification}" /></td>
+			<td><form action="ToApprove" method="POST">
+			Message (limit to 250 chars):
+			<textarea class="form-control" rows="3" name="approvalMes"></textarea>
+			<br>
+			<input name="appID" type="hidden" value="${pend.appID}"></input>
+			<button type="submit" class="btn btn-default">Click to Approve</button></form></td>
+			
+			<td><form action="AddInfo" method="POST">
+			Message (limit to 250 chars):</label>
+			<textarea class="form-control" rows="3" name="info"></textarea>
+			<br>
+			<input name="appID" type="hidden" value="${pend.appID}"></input>
+			<button type="submit" class="btn btn-default">Click to Request</button></form></td>
+		</tr>
+	</c:forEach>
+</table>
 
 </body>
 </html>
