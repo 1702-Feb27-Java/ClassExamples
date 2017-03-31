@@ -15,6 +15,7 @@ public class Reimbursement {
 	private String end_course;
 	private String course_time;
 	private String course_cost;
+	private int Reim_amt;
 	private int Reim_id;
 	private int Appr_id;
 	private int course_id;
@@ -100,6 +101,12 @@ public class Reimbursement {
 				+ ", start_course=" + start_course + ", end_course=" + end_course + ", course_time=" + course_time
 				+ ", course_cost=" + course_cost + ", Reim_id=" + Reim_id + ", Appr_id=" + Appr_id + ", course_id="
 				+ course_id + ", grade_type_id=" + grade_type_id + ", grade=" + grade + "]";
+	}
+	public int getReim_amt() {
+		return Reim_amt;
+	}
+	public void setReim_amt(int reim_amt) {
+		Reim_amt = reim_amt;
 	}
 	
 	

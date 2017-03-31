@@ -224,7 +224,7 @@ END;
 --creating procedure for inserting into the reimbursmnet table 
 --NOTE approval id will start at 1 which is pending
 --reimbursment amount will zero to begin with
-CREATE OR REPLACE PROCEDURE REIMBURSTMENT_APPLY(USERN in VARCHAR, LOCA in VARCHAR, DATE_ADD in DATE, course_start in DATE, course_end in DATE,
+CREATE OR REPLACE PROCEDURE REIMBURSTMENT_APPLY(USERN in VARCHAR, LOCA in VARCHAR, DATE_ADD in VARCHAR2, course_start in VARCHAR2, course_end in VARCHAR2,
 course_len in NUMBER, course_cost in NUMBER, app_id in number, course_id in number, grade_id in number, grade in varchar)
 IS
   emp_id number;

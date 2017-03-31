@@ -2,7 +2,7 @@ package com.revature.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,10 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import com.revature.dao.*;
 import com.revature.pojo.Employee;
+import com.revature.pojo.Reimbursement;
 import com.revature.connect.ConnectionUtil;
 import com.revature.service.ServiceDAOImpl;
-
-import javafx.concurrent.WorkerStateEvent;
 
 /**
  * Servlet implementation class Login
@@ -72,7 +71,12 @@ public class Login extends HttpServlet {
 			
 			else if ( DAO.Emp_Role_Check(n) == 2 ) {
 				System.out.println("Goes to district supervisor jsp");
-				RequestDispatcher rd=request.getRequestDispatcher("Login.html");  
+				
+				ReimbursementDAOImpl reim = new ReimbursementDAOImpl();
+				ArrayList<Reimbursement> ff = reim.getAllInfromTable();
+				sessh.setAttribute("forminfo", ff);
+				
+				RequestDispatcher rd=request.getRequestDispatcher("DirectSupervisor.jsp"); 
 				rd.forward(request,response); 
 			}
 			

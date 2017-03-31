@@ -18,6 +18,7 @@ course_len in NUMBER, course_cost in NUMBER, app_id in number, course_id in numb
 	public ArrayList<String> GetCourseTypes();
 	public int getCourseID(String course);
 	public int getGradeID(String grade);
+	public ArrayList<Reimbursement> getAllInfromTable();
 	
 	
 	

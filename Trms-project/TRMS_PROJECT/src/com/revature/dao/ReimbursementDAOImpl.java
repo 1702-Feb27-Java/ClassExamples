@@ -162,6 +162,43 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		}
 		return grade_id;
 	}
+
+	@Override
+	public ArrayList<Reimbursement> getAllInfromTable() {
+		ArrayList<Reimbursement> r = new ArrayList<>();
+		try( Connection connect = ConnectionUtil.getConnection();) {
+			
+			connect.setAutoCommit(false);
+			String sql = "SELECT * from REIMBURSTMENT";
+			Statement stmt = connect.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()){
+				Reimbursement RF = new Reimbursement();
+				RF.setEmp_id(rs.getInt(1));
+				RF.setLocation_(rs.getString("LOCATION_"));
+				RF.setAdd_date(rs.getString("ADD_DATE"));
+				RF.setStart_course(rs.getString("START_DATE_COURSE"));
+				RF.setEnd_course(rs.getString("END_DATE_COURSE"));
+				RF.setCourse_time(rs.getString("TIME_COURSE"));
+				RF.setCourse_cost(rs.getString("COURSE_COST"));
+				RF.setReim_amt(rs.getInt(8));
+				RF.setReim_id(rs.getInt(9));
+				RF.setAppr_id(rs.getInt(10));
+				RF.setCourse_id(rs.getInt(11));
+				RF.setGrade_type_id(rs.getInt(12));
+				RF.setGrade(rs.getString("GRADE"));
+				r.add(RF);
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return r;
+	}
 	
 	
 
