@@ -274,7 +274,7 @@ public class DAOObject {
 			
 			if(em.getReportsto() == 0){ //he is the department head
 				cs.setInt(11, 5);
-				cs.setInt(12, 21);
+				cs.setInt(12, 22);
 			}
 			else if(this.isBossDepartmentHead(em.getReportsto())){
 				cs.setInt(11, 3);
@@ -416,6 +416,46 @@ public class DAOObject {
 		if(boss.getReportsto() == 0) return true;
 		
 		return false;
+	}
+	
+	
+	
+	public void updatePending(String userName, int newCost) {
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "UPDATE EMPLOYEE SET EMPLOYEE.PENDING_RE = ? WHERE EMPLOYEE.USERNAME = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1,newCost);
+			ps.setString(2,userName);
+			
+			ResultSet rs = ps.executeQuery();
+			
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void updateAwarded(String userName, int newCost) {
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "UPDATE EMPLOYEE SET EMPLOYEE.AWARDED_RE = ? WHERE EMPLOYEE.USERNAME = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1,newCost);
+			ps.setString(2,userName);
+			
+			ResultSet rs = ps.executeQuery();
+			
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 	

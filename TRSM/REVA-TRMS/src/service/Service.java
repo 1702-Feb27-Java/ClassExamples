@@ -83,5 +83,13 @@ public class Service {
 		db.updateApprover(id, newApproverId);
 	}
 	
+	public void updatePending(String userName, int newPending){
+		db.updatePending(userName, newPending);
+	}
+	
+	public void updateAwarded(String userName, int newPending){
+		db.updateAwarded(userName, newPending);
+	}
+	
 
 }

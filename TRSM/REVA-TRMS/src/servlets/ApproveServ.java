@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -48,10 +50,17 @@ public class ApproveServ extends HttpServlet {
 			}
 			else if(stat == 3 || stat == 4){
 				serv.updateStatus(re.getReim_id(), 5);
+				serv.setApprover(re.getReim_id(), 21);
 				//put into benCo
 			}
-			else if(stat == 5 || stat == 6 || stat == 7){
+			else if(stat == 5 || stat == 6 || stat == 7 || stat == 8){
+				
 				serv.updateStatus(re.getReim_id(), 7);
+				
+				e.setAwarded(e.getAwarded() + re.getCost());
+				e.setPending(e.getPending() - re.getCost());
+				serv.updatePending(e.getUserName(), e.getPending());
+				serv.updateAwarded(e.getUserName(), e.getAwarded());
 				//we good
 			}
 		}
@@ -73,8 +82,19 @@ public class ApproveServ extends HttpServlet {
 		else if(decision.equals("deny")){
 			Reimburse re = ((Reimburse)sess.getAttribute("reim"));
 			serv.updateStatus(re.getReim_id(), 10);
+			Employee e = serv.getEmployee(re.getEmployee_id());
+			e.setPending(e.getPending() - re.getCost());
+			serv.updatePending(e.getUserName(), e.getPending());
 		}
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		
+		HttpServletRequest req = (HttpServletRequest)request;
+		HttpServletResponse res =(HttpServletResponse)response;
+		RequestDispatcher rd;
+		rd = req.getRequestDispatcher("Menu.jsp");
+		rd.forward(req, res);			
+		return;
+		
 	}
 
 	/**

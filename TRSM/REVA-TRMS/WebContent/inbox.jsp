@@ -41,18 +41,12 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-	
-		
-		
-	<%if(((Employee)session.getAttribute("employee")).getRole().equals("Associate")) {%>
-		Sorry you can't approve requests
-		<%}else{ %>
-		
+	<%if(((Employee)session.getAttribute("employee")).getDepart().equals("BenCo")) {%>
 		<sql:query dataSource="${snapshot}" var="result">
-		SELECT REIMBURSE.REIM_ID, REIMBURSE.EMPLOYEE_ID, REIMBURSE.REIMBURSE_COST from REIMBURSE, EMPLOYEE, APPROVE where EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND APPROVE.E_ID = EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID
+		SELECT DISTINCT REIMBURSE.REIM_ID, REIMBURSE.EMPLOYEE_ID, REIMBURSE.REIMBURSE_COST from REIMBURSE, EMPLOYEE, APPROVE where (APPROVE.STATUS_NUM between 5 and 6 AND EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND  REIMBURSE.EMPLOYEE_ID != EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID) OR (EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND APPROVE.E_ID = EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID AND APPROVE.STATUS_NUM < 7)		
 		</sql:query>
 		
-		Here is the list of Request for your attention
+		Here is the list of Request for your attention BenCo
 	<table border="1" width="100%">
 	<tr>
 	<th>Reim ID</th>
@@ -69,7 +63,34 @@
 	</tr>
 	</c:forEach>
 	</table>
-	<%} %>
+	<%}else{ %>	
+		
+	<%if(((Employee)session.getAttribute("employee")).getRole().equals("Associate")) {%>
+		Sorry you can't approve requests
+		<%}else{ %>
+		
+		<sql:query dataSource="${snapshot}" var="result">
+		SELECT REIMBURSE.REIM_ID, REIMBURSE.EMPLOYEE_ID, REIMBURSE.REIMBURSE_COST from REIMBURSE, EMPLOYEE, APPROVE where EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND APPROVE.E_ID = EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID AND APPROVE.STATUS_NUM < 10
+		</sql:query>
+		
+		Here is the list of Request for your attention Other
+	<table border="1" width="100%">
+	<tr>
+	<th>Reim ID</th>
+	<th>Employee ID</th>
+	<th>Amount Requested</th>	
+	<th>View Request</th>	
+	</tr>
+	<c:forEach var="row" items="${result.rows}">
+	<tr>
+	<td><c:out value="${row.REIM_ID}"/></td>
+	<td><c:out value="${row.EMPLOYEE_ID}"/></td>
+	<td><c:out value="${row.REIMBURSE_COST}"/></td>
+	<td><form action="ViewRequest.do"><input type="submit" name="action" value="${row.REIM_ID}" id="${row.REIM_ID}"></form></td>	
+	</tr>
+	</c:forEach>
+	</table>
+	<%}} %>
 	
 	
 	

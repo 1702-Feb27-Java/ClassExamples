@@ -32,7 +32,7 @@ public class FormServ extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Reimburse temp = new Reimburse();
-		temp.setCost(new Integer(request.getParameter("eventCost")));
+		//temp.setCost(new Integer(request.getParameter("eventCost")));
 		temp.setCourseID(new Integer(request.getParameter("courseType")));
 		temp.setDescription(request.getParameter("eventDescription"));
 		temp.setEvent_date(request.getParameter("eventDate"));
@@ -47,6 +47,33 @@ public class FormServ extends HttpServlet {
 		Service serv = new Service();
 		HttpSession sess = request.getSession();
 		Employee e = ((Employee)sess.getAttribute("employee"));
+		int cost = new Integer(request.getParameter("eventCost")).intValue();
+		int courseType = new Integer(request.getParameter("courseType")).intValue();
+		
+		if(courseType == 1){
+			cost *= .8;
+		}
+		if(courseType == 2){
+			cost *= .6;
+		}
+		if(courseType == 3){
+			cost *= .75;
+		}
+		if(courseType == 4){
+			cost *= 1;
+		}
+		if(courseType == 5){
+			cost *= .9;
+		}
+		if(courseType == 6){
+			cost *= .3;
+		}
+		
+		temp.setCost(cost);
+		
+		//update pending reimbursements
+		e.setPending(cost + e.getPending());
+		serv.updatePending(e.getUserName(), e.getPending());
 		
 		String str = ((Employee)sess.getAttribute("employee")).getUserName();
 		serv.addReimburseRequest(str, temp, e);
