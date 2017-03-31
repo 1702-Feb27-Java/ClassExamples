@@ -10,7 +10,7 @@
 		<div class="row text-center">
 			<div class="col-sm-4"></div>
 			<div class="col-md-4">
-				<form action="SubmitEditServlet.do" method="POST">
+				<form action="SubmitEditServlet.do" method="POST"  enctype="multipart/form-data">
 				  <div class="form-group">
 				    <label for="event">Event Name</label>
 				    <input type="text" required class="form-control" id="event" placeholder="Event" name="event" disabled value="${reimbursement.getEvent()}">
@@ -74,7 +74,8 @@
 				   </c:forEach><br>
 				  <div class="form-group">
 				    <label for="exampleInputFile">File input</label>
-				    <input type="file" class="form-control-file" id="fileInput" aria-describedby="fileHelp" name="fileInput">
+				    <p>Filename:<br><input type="text" name="filename"></p>
+				    <input type="file" class="form-control-file" id="file" aria-describedby="fileHelp" name="file">
 				    <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
 				  </div>
 				  <button type="submit" class="btn btn-primary">Submit Edit</button>

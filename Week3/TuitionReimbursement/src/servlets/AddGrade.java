@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -9,6 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
@@ -23,7 +26,8 @@ import com.revature.service.EmployeeService;
  */
 public class AddGrade extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+   
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,9 +40,12 @@ public class AddGrade extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-EmployeeService serveEmp = new EmployeeService();
+		EmployeeService serveEmp = new EmployeeService();
+		HttpSession ses = request.getSession();
 		
 		int reimbId = Integer.parseInt(request.getParameter("reimbId"));
+		ses.setAttribute("reimbId", reimbId);
+		
 		Reimbursement reimbursement = serveEmp.getReimbursementById(reimbId);
 
 		request.setAttribute("reimbursement", reimbursement);
@@ -63,6 +70,11 @@ EmployeeService serveEmp = new EmployeeService();
 		}
 		
 		request.setAttribute("attachments", attachments);
+		
+		
+		
+		
+		
 		
 		String nextJSP = "/addGrade.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);

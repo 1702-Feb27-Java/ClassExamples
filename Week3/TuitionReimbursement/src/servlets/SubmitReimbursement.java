@@ -135,8 +135,6 @@ public class SubmitReimbursement extends HttpServlet {
 	    } catch (FileUploadException e) {
 			e.printStackTrace();
 		}
-		System.out.println(file);
-		System.out.println(keyName); //test printing the file name written by user.
 		
 		s3Client.putObject(new PutObjectRequest(bucketName, keyName, file, new ObjectMetadata())); //upload file to s3 bucket with the given name.
 		
@@ -197,7 +195,6 @@ public class SubmitReimbursement extends HttpServlet {
 		
 		if(!files.isEmpty())
 			serveEmp.submitEdit(rId, files);
-		//request.setAttribute("submitResult", submitResult);
 		
 		String nextJSP = "/loggedIn.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);

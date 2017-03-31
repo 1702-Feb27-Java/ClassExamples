@@ -1,8 +1,10 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,10 +13,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
+
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.revature.pojo.Attachment;
 import com.revature.pojo.Reimbursement;
 import com.revature.service.EmployeeService;
@@ -24,6 +34,10 @@ import com.revature.service.EmployeeService;
  */
 public class EditReimbursementServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private String bucketName = "tuitionreimbursement"; //bucket's name in s3. hardcoded here.
+	private String keyName; //file's name in s3. should be unique name within bucket. to be written by user.
+	private InputStream file; //file uploaded.
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -46,6 +60,7 @@ public class EditReimbursementServlet extends HttpServlet {
 			serveEmp.markMessageRead(messageId);
 		}
 		
+		AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
 		
 		int messages = serveEmp.getNumberOfMessages(empId);
 		ses.setAttribute("messages", messages);
@@ -54,9 +69,6 @@ public class EditReimbursementServlet extends HttpServlet {
 		
 		ArrayList<String> atts = serveEmp.getAttachmentsByReimbursementId(reimbId);
 		ArrayList<Attachment> attachments = new ArrayList<Attachment>();
-		
-		@SuppressWarnings("deprecation")
-		AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
 		
 		for(String s : atts){
 			Attachment attachment = new Attachment();

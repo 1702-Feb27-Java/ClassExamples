@@ -51,7 +51,7 @@
 		    <c:forEach items="${approvedReimbursements}" var="reimbursement">	
 		   <form action="AddGrade.do" method="POST">
 			    <tr id="${reimbursement.getReimbId()}">
-			    	<input type="hidden" name="reimbId" value="${reimbursement.getReimbId()}" style="visibility:hidden;">
+			    	<input type="hidden" id="reimbId" name="reimbId" value="${reimbursement.getReimbId()}" style="visibility:hidden;">
 			        <td>
 			            <c:out value="${reimbursement.getEvent()}" />
 			        </td>
