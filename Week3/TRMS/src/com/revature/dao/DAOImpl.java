@@ -83,16 +83,21 @@ public class DAOImpl implements DAO
 	}
 
 	@Override
-	public Reimburstment getReim(int emp_id)
+	public Reimburstment getReim(String pass)
 	{
 		Reimburstment reim = new Reimburstment();
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{
 			connect.setAutoCommit(false);
-			String sql = "SELECT * FROM REIMBURSTMENT WHERE emp_id = ?";
+			String sql = "SELECT EMP_ID FROM EMPLOYEE WHERE PASS = ?";
 			PreparedStatement ps = connect.prepareStatement(sql);
-			ps.setInt(1, emp_id);
-			ResultSet rs = ps.executeQuery();
+			ps.setString(1, pass);
+			ResultSet temp = ps.executeQuery();
+			int tempID = temp.getInt(1);
+			String sql2 = "SELECT * FROM REIMBURSTMENT WHERE EMP_ID = ?";
+			PreparedStatement ps2 = connect.prepareStatement(sql2);
+			ps2.setInt(1, tempID);
+			ResultSet rs = ps2.executeQuery();
 			while(rs.next())
 			{
 				reim.setReim_id(rs.getInt(1));

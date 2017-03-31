@@ -45,6 +45,11 @@ public class TestFilter implements Filter {
 		System.out.println(action);
 		switch(action)
 		{
+		case "MyReimServlet":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			//^^^^^^^^^^^^^^^^^^FIX ME FIX ME FIX ME FIX ME
+			return;
 		case "LoginServlet":
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);

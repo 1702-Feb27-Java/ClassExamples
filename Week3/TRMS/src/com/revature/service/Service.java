@@ -22,10 +22,10 @@ public class Service
 		return arr;
 	}
 	
-	public Reimburstment myReimburstment(int emp_id)
+	public Reimburstment myReimburstment(String pass)
 	{
 		Reimburstment reim = new Reimburstment();
-		reim = dao.getReim(emp_id);
+		reim = dao.getReim(pass);
 		return reim;
 	}
 	

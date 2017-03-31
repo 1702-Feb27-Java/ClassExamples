@@ -15,7 +15,9 @@
 			<input type="submit" name="reqButton" value="Request a Reimbursement"><br>
 		</form>
 		<form align="center" action="MyReimServlet.do" style="color:blue">
-			<input type="button" name="myReim" id=2 value="View My Reimbursement"><br>
+			Please enter your password to continue:<br>
+			<input type="password" name="password" id="password"><br>
+			<input type="submit" name="myReim" id=2 value="View My Reimbursement"><br>
 		</form>
 		<form align="center" style="color:blue">
 			<input type="button" name="reqButton" id=3 value="View Reimbursements For Your Department"><br>

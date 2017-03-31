@@ -47,15 +47,6 @@
     <servlet-name>MakeReimServlet</servlet-name>
     <url-pattern>/MakeReimServlet</url-pattern>
   </servlet-mapping>
-  <filter>
-    <display-name>TestFilter</display-name>
-    <filter-name>TestFilter</filter-name>
-    <filter-class>com.revature.filter.TestFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>TestFilter</filter-name>
-    <url-pattern>*.do</url-pattern>
-  </filter-mapping>
   <servlet>
     <description></description>
     <display-name>MyReimServlet</display-name>
@@ -66,4 +57,13 @@
     <servlet-name>MyReimServlet</servlet-name>
     <url-pattern>/MyReimServlet</url-pattern>
   </servlet-mapping>
+  <filter>
+    <display-name>TestFilter</display-name>
+    <filter-name>TestFilter</filter-name>
+    <filter-class>com.revature.filter.TestFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>TestFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
 </web-app>

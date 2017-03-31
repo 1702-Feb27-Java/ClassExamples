@@ -3,14 +3,13 @@ package com.revature.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
-
+import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.revature.pojo.Reimburstment;
 import com.revature.service.Service;
 
@@ -53,8 +52,12 @@ public class MyReimServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		Reimburstment reim = new Reimburstment();
-		reim = service.myReimburstment(request.getParameter("eid"));
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		reim = service.myReimburstment(request.getParameter("password"));
+		request.setAttribute("Reimbursement", reim);
+		RequestDispatcher rd = request.getRequestDispatcher("MyReimbursement.jsp");
+		rd.forward(request, response);
+		
+
 	}
 
 	/**
