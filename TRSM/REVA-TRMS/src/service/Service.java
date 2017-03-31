@@ -91,5 +91,13 @@ public class Service {
 		db.updateAwarded(userName, newPending);
 	}
 	
+	public void addMessage(int re, String mess, int sent){
+		db.addMessage(mess, re, sent);
+	}
+	
+	public ArrayList<String> getMessage(int reID){
+		return db.getMessage(reID);
+	}
+	
 
 }

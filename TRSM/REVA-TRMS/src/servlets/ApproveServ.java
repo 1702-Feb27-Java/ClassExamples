@@ -32,7 +32,7 @@ public class ApproveServ extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//System.out.println(request.getParameter("choice"));
-		System.out.println(request.getParameter("message"));
+		String mess = request.getParameter("message");
 		HttpSession sess = request.getSession();
 		Service serv = new Service();
 		String decision = request.getParameter("choice");
@@ -70,12 +70,15 @@ public class ApproveServ extends HttpServlet {
 			
 			if(stat == 1 || stat == 2){
 				serv.updateStatus(re.getReim_id(), 2);
+				serv.addMessage(re.getReim_id(), mess, 1);
 			}
 			else if(stat == 3 || stat == 4){
 				serv.updateStatus(re.getReim_id(), 4);
+				serv.addMessage(re.getReim_id(), mess, 2);
 			}
 			else if(stat == 5 || stat == 8 || stat == 9){
 				serv.updateStatus(re.getReim_id(), 6);
+				serv.addMessage(re.getReim_id(), mess, 3);
 			}
 				
 		}

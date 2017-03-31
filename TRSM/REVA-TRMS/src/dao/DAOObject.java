@@ -451,6 +451,8 @@ public class DAOObject {
 			
 			ResultSet rs = ps.executeQuery();
 			
+			
+			
 					
 		} catch(SQLException e){
 			e.printStackTrace();
@@ -461,9 +463,60 @@ public class DAOObject {
 	
 	
 	
+	public int addMessage(String message, int req, int whoSent) {
+		int temp = 0;
+		
 	
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			//?s can be set
+			String sql = "CALL insertMessage(?, ?, ?)";
+			//seting the call
+			CallableStatement cs = connect.prepareCall(sql);
+			cs.setInt(1, req);
+			cs.setString(2, message);
+			cs.setInt(3, whoSent);
+			
+			
+			
+			
+			cs.executeUpdate();
+			
+			//Statement statement = connect.createStatement();			
+			connect.commit();
+			connect.setAutoCommit(true);
+			return 1;
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	
-	
+	public ArrayList<String> getMessage(int reID){
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "SELECT MESSAGE.MESSAGE_BODY FROM MESSAGE WHERE MESSAGE.R_ID = ? ORDER BY MESSAGE_ID ASC";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1,reID);
+		
+			
+			ResultSet rs = ps.executeQuery();
+			ArrayList<String> temp = new ArrayList<String>();
+			while(rs.next()){				
+				temp.add(rs.getString("MESSAGE_BODY"));
+				
+			}
+			
+				return temp;	
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 
 }

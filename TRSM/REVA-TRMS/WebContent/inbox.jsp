@@ -46,7 +46,7 @@
 		SELECT DISTINCT REIMBURSE.REIM_ID, REIMBURSE.EMPLOYEE_ID, REIMBURSE.REIMBURSE_COST from REIMBURSE, EMPLOYEE, APPROVE where (APPROVE.STATUS_NUM between 5 and 6 AND EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND  REIMBURSE.EMPLOYEE_ID != EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID) OR (EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND APPROVE.E_ID = EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID AND APPROVE.STATUS_NUM < 7)		
 		</sql:query>
 		
-		Here is the list of Request for your attention BenCo
+		Here is the list of Request for your attention
 	<table border="1" width="100%">
 	<tr>
 	<th>Reim ID</th>
@@ -73,7 +73,7 @@
 		SELECT REIMBURSE.REIM_ID, REIMBURSE.EMPLOYEE_ID, REIMBURSE.REIMBURSE_COST from REIMBURSE, EMPLOYEE, APPROVE where EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND APPROVE.E_ID = EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID AND APPROVE.STATUS_NUM < 10
 		</sql:query>
 		
-		Here is the list of Request for your attention Other
+		Here is the list of Request for your attention
 	<table border="1" width="100%">
 	<tr>
 	<th>Reim ID</th>

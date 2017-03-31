@@ -58,4 +58,14 @@
     <servlet-name>ApproveServ</servlet-name>
     <url-pattern>/ApproveServ</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MessageServ</display-name>
+    <servlet-name>MessageServ</servlet-name>
+    <servlet-class>servlets.MessageServ</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MessageServ</servlet-name>
+    <url-pattern>/MessageServ</url-pattern>
+  </servlet-mapping>
 </web-app>

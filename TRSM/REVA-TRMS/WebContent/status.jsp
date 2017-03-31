@@ -57,7 +57,7 @@
 	<tr>
 	<td><c:out value="${row.REIM_ID}"/></td>
 	<td><c:out value="${row.STATUS_APPROVE}"/></td>
-	<td><form action="Users.jsp"><input type="submit" name="action" value="${row.REIM_ID}" id="${row.REIM_ID}"></form></td>		
+	<td><form action="MessageServ.do" method="POST"><input type="submit" name="action" value="${row.REIM_ID}" id="${row.REIM_ID}"></form></td>		
 	</tr>
 	</c:forEach>
 	</table>
