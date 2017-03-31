@@ -58,7 +58,6 @@ public class EditReimbursementServlet extends HttpServlet {
 		@SuppressWarnings("deprecation")
 		AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
 		
-		
 		for(String s : atts){
 			Attachment attachment = new Attachment();
 			
@@ -72,8 +71,9 @@ public class EditReimbursementServlet extends HttpServlet {
 			attachment = null;
 		}
 		
-		
 		request.setAttribute("attachments", attachments);
+		
+		
 		request.setAttribute("reimbursement", reimbursement);
 		ses.setAttribute("reimbId", reimbId);
 		request.setAttribute("messagerId", request.getParameter("messagerId"));

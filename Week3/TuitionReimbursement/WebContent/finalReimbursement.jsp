@@ -67,6 +67,14 @@
 				    <label for="time">Reimb id</label>
 				    <input type="text" required class="form-control" id="reimbId" placeholder="reimbId" name="reimbId" value="${reimbursement.getReimbId()}">
 				  </div>
+				  <c:forEach items="${attachments}" var="attachment">
+				   <div class="row">
+					   <div class="col-md-1">
+					   		<a style="text-align:left; font-size: 30px;" href="${attachment.getLink()}">${attachment.getName()}</a><br>
+					   </div>
+					   <div class="col-md-11"></div>
+				   </div>
+				   </c:forEach><br>
 				</form><br>
 
 
