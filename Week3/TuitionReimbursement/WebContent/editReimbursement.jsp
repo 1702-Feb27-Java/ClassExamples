@@ -64,6 +64,9 @@
 				    <label for="time">Reimb id</label>
 				    <input type="text" required class="form-control" id="reimbId" placeholder="reimbId" name="reimbId" value="${reimbursement.getReimbId()}">
 				  </div>
+				   <c:forEach items="${attachments}" var="attachment">
+				   	<a href="${attachment.getLink()}">${attachment.getName()}</a><br>
+				   </c:forEach>
 				  <div class="form-group">
 				    <label for="exampleInputFile">File input</label>
 				    <input type="file" class="form-control-file" id="fileInput" aria-describedby="fileHelp" name="fileInput">

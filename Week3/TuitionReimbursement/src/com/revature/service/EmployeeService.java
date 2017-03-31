@@ -372,7 +372,24 @@ public class EmployeeService {
 	
 	public ArrayList<Reimbursement> getPendingReimbursements(int employeeId){
 			ArrayList<Reimbursement> pendingReimbursements = new ArrayList<Reimbursement>();
-			ArrayList<Reimbursement> reimbursements = getReimbursements(employeeId);
+			ArrayList<Reimbursement> reimbursements = daoEmp.getReimbursements(employeeId);
+
+			for(Reimbursement r : reimbursements){
+				String location = daoEmp.getLocation(r.getLocationId());
+				String grading = daoEmp.getGrading(r.getGradingId());
+				String typeOfEvent = daoEmp.getTypeOfEvent(r.getTypeOfEventId());
+				String approvalStep = daoEmp.getApprovalStep(r.getApprovalStepId());
+				
+				int typeOfEventId = r.getTypeOfEventId();
+				double percentAwarded = daoEmp.getPercentAwarded(typeOfEventId);
+				double projectedReimbursement = percentAwarded * r.getCost();
+				
+				r.setpProjectedReimbursement(projectedReimbursement);
+				r.setLocation(location);
+				r.setGrading(grading);
+				r.setTypeOfEvent(typeOfEvent);
+				r.setApprovalStep(approvalStep);
+			}
 			
 			for(Reimbursement r : reimbursements){
 				if(r.getApprovalStepId() == 1 || r.getApprovalStepId() == 2 || r.getApprovalStepId() == 3){
@@ -396,5 +413,10 @@ public class EmployeeService {
 		success = daoEmp.setBalance(empId, balance);
 		
 		return success;
+	}
+	
+	public ArrayList<String> getAttachmentsByReimbursementId(int reimbId){
+		ArrayList<String> attachments = daoEmp.getAttachmentsByReimbursementId(reimbId);
+		return attachments;
 	}
 }

@@ -27,6 +27,7 @@ import org.apache.commons.io.FilenameUtils;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.revature.service.EmployeeService;
@@ -194,7 +195,8 @@ public class SubmitReimbursement extends HttpServlet {
 		int rId = serveEmp.applyForReimbursement(emp_id, event, sqlDate, time, locationId, sqlDateToday, description, cost,
 				gradeId, typeOfEventId, urgent, roleId, cutoffDate);
 		
-		serveEmp.submitEdit(rId, files);
+		if(!files.isEmpty())
+			serveEmp.submitEdit(rId, files);
 		//request.setAttribute("submitResult", submitResult);
 		
 		String nextJSP = "/loggedIn.jsp";

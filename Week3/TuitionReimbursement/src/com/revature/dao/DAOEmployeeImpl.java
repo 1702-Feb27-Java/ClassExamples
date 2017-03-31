@@ -1049,7 +1049,32 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		
 	}
 	
+	public ArrayList<String> getAttachmentsByReimbursementId(int reimbId){
+		ArrayList<String> attachments = new ArrayList<String>();
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
 	
+			String sql = "SELECT ATTACHMENT"
+					+ " FROM ATTACHMENT "
+					+ "WHERE REIM_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, reimbId);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				String attachment = rs.getString(1); 
+				attachments.add(attachment);
+			}
+	
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		return attachments;
+	}
 	
 	
 }

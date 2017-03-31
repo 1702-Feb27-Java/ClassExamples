@@ -46,7 +46,9 @@ public class Main {
 		//System.out.println(serveEmp.getEmployeeIdByReimbursementId(6));
 		//System.out.println(serveEmp.getEmployeeName(3));
 		//System.out.println(serveEmp.addMessage("TESTUUUU", 9, 3));
-		System.out.println(serveEmp.sendMoney(3, 150));
+	/*	System.out.println(serveEmp.getAttachmentsByReimbursementId(25));
+		System.out.println(serveEmp.getAttachmentsByReimbursementId(14));*/
+		System.out.println(serveEmp.getPendingReimbursements(3));
 	}
 	
 	public static void startTimer(){
