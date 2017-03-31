@@ -1,6 +1,7 @@
 package com.revature.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.revature.dao.DAOImpl;
+import com.revature.trms.Event;
 import com.revature.trms.EventService;
 
 /**
@@ -25,11 +28,19 @@ public class DeleteEvent extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String item = request.getParameter("event");
 		HttpSession session = request.getSession();
-		int userid = (int)session.getAttribute("userid");
-		int eventid = Integer.parseInt(request.getParameter("eventNum"));
+		int userId = (int)session.getAttribute("userid");
+		ArrayList<Event> eventList = (ArrayList<Event>)session.getAttribute("eventList");
+		int eventId = Integer.parseInt(request.getParameter("eventNum"));
+		int eventNewId = (int)session.getAttribute("eventNewId");
 		double cost = Double.parseDouble(request.getParameter("Cost"));
-		EventService.deleteEvent(userid, eventid, cost);
+
+		if (item.equals("delete")){
+			EventService.deleteEvent(userId, eventId, cost);
+		}else {
+			EventService.editEvent(eventList, eventNewId);
+		}
 		request.getRequestDispatcher("/Home.jsp").include(request, response);
 	}
 }

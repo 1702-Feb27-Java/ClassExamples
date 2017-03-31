@@ -26,32 +26,48 @@
 		if (eventList.get(i).getEventId() == eventid)	
 			eventid=i;
 	}
+	session.setAttribute("eventNewId", eventid);
 	%>
 	
-	<div align="center"><h1>Event Details Page</h1>
+	<div align="center">
 		<form = action="DeleteEvent" method="POST">
 			<table width=100%>
+			<tr><th style="font-size:35px">EVENT DETAILS PAGE</th></tr>
 				<tr><th>EVENT #:</th></tr>
 				<tr><td style="text-align: center"><input name="eventNum" value="<%=eventList.get(eventid).getEventId()%>"></td></tr>
 			</table>
 			<table width=100%>
-				<tr><th>EVENT:</th><th>PRIORITY:</th><th>LOCATION:</th><th>COST:</th>
-				<th>START DATE:</th><th>TIME:</th><th>STOP DATE:</th><th>GRADING FORMAT:</th></tr>
-				<tr><td><input type="text" name="EventType" value="<%=eventList.get(eventid).getEventType()%>"></td>
-				<td><input type="text" name="Priority" value="<%=eventList.get(eventid).getPriority()%>"></td>
-				<td><input type="text" name="Location" value="<%=eventList.get(eventid).getLocation()%>"></td>
-				<td><input type="text" name="Cost" value="<%=eventList.get(eventid).getCost()%>"></td>
-				<td><input type="text" name="Start" value="<%=eventList.get(eventid).getStartDate()%>"></td>
-				<td><input type="text" name="STime" value="<%=eventList.get(eventid).getStartTime()%>"></td>
-				<td><input type="text" name="Stop" value="<%=eventList.get(eventid).getStopDate()%>"></td>
-				<td><input type="text" name="Grade" value="<%=eventList.get(eventid).getGradeFormat()%>"></td></tr>
-				<tr><th colspan="8">DESCRIPTION:</th></tr>
-				<tr><td colspan="8"><input name="descr" size="200%" style="border:none"  value="<%=eventList.get(eventid).getDescription()%>"></textarea></td></tr>
-				<tr><th colspan="8">JUSTIFICATION:</th></tr>
-				<tr><td colspan="8"><input name="jusify" style="border:none" value="<%=eventList.get(eventid).getJustify()%>"></textarea></td></tr>
+				<tr><th>EVENT:</th><th>PRIORITY:</th><th>LOCATION:</th><th>COST:</th></tr>
+				<tr><td><select name="EventType" style="width:300px; border:none" value="<%=eventList.get(eventid).getEventType()%>">
+							<option value="1">University Course</option>
+	  						<option value="2">Seminar</option>
+	  						<option value="3">Certification Prep Course</option>
+	  						<option value="4">Certification</option>
+							<option value="5">Technical Training</option>
+	  						<option value="6">Other</option>
+						</select></td>
+					<td><input type="text" name="Priority" value="<%=eventList.get(eventid).getPriority()%>"></td>
+					<td><input type="text" name="Location" value="<%=eventList.get(eventid).getLocation()%>"></td>
+					<td><input type="text" name="Cost" value="<%=eventList.get(eventid).getCost()%>"></td></tr>
+				<tr><th>START DATE:</th><th>START TIME:</th><th>STOP DATE:</th><th>GRADE FORMAT:</th></tr>
+				<tr><td><input type="text" name="Start" value="<%=eventList.get(eventid).getStartDate()%>"></td>
+					<td><input type="text" name="STime" value="<%=eventList.get(eventid).getStartTime()%>"></td>
+					<td><input type="text" name="Stop" value="<%=eventList.get(eventid).getStopDate()%>"></td>
+					<td><select name="Grade" style="width:300px; border:none" value="<%=eventList.get(eventid).getGradeFormat()%>">
+				<option value="1">Pass/Fail</option>
+	  			<option value="2">Grades A - F</option>
+	  			<option value="3">Presentation</option>
+	  			<option value="4">Other</option>
+			</select></td></tr>
 			</table>
 			<table width=100%>
-			<tr><th colspan="8">ROUTING DETAILS:</th></tr>
+			<tr><th>DESCRIPTION:</th></tr>
+				<tr><td><input name="descr" size=170% style="border:none; align:left; text-align:left" value="<%=eventList.get(eventid).getDescription()%>"></td></tr>
+				<tr><th>JUSTIFICATION:</th></tr>
+				<tr><td><input name="jusify" size=170% style="border:none; align:left; text-align:left" value="<%=eventList.get(eventid).getJustify()%>"></td></tr>
+			</table>
+			<table width=100%>
+			<tr><th colspan="6">ROUTING DETAILS:</th></tr>
 					<tr><th>TRACKINGID:</th><th>TIMESTAMP:</th><th>STATUS:</th><th>LOCATION:</th>
 					<th>PERSON:</th><th>COMMENTS</th></tr>
 				<%for (int i = 0; i < detailsList.size();i++){ %>
@@ -62,8 +78,10 @@
 						<td><%=detailUser.get(i).getFirstName()%></td>
 						<td><%=detailsList.get(i).getComments()%></td></tr>
 				<%}%>
-			</table><br>						
-			<input class="button" type="submit" value="Delete" style="width: 100px">
+			</table><br>
+			<input type="radio" name="event" value="edit">Edit&nbsp
+			<input type="radio" name="event" value="delete">Delete<br><br>						
+			<input class="button" type="submit" value="Submit" style="width: 100px">
 		</form>
 	</div>
 </body>

@@ -38,7 +38,12 @@ public class ApproveEvent extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int eventId = Integer.parseInt(request.getParameter("eventNum"));
 		String comments = request.getParameter("comments");
-		DAOImpl.approveEvent(eventId, comments);
+		String approval = request.getParameter("approve");
+		if (approval.equals("1")){
+			DAOImpl.approveEvent(eventId, comments);
+		} else {
+			DAOImpl.denyEvent(eventId, comments);
+		}
 		request.getRequestDispatcher("/Home.jsp").include(request, response);
 	}
 

@@ -1,5 +1,6 @@
 package com.revature.trms;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.revature.dao.DAOImpl;
@@ -37,5 +38,16 @@ public class EventService {
 			return "1";
 		}
 		return "0";
+	}
+	
+	public static void editEvent(ArrayList<Event> eventList, int eventId){
+		
+		Event e = new Event(eventList.get(eventId).getEventId(),eventList.get(eventId).getStartDate(),
+				eventList.get(eventId).getStartTime(),eventList.get(eventId).getStopDate(),
+				eventList.get(eventId).getLocation(),eventList.get(eventId).getDescription(),
+				eventList.get(eventId).getCost(),eventList.get(eventId).getJustify(),
+				eventList.get(eventId).getGradeFormat(),eventList.get(eventId).getEventType(),
+				eventList.get(eventId).getPriority());
+		DAOImpl.editEvents(e);
 	}
 }	

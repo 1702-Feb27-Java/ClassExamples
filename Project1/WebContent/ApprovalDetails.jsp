@@ -10,9 +10,9 @@
 <title>Event Details Approval</title>
 <style>
 	input {text-align:center; align:center; border:none}
-	th {text-align:center;border:1pt solid gray; background-color:#3199a3; color:white;}
+	th {text-align:center;border:1pt solid gray; background-color:#912924; color:white;}
 	td {text-align:center;border:1pt solid gray}
-	.button {text-align:center;border:1pt solid gray; background-color:#3199a3; 
+	.button {text-align:center;border:1pt solid gray; background-color:#912924; 
 			color:white; font-size: 16px}
 </style>
 </head>
@@ -28,33 +28,36 @@
 	}
 	%>
 	
-	<div align="center"><h1>Event Details Approval Page</h1>
+	<div align="center">
 		<form = action="ApproveEvent" method="POST">
 			<table width=100%>
+				<tr><th style="font-size:35px">EVENT DETAILS APPROVAL PAGE</th></tr>
 				<tr><th>EVENT #:</th></tr>
 				<tr><td style="text-align: center"><input name="eventNum" value="<%=eventList.get(eventId).getEventId()%>"></td></tr>
 			</table>
 			<table width=100%>
-				<tr><th>EVENT:</th><th>PRIORITY:</th><th>LOCATION:</th><th>COST:</th>
-				<th>START DATE:</th><th>TIME:</th><th>STOP DATE:</th><th>GRADING FORMAT:</th></tr>
+				<tr><th>EVENT:</th><th>PRIORITY:</th><th>LOCATION:</th><th>COST:</th></tr>
 				<tr><td><input type="text" name="EventType" value="<%=eventList.get(eventId).getEventType()%>"></td>
-				<td><input type="text" name="Priority" value="<%=eventList.get(eventId).getPriority()%>"></td>
-				<td><input type="text" name="Location" value="<%=eventList.get(eventId).getLocation()%>"></td>
-				<td><input type="text" name="Cost" value="<%=eventList.get(eventId).getCost()%>"></td>
-				<td><input type="text" name="Start" value="<%=eventList.get(eventId).getStartDate()%>"></td>
-				<td><input type="text" name="STime" value="<%=eventList.get(eventId).getStartTime()%>"></td>
-				<td><input type="text" name="Stop" value="<%=eventList.get(eventId).getStopDate()%>"></td>
-				<td><input type="text" name="Grade" value="<%=eventList.get(eventId).getGradeFormat()%>"></td></tr>
-				<tr><th colspan="8">DESCRIPTION:</th></tr>
-				<tr><td colspan="8"><input name="descr" size="200%" style="border:none;text-align:left"  value="<%=eventList.get(eventId).getDescription()%>"></textarea></td></tr>
-				<tr><th colspan="8">JUSTIFICATION:</th></tr>
-				<tr><td colspan="8"><input name="jusify" size="200%" style="border:none;text-align:left" value="<%=eventList.get(eventId).getJustify()%>"></textarea></td></tr>
+					<td><input type="text" name="Priority" value="<%=eventList.get(eventId).getPriority()%>"></td>
+					<td><input type="text" name="Location" value="<%=eventList.get(eventId).getLocation()%>"></td>
+					<td><input type="text" name="Cost" value="<%=eventList.get(eventId).getCost()%>"></td></tr>
+				<tr><th>START DATE:</th><th>START TIME:</th><th>STOP DATE:</th><th>GRADE FORMAT:</th></tr>
+				<tr><td><input type="text" name="Start" value="<%=eventList.get(eventId).getStartDate()%>"></td>
+					<td><input type="text" name="STime" value="<%=eventList.get(eventId).getStartTime()%>"></td>
+					<td><input type="text" name="Stop" value="<%=eventList.get(eventId).getStopDate()%>"></td>
+					<td><input type="text" name="Grade" value="<%=eventList.get(eventId).getGradeFormat()%>"></td></tr>
 			</table>
 			<table width=100%>
-				<%for (int i = 0; i < detailsList.size();i++){ %>
-					<tr><th colspan="8">ROUTING DETAILS:</th></tr>
+			<tr><th>DESCRIPTION:</th></tr>
+				<tr><td><input name="descr" size=170% style="border:none; align:left; text-align:left" value="<%=eventList.get(eventId).getDescription()%>"></td></tr>
+				<tr><th>JUSTIFICATION:</th></tr>
+				<tr><td><input name="jusify" size=170% style="border:none; align:left; text-align:left" value="<%=eventList.get(eventId).getJustify()%>"></td></tr>
+			</table>
+			<table width=100%>
+			<tr><th colspan="6">ROUTING DETAILS:</th></tr>
 					<tr><th>TRACKINGID:</th><th>TIMESTAMP:</th><th>STATUS:</th><th>LOCATION:</th>
 					<th>PERSON:</th><th>COMMENTS</th></tr>
+				<%for (int i = 0; i < detailsList.size();i++){ %>
 					<tr><td><%=detailsList.get(i).getTrackingId()%></td>
 						<td><%=detailsList.get(i).getEventDate()%></td>
 						<td><%=detailsList.get(i).getStatus()%></td>
@@ -62,12 +65,15 @@
 						<td><%=detailUser.get(i).getFirstName()%></td>
 						<td><%=detailsList.get(i).getComments()%></td></tr>
 				<%}%>
-			<tr><th name="comments" colspan="8" required>APPROVAL COMMENTS:</th></tr>
-			<tr><td colspan="8"><input name="comments" size="200%" style="border:none;text-align:left"></td></tr>			
+			<tr><th>APPROVE / DISAPPROVE</th><th name="comments" colspan="7" required>APPROVAL COMMENTS:</th></tr>
+			<tr><td colspan="1"><select name="approve" style="border:none;text-align:left" required>
+				<option disabled selected value> -- select an option -- </option>
+				<option value="1">Approve</option>
+				<option value="2">Deny</option>
+			</select></td>			
+			<td colspan="6"><input name="comments" size="100%" style="border:none;text-align:left" required></td></tr>			
 		</table><br>						
-			<input class="button" type="submit" value="Approve" style="width: 100px">
-			<input class="button" type="submit" value="Deny" style="width: 100px">
-			<input class="button" type="submit" value="Return to Employee" style="width: 200px">
+			<input class="button" type="submit" value="Submit" style="width: 100px">
 		</form>
 	</div>
 </body>
