@@ -78,4 +78,12 @@ public interface DAOEmployee {
 	public boolean setBalance(int empId, double newBalance);
 	
 	public ArrayList<String> getAttachmentsByReimbursementId(int reimbId);
+
+	public void markFinalApprover(int reimbId, int approver);
+
+	public ArrayList<Reimbursement> getAllReimbursements();
+	
+	public void autoApprove(int reimbId, int approvalStepId);
+	
+	public void updateCutoffDate(int reimbId, Date cutoffDate);
 }

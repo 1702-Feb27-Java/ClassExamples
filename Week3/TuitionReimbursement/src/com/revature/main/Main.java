@@ -48,7 +48,7 @@ public class Main {
 		//System.out.println(serveEmp.addMessage("TESTUUUU", 9, 3));
 	/*	System.out.println(serveEmp.getAttachmentsByReimbursementId(25));
 		System.out.println(serveEmp.getAttachmentsByReimbursementId(14));*/
-		System.out.println(serveEmp.getPendingReimbursements(3));
+		//serveEmp.checkAutoApprove();
 	}
 	
 	public static void startTimer(){

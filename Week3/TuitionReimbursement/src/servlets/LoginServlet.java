@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.revature.main.FakeMain;
 import com.revature.service.EmployeeService;
 
 /**
@@ -72,6 +73,10 @@ public class LoginServlet extends HttpServlet {
 			ses.setAttribute("roleId", roleId);
 			ses.setAttribute("messages", messages);
 			ses.setAttribute("deptId", deptId);
+			
+			FakeMain fm = new FakeMain();
+			fm.startTimer();
+			ses.setAttribute("fm", fm);
 		}
 		
 		if(empId == 0){

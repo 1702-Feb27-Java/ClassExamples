@@ -1,11 +1,16 @@
 package com.revature.service;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import com.revature.dao.DAOEmployeeImpl;
 import com.revature.pojo.Message;
@@ -66,8 +71,13 @@ public class EmployeeService {
 	public int applyForReimbursement(int emp_id, String event, Date eventDate, String time, int location, Date formDate,
 			String description, int cost, int gradingId, int typeOfEventId, int urgentId, int approvalStepId, Date approvalCutoff){
 		int reimbId = 0;
-		reimbId = daoEmp.applyForReimbursement(emp_id, event, eventDate, time, location, formDate, description, 
-				cost, gradingId, typeOfEventId, urgentId, approvalStepId, approvalCutoff);
+		
+		java.sql.Date eventDate2 = new java.sql.Date(eventDate.getTime());
+		java.sql.Date formDate2 = new java.sql.Date(formDate.getTime());
+		java.sql.Date approvalCutoff2 = new java.sql.Date(approvalCutoff.getTime());
+		
+		reimbId = daoEmp.applyForReimbursement(emp_id, event, eventDate2, time, location, formDate2, description, 
+				cost, gradingId, typeOfEventId, urgentId, approvalStepId, approvalCutoff2);
 		return reimbId;
 	}
 	
@@ -419,4 +429,54 @@ public class EmployeeService {
 		ArrayList<String> attachments = daoEmp.getAttachmentsByReimbursementId(reimbId);
 		return attachments;
 	}
+	
+	public void markFinalApprover(int reimbId, int approver){
+		daoEmp.markFinalApprover(reimbId, approver);
+	}
+	
+	public void checkAutoApprove(Date todaysDate){
+		System.out.println("in auto approve service");
+		ArrayList<Reimbursement> reimbursements = daoEmp.getAllReimbursements();
+		//System.out.println(reimbursements);
+		for(Reimbursement r : reimbursements){
+			System.out.println("reimbursement time");
+			if(r.getApprovalStepId() == 1 || r.getApprovalStepId() == 2){
+				
+				Date cutoffDate =  (Date)r.getCutoffDate();
+				int daysApart = (int)((cutoffDate.getTime() - todaysDate.getTime()) / (1000*60*60*24l));
+				System.out.println("days apart : " + daysApart);
+				if(daysApart < 0){
+					
+					//add 7 days to current day to get cutoff day
+					Calendar c = Calendar.getInstance();
+					System.out.println("cal 1");
+					c.setTime(todaysDate);
+					System.out.println("cal 2");
+					c.add(Calendar.DATE, 7);  // number of days to add
+					System.out.println("cal 3");
+					Date cutoff = c.getTime();
+					java.sql.Date cutoffDate2 = new java.sql.Date(cutoff.getTime());
+					System.out.println("cutoffdate2 : " + cutoffDate2);
+					
+					
+					System.out.println("in days auto approve");
+					daoEmp.autoApprove(r.getReimbId(), r.getApprovalStepId() + 1);
+					daoEmp.addMessage("Auto Approved", r.getEmpId(), 16, r.getReimbId());
+					System.out.println("below auto approve");
+					daoEmp.updateCutoffDate(r.getReimbId(), cutoffDate2);
+					System.out.println("updated cutoff");
+					
+	
+					
+					
+						
+				}
+			}
+		}
+	}
 }
+
+
+
+
+

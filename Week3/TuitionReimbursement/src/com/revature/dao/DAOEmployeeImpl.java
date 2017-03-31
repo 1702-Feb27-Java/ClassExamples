@@ -41,7 +41,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			}
 			catch(SQLException e){
 				e.printStackTrace(); 	
-			}
+			}	
 		
 		return employee;
 	}
@@ -1074,6 +1074,111 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		}
 		
 		return attachments;
+	}
+
+	@Override
+	public void markFinalApprover(int reimbId, int approver) {
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			String sql = "UPDATE REIMBURSEMENT "
+						+ "SET FINAL_APPROVER_ID = ?"
+						+ " WHERE REIMB_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, approver);
+			ps.setInt(2, reimbId);
+			
+			ps.execute();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+	}
+
+	@Override
+	public ArrayList<Reimbursement> getAllReimbursements() {
+		System.out.println("in dao get all reimb");
+		ArrayList<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
+		
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+
+			
+			String sql = "SELECT * FROM REIMBURSEMENT";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				Reimbursement reimbursement = new Reimbursement();
+				
+				int reimbId = rs.getInt(1);
+				int empId = rs.getInt(3);
+				int approvalStepId = rs.getInt(15);
+				Date cutoffDate = rs.getDate(16);
+				
+				reimbursement.setReimbId(reimbId);
+				reimbursement.setEmpId(empId);
+				reimbursement.setApprovalStepId(approvalStepId);
+				reimbursement.setCutoffDate(cutoffDate);
+				
+				reimbursements.add(reimbursement);
+				
+				reimbursement = null;
+			}
+			
+		}
+		catch(SQLException e){
+			
+		}
+		return reimbursements;
+	}
+
+	@Override
+	public void autoApprove(int reimbId, int approvalStepId) {
+		System.out.println("auto approve dao");
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			String sql = "UPDATE REIMBURSEMENT "
+						+ "SET APPROVAL_STEP_ID = ?"
+						+ " WHERE REIMB_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1, approvalStepId);
+			ps.setInt(2, reimbId);
+			
+			ps.execute();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+	}
+	
+	@Override
+	public void updateCutoffDate(int reimbId, Date cutoffDate) {
+		System.out.println("updating cutoff date");
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			String sql = "UPDATE REIMBURSEMENT "
+						+ "SET CUTOFF_DATE = ?"
+						+ " WHERE REIMB_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setDate(1, cutoffDate);
+			ps.setInt(2, reimbId);
+			
+			ps.execute();
+		}
+		catch(SQLException e){
+			e.printStackTrace(); 	
+		}
+		
+		
 	}
 	
 	

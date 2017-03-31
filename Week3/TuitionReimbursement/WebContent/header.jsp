@@ -82,7 +82,7 @@
 				<button type="submit" class="btn btn-default">Submit</button>
 			  </form>
 			  <div class="nav navbar-nav">
-			  	<h3>        Reimbursement Available: $${sessionScope.balance}</h3>
+			  	<h3>        Reimbursement Available: $${sessionScope.balance} ____________ Today: ${sessionScope.fm.getTodaysDate()}</h3>
 			  </div>
 			  <div class="nav navbar-nav navbar-right">
 					<form action="LogoutServlet.do" method="POST">

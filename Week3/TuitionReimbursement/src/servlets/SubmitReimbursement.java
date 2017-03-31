@@ -119,8 +119,7 @@ public class SubmitReimbursement extends HttpServlet {
 	            	
 	            	
 	                if (item.getFieldName().equals("filename")) {
-	                	keyName = item.getString(); //get filename input by user.
-	                	
+	                	keyName = item.getString(); //get filename input by user.	         
 	                }
 	            } else {
 	                // the <input type="file"> field will be processed here.

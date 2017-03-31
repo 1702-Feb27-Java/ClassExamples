@@ -37,9 +37,6 @@ public class ReimbursementsServlet extends HttpServlet {
 		ArrayList<String> locations = serveEmp.getAllLocations();
 		ArrayList<String> gradingTypes = serveEmp.getAllGradingTypes();
 		ArrayList<String> eventTypes = serveEmp.getAllTypeOfEvents();
-		System.out.println(locations);
-		System.out.println(gradingTypes);
-		System.out.println(eventTypes);
 		
 		request.setAttribute("locationsList", locations);
 		request.setAttribute("gradingTypes", gradingTypes);

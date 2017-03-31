@@ -79,12 +79,6 @@
 				    <label for="time">Reimb id</label>
 				    <input type="text" required class="form-control" id="reimbId" placeholder="reimbId" name="reimbId" value="${reimbursement.getReimbId()}">
 				  </div>
-				  <div class="form-group">
-				    <label for="exampleInputFile">File input</label>
-				    <p>Filename:<br><input type="text" name="filename"></p>
-				    <input type="file" class="form-control-file" id="file" aria-describedby="fileHelp" name="file">
-				    <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
-				  </div>
 				</form><br>
 		
 				</div>

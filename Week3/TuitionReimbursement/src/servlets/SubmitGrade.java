@@ -51,14 +51,9 @@ public class SubmitGrade extends HttpServlet {
 		
 		int reimbId = (int)ses.getAttribute("reimbId");
 		
-		String finalGrade = request.getParameter("finalGrade");
 		
-		serveEmp.submitGrade(reimbId, finalGrade);
 		
-		int empId = (int)ses.getAttribute("uId");
-		
-		ArrayList<Reimbursement> approvedReimbursements = serveEmp.getApprovedReimbursements(empId);
-		request.setAttribute("approvedReimbursements", approvedReimbursements);
+
 
 		
 		
@@ -67,6 +62,7 @@ public class SubmitGrade extends HttpServlet {
 		
 		
 		
+		String finalGrade = "";
 		
 		@SuppressWarnings("deprecation")
 		AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
@@ -77,6 +73,13 @@ public class SubmitGrade extends HttpServlet {
 	        List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
 	        for (FileItem item : items) {
 	            if (item.isFormField()) {
+  	            	String input = item.getFieldName();
+	        		
+	            	switch(input){
+	            	case "finalGrade" : 
+	            		finalGrade = item.getString();
+	            		break;
+	            	}
 	                if (item.getFieldName().equals("filename")) {
 	                	keyName = item.getString(); //get filename input by user.
 	                	
@@ -108,6 +111,12 @@ public class SubmitGrade extends HttpServlet {
 		
 		
 		
+		serveEmp.submitGrade(reimbId, finalGrade);
+		
+		int empId = (int)ses.getAttribute("uId");
+		
+		ArrayList<Reimbursement> approvedReimbursements = serveEmp.getApprovedReimbursements(empId);
+		request.setAttribute("approvedReimbursements", approvedReimbursements);
 		
 		
 		String nextJSP = "/approvedReimbursements.jsp";

@@ -53,6 +53,7 @@ public class ConfirmFinalApprove extends HttpServlet {
 			System.out.println(false);
 		} else if (act.equals("approve")) {
 		    serveEmp.finalUpdate(reimbId, true);
+		    serveEmp.markFinalApprover(reimbId, empId);
 			serveEmp.sendMoney(empMessage, reimbursementAmt);
 		    serveEmp.addMessage("Reimbursement Processed", empMessage, empId, reimbId);		    
 		} else if (act.equals("decline")) {

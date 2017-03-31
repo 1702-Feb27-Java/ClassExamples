@@ -5,11 +5,11 @@ import java.util.Date;
 public class Reimbursement {
 	String event, time, description, grading, approvalStep, location, typeOfEvent, reason, finalGrade;
 	int locationId, gradingId, typeOfEventId, approvalStepId, cost, reimbId, empId;
-	Date eventDate, formDate;
+	Date eventDate, formDate, cutoffDate;
 	double projectedReimbursement;
 	
 	public Reimbursement(String event, String time, String description, String reason, String finalGrade, int cost, int locationId, int gradingId,
-			int typeOfEventId, int approvalStepId, Date eventDate, Date formDate, int reimbId, int empId, double projectedReimbursement) {
+			int typeOfEventId, int approvalStepId, Date eventDate, Date formDate, Date cutoffDate, int reimbId, int empId, double projectedReimbursement) {
 		super();
 		this.event = event;
 		this.time = time;
@@ -26,6 +26,7 @@ public class Reimbursement {
 		this.reason = reason;
 		this.finalGrade = finalGrade;
 		this.projectedReimbursement = projectedReimbursement;
+		this.cutoffDate = cutoffDate;
 	}
 	public Reimbursement(){
 		
@@ -144,6 +145,12 @@ public class Reimbursement {
 	public double getProjectedReimbursement(){
 		return projectedReimbursement;
 	}
+	public void setCutoffDate(Date cutoffDate){
+		this.cutoffDate = cutoffDate;
+	}
+	public Date getCutoffDate(){
+		return cutoffDate;
+	}
 	@Override
 	public String toString() {
 		return "Reimbursement [event=" + event + ", time=" + time + ", description=" + description + ", grading="
@@ -151,7 +158,7 @@ public class Reimbursement {
 				+ ", locationId=" + locationId + ", gradingId=" + gradingId + ", typeOfEventId=" + typeOfEventId
 				+ ", approvalStepId=" + approvalStepId + ", cost=" + cost + ", eventDate=" + eventDate + ", formDate="
 				+ formDate + ", reimbId=" + reimbId +  ", empId=" + empId + ", reason=" + reason + ", finalGrade=" + finalGrade + 
-				", projectedReimbursement=" + projectedReimbursement +"]\n";
+				", projectedReimbursement=" + projectedReimbursement + ", cutoffDate=" + cutoffDate + "]\n";
 	}
 
 	
