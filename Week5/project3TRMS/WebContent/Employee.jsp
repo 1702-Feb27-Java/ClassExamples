@@ -51,31 +51,5 @@
 		</fieldset>
 	</form>
 
-	<!-- <form>
-
-<button id="message">Messages</button>
-<br><br><br>
-
-<button id="appstat">View Current Request</button>
-
-
-
-
- -->
-<%-- <%
-String Password = request.getParameter("pwd");
-out.append(Password);
-%>
-<h2>I AM THE WALRUS</h2>
- --%>
-<%-- creating dao to amke array
-<% ArrayList<Employee> employeeList = dao.getAllEmployees(); %>
-<li>
-<% for(Employee emp : employeeList) {%>
-<ul><%  emp.getFirstName().getLastName().getRole_id().getApprovalid().getApprovallevel(); %></ul>
-<% } %>
-</li> --%>
-
-
 </body>
 </html>

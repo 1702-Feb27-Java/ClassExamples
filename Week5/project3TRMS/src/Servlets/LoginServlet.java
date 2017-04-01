@@ -61,24 +61,14 @@ public class LoginServlet extends HttpServlet {
 		helduserinfo.setAttribute("currentuarr", temparr.getUserInfo(user) );
 		
 		System.out.println(helduserinfo.toString() + "did it work?");
-		// session.setAttribute("LOL", "LOL234");
 		try {
 
 			PrintWriter out = response.getWriter();
-			/* pulling information from login page to check against DB */
-			// out.println("<br>");
-			// response.getWriter().append(Username);
-			// out.println("<br>");
-			// response.getWriter().append(Password);
-			// out.println("</body></html>");
-			// out.println("<html><body>");
 			DAOimp hnad = new DAOimp();
 			
 			System.out.println(Username + Password);
-			// user = hnad.CreateRequest();
 			user = hnad.getUserInfo(user);
 
-			// user.setRole_id(role_id);
 			loginSuccess = Main.validLogin(user, Password);
 			System.out.println(loginSuccess);
 			System.out.println(user.getRole_id());

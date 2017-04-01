@@ -70,28 +70,7 @@
 		%>
 
 	</table>
-	<!-- <table style="width:100%">
-  <tr>
-    <th>Firstname</th>
-    <th>Lastname</th> 
-    <th>Employee id</th>
-    <th>Date Applied</th>
-    <th>Edit</th>
-    
-  </tr>
-  <tr>
-  pull from employee table and approval table 
-    <td></td>
-    <td></td> 
-    <td></td>
-    <td></td>
-    i assume these buttons will be in the table 
-    <td> <button id="approve">Approve</button> 
-    	 <button id="deny">deny</button> 
-    </td>
-  </tr>
-  
-</table> -->
+
 
 </body>
 </html>

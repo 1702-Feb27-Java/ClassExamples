@@ -32,7 +32,8 @@
 				<label class="col-md-4 control-label" for="newrequest">New
 					Request</label>
 				<div class="col-md-4">
-					<button id="newrequest" name="newrequest" class="btn btn-primary" formaction="appForm.jsp"  value="/appForm.jsp">open</button>
+					<button id="newrequest" name="newrequest" class="btn btn-primary"
+						formaction="appForm.jsp" value="/appForm.jsp">open</button>
 				</div>
 			</div>
 
@@ -40,7 +41,8 @@
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="message">Messages</label>
 				<div class="col-md-4">
-					<button id="message" name="message" class="btn btn-primary">open</button>
+					<button id="message" name="message" class="btn btn-primary"
+						type="submit" formaction="message.jsp" value="/message.jsp">open</button>
 				</div>
 			</div>
 
@@ -56,7 +58,8 @@
 
 			<!-- Button -->
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="reportstoapplicants" formaction="appApproval.jsp"  value="/appApproval.jsp">View
+				<label class="col-md-4 control-label" for="reportstoapplicants"
+					formaction="appApproval.jsp" value="/appApproval.jsp">View
 					pending request</label>
 				<div class="col-md-4">
 					<button id="reportstoapplicants" name="reportstoapplicants"

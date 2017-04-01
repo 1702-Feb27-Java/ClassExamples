@@ -49,4 +49,14 @@
     <servlet-name>MessageServlet</servlet-name>
     <url-pattern>/MessageServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ApprovalServlet</display-name>
+    <servlet-name>ApprovalServlet</servlet-name>
+    <servlet-class>Servlets.ApprovalServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApprovalServlet</servlet-name>
+    <url-pattern>/ApprovalServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

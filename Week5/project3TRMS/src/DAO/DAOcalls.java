@@ -35,10 +35,8 @@ public interface DAOcalls {
 	
 	//delete information
 	//select
-	
-	
-	//ArrayList<Messages> viewMessages();
 	ArrayList<Messages> viewMessages(int sender);
 
+	
 	
 }
