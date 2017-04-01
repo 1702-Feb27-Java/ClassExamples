@@ -11,5 +11,6 @@ public interface DAO
 	public Reimburstment getReim(String pass);
 	public ArrayList<Reimburstment> getAllReim(int emp_id);
 	public ArrayList<Reimburstment> allReims();
-	public ArrayList<Reimburstment> getPendingReim(int dept_id);
+	public ArrayList<Employee> getEmpsInDept(int dept_id);
+	public ArrayList<Reimburstment> getPendingReim(int emp_id);
 }

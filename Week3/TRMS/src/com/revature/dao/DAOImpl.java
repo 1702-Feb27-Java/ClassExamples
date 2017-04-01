@@ -231,12 +231,10 @@ public class DAOImpl implements DAO
 		}
 	}
 	
-	public ArrayList<Reimburstment> getPendingReim(int dept_id)
-	{ //WORKING ON THIS METHOD TO GET THE PENDING REIMBURSEMENT REQUESTS FOR A CERTAIN DEPARTMENT
-		Reimburstment reim;
+	public ArrayList<Employee> getEmpsInDept(int dept_id)
+	{
 		Employee emp;
 		ArrayList<Employee> temp = new ArrayList();
-		ArrayList<Reimburstment> temp2 = new ArrayList();
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{
 			connect.setAutoCommit(false);
@@ -260,38 +258,53 @@ public class DAOImpl implements DAO
 				emp.setAllowence(rs.getInt(11));
 				temp.add(emp);
 			}
-			String sql2 = "SELECT * FROM REIMBURSTMENT WHERE EMP_ID = ?";
-			PreparedStatement ps2 = connect.prepareStatement(sql2);
-			ResultSet rs2;
-			for(int i = 0; i < temp.size(); i++)
+			connect.commit();
+			return temp;
+		}
+		catch(SQLException e)
+		{
+			e.getStackTrace();
+		}
+		return temp;
+	}
+	
+	public ArrayList<Reimburstment> getPendingReim(int emp_id)
+	{ //WORKING ON THIS METHOD TO GET THE PENDING REIMBURSEMENT REQUESTS FOR A CERTAIN DEPARTMENT
+		Reimburstment reim;
+		ArrayList<Reimburstment> temp = new ArrayList();
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			
+			String sql = "SELECT * FROM REIMBURSTMENT WHERE EMP_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ResultSet rs;
+			ps.setInt(1, emp_id);
+			rs = ps.executeQuery();
+			while(rs.next())
 			{
-				ps.setInt(1, temp.get(i).getEmp_id());
-				rs2 = ps.executeQuery();
-				while(rs2.next())
-				{
-					reim = new Reimburstment();
-					reim.setReim_id(rs2.getInt(1));
-					reim.setEmp_id(rs2.getInt(2));
-					reim.setLocation(rs2.getString(3));
-					reim.setAddDate(rs2.getString(4));
-					reim.setCourseStartDate(rs2.getString(5));
-					reim.setCourseEndDate(rs2.getString(6));
-					reim.setTime(rs2.getString(7));
-					reim.setCourseCost(rs2.getInt(8));
-					reim.setReimburstAmt(rs2.getInt(9));
-					reim.setApproval(rs2.getInt(10));
-					reim.setCourseID(rs2.getInt(11));
-					reim.setGradeTypeID(rs2.getInt(12));
-					temp2.add(reim);
-				}
+				reim = new Reimburstment();
+				reim.setReim_id(rs.getInt(1));
+				reim.setEmp_id(rs.getInt(2));
+				reim.setLocation(rs.getString(3));
+				reim.setAddDate(rs.getString(4));
+				reim.setCourseStartDate(rs.getString(5));
+				reim.setCourseEndDate(rs.getString(6));
+				reim.setTime(rs.getString(7));
+				reim.setCourseCost(rs.getInt(8));
+				reim.setReimburstAmt(rs.getInt(9));
+				reim.setApproval(rs.getInt(10));
+				reim.setCourseID(rs.getInt(11));
+				reim.setGradeTypeID(rs.getInt(12));
+				temp.add(reim);
 			}
 			connect.commit();
-			return temp2;
+			return temp;
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
 		}
-		return temp2;
+		return temp;
 	}
 }

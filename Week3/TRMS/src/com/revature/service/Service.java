@@ -44,7 +44,12 @@ public class Service
 	public ArrayList<Reimburstment> getPending(int dept_id)
 	{
 		ArrayList<Reimburstment> arr = new ArrayList();
-		arr = dao.getPendingReim(dept_id);
+		ArrayList<Employee> temp = new ArrayList();
+		temp = dao.getEmpsInDept(dept_id);
+		for(Employee e: temp)
+		{
+			arr.addAll(dao.getPendingReim(e.getEmp_id()));
+		}
 		return arr;
 	}
 }

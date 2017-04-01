@@ -16,10 +16,16 @@
   
      <h1 style="color:blue;" align="center">Pending Reimbursements Page</h1>
 	<hr>
-		
-      <table>
-      	
-      </table>
-      
+	<div id="somediv">
+	<% ArrayList<Reimburstment> arr = (ArrayList<Reimburstment>)request.getSession().getAttribute("reimbursements"); %>
+	<% System.out.println(arr.get(0).toString()); %>
+     	<c:forEach  var="reimbursements" items="${request.Session.reimbursements}">
+     	<c:out value="${reimbursements}" />
+     	</c:forEach>
+     	<table>
+     		<th>HELP</th>
+     		<tr><td><p>Reimbursement: </p></td></tr>
+     	</table>
+    </div>
   </body>
 </html>

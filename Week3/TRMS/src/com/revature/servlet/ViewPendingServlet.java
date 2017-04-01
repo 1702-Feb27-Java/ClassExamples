@@ -42,8 +42,10 @@ public class ViewPendingServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		ArrayList<Reimburstment> reims = new ArrayList();
-		reims = service.getPending(Integer.parseInt(request.getParameter("deptid")));
-		request.setAttribute("Reimbursements", reims);
+		int x = Integer.parseInt(request.getParameter("deptid"));
+		System.out.println(x);
+		reims = service.getPending(x);
+		request.getSession().setAttribute("reimbursements", reims);
 		RequestDispatcher rd = request.getRequestDispatcher("PendingReimbursements.jsp");
 		rd.forward(request, response);
 	}
