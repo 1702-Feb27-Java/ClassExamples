@@ -105,6 +105,7 @@
 											<input type="submit" class="btn btn-success" value="Accept">
 											<input type="hidden" name="reimid" value="<%=y.getReimid()%>">
 											<input type="hidden" name="apprid" value="<%=y.getApprod()%>">
+											<input type="hidden" name="rcvid" value="<%=y.getEmid()%>">
 										</form>
 										<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
 										<button type="button"  data-toggle="modal" data-target="#AddInfoModal<%=y.getReimid() %>" class="btn btn-primary">Request Info</button>

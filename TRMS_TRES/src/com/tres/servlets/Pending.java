@@ -99,6 +99,7 @@ public class Pending extends HttpServlet {
 				int uid = (int)sess.getAttribute("uid");
 				int repid = (int) sess.getAttribute("repid");
 				reim_id = Integer.parseInt(request.getParameter("reimid"));
+				rcv_id = Integer.parseInt(request.getParameter("rcvid"));
 				int apprid = Integer.parseInt(request.getParameter("apprid"));
 				if(apprid == 3)
 				{
@@ -106,10 +107,10 @@ public class Pending extends HttpServlet {
 				}
 				else
 				{
-					serve.updateReim(reim_id, apprid+1, repid);
+					serve.updateReim(reim_id, apprid+1, repid,(int)sess.getAttribute("uid"),rcv_id);
 					System.out.println("UPDATE LVL");
-				rs = request.getRequestDispatcher("/employee.jsp");
-				rs.forward(request, response);
+					rs = request.getRequestDispatcher("/employee.jsp");
+					rs.forward(request, response);
 				}
 				break;
 			case "infoo":

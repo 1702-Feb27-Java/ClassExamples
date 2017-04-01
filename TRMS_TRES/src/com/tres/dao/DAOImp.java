@@ -387,7 +387,7 @@ public class DAOImp implements DAO
 	}
 
 	@Override
-	public void updateReim(int reimid, int apprid, int repid)
+	public void updateReim(int reimid, int apprid, int repid,int send, int recv)
 	{
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{
@@ -398,6 +398,17 @@ public class DAOImp implements DAO
 			ps.setInt(2, repid);
 			ps.setInt(3, reimid);
 			int rs = ps.executeUpdate();
+			if (rs> 0)
+			{
+				String msg = "APPROVED ";
+				String msgsql = "INSERT INTO MESSAGES (SENDER, RECEIVER, MSG, REIMID) values (?,?,?,?)";
+				PreparedStatement p = connect.prepareStatement(msgsql);
+				p.setInt(1, send);
+				p.setInt(2, recv);
+				p.setString(3, msg);
+				p.setInt(4, reimid);
+				p.executeUpdate();
+			}
 		}
 		catch (SQLException e)
 		{

@@ -35,7 +35,7 @@ ID: UNAME
 				<div class="col-md-4 col-md-offset-1">
   					<div class="form-group">
     					<label class="control-label" for="uname">Username</label>
-    					<input type="text" required="required" class="form-control" name="uname" id="uname" value="<%= session.getAttribute("uname")%>">
+    					<input type="text" required="required" class="form-control" name="uname" id="uname" value="<%= session.getAttribute("uname")%>" disabled>
  		 			</div>
  		 		</div>
             	<!---------------- ATTACHMENT INFO ----------------------->
@@ -58,7 +58,7 @@ ID: FNAME
 				<div class="col-md-4 col-md-offset-1">
   					<div class="form-group">
     					<label class="control-label" for="fname">First Name</label>
-    					<input type="text" required="required" class="form-control" name="fname" id="fname" value="<%= session.getAttribute("fname")%>">
+    					<input type="text" required="required" class="form-control" name="fname" id="fname" value="<%= session.getAttribute("fname")%>" disabled>
   					</div>
  		 		</div>
             	<!---------------- TIME MISSED ----------------------->
@@ -80,7 +80,7 @@ ID: EML
 				<div class="col-md-4 col-md-offset-1">
   					<div class="form-group">
     					<label class="control-label" for="eml">Email</label>
-    					<input type="email" class="form-control" name="eml" id="eml" value="<%= session.getAttribute("email")%>">
+    					<input type="email" class="form-control" name="eml" id="eml" value="<%= session.getAttribute("email")%>" disabled>
   					</div>
  		 		</div>
   			</div>
@@ -92,7 +92,7 @@ ID: TIMEPICKER1
 				<div class="col-md-2 col-md-offset-1">
                 	<div class="form-group">
                         <label class="control-label" for="timepicker1"> Time </label>
-                		<input required="required" type="time" name="timepicker1" id="timepicker1">
+                		<input required="required" type="time" name="timepicker1" id="timepicker1" disabled>
                 		<!-- <button type="button" id="setTimeButton">Set Current Time</button> -->
                 	</div>
   				</div>
@@ -105,7 +105,7 @@ ID: FRMDT
 				<div class="col-md-4 col-md-offset-1">
                 	<div class="form-group">
                         <label class="control-label" for="frmdt"> Form Date: </label>
-                		<input required="required" type="date" name="frmdt" id="frmdt">
+                		<input required="required" type="date" name="frmdt" id="frmdt" disabled> 
                 	</div>
   				</div>
   			</div>

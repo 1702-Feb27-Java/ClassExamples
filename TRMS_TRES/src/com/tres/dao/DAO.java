@@ -28,5 +28,5 @@ public interface DAO
 	
 	//UPDATE DB
 	public void updateAddMsg(int snd, int rcv, String msg, int reimid, int sid);
-	public void updateReim(int reimid, int apprid, int repid);
+	public void updateReim(int reimid, int apprid, int repid, int send, int recv);
 }

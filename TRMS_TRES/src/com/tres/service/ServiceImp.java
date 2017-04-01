@@ -63,8 +63,8 @@ public class ServiceImp implements Service
 	}
 
 	@Override
-	public void updateReim(int reimid, int apprid, int repid)
+	public void updateReim(int reimid, int apprid, int repid, int send, int recv)
 	{
-		dao.updateReim(reimid, apprid, repid);
+		dao.updateReim(reimid, apprid, repid, send, recv);
 	}
 }
