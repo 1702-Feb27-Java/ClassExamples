@@ -209,4 +209,24 @@
     <servlet-name>DisplayMessages</servlet-name>
     <url-pattern>/DisplayMessages</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RequestMoreInfo</display-name>
+    <servlet-name>RequestMoreInfo</servlet-name>
+    <servlet-class>Servlets.RequestMoreInfo</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RequestMoreInfo</servlet-name>
+    <url-pattern>/RequestMoreInfo</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RequestDirect</display-name>
+    <servlet-name>RequestDirect</servlet-name>
+    <servlet-class>Servlets.RequestDirect</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RequestDirect</servlet-name>
+    <url-pattern>/RequestDirect</url-pattern>
+  </servlet-mapping>
 </web-app>

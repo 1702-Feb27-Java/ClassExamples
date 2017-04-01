@@ -110,16 +110,18 @@ for(Employee.Employees e: Employee.Collecters.emp)
 				out.append("</form>");		 %>
 			</TD>
 
+		<TD>
+				<%out.append("<form action=\"RequestDirect\" method=\"POST\">");
+				out.append("<input type=\"hidden\" name=\"val\" value="+"\""+count+"\">"+"<input type=\"submit\" name=\"Reject\" value=\"Request More Info\">");
+				out.append("</form>");		 %>
+			</TD>
+
 
 	
 		</TR>
 
 					
-			<%
-					
-					
-					//out.append("Dept : "+Employee.Display.displayDepartment(e.getDEPT_ID())+"|Reinbursment Number "+ r.getREIN_ID() + "|First Name : "+ e.getFIRST_NAME() + "|Last Name : "+ e.getLAST_NAME() + "|Status Level " + r.getAPP_ID() );
-				
+		<%
 							
 					
 				}

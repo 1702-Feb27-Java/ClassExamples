@@ -119,6 +119,13 @@ for(Employee.Employees e: Employee.Collecters.emp)
 							out.append("<input type=\"hidden\" name=\"val\" value="+"\""+count+"\">"+"<input type=\"submit\" name=\"ChangeCostBenco\" value=\"Change Reinbursment\">");
 							out.append("</form>"); %>
 			</TD>
+					<TD>
+				<%out.append("<form action=\"RequestDirect\" method=\"POST\">");
+				out.append("<input type=\"hidden\" name=\"val\" value="+"\""+count+"\">"+"<input type=\"submit\" name=\"Reject\" value=\"Request More Info\">");
+				out.append("</form>");		 %>
+			</TD>
+
+			
 		</TR>
 
 					

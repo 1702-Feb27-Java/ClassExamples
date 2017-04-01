@@ -112,6 +112,43 @@ public class DAO {
 	
 	
 	
+	
+	///////////////////////////////////////////////
+	public void reqMoreInfo(int val, String message)
+	{
+	try{
+    	Connection cont = ConnectionUtil.getConnection();
+    	PreparedStatement ps = cont.prepareStatement("INSERT INTO MESSAGES(MESSAGE,EMP_ID,REIN_ID,APP_ID )VALUES (?,?,?,?)");
+    	ps.setString(1, message);
+    	ps.setInt(2, Collecters.rein.get(val).getEMP_ID());       
+        ps.setInt(3, Collecters.rein.get(val).getREIN_ID());
+        ps.setInt(4, Collecters.rein.get(val).getAPP_ID());
+        ResultSet rs = ps.executeQuery();
+  
+    	}
+    	catch(Exception e)
+    	{
+    		
+    		System.out.println(e.getStackTrace());
+    	System.out.println(e.getMessage() + " aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" );
+    		
+    	}
+	
+
+	 
+
+
+	  Employee.Collecters.emp = new ArrayList<Employee.Employees>();
+	  Employee.Collecters.rein =new ArrayList<Employee.Reinbursment>();
+	  pullAllReinDown();
+	  pullAllEmpDown();
+    	  
+    }
+
+	
+	
+	
+	
 	public void empReject(int val)
 	{
 		 int temp =		Employee.Collecters.rein.get(val).getAPP_ID();
