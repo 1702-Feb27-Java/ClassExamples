@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Conviguration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.username">jurczakn</property>
+		<property name="hibernate.connection.password">revature</property>	
+		
+		<!--  Url -->
+		<property name="hibernate.connection.url">jdbc:oracle:thin:@oracle-bear.clqfkdmbotjv.us-east-1.rds.amazonaws.com:1521:ORCL</property>
+		
+		<!-- Driver -->
+		<property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+	
+		<!-- Type of DB Dialect -->
+		<property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
+		<property name="hibernate.show_sql">true</property>
+		
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		
+ 		<!-- Level 2 Cache  -->
+	
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+
+       <!-- Specify Caching Provider  -->
+       
+       <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>	 
+		
+  		<mapping class="com.revature.beans.Bear"/>
+		<mapping class="com.revature.beans.Cave"/>
+ 
+ 		<mapping class="com.revature.beans.HoneyPot"/>
+	
+	</session-factory>
+</hibernate-configuration>
