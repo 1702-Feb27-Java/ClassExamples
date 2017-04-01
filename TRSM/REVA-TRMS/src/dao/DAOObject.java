@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 
@@ -517,6 +518,33 @@ public class DAOObject {
 		}
 		return null;
 	}
+	
+	
+	public void advanceDay() {
+		int temp = 0;
+		
+	
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			//?s can be set
+			
+			String sql = "CALL advanceDay()";
+			//seting the call
+			CallableStatement cs = connect.prepareCall(sql);
+			cs.executeUpdate();
+			
+			
+			
+//			connect.commit();
+			connect.setAutoCommit(true);			
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 
 }

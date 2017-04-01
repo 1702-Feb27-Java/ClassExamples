@@ -43,7 +43,7 @@ public class MessageServ extends HttpServlet {
 		//get message
 		
 		ArrayList<String> mess = serv.getMessage(rm.getReim_id());
-		System.out.println(mess);
+		//System.out.println(mess);
 		if(mess == null){
 			sess.setAttribute("superMessage", null);
 			sess.setAttribute("departHeadMessage", null);

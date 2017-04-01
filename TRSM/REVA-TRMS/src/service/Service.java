@@ -99,5 +99,9 @@ public class Service {
 		return db.getMessage(reID);
 	}
 	
+	public void advanceDay(){
+		db.advanceDay();
+	}
+	
 
 }

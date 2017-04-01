@@ -65,6 +65,10 @@ public class FilterControl implements Filter {
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;
+		case "Advance":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
 		}
 		
 		chain.doFilter(request, response);

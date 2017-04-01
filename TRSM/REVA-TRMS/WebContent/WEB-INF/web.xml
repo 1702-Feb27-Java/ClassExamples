@@ -68,4 +68,14 @@
     <servlet-name>MessageServ</servlet-name>
     <url-pattern>/MessageServ</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Advance</display-name>
+    <servlet-name>Advance</servlet-name>
+    <servlet-class>servlets.Advance</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Advance</servlet-name>
+    <url-pattern>/Advance</url-pattern>
+  </servlet-mapping>
 </web-app>
