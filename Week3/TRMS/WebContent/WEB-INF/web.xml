@@ -57,7 +57,17 @@
     <servlet-name>MyReimServlet</servlet-name>
     <url-pattern>/MyReimServlet</url-pattern>
   </servlet-mapping>
-  <filter>
+  <servlet>
+    <description></description>
+    <display-name>ViewPendingServlet</display-name>
+    <servlet-name>ViewPendingServlet</servlet-name>
+    <servlet-class>com.revature.servlet.ViewPendingServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewPendingServlet</servlet-name>
+    <url-pattern>/ViewPendingServlet</url-pattern>
+  </servlet-mapping>
+   <filter>
     <display-name>TestFilter</display-name>
     <filter-name>TestFilter</filter-name>
     <filter-class>com.revature.filter.TestFilter</filter-class>

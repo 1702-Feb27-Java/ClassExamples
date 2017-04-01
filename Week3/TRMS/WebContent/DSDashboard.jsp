@@ -8,7 +8,7 @@
 	</head>
 	
 	<body style="background-color:orange">
-		<h1 align="center" style="color:blue">Welcome to your dashboard!</h1><hr><br>
+		<h1 align="center" style="color:blue">Welcome to your Supervisor dashboard!</h1><hr><br>
 		<h2 align="center" style="color:blue">Please select an option below:</h2><br>
 		
 		<form align="center" action="MakeReimbursementPage.html" style="color:blue">
@@ -18,6 +18,12 @@
 			Please enter your password to continue:<br>
 			<input type="password" name="password" id="password"><br>
 			<input type="submit" name="myReim" id=2 value="View My Reimbursement"><br>
+		</form>
+		<form align="center" action="ViewPendingServlet.do" style="color:blue" method="POST">
+			View Pending Reimbursements:<br>
+			Please enter your Department ID<br>
+			<input type="text" name="deptid" id="deptid"><br>
+			<input type="submit" value="Pending Reimbursements"><br>
 		</form>
 		
 	</body>

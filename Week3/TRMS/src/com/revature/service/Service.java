@@ -40,4 +40,11 @@ public class Service
 	{
 		dao.makeReim(reim);
 	}
+	
+	public ArrayList<Reimburstment> getPending(int dept_id)
+	{
+		ArrayList<Reimburstment> arr = new ArrayList();
+		arr = dao.getPendingReim(dept_id);
+		return arr;
+	}
 }

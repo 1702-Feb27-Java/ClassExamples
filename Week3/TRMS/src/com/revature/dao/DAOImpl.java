@@ -230,4 +230,68 @@ public class DAOImpl implements DAO
 			e.printStackTrace();
 		}
 	}
+	
+	public ArrayList<Reimburstment> getPendingReim(int dept_id)
+	{ //WORKING ON THIS METHOD TO GET THE PENDING REIMBURSEMENT REQUESTS FOR A CERTAIN DEPARTMENT
+		Reimburstment reim;
+		Employee emp;
+		ArrayList<Employee> temp = new ArrayList();
+		ArrayList<Reimburstment> temp2 = new ArrayList();
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String sql = "SELECT * FROM EMPLOYEE WHERE DEPT_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, dept_id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				emp = new Employee();
+				emp.setEmp_id(rs.getInt(1));
+				emp.setFname(rs.getString(2));
+				emp.setLname(rs.getString(3));
+				emp.setAddress(rs.getString(4));
+				emp.setDept_id(rs.getInt(5));
+				emp.setReportsto(rs.getInt(6));
+				emp.setRole_id(rs.getInt(7));
+				emp.setUsername(rs.getString(8));
+				emp.setPassword(rs.getString(9));
+				emp.setEmail(rs.getString(10));
+				emp.setAllowence(rs.getInt(11));
+				temp.add(emp);
+			}
+			String sql2 = "SELECT * FROM REIMBURSTMENT WHERE EMP_ID = ?";
+			PreparedStatement ps2 = connect.prepareStatement(sql2);
+			ResultSet rs2;
+			for(int i = 0; i < temp.size(); i++)
+			{
+				ps.setInt(1, temp.get(i).getEmp_id());
+				rs2 = ps.executeQuery();
+				while(rs2.next())
+				{
+					reim = new Reimburstment();
+					reim.setReim_id(rs2.getInt(1));
+					reim.setEmp_id(rs2.getInt(2));
+					reim.setLocation(rs2.getString(3));
+					reim.setAddDate(rs2.getString(4));
+					reim.setCourseStartDate(rs2.getString(5));
+					reim.setCourseEndDate(rs2.getString(6));
+					reim.setTime(rs2.getString(7));
+					reim.setCourseCost(rs2.getInt(8));
+					reim.setReimburstAmt(rs2.getInt(9));
+					reim.setApproval(rs2.getInt(10));
+					reim.setCourseID(rs2.getInt(11));
+					reim.setGradeTypeID(rs2.getInt(12));
+					temp2.add(reim);
+				}
+			}
+			connect.commit();
+			return temp2;
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return temp2;
+	}
 }

@@ -121,4 +121,12 @@ public class Reimburstment
 	{
 		this.reim_id = reim_id;
 	}
+	@Override
+	public String toString()
+	{
+		return "Reimburstment [location=" + location + ", addDate=" + addDate + ", courseStartDate=" + courseStartDate
+				+ ", courseEndDate=" + courseEndDate + ", time=" + time + ", course=" + course + ", grade=" + grade
+				+ ", emp_id=" + emp_id + ", courseCost=" + courseCost + ", reimburstAmt=" + reimburstAmt + ", reim_id="
+				+ reim_id + ", approval=" + approval + ", courseID=" + courseID + ", gradeTypeID=" + gradeTypeID + "]";
+	}
 }

@@ -53,10 +53,17 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		Employee emp = service.viewAccount(request.getParameter("username"));
-		if(request.getParameter("password").equals(emp.getPassword()))
+		if(request.getParameter("password").equals(emp.getPassword()) && emp.getRole_id() == 1)
 		{
-			response.getWriter().append("LOGGED IN");
 			response.sendRedirect("Dashboard.jsp");
+		}
+		else if(request.getParameter("password").equals(emp.getPassword()) && emp.getRole_id() == 2)
+		{
+			response.sendRedirect("DSDashboard.jsp");
+		}
+		else if(request.getParameter("password").equals(emp.getPassword()) && emp.getRole_id() == 3)
+		{
+			response.sendRedirect("DHDashboard.jsp");
 		}
 		//System.out.println(emp.getUsername());
 		response.getWriter().append("Served at: ").append(request.getContextPath());
