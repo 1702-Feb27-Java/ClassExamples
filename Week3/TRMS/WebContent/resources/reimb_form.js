@@ -2,7 +2,7 @@
  * 
  */
 $(document).ready(function(){
-	$("#sel1").change(function() {
+	$("#eventTitle").change(function() {
 	    var val = $(this).val();
 	    if (val == 0) {
 	       $("#other-event-input").show();
@@ -12,7 +12,7 @@ $(document).ready(function(){
 		}
 	});
 	
-	$("#sel2").change(function() {
+	$("#gradeFormat").change(function() {
 	    var val = $(this).val();
 	    if (val == 0) {
 	       $("#other-grade-input").show();

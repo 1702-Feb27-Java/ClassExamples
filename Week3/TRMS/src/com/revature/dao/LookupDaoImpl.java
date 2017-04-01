@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.revature.pojo.Grade;
 import com.revature.sql.ConnectionFactory;
 
@@ -15,7 +17,7 @@ import com.revature.sql.ConnectionFactory;
  */
 
 public class LookupDaoImpl {
-	// dept, role, status, grade, event_title, app_levels tables expressed
+	// dept, role, urgency, grade, event_title, app_levels tables expressed
 	public String getRole(int roleId) {
 		String role = null;
 		try(Connection conn = ConnectionFactory.getConnection()) {
@@ -79,17 +81,15 @@ public class LookupDaoImpl {
 	}
 	
 	public ArrayList<String> listDepts() {
-		ArrayList<String> depts = null;
+		ArrayList<String> depts = new ArrayList<>();
 		try(Connection conn = ConnectionFactory.getConnection()) {
 			conn.setAutoCommit(false);	
 	        String sql = "SELECT DEPT FROM DEPT ORDER BY DEPT_ID ASC"; 
 	        PreparedStatement ps = null;
 	        ps = conn.prepareStatement(sql);
 	        ResultSet result = ps.executeQuery();
-	        if (result.next()) {
+	        while (result.next()) {
 	        	 depts.add(result.getString(1));
-	        } else {
-	             System.out.println("Dept String Not Found!");
 	        }
 			conn.commit();
 		} catch (SQLException e) {
@@ -127,12 +127,13 @@ public class LookupDaoImpl {
 	        PreparedStatement ps = null;
 	        ps = conn.prepareStatement(sql);
 	        ResultSet result = ps.executeQuery();
+	        grades = new ArrayList<Grade>();
 	        while (result.next()) {
 	        	Grade temp = new Grade();
 	        	temp.setGradeId(result.getInt(1));
 	        	temp.setGradeFormat(result.getString(2));
 	        	temp.setPassingGrade(result.getString(3));
-	        	temp.setPresReq(result.getBoolean(3));
+	        	temp.setPresReq(result.getBoolean(4));
 	        	grades.add(temp);
 			conn.commit();
 	        }
@@ -142,7 +143,7 @@ public class LookupDaoImpl {
 		return grades;
 	}
 	
-	public synchronized void insertGrade(Grade g) {
+	public synchronized int insertGrade(Grade g) {
 
 		String sql = "";
 		PreparedStatement stmt = null;
@@ -184,6 +185,7 @@ public class LookupDaoImpl {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return g.getGradeId();
 	}
 
 	public String getEventTitle(int eventTitleId) {
@@ -275,5 +277,267 @@ public class LookupDaoImpl {
 		return lastId;
     
 	}
+    // TODO: URGENCY
+    // TODO: APP_LEVELS
+    public HashMap<Integer, String> mapEventTitles() {
+
+        HashMap<Integer, String> searchResultsMap = new HashMap<>();
+        ResultSet result = null;
+
+        try (Connection conn = ConnectionFactory.getConnection()) {
+      	  conn.setAutoCommit(false);
+      	  String sql = "SELECT EVENT_TITLE_ID, EVENT_TITLE FROM EVENT_TITLE ORDER BY EVENT_TITLE_ID ASC ";
+      	  PreparedStatement ps = conn.prepareStatement(sql);
+	          result = ps.executeQuery();
+	
+	          while (result.next()) {
+	        	  int tempInt = result.getInt(1);
+	        	  String tempString = result.getString(2);
+	              searchResultsMap.put(tempInt, tempString);
+	          }
+	          conn.commit();
+
+        } catch (SQLException e) {
+      	  e.printStackTrace();
+        }
+
+        return searchResultsMap;
+    }
+    
+    public HashMap<Integer, String> mapAppLevels() {
+
+        HashMap<Integer, String> searchResultsMap = new HashMap<>();
+        ResultSet result = null;
+
+        try (Connection conn = ConnectionFactory.getConnection()) {
+      	  conn.setAutoCommit(false);
+      	  String sql = "SELECT APP_LEVEL, APP_LEVEL_TITLE FROM APP_LEVELS ORDER BY APP_LEVEL ASC ";
+      	  PreparedStatement ps = conn.prepareStatement(sql);
+	          result = ps.executeQuery();
+	
+	          while (result.next()) {
+	        	  int tempInt = result.getInt(1);
+	        	  String tempString = result.getString(2);
+	              searchResultsMap.put(tempInt, tempString);
+	          }
+	          conn.commit();
+
+        } catch (SQLException e) {
+      	  e.printStackTrace();
+        }
+
+        return searchResultsMap;
+    }
+    
+    public HashMap<Integer, String> mapDepts() {
+
+        HashMap<Integer, String> searchResultsMap = new HashMap<>();
+        ResultSet result = null;
+
+        try (Connection conn = ConnectionFactory.getConnection()) {
+      	  conn.setAutoCommit(false);
+      	  String sql = "SELECT DEPT_ID, DEPT FROM DEPT ORDER BY DEPT_ID ASC ";
+      	  PreparedStatement ps = conn.prepareStatement(sql);
+	          result = ps.executeQuery();
+	
+	          while (result.next()) {
+	        	  int tempInt = result.getInt(1);
+	        	  String tempString = result.getString(2);
+	              searchResultsMap.put(tempInt, tempString);
+	          }
+	          conn.commit();
+
+        } catch (SQLException e) {
+      	  e.printStackTrace();
+        }
+
+        return searchResultsMap;
+    }
+    
+    public HashMap<Integer, String> mapRoles() {
+
+        HashMap<Integer, String> searchResultsMap = new HashMap<>();
+        ResultSet result = null;
+
+        try (Connection conn = ConnectionFactory.getConnection()) {
+      	  conn.setAutoCommit(false);
+      	  String sql = "SELECT ROLE_ID, ROLE FROM ROLE ORDER BY ROLE_ID ASC ";
+      	  PreparedStatement ps = conn.prepareStatement(sql);
+	          result = ps.executeQuery();
+	
+	          while (result.next()) {
+	        	  int tempInt = result.getInt(1);
+	        	  String tempString = result.getString(2);
+	              searchResultsMap.put(tempInt, tempString);
+	          }
+	          conn.commit();
+
+        } catch (SQLException e) {
+      	  e.printStackTrace();
+        }
+
+        return searchResultsMap;
+    }
+    
+    public HashMap<Integer, String> mapUrgencyLevels() {
+
+        HashMap<Integer, String> searchResultsMap = new HashMap<>();
+        ResultSet result = null;
+
+        try (Connection conn = ConnectionFactory.getConnection()) {
+      	  conn.setAutoCommit(false);
+      	  String sql = "SELECT URGENCY_ID, URGENCY_LEVEL FROM URGENCY ORDER BY URGENCY_ID ASC ";
+      	  PreparedStatement ps = conn.prepareStatement(sql);
+	          result = ps.executeQuery();
+	
+	          while (result.next()) {
+	        	  int tempInt = result.getInt(1);
+	        	  String tempString = result.getString(2);
+	              searchResultsMap.put(tempInt, tempString);
+	          }
+	          conn.commit();
+
+        } catch (SQLException e) {
+      	  e.printStackTrace();
+        }
+
+        return searchResultsMap;
+    }
+    
+    public String getUrgencyLevel(int uId) {
+
+        String searchResult = null;
+        ResultSet result = null;
+
+        try (Connection conn = ConnectionFactory.getConnection()) {
+      	  conn.setAutoCommit(false);
+      	  String sql = "SELECT URGENCY_LEVEL FROM URGENCY WHERE URGENCY_ID = ? ";
+      	  PreparedStatement ps = conn.prepareStatement(sql);
+      	  ps.setInt(1, uId);
+	          result = ps.executeQuery();
+	
+	          if (result.next()) {
+	        	  searchResult = result.getString(1);
+	          }
+	          conn.commit();
+
+        } catch (SQLException e) {
+      	  e.printStackTrace();
+        }
+
+        return searchResult;
+    }
+    
+	public String getAppLevelTitle(int appLevel) {
+		// TODO Auto-generated method stub
+		String appLevelTitle = null;
+		ResultSet result = null;
+        try (Connection conn = ConnectionFactory.getConnection()) {
+        	  conn.setAutoCommit(false);
+        	  String sql = "SELECT APP_LEVEL FROM APP_LEVELS WHERE APP_LEVEL_ID = ? ";
+        	  PreparedStatement ps = conn.prepareStatement(sql);
+        	  ps.setInt(1, appLevel);
+  	          result = ps.executeQuery();
+  	
+  	          if (result.next()) {
+  	        	  appLevelTitle = result.getString(1);
+  	          }
+  	          conn.commit();
+
+          } catch (SQLException e) {
+        	  e.printStackTrace();
+          }
+		return appLevelTitle;
+	}
+    
+    public int countDepts() {
+
+        String sql = "SELECT count(*) FROM DEPT";
+        PreparedStatement stmt = null;
+        ResultSet result = null;
+        int allRows = 0;
+
+        try (Connection conn = ConnectionFactory.getConnection()){
+      	  conn.setAutoCommit(false);
+      	  
+            stmt = conn.prepareStatement(sql);
+            result = stmt.executeQuery();
+
+            if (result.next())
+                allRows = result.getInt(1);
+            conn.commit();
+        } catch (SQLException e) {
+      	  e.printStackTrace();
+        }
+        return allRows;
+  }
+    
+    public int countRoles() {
+
+        String sql = "SELECT count(*) FROM ROLE";
+        PreparedStatement stmt = null;
+        ResultSet result = null;
+        int allRows = 0;
+
+        try (Connection conn = ConnectionFactory.getConnection()){
+      	  conn.setAutoCommit(false);
+      	  
+            stmt = conn.prepareStatement(sql);
+            result = stmt.executeQuery();
+
+            if (result.next())
+                allRows = result.getInt(1);
+            conn.commit();
+        } catch (SQLException e) {
+      	  e.printStackTrace();
+        }
+        return allRows;
+  }
+    
+    public int countGrades() {
+
+        String sql = "SELECT count(*) FROM GRADE";
+        PreparedStatement stmt = null;
+        ResultSet result = null;
+        int allRows = 0;
+
+        try (Connection conn = ConnectionFactory.getConnection()){
+      	  conn.setAutoCommit(false);
+      	  
+            stmt = conn.prepareStatement(sql);
+            result = stmt.executeQuery();
+
+            if (result.next())
+                allRows = result.getInt(1);
+            conn.commit();
+        } catch (SQLException e) {
+      	  e.printStackTrace();
+        }
+        return allRows;
+  }
+    
+    public int countEventTitles() {
+
+        String sql = "SELECT count(*) FROM EVENT_TITLE";
+        PreparedStatement stmt = null;
+        ResultSet result = null;
+        int allRows = 0;
+
+        try (Connection conn = ConnectionFactory.getConnection()){
+      	  conn.setAutoCommit(false);
+      	  
+            stmt = conn.prepareStatement(sql);
+            result = stmt.executeQuery();
+
+            if (result.next())
+                allRows = result.getInt(1);
+            conn.commit();
+        } catch (SQLException e) {
+      	  e.printStackTrace();
+        }
+        return allRows;
+  }
+
+
 	
 }

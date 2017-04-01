@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.revature.dao.EmployeeDaoImpl;
+import com.revature.dao.LookupDaoImpl;
 import com.revature.dao.ReimbursementDaoImpl;
 import com.revature.pojo.Employee;
 import com.revature.pojo.Reimbursement;
 import com.revature.service.EmployeeService;
+import com.revature.service.LookupService;
 import com.revature.service.ReimbursementService;
 
 /**
@@ -44,13 +46,21 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		EmployeeService es = new EmployeeService();
 		ReimbursementService rs = new ReimbursementService();
+		LookupService ls = new LookupService();
 		HttpSession currSession = request.getSession(true);
 		
 		// Store employee object using Employee Service
 		String uname = request.getParameter("username");
 		String pass = request.getParameter("password");
+		Employee e = null;
 		
-		Employee e = es.loginEmployee(uname, pass);
+		// Check if coming from login page
+		if((uname != null) && (pass != null)){
+			e = es.loginEmployee(uname, pass);
+		} else {
+			e = (Employee) currSession.getAttribute("employee");
+		}
+		
 		String nextJSP;
 		// in Servlet
 		if(e != null) {
@@ -59,7 +69,8 @@ public class LoginServlet extends HttpServlet {
 			// TODO: Collect awarded reimbursements related to Employee
 			// ArrayList<Reimbursement> awardedReimbursements = rs.getAwardedReimbursementsForEmployee();
 			currSession.setAttribute("employee", e);
-			// Store username password strings of employee in session
+			// Store id username password strings of employee in session
+			currSession.setAttribute("employeeId", e.getEmployeeId());
 			currSession.setAttribute("username", e.getUsername());
 			currSession.setAttribute("password", e.getPassword());
 			
@@ -74,6 +85,11 @@ public class LoginServlet extends HttpServlet {
 			currSession.setAttribute("pendingReimbursements", pendingReimbursements);
 			// TODO: Store arraylist of awarded reimbursements in session scope
 			// currSession.setAttribute("awardedReimbursements", awardedReimbursements);
+			
+			// TODO: Refactor project to call service methods from pojos instead of using hashmaps
+			
+			// If employee an approver
+				// Store arraylist of approvable reimbursements in session scope
 			nextJSP = "/employee_menu.jsp";
 		}
 		else {

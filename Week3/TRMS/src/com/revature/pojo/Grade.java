@@ -5,6 +5,17 @@ public class Grade {
 	private String gradeFormat;
 	private String passingGrade;
 	private boolean presReq;
+	
+	public Grade(){
+		
+	}
+	
+	public Grade(String gradeFormat, String passingGrade, boolean presReq) {
+		this.gradeFormat = gradeFormat;
+		this.passingGrade = passingGrade;
+		this.presReq = presReq;
+	}
+	
 	public int getGradeId() {
 		return gradeId;
 	}

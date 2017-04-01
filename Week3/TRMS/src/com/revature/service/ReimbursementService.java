@@ -58,5 +58,15 @@ public class ReimbursementService {
 		}
 		return reimbursements;
 	}
+	
+	/**
+	 * Inserts reimbursement using reimbursement dao
+	 * @param r reimbursement to be inserted
+	 * @return reimbursement int id
+	 */
+	public int insertReimbursement(Reimbursement r){
+		rDao.create(r);
+		return r.getReimbId(); 
+	}
 
 }

@@ -49,8 +49,7 @@
 			<div class="col-md-7">
 				<div class="signuppanel">
 					<h2>Reimbursement Workflow Overview</h2>
-					<ol
-						style="padding: 0px; margin: 0px 0px 10px 2.5em; color: rgb(51, 51, 51); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 20px; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; background-color: rgb(255, 255, 255);">
+					<ol>
 						<li>Log in with proper credentials</li>
 						<li>Choose options from login menu</li>
 						<li>Each employee views related reimbursements information</li>

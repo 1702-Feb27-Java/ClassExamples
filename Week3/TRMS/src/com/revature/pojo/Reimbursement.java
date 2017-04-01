@@ -2,6 +2,8 @@ package com.revature.pojo;
 
 import java.util.Date;
 
+import com.revature.service.LookupService;
+
 /**
   * Reimbursement Value Object.
   * This class is value object representing database table REIMBS
@@ -24,6 +26,8 @@ public class Reimbursement {
 	private int gradeId;
     private int urgencyId;
     private int appLevel;
+    
+    LookupService ls = new LookupService();
 
 
 
@@ -86,6 +90,10 @@ public class Reimbursement {
     public void setEventTitleId(int eventTitleIdIn) {
           this.eventTitleId = eventTitleIdIn;
     }
+    
+    public String getEventTitle(){
+    	return ls.getEventTitleById(eventTitleId);
+    }
 
     public Date getEventDate() {
           return this.eventDate;
@@ -114,6 +122,10 @@ public class Reimbursement {
     public void setGradeId(int gradeIdIn) {
           this.gradeId = gradeIdIn;
     }
+    
+    public String getGrade() {
+    	return ls.getGradeById(gradeId);
+    }
 
     public int getUrgencyId() {
           return this.urgencyId;
@@ -121,10 +133,19 @@ public class Reimbursement {
     public void setUrgencyId(int statusIdIn) {
           this.urgencyId = statusIdIn;
     }
+    
+    public String getUrgency() {
+    	return ls.getUrgencyLevelById(urgencyId);
+    }
 
 	public int getAppLevel() {
 		return appLevel;
 	}
+	
+	public String getAppLevelTitle() {
+		return ls.getAppLevelTitleById(appLevel);
+	}
+	
 
 	public void setAppLevel(int appLevel) {
 		this.appLevel = appLevel;

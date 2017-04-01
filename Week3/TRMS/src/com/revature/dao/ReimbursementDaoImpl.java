@@ -173,7 +173,7 @@ public class ReimbursementDaoImpl {
         	  conn.setAutoCommit(false);
                sql = "INSERT INTO REIMBS ( EMPLOYEE_ID, LOCATION, COST, EVENT_TITLE_ID, "
                + "EVENT_DATE, EVENT_DESC, WORK_JUST, "
-               + "GRADE_ID, URGENCY_ID, APP_LEVEL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+               + "GRADE_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
                stmt = conn.prepareStatement(sql);
                
                stmt.setInt(1, valueObject.getEmployeeId());
@@ -183,9 +183,7 @@ public class ReimbursementDaoImpl {
                stmt.setDate(5, (java.sql.Date) valueObject.getEventDate()); 
                stmt.setString(6, valueObject.getEventDesc()); 
                stmt.setString(7, valueObject.getWorkJust()); 
-               stmt.setInt(8, valueObject.getGradeId()); 
-               stmt.setInt(9, valueObject.getUrgencyId()); 
-               stmt.setInt(10, valueObject.getAppLevel());
+               stmt.setInt(8, valueObject.getGradeId());
 
                int rowcount = stmt.executeUpdate();
                if (rowcount != 1) {
