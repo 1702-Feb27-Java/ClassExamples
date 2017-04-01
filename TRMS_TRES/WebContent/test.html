@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<!-- 
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+	<link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet" type="text/css" />
+	<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+	 -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	 <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	
+  	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+
+	<script
+			  src="https://code.jquery.com/jquery-3.2.1.js"
+			  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+			  crossorigin="anonymous">
+	</script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+	<!-- 
+	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script> 
+	-->
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+  	
+	<body>
+	
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/TRMS_TRES/employee.jsp"> mt</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li -->>
+        <li><a href="/TRMS_TRES/reimbursement.jsp">Reimbursement</a></li>
+        <li><a href="/TRMS_TRES/Pending/my">Pending</a></li>
+        
+        	<li><a href="/TRMS_TRES/Pending/others">OtherPending</a></li>
+        
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+		<title>Pending Reimbursements</title>
+		
+		
+		<ul class="nav nav-tabs">
+		
+		
+	  			<li><a data-toggle="tab" href="#srow">srow</a></li>
+			
+	  			<li><a data-toggle="tab" href="#jt">jt</a></li>
+			
+		</ul>
+		<div class="tab-content">
+  			
+  					<div id="srow" class="tab-pane fade" >
+
+  					<ul class="nav nav-pills nav-stacked col-md-2">
+										
+	  									<li class="active"><a href="#24" data-toggle="pill">NextTime</a></li>
+									
+					</ul>
+					<div class="tab-content col-md-10">
+										
+	  									<div class="tab-pane active" id="24">
+											<h4>NextTime</h4>
+										</div>
+             						
+									
+             						<table class="table">
+  										<thead>
+  											<tr>
+  												<th>Username</th>
+  												<th>Course Description</th>
+  												<th>Course Location</th>
+  												<th>Cost </th>
+  												<th>Attachment </th>
+  												<th>Status </th>
+  											</tr>
+  										</thead>
+  										<tbody>
+  											<tr>
+             								<td> srow</td>
+             									<td> NextTime</td>
+             									<td> Home</td>
+             									<td> 2.0</td>
+             									<td> null</td>
+             									<td> Pending</td>
+  											</tr>
+  										</tbody>
+  									</table>
+  													
+		        					
+										<!-- Indicates a successful or positive action -->
+										<button type="button" class="btn btn-success">Accept</button>
+
+										<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+										<button type="button"  data-toggle="modal" data-target="#AddInfoModal" class="btn btn-primary">Request Info</button>
+												
+										<!-- Indicates caution should be taken with this action -->
+										<button type="button"  data-toggle="modal" data-target="#DeclineModal" class="btn btn-danger">Decline</button>
+									
+																			<!-- Modal -->
+										<div class="modal fade" id="DeclineModal" role="dialog">
+											<div class="modal-dialog">
+											<!-- Modal content-->
+												<div class="modal-content">
+											    	<div class="modal-header">
+											        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+											          	<h4 class="modal-title">Why Decline?</h4>
+											        </div>
+											       	<div class="modal-body">
+											        	<form action="/TRMS_TRES/Pending/decline" method="POST">
+											  				<div class="form-group">
+											  					<label for="WhyDecline">Reason for decline: </label>
+											  					<textarea required="required" name="reason" class="form-control" rows="3" id="WhyDecline"></textarea>
+											  				</div>
+											  				<input type="hidden" name="reimid" value="24">
+											  				<input type="hidden" name="rcvid" value="41">
+											        		<div class="modal-footer">
+											  					<button type="submit" class="btn btn-danger">Decline</button>
+													          	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											        		</div>
+														</form>
+											        </div>
+											      </div>
+											</div>
+										</div>
+										<!-- Modal -->
+										<div class="modal fade" id="AddInfoModal" role="dialog">
+											<div class="modal-dialog">
+												<!-- Modal content-->
+											    <div class="modal-content">
+											    	<div class="modal-header">
+											        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+											          	<h4 class="modal-title">Request More Info</h4>
+											        </div>
+											        <div class="modal-body">
+											        	<form action="/TRMS_TRES/Pending/infoo" method="POST">
+											  				<div class="form-group">
+											  					<label for="exampleInputFile">File input</label>
+											  					<input type="file" id="exampleInputFile">
+											  				</div>
+											  				<div class="form-group">
+											  					<label for="infoComment">What you want:</label>
+											  					<textarea class="form-control" rows="3" id="infoComment"></textarea>
+											  				</div>
+											        		<div class="modal-footer">
+											  					<button type="submit" class="btn btn-info">Submit</button>
+													          	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											        		</div>
+														</form>
+											        </div>
+												</div>
+											</div>
+										</div>
+								
+						</div>		
+					</div>
+				
+  					<div id="jt" class="tab-pane fade" >
+
+  					<ul class="nav nav-pills nav-stacked col-md-2">
+										
+	  									<li class="active"><a href="#23" data-toggle="pill">ToMarco1</a></li>
+									
+					</ul>
+					<div class="tab-content col-md-10">
+										
+	  									<div class="tab-pane active" id="23">
+											<h4>ToMarco1</h4>
+										</div>
+             						
+									
+             						<table class="table">
+  										<thead>
+  											<tr>
+  												<th>Username</th>
+  												<th>Course Description</th>
+  												<th>Course Location</th>
+  												<th>Cost </th>
+  												<th>Attachment </th>
+  												<th>Status </th>
+  											</tr>
+  										</thead>
+  										<tbody>
+  											<tr>
+             								<td> jt</td>
+             									<td> ToMarco1</td>
+             									<td> Wingston Chung Hall</td>
+             									<td> 500.0</td>
+             									<td> null</td>
+             									<td> Pending</td>
+  											</tr>
+  										</tbody>
+  									</table>
+  													
+		        					
+										<!-- Indicates a successful or positive action -->
+										<button type="button" class="btn btn-success">Accept</button>
+
+										<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+										<button type="button"  data-toggle="modal" data-target="#AddInfoModal" class="btn btn-primary">Request Info</button>
+												
+										<!-- Indicates caution should be taken with this action -->
+										<button type="button"  data-toggle="modal" data-target="#DeclineModal" class="btn btn-danger">Decline</button>
+									
+																			<!-- Modal -->
+										<div class="modal fade" id="DeclineModal" role="dialog">
+											<div class="modal-dialog">
+											<!-- Modal content-->
+												<div class="modal-content">
+											    	<div class="modal-header">
+											        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+											          	<h4 class="modal-title">Why Decline?</h4>
+											        </div>
+											       	<div class="modal-body">
+											        	<form action="/TRMS_TRES/Pending/decline" method="POST">
+											  				<div class="form-group">
+											  					<label for="WhyDecline">Reason for decline: </label>
+											  					<textarea required="required" name="reason" class="form-control" rows="3" id="WhyDecline"></textarea>
+											  				</div>
+											  				<input type="hidden" name="reimid" value="23">
+											  				<input type="hidden" name="rcvid" value="21">
+											        		<div class="modal-footer">
+											  					<button type="submit" class="btn btn-danger">Decline</button>
+													          	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											        		</div>
+														</form>
+											        </div>
+											      </div>
+											</div>
+										</div>
+										<!-- Modal -->
+										<div class="modal fade" id="AddInfoModal" role="dialog">
+											<div class="modal-dialog">
+												<!-- Modal content-->
+											    <div class="modal-content">
+											    	<div class="modal-header">
+											        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+											          	<h4 class="modal-title">Request More Info</h4>
+											        </div>
+											        <div class="modal-body">
+											        	<form action="/TRMS_TRES/Pending/infoo" method="POST">
+											  				<div class="form-group">
+											  					<label for="exampleInputFile">File input</label>
+											  					<input type="file" id="exampleInputFile">
+											  				</div>
+											  				<div class="form-group">
+											  					<label for="infoComment">What you want:</label>
+											  					<textarea class="form-control" rows="3" id="infoComment"></textarea>
+											  				</div>
+											        		<div class="modal-footer">
+											  					<button type="submit" class="btn btn-info">Submit</button>
+													          	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											        		</div>
+														</form>
+											        </div>
+												</div>
+											</div>
+										</div>
+								
+						</div>		
+					</div>
+				
+		</div>
+	</body>
+</html>

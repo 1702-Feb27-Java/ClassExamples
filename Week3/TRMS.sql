@@ -69,6 +69,13 @@ CREATE TABLE Appr
     PRIMARY KEY (ApprId)
 );
 /
+CREATE TABLE Status
+(
+  sid NUMBER,
+  stat VARCHAR(100),
+  PRIMARY KEY (sid)
+);
+/
 /*******************************************************************************
   Create Tables
 *******************************************************************************/
@@ -161,6 +168,11 @@ CREATE SEQUENCE msg_seq
   START WITH 1
   INCREMENT BY 1;
 /
+CREATE SEQUENCE attch_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1;
+/
 /*=========================================================================
  Create Triggers
 =========================================================================*/
@@ -188,6 +200,15 @@ CREATE OR REPLACE TRIGGER msg_trig
   BEGIN
     SELECT msg_seq.NEXTVAL
     INTO :new.MsgId
+    FROM dual;
+  END;
+/
+CREATE OR REPLACE TRIGGER attch_trig
+  BEFORE INSERT ON Attachments
+  FOR EACH ROW
+  BEGIN
+    SELECT attch_seq.NEXTVAL
+    INTO :new.attchid
     FROM dual;
   END;
 /
@@ -220,6 +241,12 @@ INSERT INTO COURSE (CourseId, CourseType, Percentage) VALUES (6, 'Other', '.3') 
 INSERT INTO APPR (apprId, CurrLvl) VALUES ('1', 'Direct Supervisor');
 INSERT INTO APPR (apprId, CurrLvl) VALUES ('2', 'Department Head');
 INSERT INTO APPR (apprId, CurrLvl) VALUES ('3', 'Benefits Coordinator');
+INSERT INTO APPR (apprId, CurrLvl) VALUES ('4', 'Owner');
+/
+--POPULATE STATUS LOOKUP TABLE
+INSERT INTO STATUS (sid, stat) VALUES ('1', 'Pending');
+INSERT INTO STATUS (sid, stat) VALUES ('2', 'Declined');
+INSERT INTO STATUS (sid, stat) VALUES ('3', 'Approved');
 /
 /*******************************************************************************
  Create Some Users
@@ -228,6 +255,11 @@ INSERT INTO EMPLOYEE
         (FNAME, USERNAME, PASSWORD, EMAIL, DEPTID, ROLEID, BALANCE) 
     VALUES
         ('Marco', 'mt', '123', 'test@test.com', 2, 3, 1000);
+/
+INSERT INTO EMPLOYEE 
+        (FNAME, USERNAME, PASSWORD, EMAIL, DEPTID, ROLEID, BALANCE) 
+    VALUES
+        ('J', 'jt', '123', 'test2@test.com', 2, 2, 1000);
 /
 INSERT INTO EMPLOYEE 
         (FNAME, USERNAME, PASSWORD, EMAIL, DEPTID, ROLEID, BALANCE) 
@@ -251,4 +283,25 @@ FROM Employee E
   INNER JOIN Rolet R
   ON
     E.roleid = R.roleid;
+    /
 --==============================================================================
+ALTER TABLE REIMBURSEMENT 
+  ADD curr_on NUMBER constraint reim_curr_on_fk references Employee(empid);
+/
+ALTER TABLE REIMBURSEMENT 
+  DROP CONSTRAINT reim_curr_on_fk;
+  /
+ALTER TABLE REIMBURSEMENT 
+  ADD sid NUMBER constraint sid_on_fk references Status(sid);
+/
+DROP TABLE STATUS;
+/
+SELECT R.*, A.FILLOC FROM REIMBURSEMENT R
+  LEFT JOIN ATTACHMENTS A
+  ON A.REIMID = R.REIMID;
+/
+Select R.*, A.FILLOC, S.STAT from REIMBURSEMENT R
+              LEFT JOIN ATTACHMENTS A  ON A.REIMID = R.REIMID
+              INNER JOIN STATUS S ON S.SID = R.SID
+              WHERE R.CURR_ON = 1;
+  
