@@ -18,7 +18,10 @@
 	<hr>
 	<div id="somediv">
 	<% ArrayList<Reimburstment> arr = (ArrayList<Reimburstment>)request.getSession().getAttribute("reimbursements"); %>
-	<% System.out.println(arr.get(0).toString()); %>
+	<% for(Reimburstment r: arr){
+		System.out.println(r.toString());
+	}
+		%>
      	<c:forEach  var="reimbursements" items="${request.Session.reimbursements}">
      	<c:out value="${reimbursements}" />
      	</c:forEach>
