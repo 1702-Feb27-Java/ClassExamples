@@ -64,7 +64,7 @@ public class RequestDirect extends HttpServlet {
 			
 		} catch (Exception e) {
 			// TODO: handle exception
-		 System.out.println("WHAT THE FUCK IS GOING ON"+e.getMessage());
+	
 		}
 	
 	}
