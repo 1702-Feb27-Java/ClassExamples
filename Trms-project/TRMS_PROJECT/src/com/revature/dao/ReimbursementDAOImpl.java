@@ -199,9 +199,23 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		
 		return r;
 	}
-	
-	
 
-	
+	@Override
+	public int updateApproval_id(int AppNum, int emp_id) {
+		
+		int update_appNum = 0;
+		try( Connection connect = ConnectionUtil.getConnection();) {
+			String sql = "UPDATE REIMBURSTMENT SET APPROVAL_ID = '" + AppNum + "' WHERE EMP_ID = '" + emp_id + "'";
+			Statement stmt = connect.prepareStatement(sql);
+			
+			ResultSet rs = stmt.executeQuery(sql);
+			update_appNum = AppNum;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return update_appNum;
+	}
+
 
 }

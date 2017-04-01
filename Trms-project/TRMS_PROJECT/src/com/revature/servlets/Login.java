@@ -65,7 +65,7 @@ public class Login extends HttpServlet {
 			if( DAO.Emp_Role_Check(n) == 1 ) {
 				//System.out.println("Goes to employee jsp");
 
-				RequestDispatcher rd=request.getRequestDispatcher("Employee.jsp");  
+				RequestDispatcher rd=request.getRequestDispatcher("/Employee.jsp");  
 				rd.forward(request,response); 
 			}
 			
@@ -76,7 +76,7 @@ public class Login extends HttpServlet {
 				ArrayList<Reimbursement> ff = reim.getAllInfromTable();
 				sessh.setAttribute("forminfo", ff);
 				
-				RequestDispatcher rd=request.getRequestDispatcher("DirectSupervisor.jsp"); 
+				RequestDispatcher rd=request.getRequestDispatcher("/DirectSupervisor.jsp"); 
 				rd.forward(request,response); 
 			}
 			

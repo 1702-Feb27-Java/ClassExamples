@@ -62,11 +62,10 @@
     	</table>
     </div>
 	
-	<div>
-		<a href = "Employee.jsp"> <input type = "button" value="Sign for reimbursement" name = "Sign up form"></a>
+	<div align="Center">
+		<a href = "Employee.jsp"> <input type = "button" value="Sign for Reimbursement" name = "Sign up form"></a>
+		<a href = "update.jsp" > <input type = "button" value = "Update Form" align = "left"></a>
 	</div>
-	
-	
 	
 
 </body>

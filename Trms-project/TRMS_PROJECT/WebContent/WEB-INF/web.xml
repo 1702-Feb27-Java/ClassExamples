@@ -29,4 +29,14 @@
     <servlet-name>FormToReimTable</servlet-name>
     <url-pattern>/FormToReimTable</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateForm</display-name>
+    <servlet-name>UpdateForm</servlet-name>
+    <servlet-class>com.revature.servlets.UpdateForm</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateForm</servlet-name>
+    <url-pattern>/UpdateForm</url-pattern>
+  </servlet-mapping>
 </web-app>

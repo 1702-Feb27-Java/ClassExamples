@@ -8,9 +8,8 @@
 <title>Employee Page</title>
 </head>
 <body>
-	<h1>Welcome Employee, Please fill out the form below for your reimburment</h1>
 	<% Employee e = (Employee) session.getAttribute("user"); %>
-	<h2><%= e.getFname() %></h2>
+	<h3>Welcome <%= e.getFname() %>, Please fill out the form below for your reimburment</h3>
 	
 	<!-- The form below will be taken to another servlet that deals with putting in the information into the reimbursement pojo and table-->
 	<form action = "FormToReimTable" Method="POST">

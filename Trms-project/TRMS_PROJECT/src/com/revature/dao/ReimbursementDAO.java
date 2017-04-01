@@ -13,12 +13,14 @@ course_len in NUMBER, course_cost in NUMBER, app_id in number, course_id in numb
 	public boolean InsertIntoReimTable(String username, String location, String form_add, String start_course, String end_course, int course_length,
 			int course_cost, int app_id, int id_course, int id_grade, String grade);
 	
-	//public List<String> GetLocations();
+	
 	public ArrayList<String> GetgradeTypes();
 	public ArrayList<String> GetCourseTypes();
 	public int getCourseID(String course);
 	public int getGradeID(String grade);
 	public ArrayList<Reimbursement> getAllInfromTable();
+	public int updateApproval_id(int AppNum, int emp_id);
+	
 	
 	
 	
