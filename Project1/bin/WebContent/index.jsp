@@ -11,7 +11,7 @@
 	p {font-size:35px;}
 </style>
 </head>
-<body background="background.jpg">
+<body>
 	<div>
 	<% if (session.isNew()){ %>
 		<h1 align="center"><font size=35>Welcome to ... TRMS!</font></h1>
@@ -27,7 +27,7 @@
 		<input type="password" name="password"></p>
 		<a href="NewUser.jsp">Create New Account</a><br><br>
 		<a href="NewUser.jsp">Forgot Username / Password</a><br><br>
-		<input type="submit" value="Log In">
+		<input type="submit" value="Submit Name">
 	</form></div>	
 </body>
 </html>

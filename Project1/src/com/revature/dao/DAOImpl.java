@@ -213,7 +213,7 @@ public class DAOImpl {
 		
 		try (Connection connect = FactoryConnection.getConnection();){
 			connect.setAutoCommit(false);
-			String sql = "SELECT DISTINCT s.STATUS, e.EVENTID, e.STARTDATE, e.STARTTIME, e.STOPDATE, e.LOCATION, e.DESCRIPTION, e.COST, e.JUSTIFICATION, gf.GFORMAT, et.EVENTTYPE,p.PRIORITY, r.ROLE, U1.FIRSTNAME, U1.LASTNAME FROM EVENTS e INNER JOIN USEREVENTS ue ON e.EVENTID=ue.EVENTID INNER JOIN USERS u ON ue.USERID=u.USERID INNER JOIN GRADINGFORMATS gf ON e.GFORMATID=gf.GFORMATID INNER JOIN EVENTTYPES et ON e.EVENTTYPEID=et.EVENTTYPEID INNER JOIN EVENTTRACKING ek ON e.EVENTID=ek.EVENTID INNER JOIN TRACKING t ON ek.TRACKINGID=t.TRACKINGID INNER JOIN PRIORITYS p ON e.PRIORITYID=p.PRIORITYID INNER JOIN STATUS s ON t.STATUSID=s.STATUSID INNER JOIN ROLES r ON t.ROLEID=r.ROLEID INNER JOIN USERS U1 ON U1.USERID=T.SUPID WHERE U.USERID=? AND ISCLOSED=0 AND T.STATUSID=1 OR T.STATUSID=2 OR T.STATUSID=4 ORDER BY EVENTID";
+			String sql = "SELECT DISTINCT s.STATUS, e.EVENTID, e.STARTDATE, e.STARTTIME, e.STOPDATE, e.LOCATION, e.DESCRIPTION, e.COST, e.JUSTIFICATION, gf.GFORMAT, et.EVENTTYPE,p.PRIORITY, r.ROLE, U1.FIRSTNAME, U1.LASTNAME FROM EVENTS e INNER JOIN USEREVENTS ue ON e.EVENTID=ue.EVENTID INNER JOIN USERS u ON ue.USERID=u.USERID INNER JOIN GRADINGFORMATS gf ON e.GFORMATID=gf.GFORMATID INNER JOIN EVENTTYPES et ON e.EVENTTYPEID=et.EVENTTYPEID INNER JOIN EVENTTRACKING ek ON e.EVENTID=ek.EVENTID INNER JOIN TRACKING t ON ek.TRACKINGID=t.TRACKINGID INNER JOIN PRIORITYS p ON e.PRIORITYID=p.PRIORITYID INNER JOIN STATUS s ON t.STATUSID=s.STATUSID INNER JOIN ROLES r ON t.ROLEID=r.ROLEID INNER JOIN USERS U1 ON U1.USERID=T.SUPID WHERE U.USERID=? AND ISCLOSED=0 AND T.STATUSID=2 OR T.STATUSID=1 OR T.STATUSID=4 ORDER BY EVENTID";
 			PreparedStatement ps = connect.prepareStatement(sql);		//user specifics
 			ps.setInt(1, userid);
 			ResultSet rs = ps.executeQuery();
@@ -475,6 +475,7 @@ public static ArrayList<User> getTrackingDetails2(int eventId) {
 	public static void denyEvent(int eventId, String comments){
 
 		try (Connection connect = FactoryConnection.getConnection();){
+			connect.setAutoCommit(false);
 			String sql = "SELECT U.USERID, T.TRACKINGID FROM EVENTS E INNER JOIN EVENTTRACKING ET ON E.EVENTID=ET.EVENTID INNER JOIN TRACKING T ON ET.TRACKINGID=T.TRACKINGID INNER JOIN USEREVENTS UE ON E.EVENTID=UE.EVENTID INNER JOIN USERS U ON UE.USERID=U.USERID WHERE T.STATUSID=1 AND E.EVENTID=?";
 			PreparedStatement ps = connect.prepareStatement(sql);		//user specifics
 			ps.setInt(1, eventId);
@@ -503,12 +504,14 @@ public static ArrayList<User> getTrackingDetails2(int eventId) {
 	}
 	
 	public static void editEvents(Event e){
-		
+		System.out.println(e);
+
 		java.sql.Date start = new java.sql.Date(e.getStartDate().getTime());
 		java.sql.Date stop = new java.sql.Date(e.getStopDate().getTime());
 		
 		try (Connection connect = FactoryConnection.getConnection();){
-			String sql = "SELECT T.TRACKINGID, U.SUPID FROM EVENTS E INNER JOIN EVENTTRACKING ET ON E.EVENTID=ET.EVENTID INNER JOIN TRACKING T ON ET.TRACKINGID=T.TRACKINGID INNER JOIN USEREVENTS UE ON E.EVENTID=UE.EVENTID INNER JOIN USERS U ON UE.USERID=U.USERID WHERE T.STATUSID=1 AND E.EVENTID=?";
+			connect.setAutoCommit(false);
+			String sql = "SELECT T.TRACKINGID, U.SUPID FROM EVENTS E INNER JOIN EVENTTRACKING ET ON E.EVENTID=ET.EVENTID INNER JOIN TRACKING T ON ET.TRACKINGID=T.TRACKINGID INNER JOIN USEREVENTS UE ON E.EVENTID=UE.EVENTID INNER JOIN USERS U ON UE.USERID=U.USERID WHERE T.STATUSID=1 OR T.STATUSID=2 OR T.STATUSID=4 AND E.EVENTID=?";
 			PreparedStatement ps = connect.prepareStatement(sql);		//user specifics
 			ps.setInt(1, e.getEventId());
 			ResultSet rs = ps.executeQuery();
@@ -527,7 +530,11 @@ public static ArrayList<User> getTrackingDetails2(int eventId) {
 			ResultSet rs1 = ps1.executeQuery();
 			rs1.next();
 			int trackingId2 = rs1.getInt(1);
-						
+			
+			String type = EventService.getEventId(e.getEventType());
+			String pri = EventService.getPriorityId(e.getPriority());
+			String grade = EventService.getGradeId(e.getGradeFormat());
+			
 			String sql2 = "CALL EDIT_EVENT(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			CallableStatement cs = connect.prepareCall(sql2);		
 			cs.setInt(1, e.getEventId());
@@ -538,9 +545,9 @@ public static ArrayList<User> getTrackingDetails2(int eventId) {
 			cs.setString(6, e.getDescription());
 			cs.setDouble(7, e.getCost());
 			cs.setString(8, e.getJustify());
-			cs.setString(9, e.getGradeFormat());
-			cs.setString(10, e.getEventType());
-			cs.setString(11, e.getPriority());
+			cs.setString(9, grade);
+			cs.setString(10, type);
+			cs.setString(11, pri);
 			cs.setInt(12, trackingId);
 			cs.setInt(13, supId);
 			cs.setInt(14, trackingId2);

@@ -9,10 +9,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Event Details Approval</title>
 <style>
-	input {text-align:center; align:center; border:none; font-size:16px}
-	th {text-align:center; background-color:#ff6600; color:white;}
-	td {text-align:center;}
-	.button {text-align:center;background-color:#ff6600; 
+	input {text-align:center; align:center; border:none}
+	th {text-align:center;border:1pt solid gray; background-color:#912924; color:white;}
+	td {text-align:center;border:1pt solid gray}
+	.button {text-align:center;border:1pt solid gray; background-color:#912924; 
 			color:white; font-size: 16px}
 </style>
 </head>
@@ -55,9 +55,10 @@
 			</table>
 			<table width=100%>
 			<tr><th colspan="6">ROUTING DETAILS:</th></tr>
-					<tr><th>TRACKINGID:</th><th>DATE OF ACTION:</th><th>STATUS:</th><th>LOCATION:</th>
+					<tr><th>TRACKINGID:</th><th>TIMESTAMP:</th><th>STATUS:</th><th>LOCATION:</th>
 					<th>PERSON:</th><th>COMMENTS</th></tr>
 				<%for (int i = 0; i < detailsList.size();i++){ %>
+					<tr><td><%=detailsList.get(i).getTrackingId()%></td>
 						<td><%=detailsList.get(i).getEventDate()%></td>
 						<td><%=detailsList.get(i).getStatus()%></td>
 						<td><%=detailsList.get(i).getRoleId()%></td>

@@ -12,13 +12,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Create New User</title>
 <style>
-	body {background-repeat: no-repeat;background-size:cover; 
-		background-position:top center; background-attachment:fixed;}
-	label{display:inline-block; width:150px; text-align: right; font-size:22px;padding-right:5px}
+	
+	label{display:inline-block; width:150px; text-align: right;}
 	input, select{display:table-cell; width:200px}
 </style>
 </head>
-<body background="new_user_background.jpg">
+<body>
 	<%! static int count = 0;%>
 	<% 	if (count == 0){ %>
 		<h1 align="center">Create New TRMS User Account</h1>
@@ -33,7 +32,9 @@
 		<p><label>Last Name:</label><input type="text" name="lname" required></p>
 		<p><label>Username:</label><input type="text" name="uname" required></p>
 		<p><label>Password:</label><input type="password" maxlength=16 name="password" id="pwd1" required></p>
+		<p><label>Re-Enter Password:</label><input type="password" name="password1" id="pwd2"required></p>
 		<p><label>Email:</label><input type="text" name="email" id="email1" required></p>
+		<p><label>Re-Enter Email:</label><input type="text" name="reemail" id="email2" required></p>
 		<p><label>Role:</label>
 		<select name="role" required>
 			<option disabled selected value> -- select an option -- </option>

@@ -8,8 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Create New Event</title>
 <style>
-	label{display:inline-block; width:150px; text-align: right; 
-	vertical-align: top;padding-right: 5px; font-size:18px;font-weight:bold}
+	label{display:inline-block; width:150px; text-align: right; vertical-align: top;padding-right: 5px;}
 	input, select{display:inline-block; width:200px; padding-left: 5px;}
 	textarea{display:inline-block; width:500px; padding-left: 5px;}
 

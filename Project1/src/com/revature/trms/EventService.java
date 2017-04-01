@@ -40,14 +40,43 @@ public class EventService {
 		return "0";
 	}
 	
-	public static void editEvent(ArrayList<Event> eventList, int eventId){
-		
-		Event e = new Event(eventList.get(eventId).getEventId(),eventList.get(eventId).getStartDate(),
-				eventList.get(eventId).getStartTime(),eventList.get(eventId).getStopDate(),
-				eventList.get(eventId).getLocation(),eventList.get(eventId).getDescription(),
-				eventList.get(eventId).getCost(),eventList.get(eventId).getJustify(),
-				eventList.get(eventId).getGradeFormat(),eventList.get(eventId).getEventType(),
-				eventList.get(eventId).getPriority());
-		DAOImpl.editEvents(e);
+	public static String getEventId(String type){
+		switch(type){
+		case "University Course":
+			return "1";
+		case "Seminar":
+			return "2";
+		case "Certification Prep Course":
+			return "3";
+		case "Certification":
+			return "4";
+		case "Technical Training":
+			return "5";
+		}
+		return "6";
 	}
+	
+	public static String getGradeId(String grade){
+		switch(grade){
+		case "Pass/Fail":
+			return "1";
+		case "Graded":
+			return "2";
+		case "Presentation":
+			return "3";
+		}
+		return "4";
+	}
+	
+	public static String getPriorityId(String pri){
+		switch(pri){
+		case "Routine":
+			return "1";
+		case "Urgent":
+			return "2";
+		}
+		return "0";
+	}
+	
+	
 }	

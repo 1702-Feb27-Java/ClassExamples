@@ -1,7 +1,9 @@
 package com.revature.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,18 +30,44 @@ public class DeleteEvent extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String item = request.getParameter("event");
+		
 		HttpSession session = request.getSession();
 		int userId = (int)session.getAttribute("userid");
-		ArrayList<Event> eventList = (ArrayList<Event>)session.getAttribute("eventList");
+		
+		String item = request.getParameter("event");
+		
 		int eventId = Integer.parseInt(request.getParameter("eventNum"));
-		int eventNewId = (int)session.getAttribute("eventNewId");
+		
+		String type = request.getParameter("EventType");
+		String pri = request.getParameter("Priority");
+		String loca = request.getParameter("Location");
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date start = null;
+		try {
+			start = sdf.parse(request.getParameter("Start"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		double cost = Double.parseDouble(request.getParameter("Cost"));
-
+		
+		Date stop = null;
+		try {
+			stop = sdf.parse(request.getParameter("Stop"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		String time = request.getParameter("STime");
+		String grade = request.getParameter("Grade");
+		String descr = request.getParameter("descr");
+		String justify = request.getParameter("justify");
+		
+		Event ev = new Event(eventId,start, time, stop, loca, descr, cost, justify, grade, type, pri);
+		
 		if (item.equals("delete")){
 			EventService.deleteEvent(userId, eventId, cost);
 		}else {
-			EventService.editEvent(eventList, eventNewId);
+			DAOImpl.editEvents(ev);
 		}
 		request.getRequestDispatcher("/Home.jsp").include(request, response);
 	}

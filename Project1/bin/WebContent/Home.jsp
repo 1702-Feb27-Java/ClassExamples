@@ -8,8 +8,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <style>
-	body {background-repeat: no-repeat;background-size:cover; 
-		background-position:top center; background-attachment:fixed;}
 	table {width:100%;}
 	.left {text-align: left; font-size: 15px; padding: 10px;}
 	.center {text-align: center; font-size: 15px; padding: 10px;}
@@ -27,8 +25,12 @@
 	<h1>Welcome <%=" " + u.getFirstName() + " " + u.getLastName()%></h1>
 	<hr><h2>Amount Available: $	 
 	<%=u.getAmount()%><br></h2>
-	
+
+	<form action="EventForm.jsp">
+	<input type="submit" value="Add Event">
+	</form><hr>
 	<h2>REQUESTS:</h2><hr>
+			
 	<% 
 		ArrayList<Event> eventList = DAOImpl.getEventStats(userid);
 		ArrayList<Tracking> tList = DAOImpl.getTrackingStats(userid);
@@ -65,12 +67,9 @@
 		</select>
 		<input type="submit" value="Details"><hr>
 	</form>
-	
-	<div align="center"><form action="EventForm.jsp">
-		<input type="submit" value="Add New Event">
-	</form></div><hr>
-	
+
 	<form action="ApprovalDetails.jsp" method="POST">
+	
 	<%
 	ArrayList<Event> prList = DAOImpl.getPendingRequests(userid);
 	ArrayList<User> prList2 = DAOImpl.getPendingRequests2(userid);
