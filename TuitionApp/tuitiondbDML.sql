@@ -52,17 +52,6 @@ INSERT INTO ApprovalStatus VALUES (3, 'denied');
 
 --SELECT * FROM ApprovalStatus;
 
-INSERT INTO AttachmentType VALUES (1, 'event-related');
-INSERT INTO AttachmentType VALUES (2, 'approval');
-INSERT INTO AttachmentType VALUES (3, 'work-time missed');
-
---SELECT * FROM AttachmentType;
-
-INSERT INTO GradeAttachmentType VALUES (1, 'grade');
-INSERT INTO GradeAttachmentType VALUES (2, 'presentation');
-
---SELECT * FROM GradeAttachmentType;
-
 INSERT INTO ResolutionStatus VALUES (1, 'active');
 INSERT INTO ResolutionStatus VALUES (2, 'inactive');
 
@@ -107,12 +96,10 @@ DROP SEQUENCE grade_attach_seq;
 DROP TRIGGER grade_attach_seq_trigger;
 DROP SEQUENCE reimbursement_seq;
 DROP TRIGGER reimbursement_seq_trigger;
-DROP SEQUENCE addInfo_seq;
-DROP TRIGGER addInfo_seq_trigger;
+DROP SEQUENCE info_request_seq;
+DROP TRIGGER info_request_seq_trigger;
 DROP SEQUENCE approval_seq;
 DROP TRIGGER approval_seq_trigger;
-DROP SEQUENCE infoRe_seq;
-DROP TRIGGER infoRe_seq_trigger;
 DROP SEQUENCE notif_seq;
 DROP TRIGGER notif_seq_trigger;
 
@@ -207,29 +194,16 @@ CREATE OR REPLACE TRIGGER reimbursement_seq_trigger
   END;
 /
 
-CREATE SEQUENCE addInfo_seq
+CREATE SEQUENCE info_request_seq
   START WITH 1
   INCREMENT BY 1;
 / 
 
-CREATE OR REPLACE TRIGGER addInfo_seq_trigger
-  BEFORE INSERT ON AdditionalInfo
+CREATE OR REPLACE TRIGGER info_request_seq_trigger
+  BEFORE INSERT ON InfoRequest
     FOR EACH ROW
   BEGIN
-    SELECT addInfo_seq.NEXTVAL INTO :new.additional_info_id FROM dual;
-  END;
-/
-
-CREATE SEQUENCE infoRe_seq  --inforeturned seq
-  START WITH 1
-  INCREMENT BY 1;
-/ 
-
-CREATE OR REPLACE TRIGGER infoRe_seq_trigger
-  BEFORE INSERT ON InfoReturned
-    FOR EACH ROW
-  BEGIN
-    SELECT infoRe_seq.NEXTVAL INTO :new.info_id FROM dual;
+    SELECT info_request_seq.NEXTVAL INTO :new.info_request_id FROM dual;
   END;
 /
 
@@ -273,12 +247,13 @@ END;
 /
 
 -- procedure to add an application
-CREATE OR REPLACE PROCEDURE addApp(userID IN NUMBER, priorityLevel IN NUMBER, event IN NUMBER, 
-loc IN VARCHAR2, totalCost IN DECIMAL, justification IN VARCHAR2)
-IS
+CREATE OR REPLACE PROCEDURE addApp(userID IN NUMBER, priorityLevel IN NUMBER, dateCreated IN VARCHAR2, 
+status IN NUMBER, event IN NUMBER, loc IN VARCHAR2, totalCost IN DECIMAL, justification IN VARCHAR2)
+IS cDate DATE;
 BEGIN
-  INSERT INTO Applications (user_id, priority_id, event_id, loc, total_cost, justification) 
-  VALUES (userID, priorityLevel, event, loc, totalCost, justification);
+  SELECT TO_DATE(dateCreated, 'mm-dd-yyyy') INTO cDate FROM dual;
+  INSERT INTO Applications (user_id, priority_id, date_created, status_id, event_id, loc, total_cost, justification) 
+  VALUES (userID, priorityLevel, cDate, status, event, loc, totalCost, justification);
 END;
 /
 
@@ -313,16 +288,17 @@ END;
 /
 
 --creating the 1:n tables
-CREATE OR REPLACE PROCEDURE addAttachments(appID IN NUMBER, attachType IN NUMBER, attachURL IN VARCHAR2)
+CREATE OR REPLACE PROCEDURE addAttachments(appID IN NUMBER, attachURL IN VARCHAR2)
 IS
 BEGIN
-  INSERT INTO Attachments (app_id, attachment_type_id, attachment_url) VALUES (appID, attachType, attachURL);
+  INSERT INTO Attachments (app_id, attachment_url) VALUES (appID, attachURL);
 END;
 /
-CREATE OR REPLACE PROCEDURE addGradeAttachments(appID IN NUMBER, gradeAttachType IN NUMBER, GradeAttachURL IN VARCHAR2)
+
+CREATE OR REPLACE PROCEDURE addGradeAttachments(appID IN NUMBER, GradeAttachURL IN VARCHAR2)
 IS
 BEGIN
-  INSERT INTO GradeAttachments (app_id, grade_attach_type_id, grade_attach_url) VALUES (appID, gradeAttachType, GradeAttachURL);
+  INSERT INTO GradeAttachments (app_id, grade_attach_url) VALUES (appID, GradeAttachURL);
 END;
 /
 
@@ -346,22 +322,14 @@ END;
 /
 
 
-CREATE OR REPLACE PROCEDURE addAdditionalInfo(appID IN NUMBER, resolution IN NUMBER, requester IN NUMBER, 
+CREATE OR REPLACE PROCEDURE addInfoRequest(appID IN NUMBER, resolution IN NUMBER, requester IN NUMBER, 
 message IN VARCHAR2)
 IS
 BEGIN
-  INSERT INTO AdditionalInfo (app_id, resolution_id, requester_id, request_message) VALUES 
+  INSERT INTO InfoRequest (app_id, resolution_id, requester_id, request_message) VALUES 
   (appID, resolution, requester, message);
 END;
 / 
-
-CREATE OR REPLACE PROCEDURE addInfoReturned(additionalInfo IN NUMBER, message IN VARCHAR2)
-IS
-BEGIN
-  INSERT INTO InfoReturned (additional_info_id, returned_message) VALUES
-  (additionalInfo, message);
-END;
-/
 
 CREATE OR REPLACE PROCEDURE addNotifications(userID IN NUMBER, resolution in NUMBER, requester IN NUMBER,
 notifMessage IN VARCHAR2)
@@ -400,4 +368,29 @@ BEGIN
   INSERT INTO Approvals (app_id, approval_level, approval_status) VALUES (appID, newApprLvl, 1);
 END;
 /
+
+CREATE OR REPLACE PROCEDURE approveAsBenco(appID IN NUMBER, apprLvl IN NUMBER, currUser IN NUMBER, approvalMes IN VARCHAR2)
+IS 
+BEGIN
+  -- update from pending to approved, add approver_id, and approval message
+  UPDATE Approvals SET approval_status = 2, approver_id = currUser, approval_message = approvalMes
+  WHERE app_id = appID AND approval_level = apprLvl AND approval_status = 1;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE awardAsBenco(appID IN NUMBER)
+IS
+BEGIN
+  UPDATE Reimbursements SET awarded_reimbursement = projected_reimbursement WHERE reimbursement_id = appID;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE denyAsManager(appID IN NUMBER, apprLvl IN NUMBER, currUser IN NUMBER, denyMes IN VARCHAR2)
+IS
+BEGIN
+  UPDATE Approvals SET approval_status = 3, approver_id = currUser, approval_message = denyMes
+  WHERE app_id = appID AND approval_level = apprLvl AND approval_status = 1;
+END;
+/
+
 COMMIT;

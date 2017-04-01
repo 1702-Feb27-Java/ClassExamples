@@ -111,6 +111,7 @@
 <% AppDAOImp appDAO = new AppDAOImp(); 
 	int flag = 0;
 	ArrayList<AppClass> pending = new ArrayList<AppClass>();
+	ArrayList<AppClass> bPending = new ArrayList<AppClass>();
 	int apprLvl = 0;
 	boolean check = userDAO.checkForSuper(thisUser.getDeptID());
 	System.out.println(check);
@@ -120,25 +121,61 @@
 		if (thisUser.getRoleID() == 2){ // if supervisor
 			apprLvl = 1;
 			pending = appDAO.getPendingAppsByManager(apprLvl, 1, thisUser);
+			bPending = pending;
 		}
 		else if (thisUser.getRoleID() == 3){ // if department head
 			if (check == false){ // no supers, we go down one approval level
 				apprLvl = 1;  // look for apps on supervisor approval level
 				pending = appDAO.getPendingAppsByManager(apprLvl, 1, thisUser);
+				bPending = pending;
 				flag = 1;
 			}
 			else { // otherwise
 				apprLvl = 2;
 				pending = appDAO.getPendingAppsByManager(apprLvl, 1, thisUser);
+				bPending = pending;
 			}
 		}
-	}
-	else { // if BenCo
+	} else { // if BenCo
+		if (thisUser.getRoleID() == 2){ // if benco supervisor
+			apprLvl = 3;
+			bPending = appDAO.getPendingAppsByBenco(thisUser);
+			pending = appDAO.getPendingAppsByManager(apprLvl-2, 1, thisUser);
+			int i = 0;
+			for (AppClass ac : pending){
+				bPending.add(pending.get(i));
+				i++;
+			}
+		}
+		else if (thisUser.getRoleID() == 3){ // if benco department head
+			if (check == false){ // no supers, we go down one approval level
+				apprLvl = 3;
+				bPending = appDAO.getPendingAppsByBenco(thisUser);
+				pending = appDAO.getPendingAppsByManager(apprLvl-2, 1, thisUser);
+				int i = 0;
+				for (AppClass ac : pending){
+					bPending.add(pending.get(i));
+					i++;
+				}
+				flag = 1;
+			}
+			else { // otherwise
+				apprLvl = 3;
+				bPending = appDAO.getPendingAppsByBenco(thisUser);
+				pending = appDAO.getPendingAppsByManager(apprLvl-1, 1, thisUser);
+				int i = 0;
+				for (AppClass ac : pending){
+					bPending.add(pending.get(i));
+					i++;
+				}
+			}
+		}
+	
 		apprLvl = 3;
-		pending = appDAO.getPendingAppsByBenco(thisUser);
+		bPending = appDAO.getPendingAppsByBenco(thisUser);
 	}
 	
-	request.setAttribute("pending", pending);
+	request.setAttribute("pending", bPending);
 	session.setAttribute("flag", flag); %>
 
 <br>
@@ -148,17 +185,26 @@
 	<c:forEach var="pend" items="${requestScope['pending']}">
 	
 		<tr>
-		<th>First Name</th>
+		<th>User ID</th>
 		<th>App ID</th>
 		<th>Priority</th>
+		<th>Date Created</th>
+		<th>Status</th>
 		<th>Event Type</th>
 		<th>Cost</th>
 		<th>Justification</th>
+		<th>Attachments</th>
+		<th>Reimbursement</th>
 		<th colspan="2">Actions</th>
 		</tr>
 		<tr>
 			<td><c:out value="${pend.userID}" /></td>
 			<td><c:out value="${pend.appID}" /></td>
+			<td><c:out value="${pend.dateCreated}" /></td> 
+			<c:choose>
+				<c:when test="${pend.statusID == '1'}"><td>active</td></c:when>
+				<c:otherwise><td>inactive</td></c:otherwise>
+			</c:choose>
 			<c:choose>
 				<c:when test="${pend.priority == '1'}"><td>normal</td></c:when>
 				<c:otherwise><td>urgent</td></c:otherwise>
@@ -172,20 +218,36 @@
 				<c:otherwise><td>Other</td></c:otherwise>
 			</c:choose>
 			<td><c:out value="${pend.totalCost}" /></td>
+			
 			<td><c:out value="${pend.justification}" /></td>
+			
+			<td><form action="Attachments" method="POST"><input name="appID" type="hidden" value="${pend.appID}"></input>
+			<button type="submit" class="btn btn-link">View</button></form></td>
+			
+			<td><form action="ReimbAsManager" method="POST"><input name="appID" type="hidden" value="${pend.appID}"></input>
+			<button type="submit" class="btn btn-link">Check</button></form></td>
+			
 			<td><form action="ToApprove" method="POST">
 			Message (limit to 250 chars):
-			<textarea class="form-control" rows="3" name="approvalMes"></textarea>
+			<textarea class="form-control" rows="3" name="message"></textarea>
 			<br>
 			<input name="appID" type="hidden" value="${pend.appID}"></input>
-			<button type="submit" class="btn btn-default">Click to Approve</button></form></td>
+			<button type="submit" class="btn btn-default">Approve</button></form>
+			
+			<form action="Deny" method="POST">
+			Message (limit to 250 chars):
+			<textarea class="form-control" rows="3" name="message"></textarea>
+			<br>
+			<input name="appID" type="hidden" value="${pend.appID}"></input>
+			<button type="submit" class="btn btn-default">Deny</button></form>
+			</td>
 			
 			<td><form action="AddInfo" method="POST">
 			Message (limit to 250 chars):</label>
 			<textarea class="form-control" rows="3" name="info"></textarea>
 			<br>
 			<input name="appID" type="hidden" value="${pend.appID}"></input>
-			<button type="submit" class="btn btn-default">Click to Request</button></form></td>
+			<button type="submit" class="btn btn-default">Request Info</button></form></td>
 		</tr>
 	</c:forEach>
 </table>

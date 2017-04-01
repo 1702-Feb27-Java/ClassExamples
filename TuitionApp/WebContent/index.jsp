@@ -49,7 +49,7 @@
 	
 	<hr>
 	<p>
-		Are you a new employee? <a href="signup.html">Sign up here.</a>
+		Are you a new employee? <a href="signup.jsp">Sign up here.</a>
 	</p>
 
 

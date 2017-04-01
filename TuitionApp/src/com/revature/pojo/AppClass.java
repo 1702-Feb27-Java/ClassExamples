@@ -2,18 +2,20 @@ package com.revature.pojo;
 
 public class AppClass {
 
-	private int appID, userID, priority, eventID, cdtID, gradingID, reimburseID;
-	private String loc, justification;
+	private int appID, userID, statusID, priority, eventID, cdtID, gradingID, reimburseID;
+	private String dateCreated, loc, justification;
 	private double totalCost;
 
-	public AppClass(int appID, int userID, int priority, int eventID, int cdtID, String loc, double totalCost,
-			int gradingID, String justification, int reimburseID) {
+	public AppClass(int appID, int userID, int statusID, int priority, int eventID, int cdtID, String dateCreated,
+			String loc, double totalCost, int gradingID, String justification, int reimburseID) {
 		super();
 		this.appID = appID;
 		this.userID = userID;
+		this.setStatusID(statusID);
 		this.priority = priority;
 		this.eventID = eventID;
 		this.cdtID = cdtID;
+		this.setDateCreated(dateCreated);
 		this.loc = loc;
 		this.totalCost = totalCost;
 		this.gradingID = gradingID;
@@ -105,11 +107,28 @@ public class AppClass {
 		this.totalCost = totalCost;
 	}
 
+	public String getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(String dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public int getStatusID() {
+		return statusID;
+	}
+
+	public void setStatusID(int statusID) {
+		this.statusID = statusID;
+	}
+
 	@Override
 	public String toString() {
-		return "AppClass [appID=" + appID + ", userID=" + userID + ", priority=" + priority + ", eventID=" + eventID
-				+ ", cdtID=" + cdtID + ", gradingID=" + gradingID + ", reimburseID=" + reimburseID + ", loc=" + loc
-				+ ", justification=" + justification + ", totalCost=" + totalCost + "]";
+		return "AppClass [appID=" + appID + ", userID=" + userID + ", statusID=" + statusID + ", priority=" + priority
+				+ ", eventID=" + eventID + ", cdtID=" + cdtID + ", gradingID=" + gradingID + ", reimburseID="
+				+ reimburseID + ", dateCreated=" + dateCreated + ", loc=" + loc + ", justification=" + justification
+				+ ", totalCost=" + totalCost + "]";
 	}
 
 }

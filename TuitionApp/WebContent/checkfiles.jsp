@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
 <%@ page import="com.revature.pojo.*" %>
 <%@ page import="com.revature.dao.*" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Your Account - Reimbursement</title>
+<title>Your Account - Approvals</title>
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
@@ -60,7 +61,10 @@
 <%! UserClass thisUser = new UserClass(); %>
 <% thisUser = (UserClass)session.getAttribute("userInfo"); %>
 
-<%! AppDAOImp appDAO = new AppDAOImp(); %>
+<%! AppClass app = new AppClass(); 
+	AttachDAOImp attachDAO = new AttachDAOImp();
+	ArrayList<AttachmentClass> attachments = new ArrayList<AttachmentClass>();
+	ArrayList<GradeAttachClass> grAttachments = new ArrayList<GradeAttachClass>(); %>
 
 <div class="page-header">
 	<h1>Tuition Reimbursement Management System</h1>
@@ -117,36 +121,64 @@
 </ul>
 
 <%	int appID = Integer.parseInt(request.getParameter("appID"));
-	ReimbursementClass rc = new ReimbursementClass();
-	rc = appDAO.getReimbByAppID(appID);
-	request.setAttribute("re", rc); %>
-
+	attachments = attachDAO.getAttachments(appID);
+	grAttachments = attachDAO.getGradeAttachments(appID);
+	request.setAttribute("attachments", attachments); 
+	request.setAttribute("grAttach", grAttachments);
+	%>
+	
 <br>
 <form action="BackToAppStatus" method="POST">
 	<button type="submit" class="btn btn-default">Back</button>
 	</form>
 
-
-	<br>
+<br>
+<h2>Attachments</h2>
 <table class="table">
 	<tr>
-		<th>Reimbursement ID</th>
-		<th>Projected Reimb.</th>
-		<th>Awarded Reimb.</th>
-		<th>Reason for Change</th>
+		<th>Attach ID</th>
+		<th>File Name</th>
+		<th>Download</th>
+
 	</tr>
+	
+	<% int i = 0; %>
+	
+	<c:forEach var="attach" items="${requestScope['attachments']}">
+		
 		<tr>
-			<td><c:out value="${re.reimburseID}" /></td>
-			<td><c:out value="${re.projected}" /></td>
-			<td><c:out value="${re.awarded}" /></td>
-			<td><c:out value="${re.changeReason}" /></td>
+			<td><c:out value="${attach.attachID}" /></td>
+			<td><c:out value="${attach.attachURL}" /></td>
+			
+			<% String url = attachDAO.generateFileURL(attachments.get(i).getAttachURL()); %>
+			<td><a href="<%=url %>">Link</a></td>
+			<% i++; %>
 		</tr>
+	</c:forEach>
 </table>
 
-<script>
-	
+<h2>Grade Attachments</h2>
+<table class="table">
+	<tr>
+		<th>Attach ID</th>
+		<th>File Name</th>
+		<th>Download</th>
 
-</script>
+	</tr>
+	
+	<% int j = 0; %>
+	
+	<c:forEach var="gr" items="${requestScope['grAttach']}">
+		
+		<tr>
+			<td><c:out value="${gr.gradeAttachID}" /></td>
+			<td><c:out value="${gr.gradeAttachURL}" /></td>
+			
+			<% String gradeUrl = attachDAO.generateFileURL(grAttachments.get(j).getGradeAttachURL()); %>
+			<td><a href="<%=gradeUrl %>">Link</a></td>
+			<% j++; %>
+		</tr>
+	</c:forEach>
 
 </body>
 </html>

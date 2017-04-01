@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+    
 <%@ page import="com.revature.pojo.*" %>
 <%@ page import="com.revature.dao.*" %>
 <%@ page import="java.util.ArrayList" %>
@@ -10,7 +11,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Your Account - Reimbursement</title>
+<title>Your Account - File Upload</title>
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
@@ -54,13 +55,17 @@
 <link rel="stylesheet" type="text/css"
 	href="http://fonts.googleapis.com/css?family=Source Code Pro">
 <link rel="stylesheet" href="CSS/styles1.css">
+
 </head>
 <body>
 
 <%! UserClass thisUser = new UserClass(); %>
 <% thisUser = (UserClass)session.getAttribute("userInfo"); %>
 
-<%! AppDAOImp appDAO = new AppDAOImp(); %>
+<%! AppClass app = new AppClass(); 
+	AppDAOImp appDAO = new AppDAOImp(); 
+	ArrayList<Integer> numberApps = new ArrayList<Integer>();
+	ArrayList<AppClass> appsByUser = new ArrayList<AppClass>();%>
 
 <div class="page-header">
 	<h1>Tuition Reimbursement Management System</h1>
@@ -116,37 +121,71 @@
 	</form></li>
 </ul>
 
-<%	int appID = Integer.parseInt(request.getParameter("appID"));
-	ReimbursementClass rc = new ReimbursementClass();
-	rc = appDAO.getReimbByAppID(appID);
-	request.setAttribute("re", rc); %>
-
 <br>
 <form action="BackToAppStatus" method="POST">
 	<button type="submit" class="btn btn-default">Back</button>
 	</form>
 
+<br>
 
-	<br>
-<table class="table">
-	<tr>
-		<th>Reimbursement ID</th>
-		<th>Projected Reimb.</th>
-		<th>Awarded Reimb.</th>
-		<th>Reason for Change</th>
-	</tr>
-		<tr>
-			<td><c:out value="${re.reimburseID}" /></td>
-			<td><c:out value="${re.projected}" /></td>
-			<td><c:out value="${re.awarded}" /></td>
-			<td><c:out value="${re.changeReason}" /></td>
-		</tr>
-</table>
+	<% int appID = Integer.parseInt(request.getParameter("appID"));
+		session.setAttribute("appID", appID);
+	%>
 
-<script>
-	
+<br>
+		<p>Upload attachments. These could be files for justification, flyers for event type, grade attachments, presentation write-up, etc.</p>
 
-</script>
+		<div class="row">
+			<div class="col-xs-3" data-provides="fileinput">
+			<form action="FileUpload" method="POST" enctype="multipart/form-data">
+			
+				<label for="exampleInputFile">File input</label>
+				    <p id="toHide">Filename:<br><input id="toHide" type="text" name="filename"></p><br>
+						<div class="input-group">
+					<label class="input-group-btn"> 
+					
+				    <span class="btn btn-primary"> Browse&hellip; 
+						<input type="file" style="display: none;" name="files" multiple>
+					</span>
+					</label> <input type="text" class="form-control" readonly>
+				</div>
+				<button type="submit" class="btn btn-default">Upload</button>
+				</form>
+			</div>
+		</div>
+		
+		
+		<script>
+		$(function() {
 
-</body>
+			  // We can attach the `fileselect` event to all file inputs on the page
+			  $(document).on('change', ':file', function() {
+			    var input = $(this),
+			        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+			        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+			    input.trigger('fileselect', [numFiles, label]);
+			  });
+
+			  // We can watch for our custom `fileselect` event like this
+			  $(document).ready( function() {
+				  
+				  $('#toHide').hide();
+			      $(':file').on('fileselect', function(event, numFiles, label) {
+
+			          var input = $(this).parents('.input-group').find(':text'),
+			              log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+			          if( input.length ) {
+			              input.val(log);
+			          } else {
+			              if( log ) alert(log);
+			          }
+
+			      });
+			  });
+			  
+			});
+		</script>
+		
+		</body>
 </html>

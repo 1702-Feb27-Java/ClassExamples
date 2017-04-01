@@ -2,18 +2,17 @@ package com.revature.pojo;
 
 public class AttachmentClass {
 	
-	private int attachID, appID, attachTypeID;
+	private int attachID, appID;
 	private String attachURL;
 	
 	public AttachmentClass(){
 		
 	}
 	
-	public AttachmentClass(int attachID, int appID, int attachTypeID, String attachURL) {
+	public AttachmentClass(int attachID, int appID, String attachURL) {
 		super();
 		this.attachID = attachID;
 		this.appID = appID;
-		this.attachTypeID = attachTypeID;
 		this.attachURL = attachURL;
 	}
 	public int getAttachID() {
@@ -28,12 +27,6 @@ public class AttachmentClass {
 	public void setAppID(int appID) {
 		this.appID = appID;
 	}
-	public int getAttachTypeID() {
-		return attachTypeID;
-	}
-	public void setAttachTypeID(int attachTypeID) {
-		this.attachTypeID = attachTypeID;
-	}
 	public String getAttachURL() {
 		return attachURL;
 	}
@@ -43,8 +36,7 @@ public class AttachmentClass {
 
 	@Override
 	public String toString() {
-		return "AttachmentClass [attachID=" + attachID + ", appID=" + appID + ", attachTypeID=" + attachTypeID
-				+ ", attachURL=" + attachURL + "]";
+		return "AttachmentClass [attachID=" + attachID + ", appID=" + appID + ", attachURL=" + attachURL + "]";
 	}
 
 }

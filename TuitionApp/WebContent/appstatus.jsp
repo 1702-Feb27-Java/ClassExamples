@@ -132,6 +132,8 @@
 	<tr>
 		<th>App ID</th>
 		<th>Priority</th>
+		<th>Date Created</th>
+		<th>Status</th>
 		<th>Event</th>
 		<th>Location</th>
 		<th>Total Cost</th>
@@ -139,8 +141,9 @@
 		<th>Justification</th>
 		<th>Reimbursement</th>
 		<th>Approval Status</th>
-		<th>Action</th>
+		<th colspan="2">Action</th>
 	</tr>
+	<% int i = 0; %>
 	<c:forEach var="app" items="${appsByUser}">
 		<tr>
 			<td><c:out value="${app.appID}" /></td>
@@ -148,6 +151,12 @@
 			<c:choose>
 				<c:when test="${app.priority == '1'}"><td>normal</td></c:when>
 				<c:otherwise><td>urgent</td></c:otherwise>
+			</c:choose>
+			
+			<td><c:out value="${app.dateCreated}" /></td>
+			<c:choose>
+				<c:when test="${app.statusID == '1'}"><td id="activeCheck">active</td></c:when>
+				<c:otherwise><td id="activeCheck">inactive</td></c:otherwise>
 			</c:choose>
 			<c:choose>
 				<c:when test="${app.eventID == '1'}"><td>University Courses</td></c:when>
@@ -164,14 +173,24 @@
 			<td><c:out value="${app.justification}" /></td>
 			<td><form action="Reimbursement" method="POST"><input name="appID" type="hidden" value="${app.appID}"></input>
 			<button type="submit" class="btn btn-link">Check</button></form></td>
-			<td><form action="Approvals" method="POST"><input name="appID" type="hidden" value="${app.appID}"></input>
+			<td><form action="Approvals" method="POST"><input name="appID" type="hidden" value="${app.appID}">
+			<input name ="active" type="hidden" value="${app.statusID}">
 			<button type="submit" class="btn btn-link">Check</button></form></td>
-			<td><form action="FileUpload" method="POST"><input name="appID" type="hidden" value="${app.appID}"></input>
+			<td>
+			<!-- View the attachments -->
+			<form action="ViewFiles" method="POST"><input name="appID" type="hidden" value="${app.appID}"></input>
+			<button type="submit" class="btn btn-link">View Files</button></form>
+			</td>
+			
+			<td>
+			
+			<!-- Upload attachments -->
+			<form action="ToFile" method="POST"><input name="appID" type="hidden" value="${app.appID}"></input>
 			<button type="submit" class="btn btn-link">File Upload</button></form></td>
+			
 		</tr>
 	</c:forEach>
 </table>
-
 
 
 </body>

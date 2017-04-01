@@ -122,9 +122,31 @@
 	request.setAttribute("re", rc); %>
 
 <br>
-<form action="BackToAppStatus" method="POST">
+<form action="BackToPending" method="POST">
 	<button type="submit" class="btn btn-default">Back</button>
 	</form>
+
+
+<br>
+
+	<% if (thisUser.getDeptID() ==3) {%>
+	
+	<div id="forBenco">
+		<p>Would you like to change the reimbursement amount?</p>
+
+		<div class="row">
+			<div class="col-xs-2">
+				<label for="pwd">Adjusted Reimbursement:</label> <input type="text"
+					class="form-control" name="adjusted">
+			</div>
+			<div class="col-xs-2">
+				<label for="pwd">Reason:</label> <input type="text"
+					class="form-control" name="reason">
+			</div>
+		</div>
+
+	</div>
+	<% } %>
 
 
 	<br>

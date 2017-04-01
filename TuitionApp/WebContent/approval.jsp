@@ -129,7 +129,7 @@
 
 <br>
 
-<h2>You've successfully approved the application!</h2>
+<h2>You've successfully processed the application!</h2>
 
 <table class="table">
 	<tr>

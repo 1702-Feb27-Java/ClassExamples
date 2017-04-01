@@ -31,6 +31,8 @@ CREATE TABLE Users(
 CREATE TABLE Applications(
   app_id NUMBER,
   user_id NUMBER, --FK to user_id in Users table
+  date_created DATE NOT NULL,
+  status_id NUMBER, -- FK to ResolutionStatus
   priority_id NUMBER NOT NULL, --FK to Priority Level
   event_id NUMBER NOT NULL, --FK to Event Type
   cdt_id NUMBER, --FK to ClassDateTime
@@ -71,7 +73,6 @@ CREATE TABLE Grading(
 CREATE TABLE Attachments( --optional table
   attachment_id NUMBER,
   app_id NUMBER, --FK to app_id in Applications table
-  attachment_type_id NUMBER, --FK to attachment type
   attachment_url VARCHAR2(250),  --where the file is stored
   
   CONSTRAINT PK_ATTACHMENTS PRIMARY KEY (attachment_id)
@@ -81,7 +82,6 @@ CREATE TABLE Attachments( --optional table
 CREATE TABLE GradeAttachments( --optional table
   grade_attach_id NUMBER,
   app_id NUMBER,
-  grade_attach_type_id NUMBER, --FK to grade attachment type
   grade_attach_url VARCHAR2(250),  --where the file is stored
   
   CONSTRAINT PK_GRADEATTACHMENTS PRIMARY KEY (grade_attach_id)
@@ -121,22 +121,15 @@ CREATE TABLE Notifications(
 );
 
 --1:n
-CREATE TABLE AdditionalInfo(
-  additional_info_id NUMBER,
+CREATE TABLE InfoRequest(
+  info_request_id NUMBER,
   app_id NUMBER, --FK to app_id in Applications table
   resolution_id NUMBER, --FK to lookup resolution status table (has this request been resolved)
   requester_id NUMBER, --FK to user_id in Users table
   request_message VARCHAR2(250), --message with the request
+  reply_message VARCHAR2(250),
   
-  CONSTRAINT PK_ADDITIONALINFO PRIMARY KEY (additional_info_id)
-);
-
-CREATE TABLE InfoReturned(
-  info_id NUMBER,
-  additional_info_id NUMBER,
-  returned_message VARCHAR2(250),
-  
-  CONSTRAINT PK_INFORETURNED PRIMARY KEY (info_id)
+  CONSTRAINT PK_INFOREQUEST PRIMARY KEY (info_request_id)
 );
 
 /******************************************************************************
@@ -178,13 +171,6 @@ CREATE TABLE GradingFormat(
   CONSTRAINT PK_GRADINGFORMAT PRIMARY KEY (grading_format_id)
 );
 
-CREATE TABLE AttachmentType(
-  attachment_type_id NUMBER,
-  attachment_type VARCHAR2(40), --event-related, approvals already provided, etc
-  
-  CONSTRAINT PK_ATTACHMENTSTYPE PRIMARY KEY (attachment_type_id)
-);
-
 CREATE TABLE ApprovalStatus( --pending, approved, denied
   approval_id NUMBER,
   approval_status VARCHAR2(25),
@@ -197,13 +183,6 @@ CREATE TABLE ApprovalLevel(
   approval_level VARCHAR2(25),
   
   CONSTRAINT PK_APPROVALLEVEL PRIMARY KEY (approval_level_id)
-);
-
-CREATE TABLE GradeAttachmentType(
-  grade_attach_type_id NUMBER,
-  attachment_type VARCHAR2(40), --grade or presentation
-  
-  CONSTRAINT PK_GRADEATTACHMENTSTYPE PRIMARY KEY (grade_attach_type_id)
 );
 
 CREATE TABLE ResolutionStatus(
@@ -238,6 +217,8 @@ ALTER TABLE Applications ADD
   CONSTRAINT FK_GRADINGID FOREIGN KEY (grading_id) REFERENCES Grading (grading_id);
 ALTER TABLE Applications ADD 
   CONSTRAINT FK_REIMBURSEMENTID FOREIGN KEY (reimbursement_id) REFERENCES Reimbursements (reimbursement_id);
+ALTER TABLE Applications ADD 
+  CONSTRAINT FK_STATUSID FOREIGN KEY (status_id) REFERENCES ResolutionStatus (resolution_id);
 
 --FK for the Grading table
 ALTER TABLE Grading ADD
@@ -248,8 +229,6 @@ ALTER TABLE Attachments ADD
   CONSTRAINT FK_ATTACHAPPID FOREIGN KEY (app_id) REFERENCES Applications (app_id);
   
 --FK for the GradeAttachments table
-ALTER TABLE GradeAttachments ADD
-  CONSTRAINT FK_GRADEATTACHTYPEID FOREIGN KEY (grade_attach_type_id) REFERENCES GradeAttachmentType (grade_attach_type_id);
 ALTER TABLE GradeAttachments ADD
   CONSTRAINT FK_GRADEATTACHAPPID FOREIGN KEY (app_id) REFERENCES Applications (app_id);
   
@@ -271,16 +250,13 @@ ALTER TABLE Notifications ADD
 ALTER TABLE Notifications ADD
   CONSTRAINT FK_REQUESTERID FOREIGN KEY (requester_id) REFERENCES Users (user_id);
   
---FK for AdditionalInfo Table
-ALTER TABLE AdditionalInfo ADD
+--FK for InfoRequest Table
+ALTER TABLE InfoRequest ADD
   CONSTRAINT FK_ADDITAPPID FOREIGN KEY (app_id) REFERENCES Applications (app_id);
-ALTER TABLE AdditionalInfo ADD
+ALTER TABLE InfoRequest ADD
   CONSTRAINT FK_ADDITRESOLUTIONID FOREIGN KEY (resolution_id) REFERENCES ResolutionStatus (resolution_id);
-ALTER TABLE AdditionalInfo ADD
-  CONSTRAINT FK_ADDITREQUESTERID FOREIGN KEY (requester_id) REFERENCES Users (user_id);
-  
---FK for InfoReturned table
-ALTER TABLE InfoReturned ADD
-  CONSTRAINT FK_ADDITIONALINFOID FOREIGN KEY (additional_info_id) REFERENCES AdditionalInfo (additional_info_id);
+ALTER TABLE InfoRequest ADD
+  CONSTRAINT getGradeAttachURL FOREIGN KEY (requester_id) REFERENCES Users (user_id);
+
   
 COMMIT;

@@ -117,6 +117,8 @@
 </ul>
 
 <%	int appID = Integer.parseInt(request.getParameter("appID"));
+	session.setAttribute("appID", appID);
+
 	GradingClass grading = new GradingClass();
 	grading = appDAO.getGradingByAppID(appID);
 	request.setAttribute("grade", grading); %>
@@ -125,8 +127,31 @@
 <form action="BackToAppStatus" method="POST">
 	<button type="submit" class="btn btn-default">Back</button>
 	</form>
-
 <br>
+
+<p>Upload attachments. These could be files for justification, flyers for event type, grade attachments, presentation write-up, etc.</p>
+
+		<div class="row">
+			<div class="col-xs-3" data-provides="fileinput">
+			<form action="GradeFileUpload" method="POST" enctype="multipart/form-data">
+			
+				<label for="exampleInputFile">File input</label>
+				    <p id="toHide">Filename:<br><input id="toHide" type="text" name="filename"></p><br>
+						<div class="input-group">
+					<label class="input-group-btn"> 
+					
+				    <span class="btn btn-primary"> Browse&hellip; 
+						<input type="file" style="display: none;" name="files" multiple>
+					</span>
+					</label> <input type="text" class="form-control" readonly>
+				</div>
+				<button type="submit" class="btn btn-default">Upload</button>
+				</form>
+			</div>
+		</div>
+		
+		<br>
+
 <table class="table">
 	<tr>
 		<th>App ID</th>
@@ -148,6 +173,40 @@
 			<td><c:out value="${grade.presReview}" /></td>
 		</tr>
 </table>
+
+
+<script>
+		$(function() {
+
+			  // We can attach the `fileselect` event to all file inputs on the page
+			  $(document).on('change', ':file', function() {
+			    var input = $(this),
+			        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+			        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+			    input.trigger('fileselect', [numFiles, label]);
+			  });
+
+			  // We can watch for our custom `fileselect` event like this
+			  $(document).ready( function() {
+				  
+				  $('#toHide').hide();
+			      $(':file').on('fileselect', function(event, numFiles, label) {
+
+			          var input = $(this).parents('.input-group').find(':text'),
+			              log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+			          if( input.length ) {
+			              input.val(log);
+			          } else {
+			              if( log ) alert(log);
+			          }
+
+			      });
+			  });
+			  
+			});
+		</script>
+		
 
 </body>
 </html>

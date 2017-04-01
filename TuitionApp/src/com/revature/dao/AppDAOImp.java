@@ -18,8 +18,9 @@ import com.revature.pojo.UserClass;
 public class AppDAOImp implements AppDAO {
 
 	PreparedStatement findAppID, getAwarded, getApprovals, 
-	getAppIDs, getApps, getGrading, getApp, getPending, getPendingBenco;
-	CallableStatement newApp, newCDT, newGrading, newApprovals, newRe, approveAsManager, setNextAppr;
+	getAppIDs, getApps, getGrading, getApp, getPending, getPendingBenco, cancel;
+	CallableStatement newApp, newCDT, newGrading, newApprovals, newRe, 
+	approveAsManager, setNextAppr, approveAsBenco, awardAsBenco, denyAsManager, denyAsBenco;
 
 	@Override
 	public void addApp(UserClass uc, AppClass ac, CDTClass cdt, GradingClass grading) {
@@ -28,14 +29,16 @@ public class AppDAOImp implements AppDAO {
 			// TODO Auto-generated method stub
 			connect.setAutoCommit(false);
 
-			newApp = connect.prepareCall("CALL addApp(?, ?, ?, ?, ?, ?)");
+			newApp = connect.prepareCall("CALL addApp(?, ?, ?, ?, ?, ?, ?, ?)");
 
 			newApp.setInt(1, uc.getUserID());
 			newApp.setInt(2, ac.getPriority());
-			newApp.setInt(3, ac.getEventID());
-			newApp.setString(4, ac.getLoc());
-			newApp.setDouble(5, ac.getTotalCost());
-			newApp.setString(6, ac.getJustification());
+			newApp.setString(3, ac.getDateCreated());
+			newApp.setInt(4, ac.getStatusID());
+			newApp.setInt(5, ac.getEventID());
+			newApp.setString(6, ac.getLoc());
+			newApp.setDouble(7, ac.getTotalCost());
+			newApp.setString(8, ac.getJustification());
 
 			newApp.execute();
 
@@ -98,7 +101,7 @@ public class AppDAOImp implements AppDAO {
 			connect.setAutoCommit(false);
 
 			getApps = connect.prepareStatement(
-					"SELECT app_id, priority_id, event_id, loc, total_cost, grading_id, justification, reimbursement_id FROM Applications WHERE user_id IN (SELECT user_id FROM Applications WHERE user_id = ?)");
+					"SELECT app_id, priority_id, date_created, status_id, event_id, loc, total_cost, grading_id, justification, reimbursement_id FROM Applications WHERE user_id IN (SELECT user_id FROM Applications WHERE user_id = ?)");
 
 			getApps.setInt(1, uc.getUserID());
 
@@ -109,12 +112,14 @@ public class AppDAOImp implements AppDAO {
 
 				app.setAppID(rs.getInt(1));
 				app.setPriority(rs.getInt(2));
-				app.setEventID(rs.getInt(3));
-				app.setLoc(rs.getString(4));
-				app.setTotalCost(rs.getDouble(5));
-				app.setGradingID(rs.getInt(6));
-				app.setJustification(rs.getString(7));
-				app.setReimburseID(rs.getInt(8));
+				app.setDateCreated(rs.getString(3));
+				app.setStatusID(rs.getInt(4));
+				app.setEventID(rs.getInt(5));
+				app.setLoc(rs.getString(6));
+				app.setTotalCost(rs.getDouble(7));
+				app.setGradingID(rs.getInt(8));
+				app.setJustification(rs.getString(9));
+				app.setReimburseID(rs.getInt(10));
 
 				appsForUser.add(app);
 
@@ -354,14 +359,16 @@ public class AppDAOImp implements AppDAO {
 			while (rs.next()){
 				ac.setAppID(rs.getInt(1));
 				ac.setUserID(rs.getInt(2));
-				ac.setPriority(rs.getInt(3));
-				ac.setEventID(rs.getInt(4));
-				ac.setCdtID(rs.getInt(5));
-				ac.setLoc(rs.getString(6));
-				ac.setTotalCost(rs.getDouble(7));
-				ac.setGradingID(rs.getInt(8));
-				ac.setJustification(rs.getString(9));
-				ac.setReimburseID(rs.getInt(10));
+				ac.setDateCreated(rs.getString(3));
+				ac.setStatusID(rs.getInt(4));
+				ac.setPriority(rs.getInt(5));
+				ac.setEventID(rs.getInt(6));
+				ac.setCdtID(rs.getInt(7));
+				ac.setLoc(rs.getString(8));
+				ac.setTotalCost(rs.getDouble(9));
+				ac.setGradingID(rs.getInt(10));
+				ac.setJustification(rs.getString(11));
+				ac.setReimburseID(rs.getInt(12));
 			}
 		
 			connect.commit();
@@ -382,7 +389,7 @@ public class AppDAOImp implements AppDAO {
 		try (Connection connect = ConnectionClass.getConnection();) {
 			connect.setAutoCommit(false);
 			
-			String sql = "SELECT * FROM (SELECT us.user_id, us.dept_id, apps.app_id, apps.priority_id, apps.event_id, apps.total_cost, apps.justification, appr.approval_level, appr.approval_status FROM Applications apps INNER JOIN Users us ON us.user_id = apps.user_id INNER JOIN Approvals appr ON apps.app_id = appr.app_id) WHERE approval_level = ? AND approval_status = ? AND dept_id = ?";
+			String sql = "SELECT * FROM (SELECT us.user_id, us.dept_id, apps.app_id, apps.priority_id, apps.date_created, apps.status_id, apps.event_id, apps.total_cost, apps.justification, appr.approval_level, appr.approval_status FROM Applications apps INNER JOIN Users us ON us.user_id = apps.user_id INNER JOIN Approvals appr ON apps.app_id = appr.app_id) WHERE status_id = 1 AND approval_level = ? AND approval_status = ? AND dept_id = ?";
 		
 			getPending = connect.prepareStatement(sql);
 			getPending.setInt(1, apprLvl);
@@ -397,9 +404,11 @@ public class AppDAOImp implements AppDAO {
 				ac.setUserID(rs.getInt(1));
 				ac.setAppID(rs.getInt(3));
 				ac.setPriority(rs.getInt(4));
-				ac.setEventID(rs.getInt(5));
-				ac.setTotalCost(rs.getDouble(6));
-				ac.setJustification(rs.getString(7));
+				ac.setDateCreated(rs.getString(5));
+				ac.setStatusID(rs.getInt(6));
+				ac.setEventID(rs.getInt(7));
+				ac.setTotalCost(rs.getDouble(8));
+				ac.setJustification(rs.getString(9));
 				
 				pendingApps.add(ac);
 				
@@ -424,7 +433,6 @@ public class AppDAOImp implements AppDAO {
 			
 			approveAsManager = connect.prepareCall("CALL approveAsManager(?,?,?,?)");
 			approveAsManager.setInt(1, appID);
-			//approveAsManager.toString();
 			approveAsManager.setInt(2, apprLvl); 
 			approveAsManager.setInt(3, uc.getUserID());
 			approveAsManager.setString(4, message);
@@ -464,7 +472,7 @@ public class AppDAOImp implements AppDAO {
 		try (Connection connect = ConnectionClass.getConnection();) {
 			connect.setAutoCommit(false);
 
-			String sql = "SELECT * FROM (SELECT us.user_id, us.dept_id, apps.app_id, apps.priority_id, apps.event_id, apps.total_cost, apps.justification, appr.approval_level, appr.approval_status FROM Applications apps INNER JOIN Users us ON us.user_id = apps.user_id INNER JOIN Approvals appr ON apps.app_id = appr.app_id) WHERE approval_level = 3 AND approval_status = 1";
+			String sql = "SELECT * FROM (SELECT us.user_id, us.dept_id, apps.app_id, apps.priority_id, apps.date_created, apps.status_id, apps.event_id, apps.total_cost, apps.justification, appr.approval_level, appr.approval_status FROM Applications apps INNER JOIN Users us ON us.user_id = apps.user_id INNER JOIN Approvals appr ON apps.app_id = appr.app_id) WHERE status_id = 1 AND approval_level = 3 AND approval_status = 1";
 			getPendingBenco = connect.prepareStatement(sql);
 
 			ResultSet rs = getPendingBenco.executeQuery();
@@ -480,9 +488,11 @@ public class AppDAOImp implements AppDAO {
 					ac.setUserID(rs.getInt(1));
 					ac.setAppID(rs.getInt(3));
 					ac.setPriority(rs.getInt(4));
-					ac.setEventID(rs.getInt(5));
-					ac.setTotalCost(rs.getDouble(6));
-					ac.setJustification(rs.getString(7));
+					ac.setDateCreated(rs.getString(5));
+					ac.setStatusID(rs.getInt(6));
+					ac.setEventID(rs.getInt(7));
+					ac.setTotalCost(rs.getDouble(8));
+					ac.setJustification(rs.getString(9));
 
 					pendingApps.add(ac);
 				}
@@ -499,10 +509,85 @@ public class AppDAOImp implements AppDAO {
 	}
 	
 	@Override
-	public void approveAsBenco() {
+	public void approveAsBenco(int appID, int apprLvl, UserClass uc, String message) {
 		// TODO Auto-generated method stub
 		// must approve as benco
 		// AND add awarded reimbursement
+		try (Connection connect = ConnectionClass.getConnection();) {
+			connect.setAutoCommit(false);
+		
+			approveAsBenco = connect.prepareCall("CALL approveAsBenco(?,?,?,?)");
+			approveAsBenco.setInt(1, appID);
+			approveAsBenco.setInt(2, apprLvl); 
+			approveAsBenco.setInt(3, uc.getUserID());
+			approveAsBenco.setString(4, message);
+			
+			approveAsBenco.execute();
+		
+			connect.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e2) {
+			e2.printStackTrace();
+		}
+	}
+	
+	public void awardAsBenco(int appID){
+		try (Connection connect = ConnectionClass.getConnection();) {
+			connect.setAutoCommit(false);
+		
+			awardAsBenco = connect.prepareCall("CALL awardAsBenco(?)");
+			awardAsBenco.setInt(1, appID);
+			
+			awardAsBenco.execute();
+		
+			connect.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e2) {
+			e2.printStackTrace();
+		}
+	}
+
+	@Override
+	public void denyAsManager(int appID, int apprLvl, UserClass uc, String message) {
+		// TODO Auto-generated method stub
+		try (Connection connect = ConnectionClass.getConnection();) {
+			connect.setAutoCommit(false);
+			
+			System.out.println(appID + " " + apprLvl + " " + uc.getUserID() + " " + message) ;
+			denyAsManager = connect.prepareCall("CALL denyAsManager(?, ?, ?, ?)");
+			denyAsManager.setInt(1, appID);
+			denyAsManager.setInt(2, apprLvl);
+			denyAsManager.setInt(3, uc.getUserID());
+			denyAsManager.setString(4, message);
+			denyAsManager.execute();
+			
+			connect.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e2) {
+			e2.printStackTrace();
+		}
+	}
+
+	@Override
+	public void cancelApp(int appID) {
+		// TODO Auto-generated method stub
+		try (Connection connect = ConnectionClass.getConnection();) {
+			connect.setAutoCommit(false);
+			
+			cancel = connect.prepareStatement("UPDATE Applications SET status_id = 2 WHERE app_id = ?");
+			cancel.setInt(1, appID);
+			
+			cancel.execute();
+			
+			connect.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e2) {
+			e2.printStackTrace();
+		}
 	}
 
 }

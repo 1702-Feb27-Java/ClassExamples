@@ -128,6 +128,8 @@ public class ApplicationServlet extends HttpServlet {
 		else 
 			thisApp.setEventID(6);
 		
+		thisApp.setDateCreated(today);
+		thisApp.setStatusID(1);
 		thisApp.setLoc(location);
 		thisApp.setTotalCost(Double.parseDouble(cost));
 		thisApp.setJustification(just);

@@ -14,6 +14,8 @@ public interface AppDAO {
 	// add
 	void addApp(UserClass uc, AppClass ac, CDTClass cdt, GradingClass grading);
 	
+	void cancelApp(int appID);
+	
 	// calculate the projected reimbursement
 	double calculateRe(AppClass ac);
 	
@@ -22,6 +24,10 @@ public interface AppDAO {
 	ArrayList<AppClass> getAppsByUserID(UserClass uc);
 	ArrayList<Integer> getAppIDsByUserID(UserClass uc);
 	
+	/**************************************************
+	 *  APPROVAL AND DENY LOGIC
+	 **************************************************/
+	
 	// updating approval status, level, and resolver
 	void approveAsManager(int appID, int apprLvl, UserClass uc, String message);
 	
@@ -29,7 +35,15 @@ public interface AppDAO {
 	void updateAsManager(int appID, int apprLvl);
 	
 	// BENCO ONLY
-	void approveAsBenco();
+	void approveAsBenco(int appID, int apprLvl, UserClass uc, String message);
+	
+	void awardAsBenco(int appID);
+	
+	void denyAsManager(int appID, int apprLvl, UserClass uc, String message);
+		
+	/**************************************************
+	 *  END APPROVAL AND DENY LOGIC
+	 **************************************************/
 	
 	// returns all the approvals updates for ONE app
 	ArrayList<ApprovalClass> getApprovalsByAppID(int appID);
@@ -41,6 +55,6 @@ public interface AppDAO {
 	// UserClass uc is the manager who is currently logged in
 	ArrayList<AppClass> getPendingAppsByManager(int apprLvl, int apprSts, UserClass uc);
 	
-	//write getPendingAppsByBenco?
+	// BENCO ONLY
 	ArrayList<AppClass> getPendingAppsByBenco(UserClass uc);
 }

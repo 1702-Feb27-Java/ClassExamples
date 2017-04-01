@@ -13,15 +13,15 @@ import com.revature.dao.AppDAOImp;
 import com.revature.pojo.UserClass;
 
 /**
- * Servlet implementation class ToApprove
+ * Servlet implementation class Deny
  */
-public class ToApprove extends HttpServlet {
+public class Deny extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ToApprove() {
+    public Deny() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,7 +39,6 @@ public class ToApprove extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
 		HttpSession session = request.getSession();
 
 		UserClass thisUser = new UserClass();
@@ -55,18 +54,14 @@ public class ToApprove extends HttpServlet {
 		if (thisUser.getDeptID() == 1 || thisUser.getDeptID() == 2) {
 			if (flag > 0) { // if flag indicates there's no supervisors in this
 							// dept
-				int apprLvl = thisUser.getRoleID() - 2;
-				appDAO.approveAsManager(appID, apprLvl, thisUser, message);
-				appDAO.updateAsManager(appID, thisUser.getRoleID());
-
+				int apprLvl = thisUser.getRoleID()- 2;
+				appDAO.denyAsManager(appID, apprLvl, thisUser, message);
 			} else {
 				int apprLvl = thisUser.getRoleID() - 1;
-				appDAO.approveAsManager(appID, apprLvl, thisUser, message);
-				appDAO.updateAsManager(appID, thisUser.getRoleID());
+				appDAO.denyAsManager(appID, apprLvl, thisUser, message);
 			}
 		} else { // in benco
-			appDAO.approveAsBenco(appID, 3, thisUser, message);
-
+			appDAO.denyAsManager(appID, 3, thisUser, message);
 		}
 
 		String destination = "/approval.jsp";
