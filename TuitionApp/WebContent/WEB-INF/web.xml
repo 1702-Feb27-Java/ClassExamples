@@ -179,4 +179,24 @@
     <servlet-name>Cancel</servlet-name>
     <url-pattern>/Cancel</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Award</display-name>
+    <servlet-name>Award</servlet-name>
+    <servlet-class>com.revature.servlets.Award</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Award</servlet-name>
+    <url-pattern>/Award</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>changeRe</display-name>
+    <servlet-name>changeRe</servlet-name>
+    <servlet-class>com.revature.servlets.changeRe</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>changeRe</servlet-name>
+    <url-pattern>/changeRe</url-pattern>
+  </servlet-mapping>
 </web-app>

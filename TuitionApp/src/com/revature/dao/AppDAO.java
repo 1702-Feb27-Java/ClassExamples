@@ -45,6 +45,8 @@ public interface AppDAO {
 	 *  END APPROVAL AND DENY LOGIC
 	 **************************************************/
 	
+	void changeAward(int appID, double amount, String reason);
+	
 	// returns all the approvals updates for ONE app
 	ArrayList<ApprovalClass> getApprovalsByAppID(int appID);
 	
@@ -53,8 +55,6 @@ public interface AppDAO {
 	ReimbursementClass getReimbByAppID(int appID);
 	
 	// UserClass uc is the manager who is currently logged in
-	ArrayList<AppClass> getPendingAppsByManager(int apprLvl, int apprSts, UserClass uc);
+	ArrayList<AppClass> getPendingApps(int apprLvl, int apprSts, UserClass uc);
 	
-	// BENCO ONLY
-	ArrayList<AppClass> getPendingAppsByBenco(UserClass uc);
 }

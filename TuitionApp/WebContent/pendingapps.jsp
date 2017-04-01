@@ -116,66 +116,23 @@
 	boolean check = userDAO.checkForSuper(thisUser.getDeptID());
 	System.out.println(check);
 	
-	// if this user is in depts other than benco
-	if (thisUser.getDeptID() == 1 || thisUser.getDeptID() == 2){
 		if (thisUser.getRoleID() == 2){ // if supervisor
-			apprLvl = 1;
-			pending = appDAO.getPendingAppsByManager(apprLvl, 1, thisUser);
-			bPending = pending;
-		}
-		else if (thisUser.getRoleID() == 3){ // if department head
+			pending = appDAO.getPendingApps(thisUser.getRoleID()-1, 1, thisUser);
+		} else { // (thisUser.getRoleID() == 3) department head
 			if (check == false){ // no supers, we go down one approval level
-				apprLvl = 1;  // look for apps on supervisor approval level
-				pending = appDAO.getPendingAppsByManager(apprLvl, 1, thisUser);
-				bPending = pending;
+				pending = appDAO.getPendingApps(thisUser.getRoleID()-2, 1, thisUser);
 				flag = 1;
 			}
 			else { // otherwise
-				apprLvl = 2;
-				pending = appDAO.getPendingAppsByManager(apprLvl, 1, thisUser);
-				bPending = pending;
-			}
-		}
-	} else { // if BenCo
-		if (thisUser.getRoleID() == 2){ // if benco supervisor
-			apprLvl = 3;
-			bPending = appDAO.getPendingAppsByBenco(thisUser);
-			pending = appDAO.getPendingAppsByManager(apprLvl-2, 1, thisUser);
-			int i = 0;
-			for (AppClass ac : pending){
-				bPending.add(pending.get(i));
-				i++;
-			}
-		}
-		else if (thisUser.getRoleID() == 3){ // if benco department head
-			if (check == false){ // no supers, we go down one approval level
-				apprLvl = 3;
-				bPending = appDAO.getPendingAppsByBenco(thisUser);
-				pending = appDAO.getPendingAppsByManager(apprLvl-2, 1, thisUser);
-				int i = 0;
-				for (AppClass ac : pending){
-					bPending.add(pending.get(i));
-					i++;
-				}
-				flag = 1;
-			}
-			else { // otherwise
-				apprLvl = 3;
-				bPending = appDAO.getPendingAppsByBenco(thisUser);
-				pending = appDAO.getPendingAppsByManager(apprLvl-1, 1, thisUser);
-				int i = 0;
-				for (AppClass ac : pending){
-					bPending.add(pending.get(i));
-					i++;
-				}
+				pending = appDAO.getPendingApps(thisUser.getRoleID()-1, 1, thisUser);
 			}
 		}
 	
-		apprLvl = 3;
-		bPending = appDAO.getPendingAppsByBenco(thisUser);
-	}
 	
-	request.setAttribute("pending", bPending);
+	
+	System.out.println(pending);
+	
+	request.setAttribute("pending", pending);
 	session.setAttribute("flag", flag); %>
 
 <br>

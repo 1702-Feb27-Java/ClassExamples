@@ -119,7 +119,8 @@
 <%	int appID = Integer.parseInt(request.getParameter("appID"));
 	ReimbursementClass rc = new ReimbursementClass();
 	rc = appDAO.getReimbByAppID(appID);
-	request.setAttribute("re", rc); %>
+	request.setAttribute("re", rc); 
+	session.setAttribute("appID", appID);%>
 
 <br>
 <form action="BackToPending" method="POST">
@@ -133,7 +134,7 @@
 	
 	<div id="forBenco">
 		<p>Would you like to change the reimbursement amount?</p>
-
+		<form action="changeRe" method="POST">
 		<div class="row">
 			<div class="col-xs-2">
 				<label for="pwd">Adjusted Reimbursement:</label> <input type="text"
@@ -144,7 +145,9 @@
 					class="form-control" name="reason">
 			</div>
 		</div>
-
+		
+		<button type="submit" class="btn btn-default">Change</button>
+		</form>
 	</div>
 	<% } %>
 
@@ -156,19 +159,23 @@
 		<th>Projected Reimb.</th>
 		<th>Awarded Reimb.</th>
 		<th>Reason for Change</th>
+		<th>Action</th>
 	</tr>
 		<tr>
 			<td><c:out value="${re.reimburseID}" /></td>
 			<td><c:out value="${re.projected}" /></td>
 			<td><c:out value="${re.awarded}" /></td>
 			<td><c:out value="${re.changeReason}" /></td>
+			<td> <% if (rc.getAwarded()!= 0) { %>
+			<form action="Award" method="POST">
+			<button type="submit" class="btn btn-default">Award</button></form>
+			<% } else { %>
+			<form action="Award" method="POST">
+			<button type="submit" class="btn btn-default" disabled>Award</button></form>
+			<% } %>
+			</td>
 		</tr>
 </table>
-
-<script>
-	
-
-</script>
 
 </body>
 </html>

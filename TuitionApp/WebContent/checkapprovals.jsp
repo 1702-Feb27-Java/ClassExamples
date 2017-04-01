@@ -134,7 +134,7 @@
 	%>
 	<h2>Cancel application?</h2>
 	<form action="Cancel" method="POST">
-		<button id="cancelButton" type="submit" class="btn btn-default">Cancel</button>
+		<button type="submit" class="btn btn-default">Cancel</button>
 	</form>
 	<%
 		} else {
