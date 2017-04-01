@@ -8,17 +8,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <style>
-	body {background-repeat: no-repeat;background-size:cover; 
-		background-position:top center; background-attachment:fixed;}
+	body {background-color:#ebebe0; color:#002266}
 	table {width:100%;}
 	.left {text-align: left; font-size: 15px; padding: 10px;}
 	.center {text-align: center; font-size: 15px; padding: 10px;}
 	th {font-weight: bold}
-
+	hr{height:2px;border:solid;color:#002266; background-color:#002266}
+	
 </style>
 <title>Home</title>
 </head>
 <body>
+	<div align="right" style="padding-right:50px">
+		<a href="UnderConstruction.html">Edit Personal Settings</a>
+	</div>
 	<%
 	int userid = (int)session.getAttribute("userid");
 	User u = UserService.getUserInfo(userid);
@@ -27,7 +30,7 @@
 	<h1>Welcome <%=" " + u.getFirstName() + " " + u.getLastName()%></h1>
 	<hr><h2>Amount Available: $	 
 	<%=u.getAmount()%><br></h2>
-	
+	<hr>
 	<h2>REQUESTS:</h2><hr>
 	<% 
 		ArrayList<Event> eventList = DAOImpl.getEventStats(userid);
@@ -108,3 +111,4 @@
 	</form>
 </body>
 </html>
+	

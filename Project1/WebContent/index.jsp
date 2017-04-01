@@ -6,12 +6,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>TRMS Login Screen</title>
 <style>
-	body {background-repeat: no-repeat;background-size:cover; 
-		background-position:top center; background-attachment:fixed;}
+	body {background-color:#002266; color:#ebebe0}
 	p {font-size:35px;}
+	hr{color:#ebebe0;size:2px}
 </style>
 </head>
-<body background="background.jpg">
+<body link=white vlink=white alink=white>
 	<div>
 	<% if (session.isNew()){ %>
 		<h1 align="center"><font size=35>Welcome to ... TRMS!</font></h1>
