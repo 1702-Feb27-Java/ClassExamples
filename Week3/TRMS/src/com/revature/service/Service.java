@@ -52,4 +52,31 @@ public class Service
 		}
 		return arr;
 	}
+	
+	public ArrayList<Reimburstment> getAllReims(int emp_id)
+	{
+		ArrayList<Reimburstment> arr = new ArrayList();
+		arr = dao.getAllReim(emp_id);
+		return arr;
+	}
+	
+	public void dsApprove(int reim_id)
+	{
+		dao.dsApproval(reim_id);
+	}
+	
+	public void dhApproval(int reim_id)
+	{
+		dao.dhApproval(reim_id);
+	}
+	
+	public void bApproval(int reim_id)
+	{
+		dao.bApproval(reim_id);
+	}
+	
+	public void decline(int reim_id)
+	{
+		dao.decline(reim_id);
+	}
 }

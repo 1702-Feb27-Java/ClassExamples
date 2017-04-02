@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -32,18 +33,7 @@ public class MakeReimServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-    
-    /**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-		Enumeration<String> iP = config.getInitParameterNames();
-		initParamName = iP.nextElement();
-		initParamValue = config.getInitParameter(initParamName);
-		configParamName = config.getServletContext().getInitParameterNames().nextElement();
-		configParamValue = config.getServletContext().getInitParameter(configParamName);
-	}
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -60,11 +50,25 @@ public class MakeReimServlet extends HttpServlet {
 		reim.setTime(request.getParameter("courseTime"));
 		reim.setCourseCost(Integer.parseInt(request.getParameter("courseCost")));
 		reim.setReimburstAmt(Integer.parseInt(request.getParameter("reimAmt")));
+		reim.setCourseID(1);
 		reim.setApproval(1);
-		reim.setGradeTypeID(Integer.parseInt(request.getParameter("gradeType")));
+		reim.setGradeTypeID(Integer.parseInt(request.getParameter("gradeTypeID")));
 		service.makeReimburstment(reim);
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		response.getWriter().append("For User: " + request.getParameter("username"));
+		if(reim.getApproval() == 1)
+		{
+			RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");
+			rd.forward(request, response);
+		}
+		else if(reim.getApproval() == 2)
+		{
+			RequestDispatcher rd = request.getRequestDispatcher("DSDashboard.jsp");
+			rd.forward(request, response);
+		}
+		else if(reim.getApproval() == 3)
+		{
+			RequestDispatcher rd = request.getRequestDispatcher("DHDashboard.jsp");
+			rd.forward(request, response);
+		}
 	}
 
 	/**

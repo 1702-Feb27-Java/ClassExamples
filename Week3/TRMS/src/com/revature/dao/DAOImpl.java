@@ -214,7 +214,7 @@ public class DAOImpl implements DAO
 			String sql = "INSERT INTO REIMBURSTMENT (EMP_ID, RELOCATION, ADDDATE, "
 					+ "STARTDATE, ENDDATE, COURSETIME, COURSECOST, REIMBURST_AMT, "
 					+ "APPROVAL_ID, COURSE_ID, GRADETYPE_ID) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?);";
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)";
 			PreparedStatement ps = connect.prepareStatement(sql);
 			ps.setInt(1, reim.getEmp_id());
 			ps.setString(2, reim.getLocation());
@@ -224,10 +224,10 @@ public class DAOImpl implements DAO
 			ps.setString(6, reim.getTime());
 			ps.setInt(7, reim.getCourseCost());
 			ps.setInt(8, reim.getReimburstAmt());
-			ps.setInt(9, reim.getApproval());
-			ps.setInt(10, reim.getCourseID());
-			ps.setInt(11, reim.getGradeTypeID());
-			ps.executeQuery();
+			ps.setInt(9, reim.getCourseID());
+			ps.setInt(10, reim.getGradeTypeID());
+			ps.executeUpdate();
+			connect.commit();
 		}
 		catch(SQLException e)
 		{
@@ -279,7 +279,6 @@ public class DAOImpl implements DAO
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{
 			connect.setAutoCommit(false);
-			
 			String sql = "SELECT * FROM REIMBURSTMENT WHERE EMP_ID = ?";
 			PreparedStatement ps = connect.prepareStatement(sql);
 			ResultSet rs;
@@ -310,5 +309,73 @@ public class DAOImpl implements DAO
 			e.printStackTrace();
 		}
 		return temp;
+	}
+
+	@Override
+	public void dsApproval(int reim_id)
+	{
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String sql = "UPDATE REIMBURSTMENT SET APPROVAL_ID = 2 WHERE REIM_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, reim_id);
+			ps.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.getStackTrace();
+		}
+	}
+	
+	@Override
+	public void dhApproval(int reim_id)
+	{
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String sql = "UPDATE REIMBURSTMENT SET APPROVAL_ID = 3 WHERE REIM_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, reim_id);
+			ps.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.getStackTrace();
+		}
+	}
+	
+	@Override
+	public void bApproval(int reim_id)
+	{
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String sql = "UPDATE REIMBURSTMENT SET APPROVAL_ID = 4 WHERE REIM_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, reim_id);
+			ps.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.getStackTrace();
+		}
+	}
+	
+	@Override
+	public void decline(int reim_id)
+	{
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String sql = "UPDATE REIMBURSTMENT SET APPROVAL_ID = 5 WHERE REIM_ID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1, reim_id);
+			ps.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.getStackTrace();
+		}
 	}
 }

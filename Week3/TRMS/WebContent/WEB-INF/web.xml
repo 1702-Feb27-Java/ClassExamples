@@ -29,16 +29,6 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>SessionHandler</display-name>
-    <servlet-name>SessionHandler</servlet-name>
-    <servlet-class>com.revature.servlet.SessionHandler</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SessionHandler</servlet-name>
-    <url-pattern>/SessionHandler</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
     <display-name>MakeReimServlet</display-name>
     <servlet-name>MakeReimServlet</servlet-name>
     <servlet-class>com.revature.servlet.MakeReimServlet</servlet-class>
@@ -67,7 +57,17 @@
     <servlet-name>ViewPendingServlet</servlet-name>
     <url-pattern>/ViewPendingServlet</url-pattern>
   </servlet-mapping>
-   <filter>
+  <servlet>
+    <description></description>
+    <display-name>DecisionServlet</display-name>
+    <servlet-name>DecisionServlet</servlet-name>
+    <servlet-class>com.revature.servlet.DecisionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DecisionServlet</servlet-name>
+    <url-pattern>/DecisionServlet</url-pattern>
+  </servlet-mapping>
+  <filter>
     <display-name>TestFilter</display-name>
     <filter-name>TestFilter</filter-name>
     <filter-class>com.revature.filter.TestFilter</filter-class>
@@ -76,4 +76,24 @@
     <filter-name>TestFilter</filter-name>
     <url-pattern>*.do</url-pattern>
   </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ApprovalServlet</display-name>
+    <servlet-name>ApprovalServlet</servlet-name>
+    <servlet-class>com.revature.servlet.ApprovalServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApprovalServlet</servlet-name>
+    <url-pattern>/ApprovalServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DeclineServlet</display-name>
+    <servlet-name>DeclineServlet</servlet-name>
+    <servlet-class>com.revature.servlet.DeclineServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeclineServlet</servlet-name>
+    <url-pattern>/DeclineServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

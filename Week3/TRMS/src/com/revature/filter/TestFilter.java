@@ -54,15 +54,23 @@ public class TestFilter implements Filter {
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;
-		case "SessionHandler":
-			rd = req.getRequestDispatcher(action);
-			rd.forward(req, res);
-			return;
 		case "MakeReimServlet":
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;
 		case "ViewPendingServlet":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
+		case "DecisionServlet":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req,  res);
+			return;
+		case "ApprovalServlet":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
+		case "DeclineServlet":
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;

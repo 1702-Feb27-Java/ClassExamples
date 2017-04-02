@@ -13,4 +13,8 @@ public interface DAO
 	public ArrayList<Reimburstment> allReims();
 	public ArrayList<Employee> getEmpsInDept(int dept_id);
 	public ArrayList<Reimburstment> getPendingReim(int emp_id);
+	public void dsApproval(int reim_id);
+	public void dhApproval(int reim_id);
+	public void bApproval(int reim_id);
+	public void decline(int reim_id);
 }
