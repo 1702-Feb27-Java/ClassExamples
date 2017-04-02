@@ -1,7 +1,3 @@
-<%-- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%> --%>
-<%@page import='java.util.*' %>
-<%@page import='com.revature.pojo.*' %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -17,18 +13,28 @@
      <h1 style="color:blue;" align="center">Pending Reimbursements Page</h1>
 	<hr>
 	<div id="somediv">
-	<% ArrayList<Reimburstment> arr = (ArrayList<Reimburstment>)request.getSession().getAttribute("reimbursements"); %>
-	<% for(Reimburstment r: arr){
-		System.out.println(r.toString());
-	}
-		%>
-     	<c:forEach  var="reimbursements" items="${request.Session.reimbursements}">
-     	<c:out value="${reimbursements}" />
-     	</c:forEach>
-     	<table>
-     		<th>HELP</th>
-     		<tr><td><p>Reimbursement: </p></td></tr>
-     	</table>
+	
+     <table border="1">
+     	<tr><th>Reimbursement ID</th><th>Employee ID</th><th>Location</th><th>Add Date</th>
+     		<th>Course Start Date</th><th>Course End Date</th><th>Course Time</th><th>Course Cost</th>
+     		<th>Reimbursement Amount</th><th>Approval Number</th><th>Course ID</th><th>Grade Type ID</th></tr>
+     	<c:forEach items="${reimbursements}" var="row">
+        <tr>
+            <td>${row.reim_id}</td>
+            <td>${row.emp_id}</td>
+            <td>${row.location}</td>
+            <td>${row.addDate}</td>
+            <td>${row.courseStartDate}</td>
+            <td>${row.courseEndDate}</td>
+            <td>${row.time}</td>
+            <td>${row.courseCost}</td>
+            <td>${row.reimburstAmt}</td>
+            <td>${row.approval}</td>
+            <td>${row.courseID}</td>
+            <td>${row.gradeTypeID}</td>
+        </tr>
+    	</c:forEach>
+    </table>
     </div>
   </body>
 </html>

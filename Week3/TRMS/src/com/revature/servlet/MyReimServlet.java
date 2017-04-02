@@ -40,11 +40,9 @@ public class MyReimServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		Reimburstment reim = new Reimburstment();
 		reim = service.myReimburstment(request.getParameter("password"));
-		request.setAttribute("Reimbursement", reim);
+		request.getSession().setAttribute("reimbursement", reim);
 		RequestDispatcher rd = request.getRequestDispatcher("MyReimbursement.jsp");
 		rd.forward(request, response);
-		
-
 	}
 
 	/**

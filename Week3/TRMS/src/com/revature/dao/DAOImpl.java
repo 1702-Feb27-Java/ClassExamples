@@ -86,6 +86,7 @@ public class DAOImpl implements DAO
 	public Reimburstment getReim(String pass)
 	{
 		Reimburstment reim = new Reimburstment();
+		int tempID = 0;
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{
 			connect.setAutoCommit(false);
@@ -93,7 +94,10 @@ public class DAOImpl implements DAO
 			PreparedStatement ps = connect.prepareStatement(sql);
 			ps.setString(1, pass);
 			ResultSet temp = ps.executeQuery();
-			int tempID = temp.getInt(1);
+			while(temp.next())
+			{
+				tempID = temp.getInt(1);
+			}
 			String sql2 = "SELECT * FROM REIMBURSTMENT WHERE EMP_ID = ?";
 			PreparedStatement ps2 = connect.prepareStatement(sql2);
 			ps2.setInt(1, tempID);
