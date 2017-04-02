@@ -103,5 +103,13 @@ public class Service {
 		db.advanceDay();
 	}
 	
+	public ArrayList<Reimburse> getAllReim(){
+		return db.getAllReimburse();
+	}
+	
+	public void updateNumDay(int id){
+		db.updateNumDay(id);
+	}
+	
 
 }

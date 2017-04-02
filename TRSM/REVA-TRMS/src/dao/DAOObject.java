@@ -131,6 +131,36 @@ public class DAOObject {
 	
 	
 	
+	public ArrayList<Reimburse> getAllReimburse(){
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "SELECT * FROM REIMBURSE";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);			
+			
+			ResultSet rs = ps.executeQuery();
+			ArrayList<Reimburse> temp = new ArrayList<Reimburse>();
+			
+			while(rs.next()){
+				
+				Reimburse re = this.getReimbursement(rs.getInt("REIM_ID"));				
+				
+				
+				temp.add(re);
+				
+			}
+			
+			
+			connect.commit();
+			connect.setAutoCommit(true);
+			return temp;
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 	/**
 	 * Attempts to get the bankmember based on their userName
 	 * @param userName the username to get
@@ -358,6 +388,27 @@ public class DAOObject {
 			PreparedStatement ps = connect.prepareStatement(sql);
 			ps.setInt(1,stat);
 			ps.setInt(2,id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
+	public void updateNumDay(int id) {
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "UPDATE REIMBURSE SET NUM_DAY = 0 WHERE REIM_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1,id);
 			
 			ResultSet rs = ps.executeQuery();
 			

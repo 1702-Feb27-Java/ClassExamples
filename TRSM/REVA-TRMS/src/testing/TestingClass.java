@@ -27,7 +27,7 @@ public class TestingClass {
 		
 		Service serv = new Service();
 		Employee boss = serv.getDepartmentHead(test.getReportsto());
-		System.out.println(boss.toString());
+		System.out.println(serv.getAllReim().get(1).getNumDay());
 				
 
 	}
