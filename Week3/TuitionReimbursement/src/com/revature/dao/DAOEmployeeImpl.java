@@ -112,7 +112,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		return locations;
 	}
 
-	
 	@Override
 	public ArrayList<String> getListOfGradingTypes() {
 		
@@ -567,7 +566,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		return approvalStep;
 	}
 
-	
 	@Override
 	public Reimbursement getReimbursementByid(int reimbId) {
 		Reimbursement reimbursement = new Reimbursement();
@@ -620,7 +618,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		
 		return reimbursement;
 	}
-
 	
 	@Override
 	public boolean submitEdit(int reimbId, String attachmentLink) {
@@ -648,7 +645,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		return link;
 	}
 
-	
 	@Override
 	public ArrayList<Reimbursement> getPendingReimbursementsByApprovalStep(int approvalStepId, int employeeId) {
 		ArrayList<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
@@ -736,7 +732,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		
 		return employees;
 	}
-
 	
 	@Override
 	public int getDepartment(int empId) {
@@ -763,7 +758,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		return department;
 	}
 
-	
 	@Override
 	public boolean updateReimbursement(int reimbId, int empId, int roleId, int deptId, boolean approve, String reason) {
 		boolean result = false;
@@ -818,7 +812,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		
 		return result;
 	}
-
 	
 	@Override
 	public int getEmployeeIdByReimbursementId(int reimbId) {
@@ -873,7 +866,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		
 		return employee;
 	}
-
 	
 	@Override
 	public boolean addMessage(String message, int empId, int messagerId, int reimbId) {
@@ -995,7 +987,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 			e.printStackTrace(); 	
 		}
 	}
-
 	
 	@Override
 	public double getPercentAwarded(int typeOfEventId) {
@@ -1138,7 +1129,6 @@ public class DAOEmployeeImpl implements DAOEmployee{
 
 	@Override
 	public void autoApprove(int reimbId, int approvalStepId) {
-		System.out.println("auto approve dao");
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
 			String sql = "UPDATE REIMBURSEMENT "
@@ -1155,12 +1145,12 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		catch(SQLException e){
 			e.printStackTrace(); 	
 		}
+		System.out.println("Reimbursement " + reimbId + " updated");
 		
 	}
 	
 	@Override
 	public void updateCutoffDate(int reimbId, Date cutoffDate) {
-		System.out.println("updating cutoff date");
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
 			String sql = "UPDATE REIMBURSEMENT "
@@ -1177,7 +1167,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 		catch(SQLException e){
 			e.printStackTrace(); 	
 		}
-		
+		System.out.println("Cutoff Updated for reimbursement : " + reimbId);
 		
 	}
 	

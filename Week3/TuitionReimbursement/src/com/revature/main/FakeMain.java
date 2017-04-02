@@ -35,10 +35,9 @@ public class FakeMain {
 	        @Override
 	        public void run() {
 	            myTask();
-	            System.out.println(timer);
 	            System.out.println(todaysDate);
 	        }
-	    }, 0, 20, TimeUnit.SECONDS);
+	    }, 0, 60, TimeUnit.SECONDS);
 	}
 
 

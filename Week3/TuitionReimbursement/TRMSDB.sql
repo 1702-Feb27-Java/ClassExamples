@@ -269,12 +269,12 @@ CREATE TABLE Reimbursement
   reimb_id NUMBER,
   status_id NUMBER DEFAULT(1) NOT NULL,
   employee_id NUMBER NOT NULL,
-  event varchar2(30) NOT NULL,
+  event varchar2(100) NOT NULL,
   event_date DATE NOT NULL,
   event_time varchar2(10) NOT NULL,
   location_id number(10) NOT NULL,
   form_date DATE NOT NULL,
-  event_description varchar2(30) NOT NULL, 
+  event_description varchar2(200) NOT NULL, 
   event_cost number(30) NOT NULL,
   grading_id number NOT NULL,
   type_of_event_id number NOT NULL,
@@ -287,7 +287,7 @@ CREATE TABLE Reimbursement
   department_head_approver_id number,
   benco_approver_id number,
   final_approver_id number,
-  denial_reason varchar2(100),
+  denial_reason varchar2(200),
   
   CONSTRAINT reimb_id_pk PRIMARY KEY(reimb_id),
   CONSTRAINT stat_id_fk FOREIGN KEY(status_id) REFERENCES Status(status_id),
@@ -418,6 +418,9 @@ INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, L
 /
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
   VALUES(1, 1, 4, 11, 'Aaron', 'Camm', 'aCamm', 'password');
+/
+INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
+  VALUES(1, 1, 1, 1, 'Automated', 'System', 'automated', 'system');
 /
 CREATE OR REPLACE PROCEDURE loginEmployee(emp_id OUT number, un IN varchar2, pw OUT varchar2)
 IS

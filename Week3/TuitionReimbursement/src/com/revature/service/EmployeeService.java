@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import com.revature.dao.DAOEmployeeImpl;
+import com.revature.main.FakeMain;
 import com.revature.pojo.Message;
 import com.revature.pojo.Reimbursement;
 import com.revature.util.ConnectionUtil;
@@ -258,6 +259,19 @@ public class EmployeeService {
 	
 	public boolean updateReimbursement(int reimbId, int empId, int roleId, int deptId, boolean approve, String reason){
 		boolean result = daoEmp.updateReimbursement(reimbId, empId, roleId, deptId, approve, reason);
+		
+		FakeMain fm = new FakeMain();
+		Date todaysDate = fm.getTodaysDate();
+		//add 7 days to current day to get cutoff day
+		Calendar c = Calendar.getInstance();
+		c.setTime(todaysDate);
+		c.add(Calendar.DATE, 7);  // number of days to add
+		Date cutoff = c.getTime();
+		
+		java.sql.Date cutoffDate = new java.sql.Date(cutoff.getTime());
+		
+		daoEmp.updateCutoffDate(reimbId, cutoffDate);
+		
 		return result;
 	}
 	
@@ -451,8 +465,9 @@ public class EmployeeService {
 					Date cutoff = c.getTime();
 					java.sql.Date cutoffDate2 = new java.sql.Date(cutoff.getTime());
 
+					System.out.println(r.getEmpId());
 					daoEmp.autoApprove(r.getReimbId(), r.getApprovalStepId() + 1);
-					daoEmp.addMessage("Auto Approved", r.getEmpId(), 16, r.getReimbId());
+					daoEmp.addMessage("Auto Approved", r.getEmpId(), 13, r.getReimbId());
 					daoEmp.updateCutoffDate(r.getReimbId(), cutoffDate2);
 						
 				}
