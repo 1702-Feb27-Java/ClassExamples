@@ -533,6 +533,36 @@ function Reject() {
 			});
 		});
 
+}
+
+function Approve() {
+	
+	swal({
+		  title: "Approved!",
+		  text: "The Requestor Will Be Notified.",
+		  confirmButtonColor: "#32CD32",
+		  closeOnConfirm: true,
+		  imageUrl: "https://media.giphy.com/media/72HahsJD4atSE/giphy.gif",
+		  imageSize: '320x260',
+		  animation: "slide-from-top"
+		}, function (inputValue) {
+		  $.ajax({
+				cache : false,
+				url : "InsertReimServlet",
+				type : "POST",
+				data : {"approve": myReim},
+				success : function(result, status, xhr) {
+					
+				},
+				error : function(xhr, status) {
+					responsiveVoice.speak("Ajax error please submit again");
+				},
+				complete : function(xhr, status) {
+
+				}
+			});
+		});
+
 		
 	
 }
@@ -608,7 +638,7 @@ $(document).ready(
 					getOtherReqs, true);
 
 			document.getElementById("Approve").addEventListener("click",
-					getOtherReqs, true);
+					Approve, true);
 			document.getElementById("RequestMore").addEventListener("click",
 					RequestMore, true);
 			document.getElementById("Reject").addEventListener("click", Reject,
