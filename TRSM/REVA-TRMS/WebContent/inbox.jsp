@@ -43,7 +43,7 @@
 </nav>
 	<%if(((Employee)session.getAttribute("employee")).getDepart().equals("BenCo")) {%>
 		<sql:query dataSource="${snapshot}" var="result">
-		SELECT DISTINCT REIMBURSE.REIM_ID, REIMBURSE.EMPLOYEE_ID, REIMBURSE.REIMBURSE_COST from REIMBURSE, EMPLOYEE, APPROVE where (APPROVE.STATUS_NUM between 5 and 6 AND EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND  REIMBURSE.EMPLOYEE_ID != EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID) OR (EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND APPROVE.E_ID = EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID AND APPROVE.STATUS_NUM < 7)		
+		SELECT DISTINCT REIMBURSE.REIM_ID, REIMBURSE.EMPLOYEE_ID, REIMBURSE.REIMBURSE_COST, REIMBURSE.URGENT from REIMBURSE, EMPLOYEE, APPROVE where (APPROVE.STATUS_NUM between 5 and 6 AND EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND  REIMBURSE.EMPLOYEE_ID != EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID) OR (EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND APPROVE.E_ID = EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID AND APPROVE.STATUS_NUM < 7) ORDER BY REIMBURSE.URGENT DESC		
 		</sql:query>
 		
 		Here is the list of Request for your attention
@@ -51,14 +51,22 @@
 	<tr>
 	<th>Reim ID</th>
 	<th>Employee ID</th>
-	<th>Amount Requested</th>	
-	<th>View Request</th>	
+	<th>Amount Requested</th>
+	<th>Marked Urgent?</th>	
+	<th>View Request</th>		
 	</tr>
 	<c:forEach var="row" items="${result.rows}">
 	<tr>
 	<td><c:out value="${row.REIM_ID}"/></td>
 	<td><c:out value="${row.EMPLOYEE_ID}"/></td>
 	<td><c:out value="${row.REIMBURSE_COST}"/></td>
+	<td><c:if test="${row.URGENT == 0}">
+  			NO
+		</c:if>
+		<c:if test="${row.URGENT == 1}">
+  			YES
+		</c:if>
+	</td>
 	<td><form action="ViewRequest.do"><input type="submit" name="action" value="${row.REIM_ID}" id="${row.REIM_ID}"></form></td>	
 	</tr>
 	</c:forEach>
@@ -70,7 +78,7 @@
 		<%}else{ %>
 		
 		<sql:query dataSource="${snapshot}" var="result">
-		SELECT REIMBURSE.REIM_ID, REIMBURSE.EMPLOYEE_ID, REIMBURSE.REIMBURSE_COST from REIMBURSE, EMPLOYEE, APPROVE where EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND APPROVE.E_ID = EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID AND APPROVE.STATUS_NUM < 10
+		SELECT REIMBURSE.REIM_ID, REIMBURSE.EMPLOYEE_ID, REIMBURSE.REIMBURSE_COST, REIMBURSE.URGENT from REIMBURSE, EMPLOYEE, APPROVE where EMPLOYEE.USERNAME = '<%= ((Employee)session.getAttribute("employee")).getUserName() %>' AND APPROVE.E_ID = EMPLOYEE.EMPLOYEE_ID AND APPROVE.R_ID = REIMBURSE.REIM_ID AND APPROVE.STATUS_NUM < 10 ORDER BY REIMBURSE.URGENT DESC
 		</sql:query>
 		
 		Here is the list of Request for your attention
@@ -78,7 +86,8 @@
 	<tr>
 	<th>Reim ID</th>
 	<th>Employee ID</th>
-	<th>Amount Requested</th>	
+	<th>Amount Requested</th>
+	<th>Marked Urgent?</th>		
 	<th>View Request</th>	
 	</tr>
 	<c:forEach var="row" items="${result.rows}">
@@ -86,6 +95,13 @@
 	<td><c:out value="${row.REIM_ID}"/></td>
 	<td><c:out value="${row.EMPLOYEE_ID}"/></td>
 	<td><c:out value="${row.REIMBURSE_COST}"/></td>
+	<td><c:if test="${row.URGENT == 0}">
+  			NO
+		</c:if>
+		<c:if test="${row.URGENT == 1}">
+  			YES
+		</c:if>
+	</td>
 	<td><form action="ViewRequest.do"><input type="submit" name="action" value="${row.REIM_ID}" id="${row.REIM_ID}"></form></td>	
 	</tr>
 	</c:forEach>

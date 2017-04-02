@@ -43,8 +43,8 @@ public class Service {
 		return db.getEmployee(id);
 		
 	}
-	public void addReimburseRequest(String username, Reimburse req, Employee em){
-		db.addRequest(username, req, em);
+	public void addReimburseRequest(String username, Reimburse req, Employee em, int isUrgent){
+		db.addRequest(username, req, em, isUrgent);
 	}
 	
 	public Reimburse getReimburse(int id){

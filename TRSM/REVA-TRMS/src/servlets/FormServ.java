@@ -76,7 +76,9 @@ public class FormServ extends HttpServlet {
 		serv.updatePending(e.getUserName(), e.getPending());
 		
 		String str = ((Employee)sess.getAttribute("employee")).getUserName();
-		serv.addReimburseRequest(str, temp, e);
+		
+		int isUrgent = 0;
+		serv.addReimburseRequest(str, temp, e, isUrgent);
 		
 		
 		

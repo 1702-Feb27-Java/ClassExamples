@@ -11,6 +11,8 @@ public class TestingClass {
 
 	public static void main(String[] args) {
 		DAOObject obj = new DAOObject();
+		Reimburse re = obj.getReimbursement(181);
+		System.out.println(re.toString());
 //		Employee emp = obj.getEmployee("Al");
 //		
 //		System.out.println(emp.toString());
@@ -23,12 +25,12 @@ public class TestingClass {
 //		Reimburse test = obj.getReimbursement(43);
 //		System.out.println(test.toString());
 		
-		Employee test = obj.getEmployee(41);
-		
-		Service serv = new Service();
-		Employee boss = serv.getDepartmentHead(test.getReportsto());
-		System.out.println(serv.getAllReim().get(1).getNumDay());
-				
+//		Employee test = obj.getEmployee(41);
+//		
+//		Service serv = new Service();
+//		Employee boss = serv.getDepartmentHead(test.getReportsto());
+//		System.out.println(serv.getAllReim().get(1).getNumDay());
+//				
 
 	}
 

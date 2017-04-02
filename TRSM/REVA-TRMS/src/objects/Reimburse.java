@@ -12,6 +12,7 @@ public class Reimburse {
 		private String justification;
 		private int numDay;
 		private int courseID;
+		private int isUrgent;
 		public Reimburse(){
 			this.employee_id = 0;
 			this.event_date = " ";
@@ -23,11 +24,12 @@ public class Reimburse {
 			this.justification = " ";
 			this.numDay = 0;
 			this.courseID = 0;
+			this.isUrgent = 0;
 			
 			
 		}
 		public Reimburse(int reim_id, int employee_id, String event_date, String eventLength, String location,
-				String description, int cost, int grade, String justification, int numDay, int courseID) {
+				String description, int cost, int grade, String justification, int numDay, int courseID, int isUrgent) {
 			super();
 			this.reim_id = reim_id;
 			this.employee_id = employee_id;
@@ -40,13 +42,22 @@ public class Reimburse {
 			this.justification = justification;
 			this.numDay = numDay;
 			this.courseID = courseID;
+			this.isUrgent = isUrgent;
 		}
+		
+		
 		@Override
 		public String toString() {
 			return "Reimburse [reim_id=" + reim_id + ", employee_id=" + employee_id + ", event_date=" + event_date
 					+ ", eventLength=" + eventLength + ", location=" + location + ", description=" + description
 					+ ", cost=" + cost + ", grade=" + grade + ", justification=" + justification + ", numDay=" + numDay
-					+ ", courseID=" + courseID + "]";
+					+ ", courseID=" + courseID + ", isUrgent=" + isUrgent + "]";
+		}
+		public int getIsUrgent() {
+			return isUrgent;
+		}
+		public void setIsUrgent(int isUrgent) {
+			this.isUrgent = isUrgent;
 		}
 		public int getReim_id() {
 			return reim_id;

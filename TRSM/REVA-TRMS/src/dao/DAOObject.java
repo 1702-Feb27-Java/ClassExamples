@@ -281,7 +281,7 @@ public class DAOObject {
 	}
 	
 	
-	public int addRequest(String username, Reimburse req, Employee em) {
+	public int addRequest(String username, Reimburse req, Employee em, int isUrgent) {
 		int temp = 0;
 		
 	
@@ -289,7 +289,7 @@ public class DAOObject {
 			connect.setAutoCommit(false);
 			
 			//?s can be set
-			String sql = "CALL addReim(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "CALL addReim(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			//seting the call
 			CallableStatement cs = connect.prepareCall(sql);
 			cs.setString(1, username);
@@ -303,6 +303,7 @@ public class DAOObject {
 			cs.setInt(9, req.getCourseID());
 			cs.setInt(10, 0);
 			
+			
 			if(em.getReportsto() == 0){ //he is the department head
 				cs.setInt(11, 5);
 				cs.setInt(12, 22);
@@ -315,6 +316,7 @@ public class DAOObject {
 				cs.setInt(11, 1);
 				cs.setInt(12, em.getReportsto());
 			}
+			cs.setInt(13, isUrgent );
 			
 			cs.executeUpdate();
 			
@@ -360,6 +362,7 @@ public class DAOObject {
 				n.setLocation(rs.getString("LOCATION"));
 				n.setNumDay(rs.getInt("NUM_DAY"));
 				n.setReim_id(rs.getInt("REIM_ID"));
+				n.setIsUrgent(rs.getInt("URGENT"));
 				
 				
 			}
