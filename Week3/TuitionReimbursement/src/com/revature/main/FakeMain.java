@@ -37,7 +37,7 @@ public class FakeMain {
 	            myTask();
 	            System.out.println(todaysDate);
 	        }
-	    }, 0, 60, TimeUnit.SECONDS);
+	    }, 0, 30, TimeUnit.SECONDS);
 	}
 
 

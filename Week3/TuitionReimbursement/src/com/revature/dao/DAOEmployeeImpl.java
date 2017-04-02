@@ -693,6 +693,7 @@ public class DAOEmployeeImpl implements DAOEmployee{
 				reimbursement.setFinalGrade(finalGrade);
 				
 				reimbursements.add(reimbursement);
+				reimbursement = null;
 			}
 			
 			connect.commit();

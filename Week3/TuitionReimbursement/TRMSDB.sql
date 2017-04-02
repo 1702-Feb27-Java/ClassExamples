@@ -224,6 +224,9 @@ VALUES ('Stanford');
 INSERT INTO Location(location)
 VALUES ('UCLA');
 /
+INSERT INTO Location(location)
+VALUES ('Karate City');
+/
 INSERT INTO Approval_step(approval_step_id, approval_step)
 VALUES (1, 'Direct Supervisor');
 /
@@ -417,7 +420,7 @@ INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, L
   VALUES(1, 2, 4, 10, 'Michael', 'Lin', 'mLin', 'password');
 /
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
-  VALUES(1, 1, 4, 11, 'Aaron', 'Camm', 'aCamm', 'password');
+  VALUES(1, 1, 1, 11, 'Aaron', 'Camm', 'aCamm', 'password');
 /
 INSERT INTO Employee(EMPLOYEE_ID, ROLE_ID, DEPT_ID, SUPERVISOR_ID, FIRST_NAME, LAST_NAME, USERNAME, PASS) 
   VALUES(1, 1, 1, 1, 'Automated', 'System', 'automated', 'system');
@@ -476,5 +479,22 @@ BEGIN
   gradingId := gradId;
 END addGrading;
 /
+DECLARE
+BEGIN
+  INSERT INTO REIMBURSEMENT(employee_id, event, event_date, event_time, location_id, form_date, 
+        event_description, event_cost, grading_id, type_of_event_id, urgent_id, approval_step_id, cutoff_date)
+  VALUES(10, 'CS534', '02-MAY-17', '9:00am',2, '04-APR-17', 'Introduction to Operating Systems', '500',1,1,1,1, '11-APR-17');
+  INSERT INTO REIMBURSEMENT(employee_id, event, event_date, event_time, location_id, form_date, 
+        event_description, event_cost, grading_id, type_of_event_id, urgent_id, approval_step_id, cutoff_date)
+  VALUES(12, 'CS534', '02-MAY-17', '9:00am',2, '04-APR-17', 'Introduction to Operating Systems', '500',1,1,1,1, '11-APR-17');
+  INSERT INTO REIMBURSEMENT(employee_id, event, event_date, event_time, location_id, form_date, 
+        event_description, event_cost, grading_id, type_of_event_id, urgent_id, approval_step_id, cutoff_date)
+  VALUES(12, 'Cooking class', '02-MAY-17', '11:30am',1, '04-APR-17', 'Learn to cook 101', '400',2,5,1,1, '11-APR-17');
+  INSERT INTO REIMBURSEMENT(employee_id, event, event_date, event_time, location_id, form_date, 
+        event_description, event_cost, grading_id, type_of_event_id, urgent_id, approval_step_id, cutoff_date)
+  VALUES(12, 'Self Defense', '02-MAY-17', '12:00pm',3, '04-APR-17', 'Defense for women', '200',2,6,1,1, '11-APR-17');
+END;
+/
+COMMIT;
 
 
