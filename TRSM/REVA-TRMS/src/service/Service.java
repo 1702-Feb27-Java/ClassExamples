@@ -61,6 +61,14 @@ public class Service {
 				
 	}
 	
+	public void deleteReim(int id){
+		db.deleteReim(id);
+	}
+	
+	public void updateCost(int id, int newCost){
+		db.updateCost(id, newCost);
+	}
+	
 	/**
 	 * gets if the given value is the department head. Make sure to no envoke on the boss 
 	 * @param id the reportsto field of an employee

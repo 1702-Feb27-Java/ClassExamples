@@ -1,6 +1,10 @@
 package servlets;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 
 import objects.Employee;
 import objects.Reimburse;
@@ -35,6 +39,52 @@ public class FormServ extends HttpServlet {
 		//temp.setCost(new Integer(request.getParameter("eventCost")));
 		temp.setCourseID(new Integer(request.getParameter("courseType")));
 		temp.setDescription(request.getParameter("eventDescription"));
+		
+		
+		
+		
+		String input = request.getParameter("eventDate");
+		int isUrgent = 0;
+		try {
+		    DateTimeFormatter formatter =
+		                      DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		    LocalDate date = LocalDate.parse(input, formatter);
+		   // System.out.printf("%s%n", date);
+		    LocalDate today = LocalDate.now();
+//			LocalDate birthday = LocalDate.of(2017, Month.DECEMBER, 2);
+			long p2 = ChronoUnit.DAYS.between(today, date);
+			if(p2 <= 7){
+				HttpSession ses = request.getSession();
+				ses.setAttribute("formError", "request must be submitted more than a week from start date of event");
+				HttpServletRequest req = (HttpServletRequest)request;
+				HttpServletResponse res =(HttpServletResponse)response;
+				RequestDispatcher rd;
+				rd = req.getRequestDispatcher("form.jsp");
+				rd.forward(req, res);			
+				return;
+			}
+			
+			if(p2 <= 14){
+				isUrgent = 1;
+			}
+			
+			
+		}
+		catch (DateTimeParseException exc) {
+			HttpSession ses = request.getSession();
+			ses.setAttribute("formError", "date is incorrectly formated");
+			HttpServletRequest req = (HttpServletRequest)request;
+			HttpServletResponse res =(HttpServletResponse)response;
+			RequestDispatcher rd;
+			rd = req.getRequestDispatcher("form.jsp");
+			rd.forward(req, res);			
+			return;
+		}
+		
+		
+		
+		
+		
 		temp.setEvent_date(request.getParameter("eventDate"));
 		temp.setEventLength(request.getParameter("eventLength"));
 		temp.setGrade(new Integer(request.getParameter("grade")));
@@ -47,7 +97,20 @@ public class FormServ extends HttpServlet {
 		Service serv = new Service();
 		HttpSession sess = request.getSession();
 		Employee e = ((Employee)sess.getAttribute("employee"));
-		int cost = new Integer(request.getParameter("eventCost")).intValue();
+		int cost = 0;
+		try{
+			cost = new Integer(request.getParameter("eventCost")).intValue();
+		}
+		catch (Exception ex){
+			HttpSession ses = request.getSession();
+			ses.setAttribute("formError", "cost field is incorrectly formated");
+			HttpServletRequest req = (HttpServletRequest)request;
+			HttpServletResponse res =(HttpServletResponse)response;
+			RequestDispatcher rd;
+			rd = req.getRequestDispatcher("form.jsp");
+			rd.forward(req, res);			
+			return;
+		}
 		int courseType = new Integer(request.getParameter("courseType")).intValue();
 		
 		if(courseType == 1){
@@ -77,7 +140,7 @@ public class FormServ extends HttpServlet {
 		
 		String str = ((Employee)sess.getAttribute("employee")).getUserName();
 		
-		int isUrgent = 0;
+		
 		serv.addReimburseRequest(str, temp, e, isUrgent);
 		
 		

@@ -423,6 +423,28 @@ public class DAOObject {
 	}
 	
 	
+	
+	public void deleteReim(int id) {
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "DELETE FROM REIMBURSE WHERE REIM_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			
+			ps.setInt(1,id);
+			
+			ResultSet rs = ps.executeQuery();
+			connect.commit();
+			connect.setAutoCommit(true);
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 	public void updateApprover(int id, int eI) {
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -597,6 +619,27 @@ public class DAOObject {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void updateCost(int id, int newCost){
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			String sql = "UPDATE REIMBURSE SET REIMBURSE_COST = ? WHERE REIM_ID = ?";
+			
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ps.setInt(1,newCost);
+			ps.setInt(2, id);
+			
+			ResultSet rs = ps.executeQuery();
+			connect.commit();
+			connect.setAutoCommit(true);
+			
+			
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
 	}
 	
 	

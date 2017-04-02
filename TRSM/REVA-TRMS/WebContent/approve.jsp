@@ -29,7 +29,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active"><a href="inbox.jsp">Inbox<span class="sr-only">(current)</span></a></li>
-        <li><a href="form.html">Request Form</a></li><li><a href="status.jsp">Request Status</a></li><li><a href="Menu.jsp">Menu</a></li>       
+        <li><a href="form.jsp">Request Form</a></li><li><a href="status.jsp">Request Status</a></li><li><a href="Menu.jsp">Menu</a></li>       
       </ul>
      
     
@@ -159,6 +159,15 @@
     <textarea class="form-control" id="message" name="message"></textarea>
   </div>
 </div>
+<br>
+<br>
+<div align="center">
+<%if( ((Employee)session.getAttribute("employee")).getDepart().equals("BenCo")){ %>
+	New Amount to change
+	<input type="text" value="newAmount" name="newAmount">
+<%} %>
+</div>
+
 </form>
 </body>
 </html>

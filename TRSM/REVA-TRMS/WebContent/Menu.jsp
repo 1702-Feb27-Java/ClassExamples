@@ -30,7 +30,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active"><a href="inbox.jsp">Inbox<span class="sr-only">(current)</span></a></li>
-        <li><a href="form.html">Request Form</a></li><li><a href="status.jsp">Request Status</a></li><li><a href="updateDay.jsp">Advance Day</a></li>        
+        <li><a href="form.jsp">Request Form</a></li><li><a href="status.jsp">Request Status</a></li><li><a href="updateDay.jsp">Advance Day</a></li>        
       </ul>
      
     

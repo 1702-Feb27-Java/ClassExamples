@@ -78,4 +78,14 @@
     <servlet-name>Advance</servlet-name>
     <url-pattern>/Advance</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EmployeeReimDelete</display-name>
+    <servlet-name>EmployeeReimDelete</servlet-name>
+    <servlet-class>servlets.EmployeeReimDelete</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EmployeeReimDelete</servlet-name>
+    <url-pattern>/EmployeeReimDelete</url-pattern>
+  </servlet-mapping>
 </web-app>

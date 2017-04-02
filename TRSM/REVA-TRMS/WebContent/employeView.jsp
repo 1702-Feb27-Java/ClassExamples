@@ -29,7 +29,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active"><a href="inbox.jsp">Inbox<span class="sr-only">(current)</span></a></li>
-        <li><a href="form.html">Request Form</a></li><li><a href="status.jsp">Request Status</a></li><li><a href="Menu.jsp">Menu</a></li>       
+        <li><a href="form.jsp">Request Form</a></li><li><a href="status.jsp">Request Status</a></li><li><a href="Menu.jsp">Menu</a></li>       
       </ul>
      
     
@@ -141,26 +141,54 @@
 <br><br>
 <div id="superMessage" align="center">
 <%if(session.getAttribute("superMessage") != null){ %>
+	Message
+	<br>---------------------------------------<br>
 	<%= session.getAttribute("superMessage") %>
-	<br>---------------------------------------
+	
 	<% session.setAttribute("superMessage", null);
 	}%>
 </div> 
-
+<br>
 <div id="departmentHead" align="center">
 <%if(session.getAttribute("departHeadMessage") != null){ %>
+	Message
+	<br>---------------------------------------<br>
 	<%= session.getAttribute("departHeadMessage") %>
+	
 	<% session.setAttribute("departHeadMessage", null);
 	}%>
 </div>
-
+<br>
 <div id="benCoMessage" align="center">
 <%if(session.getAttribute("BenCoMessage") != null){ %>
+	Message
+	<br>---------------------------------------<br>
 	<%= session.getAttribute("BenCoMessage") %>
+	
 	<% session.setAttribute("BenCoMessage", null);
 	}%>
 </div>
 
+<div align = "center">
+<% if(session.getAttribute("rejected") != null) {%>
+<form action="EmployeeReimDelete.do" method="POST">
+<input type="submit" value="delete" name="remove">
+</form>
+
+<%session.setAttribute("rejected", null);
+}%>
+</div>
+
+<div align = "center">
+<% if(session.getAttribute("changed") != null) {%>
+<form action="EmployeeReimDelete.do" method="POST">
+<input type="submit" value="delete" name="delete">
+<input type="submit" value="accepted" name="accepted">
+</form>
+
+<%session.setAttribute("changed", null);
+}%>
+</div>
 
 </body>
 </html>

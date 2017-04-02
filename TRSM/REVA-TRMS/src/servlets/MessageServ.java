@@ -40,6 +40,14 @@ public class MessageServ extends HttpServlet {
 		HttpSession sess = request.getSession();
 		sess.setAttribute("re", rm);
 		sess.setAttribute("reEm", em);
+		
+		int status = serv.getStatus(rm.getReim_id());
+		if(status == 10){
+			sess.setAttribute("rejected", "rejected");
+		}
+		else if(status == 9){
+			sess.setAttribute("changed", "changed");
+		}
 		//get message
 		
 		ArrayList<String> mess = serv.getMessage(rm.getReim_id());
