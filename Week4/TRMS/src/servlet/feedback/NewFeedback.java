@@ -17,7 +17,6 @@ import database.service.Service;
 /**
  * Servlet implementation class NewFeedBack
  */
-@WebServlet("/NewFeedback")
 public class NewFeedback extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

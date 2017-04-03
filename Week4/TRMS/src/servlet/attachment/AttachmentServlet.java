@@ -27,7 +27,6 @@ import database.service.Service;
 /**
  * Servlet implementation class Attachment
  */
-@WebServlet("/Attachment")
 @MultipartConfig
 public class AttachmentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

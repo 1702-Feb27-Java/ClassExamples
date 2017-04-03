@@ -21,7 +21,7 @@ import database.service.Service;
 /**
  * Servlet implementation class EditReimbursement
  */
-@WebServlet("/EditReimbursement")
+//@WebServlet("/EditReimbursement")
 public class EditReimbursement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -36,6 +36,17 @@ public class EditReimbursement extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    
+    
+	private void setReimbursementPermissions(HttpServletRequest request, Reimbursement reimbursement, User user) {
+		request.setAttribute("canApprove", Service.canApproveOrRejectReimbursement(user, reimbursement));
+		request.setAttribute("canReject", Service.canApproveOrRejectReimbursement(user, reimbursement));
+		request.setAttribute("canCancel", Service.canCancelAndSendAttachmentsReimbursement(user, reimbursement));
+		request.setAttribute("canSendAttachments", Service.canCancelAndSendAttachmentsReimbursement(user, reimbursement));
+		request.setAttribute("canEditReimbursement", Service.canEditReimbursement(user, reimbursement));	
+		request.setAttribute("canEditGrade", Service.canEditGrade(user, reimbursement));
+	}
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -60,57 +71,10 @@ public class EditReimbursement extends HttpServlet {
 				request.setAttribute("canEditReimbursement", false);
 				request.setAttribute("attachments", attachments);
 				
-				//TODO: reduce repeated Service Calls
+				this.setReimbursementPermissions(request, reimbursement, user);
 				
-				//User can cancel a reimbursement at any time and send attachment
-				if(reimbursement.getUser().equals(user) && reimbursement.getStatus().getStatusId() <= Service.AwaitComplete){
-					request.setAttribute("canCancel", new Boolean(true));
-					request.setAttribute("canSendAttachments", new Boolean(true));
-					if (reimbursement.getStatusId().equals(Service.AwaitComplete) 
-							&& !reimbursement.getGradeFormat().getRequiresPresentation()){
-						request.setAttribute("canEditGrade", new Boolean(true));
-					}
-				}
 				
-				//Supervisor Approvals
-				if(reimbursement.getStatus().getStatusId().equals(Service.AwaitSuperApp)
-						&& reimbursement.getUser().getSupervisor() != null && reimbursement.getUser().getSupervisor().equals(user)){
-					request.setAttribute("canApprove", new Boolean(true));
-					request.setAttribute("canReject", new Boolean(true));
-				}
 				
-				//Dept Head Approvals
-				if(reimbursement.getStatus().getStatusId().equals(Service.AwaitDepHeadApp)
-						&& Service.getInstance().getDeptHead(reimbursement.getUser().getDept()).equals(user)){
-					request.setAttribute("canApprove", new Boolean(true));
-					request.setAttribute("canReject", new Boolean(true));
-				}
-				
-				//BenCo Approves
-				if(user.getDeptId().equals(Service.BenCoDept)
-						&& (reimbursement.getStatus().getStatusId().equals(Service.AwaitBenCoApp))){
-					
-					request.setAttribute("canApprove", new Boolean(true));
-					request.setAttribute("canReject", new Boolean(true));
-					request.setAttribute("canEditReimbursement", true);
-				}
-				
-				//BenCo Approves Grade
-				if(user.getDeptId().equals(Service.BenCoDept)
-						 && (reimbursement.getStatusId().equals(Service.AwaitComplete) 
-								 && !reimbursement.getGradeFormat().getRequiresPresentation())){
-					request.setAttribute("canApprove", new Boolean(true));
-					request.setAttribute("canReject", new Boolean(true));
-				}
-				
-				//Manager Approves
-				if(user.getRoleId().equals(Service.Manager)
-						&& reimbursement.getStatusId().equals(Service.AwaitComplete) 
-						&& reimbursement.getGradeFormat().getRequiresPresentation()
-						){
-					request.setAttribute("canApprove", new Boolean(true));
-					request.setAttribute("canReject", new Boolean(true));					
-				}
 				
 				RequestDispatcher rd = request.getRequestDispatcher("viewReimbursement.jsp");
 				rd.forward(request, response);
@@ -122,7 +86,7 @@ public class EditReimbursement extends HttpServlet {
 			}			
 		}
 		
-		//requires parameter and valid id
+		
 	
 	
 	}

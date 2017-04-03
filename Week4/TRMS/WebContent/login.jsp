@@ -9,17 +9,23 @@
 </head>
 <body>
 <%@ include file="fragments/nav.jsp" %>
+<div class = "container">
+
 <form action = "Login" method="post">
-	<div id = "login">
-		<div class="input-group" id="username-input">
-			<input type="text" class="form-control" name = "username" placeholder= "Username"/>
+	<div id = "login" class = "container">
+		<div class = "row">
+		<div class="form-group col-sm-6">
+			<label>Username</label><input type="text" class="form-control"
+				name="username" />
 		</div>
-		<div class="input-group" id="username-input">
-			<input type="password" class="form-control" name = "password" placeholder= "Password"/>
+		<div class="form-group col-sm-6">
+			<label>Password</label><input type="password" class="form-control"
+				name="password" />
+		</div>
 		</div>
 		<button type="login" class="btn btn-default">Submit</button>
 	</div>
 </form>
-
+</div>
 </body>
 </html>

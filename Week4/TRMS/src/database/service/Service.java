@@ -16,6 +16,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
@@ -372,8 +376,7 @@ public class Service {
 	}
 
 	public List<User> getUsersToMessage(User loggedInUser, Integer userIdRequestingReimbursement) {
-		List<User> usersToMessage = new LinkedList<User>();
-		List<Integer> usersIdsToMessage = new LinkedList<Integer>();
+		Set<User> usersToMessage = new TreeSet<User>();
 		User userRequestingReimbursement = Service.getInstance().getUserFromId(userIdRequestingReimbursement);
 		
 		Integer supervisorId = userRequestingReimbursement.getSupervisorId();
@@ -385,7 +388,9 @@ public class Service {
 		//add in Dept head
 		if (userRequestingReimbursement.getDeptId() != null && userRequestingReimbursement.getDeptId() != 0){
 			User deptHead = Service.getInstance().getDeptHead(userRequestingReimbursement.getDept());
-			usersToMessage.add(deptHead);
+			if(!usersToMessage.contains(deptHead)){
+				usersToMessage.add(deptHead);
+			}
 		}
 		//add in BenCo dept
 		usersToMessage.addAll(Service.getInstance().getUsersByDept(Service.getInstance().getDepts().get(Service.BenCoDept)));
@@ -397,10 +402,10 @@ public class Service {
 		while(usersToMessage.contains(loggedInUser)){
 			usersToMessage.remove(loggedInUser);
 		}
+		List<User> usersToMessageList = new LinkedList<>(usersToMessage);
+		Collections.sort(usersToMessageList);
 		
-		Collections.sort(usersToMessage);
-		
-		return usersToMessage;
+		return usersToMessageList;
 		
 		
 	}
@@ -414,6 +419,77 @@ public class Service {
 		// TODO Auto-generated method stub
 		return Dao.getInstance().getFeedbackById(id);
 	}
+	
+	public static boolean canCancelAndSendAttachmentsReimbursement(User user, Reimbursement reimbursement){
+		if (reimbursement.getUserId().equals(user.getUserId()) 
+				&& reimbursement.getStatus().getStatusId() <= Service.AwaitComplete){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static boolean canEditGrade(User user, Reimbursement reimbursement){
+		if(canCancelAndSendAttachmentsReimbursement(user, reimbursement)
+				&& reimbursement.getStatusId().equals(Service.AwaitComplete)
+				&& !reimbursement.getGradeFormat().getRequiresPresentation()){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static boolean canApproveOrRejectReimbursement(User user, Reimbursement reimbursement){
+		//Supervisor Approvals
+		if(reimbursement.getStatus().getStatusId().equals(Service.AwaitSuperApp)
+				&& reimbursement.getUser().getSupervisor() != null && reimbursement.getUser().getSupervisor().equals(user)){
+				return true;
+		}
+		//Dept Head Approvals
+		else if(reimbursement.getStatus().getStatusId().equals(Service.AwaitDepHeadApp)
+				&& Service.getInstance().getDeptHead(reimbursement.getUser().getDept()).equals(user)){
+			return true;
+		}
+		
+		//BenCo Approves
+		else if(user.getDeptId().equals(Service.BenCoDept)
+				&& (reimbursement.getStatus().getStatusId().equals(Service.AwaitBenCoApp))){
+		return true;
+		}
+		
+		//BenCo Approves Grade
+		else if(user.getDeptId().equals(Service.BenCoDept)
+				 && (reimbursement.getStatusId().equals(Service.AwaitComplete) 
+						 && !reimbursement.getGradeFormat().getRequiresPresentation())){
+			return true;
+		}
+		
+		//Manager Approves
+		else if(user.getRoleId().equals(Service.Manager)
+				&& reimbursement.getStatusId().equals(Service.AwaitComplete) 
+				&& reimbursement.getGradeFormat().getRequiresPresentation()
+				){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public static boolean canEditReimbursement(User user, Reimbursement reimbursement){
+		if(user.getDeptId().equals(Service.BenCoDept)
+				&& (reimbursement.getStatus().getStatusId().equals(Service.AwaitBenCoApp))){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
+
+
+
+
 	
 
 	

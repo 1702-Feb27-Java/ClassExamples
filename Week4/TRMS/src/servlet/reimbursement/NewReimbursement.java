@@ -19,7 +19,6 @@ import database.service.Service;
 /**
  * Servlet implementation class NewReimbursement
  */
-@WebServlet(description = "Servlet to create a new reimbursement request", urlPatterns = { "/NewReimbursement" })
 public class NewReimbursement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

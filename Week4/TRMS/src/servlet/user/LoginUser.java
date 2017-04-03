@@ -16,7 +16,7 @@ import database.service.Service;
 /**
  * Servlet implementation class LoginUser
  */
-@WebServlet("/LoginUser")
+//@WebServlet("/LoginUser")
 public class LoginUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

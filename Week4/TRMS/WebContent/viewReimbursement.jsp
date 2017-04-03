@@ -18,6 +18,7 @@
 
 <body>
 <%@ include file="fragments/nav.jsp" %>
+<div class ="container">
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="#reimburse" data-toggle="tab">View
 				Reimbursement</a></li>
@@ -45,10 +46,17 @@
 						class="form-control" id="reimburse-cost"
 						value="${reimbursement.getCostOfEvent()}" readonly />
 				</div>
-				<div class="form-group">
+				<div class = "row">
+				<div class="form-group col-sm-6">
 					<label>Grade Format</label><select disabled="true"
 						class="form-control" id="gradeFormat"><option><c:out
 								value="${reimbursement.getGradeFormat().getFormatName()}" /></option></select>
+				</div>
+				<div class="form-group col-sm-6">
+						<label>Event Type</label><select disabled="true"
+							class="form-control"><option><c:out
+									value="${reimbursement.getEventType().getTypeName()}" /></option></select>
+				</div>
 				</div>
 				<%--Show custom grading option, only when Other is given --%>
 				<c:if test="${reimbursement.getGradeFormatId() == 4}">
@@ -60,32 +68,29 @@
 							readonly />
 					</div>
 				</c:if>
-					<div class="form-group">
-						<label>Event Type</label><select disabled="true"
-							class="form-control"><option><c:out
-									value="${reimbursement.getEventType().getTypeName()}" /></option></select>
-					</div>
-					<div class="form-group">
+				<div class ="row">
+					<div class="form-group col-sm-6">
 						<label>Start Date</label><input type="date" class="form-control"
 							id="reimburse-startDate" value="${reimbursement.getStartDate()}"
 							readonly />
 					</div>
-					<div class="form-group">
+					<div class="form-group col-sm-6">
 						<label>End Date</label><input type="date" class="form-control"
 							id="reimburse-endDate" value="${reimbursement.getEndDate()}"
 							readonly />
 					</div>
+				</div>
 				
-				<div id="grades">
+				<div id="grades" class ="row">
 					<%--Show Grades only when needed --%>
 					<c:if test="${reimbursement.getStatus().getStatusId() >= 4}">
 						<c:if test="${canEditGrade}">
-							<div class="form-group">
+							<div class="form-group col-sm-6">
 								<label>Grade</label><input type="text" class="form-control"
 									id="reimburse-grade" name="reimburse-grade"
 									value="${reimbursement.getGrade()}" />
 							</div>
-							<div class="form-group">
+							<div class="form-group col-sm-6">
 								<label>Passing Grade</label><input type="text"
 									class="form-control" id="reimburse-passingGrade"
 									name="reimburse-passingGrade"
@@ -93,12 +98,12 @@
 							</div>
 						</c:if>
 						<c:if test="${!canEditGrade}">
-							<div class="form-group">
+							<div class="form-group col-sm-6">
 								<label>Grade</label><input type="text" class="form-control"
 									id="reimburse-grade" value="${reimbursement.getGrade()}"
 									readonly />
 							</div>
-							<div class="form-group">
+							<div class="form-group col-sm-6">
 								<label>Passing Grade</label><input type="text"
 									class="form-control" id="reimburse-passingGrade"
 									value="${reimbursement.getPassingGrade()}" readonly />
@@ -282,6 +287,7 @@
 				</c:forEach>
 			</div>
 		</div>
+	</div>
 	</div>
 	<script type="text/javascript" src="js/viewReimbursement.js"></script>
 </body>
