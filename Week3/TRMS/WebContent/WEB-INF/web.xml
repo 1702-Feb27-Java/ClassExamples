@@ -34,7 +34,7 @@
     <servlet-name>ReimbursementServlet</servlet-name>
     <url-pattern>/ReimbursementServlet</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <description></description>
     <display-name>ApplyReimbursementServlet</display-name>
     <servlet-name>ApplyReimbursementServlet</servlet-name>
@@ -53,5 +53,14 @@
     <filter-name>DispatchFilter</filter-name>
     <url-pattern>*.do</url-pattern>
   </filter-mapping>
-
+  <servlet>
+    <description></description>
+    <display-name>ApproveServlet</display-name>
+    <servlet-name>ApproveServlet</servlet-name>
+    <servlet-class>com.revature.servlets.ApproveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApproveServlet</servlet-name>
+    <url-pattern>/ApproveServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

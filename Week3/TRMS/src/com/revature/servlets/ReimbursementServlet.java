@@ -33,14 +33,10 @@ public class ReimbursementServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession currSession = request.getSession();
-		System.out.println("in ReimbursementServlet");
-		System.out.println(ls.getDepts());
-		System.out.println(ls.getEventTitles());
 		ArrayList<Grade> grades = ls.getGrades();
 		ArrayList<String> gradeStrings = new ArrayList<String>();
 		for (Grade g : grades){
 			gradeStrings.add(g.getGradeFormat());
-			System.out.println(g.getGradeFormat());
 		}
 		request.setAttribute("departments", ls.getDepts());
 		request.setAttribute("eventTitles", ls.getEventTitles());

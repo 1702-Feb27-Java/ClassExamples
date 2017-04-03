@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -51,7 +52,6 @@ public class ApplyReimbursementServlet extends HttpServlet {
 		r.setLocation(request.getParameter("location"));
 		// event_title from event_title_id
 		if(request.getParameter("otherEventTitle").isEmpty()) {
-			System.out.println(request.getParameter("event-type"));
 			r.setEventTitleId((Integer.parseInt(request.getParameter("event-type"))));
 		} else
 			ls.insertEvent(request.getParameter("otherEventTitle"));
@@ -70,12 +70,12 @@ public class ApplyReimbursementServlet extends HttpServlet {
 			// return new grade_id
 			r.setGradeId(ls.insertGrade(g));
 		}
+
 		try {
 			// format date string to java.util.Date type
-			SimpleDateFormat parser=new SimpleDateFormat("MM/dd/yyyy");
+			SimpleDateFormat parser=new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 			java.util.Date utilDate = parser.parse(request.getParameter("eventDate"));
-			java.sql.Date sqlDate = new java.sql.Date(utilDate.getDate());
-			r.setEventDate(sqlDate);
+			r.setEventDate(utilDate);
 			// format cost string to double with 2 decimal places
 			DecimalFormat df = new DecimalFormat("#.00");
 			r.setCost((df.parse(request.getParameter("costOfEvent")).doubleValue()));
@@ -83,10 +83,13 @@ public class ApplyReimbursementServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(r);
+		// TODO: If reimbursement previously passed in beforehand, simply stage for approval
+		
+		// stage reimbursement for approval by appropriate role employee
+		rs.stage(r);
 		rs.insertReimbursement(r);
 		
-		String nextJSP = "/reimbursement_completion.jsp";
+		String nextJSP = "/completion.jsp";
 		RequestDispatcher rd = request.getRequestDispatcher(nextJSP);
 		rd.forward(request, response);
 	}

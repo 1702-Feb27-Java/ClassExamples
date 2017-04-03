@@ -18,7 +18,6 @@ public class ServiceTest {
 		
 		// TESTING REIMBURSEMENT SERVICE
 		ReimbursementService rs = new ReimbursementService();
-		System.out.println(rs.getPendingReimbursementsForEmployee(testEmp));
 		
 		// LOOKUP SERVICE TEST
 		LookupService ls = new LookupService();
@@ -27,6 +26,13 @@ public class ServiceTest {
 			g.getGradeFormat();
 			System.out.println(g.getGradeFormat());
 		}
+		
+		// 
+		System.out.println(ls.getGradeById(1));
+		System.out.println(ls.getAppLevelTitleById(1));
+		Employee e1 = es.loginEmployee("benco2", "supervisor");
+		System.out.println("e1's dept: " + e1.getDeptId());
+		System.out.println("e1 is benco: " + e1.isBenCo());
 	}
 
 }

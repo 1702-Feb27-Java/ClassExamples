@@ -1,7 +1,7 @@
 package com.revature.dao;
 
 import java.sql.Connection;
-import java.util.Date;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -74,7 +74,7 @@ public class ReimbursementDaoImpl {
           ArrayList<Reimbursement> searchResults = new ArrayList<>();
           ResultSet result = null;
           PreparedStatement stmt = null;
-          Reimbursement temp = new Reimbursement();
+          Reimbursement temp = null;
 
           try (Connection conn = ConnectionFactory.getConnection()){
         	  conn.setAutoCommit(false);
@@ -84,8 +84,8 @@ public class ReimbursementDaoImpl {
               result = stmt.executeQuery();
 
               while (result.next()) {
-
-                   temp.setReimbId(result.getInt("REIMB_ID")); 
+            	   temp = new Reimbursement();
+                   temp.setReimbId(result.getInt("REIMB_ID"));
                    temp.setEmployeeId(result.getInt("EMPLOYEE_ID"));
                    temp.setLocation(result.getString("LOCATION")); 
                    temp.setCost(result.getDouble("COST")); 
@@ -105,7 +105,6 @@ public class ReimbursementDaoImpl {
           } catch (SQLException e) {
         	  e.printStackTrace();
           }
-
           return searchResults;
     }
 
@@ -114,7 +113,7 @@ public class ReimbursementDaoImpl {
         ArrayList<Reimbursement> searchResults = new ArrayList<>();
         ResultSet result = null;
         PreparedStatement stmt = null;
-        Reimbursement temp = new Reimbursement();
+        
 
         try (Connection conn = ConnectionFactory.getConnection()){
       	  conn.setAutoCommit(false);
@@ -125,20 +124,20 @@ public class ReimbursementDaoImpl {
             result = stmt.executeQuery();
 
             while (result.next()) {
-
-                 temp.setReimbId(result.getInt("REIMB_ID")); 
-                 temp.setEmployeeId(result.getInt("EMPLOYEE_ID"));
-                 temp.setLocation(result.getString("LOCATION")); 
-                 temp.setCost(result.getDouble("COST")); 
-                 temp.setEventTitleId(result.getInt("EVENT_TITLE_ID")); 
-                 temp.setEventDate(result.getDate("EVENT_DATE")); 
-                 temp.setEventDesc(result.getString("EVENT_DESC")); 
-                 temp.setWorkJust(result.getString("WORK_JUST")); 
-                 temp.setGradeId(result.getInt("GRADE_ID")); 
-                 temp.setUrgencyId(result.getInt("URGENCY_ID")); 
-                 temp.setAppLevel(result.getInt("APP_LEVEL"));
-
-                 searchResults.add(temp);
+            	Reimbursement temp = new Reimbursement();
+	             temp.setReimbId(result.getInt("REIMB_ID")); 
+	             temp.setEmployeeId(result.getInt("EMPLOYEE_ID"));
+	             temp.setLocation(result.getString("LOCATION")); 
+	             temp.setCost(result.getDouble("COST")); 
+	             temp.setEventTitleId(result.getInt("EVENT_TITLE_ID")); 
+	             temp.setEventDate(result.getDate("EVENT_DATE")); 
+	             temp.setEventDesc(result.getString("EVENT_DESC")); 
+	             temp.setWorkJust(result.getString("WORK_JUST")); 
+	             temp.setGradeId(result.getInt("GRADE_ID")); 
+	             temp.setUrgencyId(result.getInt("URGENCY_ID")); 
+	             temp.setAppLevel(result.getInt("APP_LEVEL"));
+	
+	             searchResults.add(temp);
             }
             
             conn.commit();
@@ -173,17 +172,19 @@ public class ReimbursementDaoImpl {
         	  conn.setAutoCommit(false);
                sql = "INSERT INTO REIMBS ( EMPLOYEE_ID, LOCATION, COST, EVENT_TITLE_ID, "
                + "EVENT_DATE, EVENT_DESC, WORK_JUST, "
-               + "GRADE_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
+               + "GRADE_ID, APP_LEVEL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
                stmt = conn.prepareStatement(sql);
                
                stmt.setInt(1, valueObject.getEmployeeId());
                stmt.setString(2, valueObject.getLocation()); 
                stmt.setDouble(3, valueObject.getCost()); 
                stmt.setInt(4, valueObject.getEventTitleId()); 
-               stmt.setDate(5, (java.sql.Date) valueObject.getEventDate()); 
+               java.sql.Date sqlDate = new java.sql.Date(valueObject.getEventDate().getDate());
+               stmt.setDate(5, sqlDate); 
                stmt.setString(6, valueObject.getEventDesc()); 
                stmt.setString(7, valueObject.getWorkJust()); 
                stmt.setInt(8, valueObject.getGradeId());
+               stmt.setInt(9, valueObject.getAppLevel());
 
                int rowcount = stmt.executeUpdate();
                if (rowcount != 1) {
@@ -242,7 +243,8 @@ public class ReimbursementDaoImpl {
               stmt.setString(2, valueObject.getLocation()); 
               stmt.setDouble(3, valueObject.getCost()); 
               stmt.setInt(4, valueObject.getEventTitleId()); 
-              stmt.setDate(5, (java.sql.Date) valueObject.getEventDate()); 
+              java.sql.Date sqlDate = new java.sql.Date(valueObject.getEventDate().getDate());
+              stmt.setDate(5, sqlDate); 
               stmt.setString(6, valueObject.getEventDesc()); 
               stmt.setString(7, valueObject.getWorkJust()); 
               stmt.setInt(8, valueObject.getGradeId()); 

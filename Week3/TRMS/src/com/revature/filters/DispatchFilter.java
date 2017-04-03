@@ -67,6 +67,10 @@ public class DispatchFilter implements Filter {
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;
+		case "ApproveServlet":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
 		default:
 			rd = req.getRequestDispatcher("DefaultServlet");
 			rd.include(req, res);

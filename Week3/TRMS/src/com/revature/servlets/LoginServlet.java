@@ -65,9 +65,14 @@ public class LoginServlet extends HttpServlet {
 		// in Servlet
 		if(e != null) {
 			// Collect pending reimbursements related to Employee
-			ArrayList<Reimbursement> pendingReimbursements = rs.getPendingReimbursementsForEmployee(e);
-			// TODO: Collect awarded reimbursements related to Employee
-			// ArrayList<Reimbursement> awardedReimbursements = rs.getAwardedReimbursementsForEmployee();
+			ArrayList<Reimbursement> pendingReimbursements = rs.getPendingReimbursementsByEmployee(e);
+			// Collect awarded reimbursements related to Employee
+			ArrayList<Reimbursement> matriculatedReimbursements = rs.getMatriculatedReimbursementsByEmployee(e);
+			// Collect approvable reimbursements related to Employee
+			ArrayList<Reimbursement> approvableReimbursements = rs.getApprovableReimbursements(e);
+			// Collect finalizable reimbursements related to Employee
+			ArrayList<Reimbursement> finalizableReimbursements = rs.getFinalizableReimbursements(e);
+			
 			currSession.setAttribute("employee", e);
 			// Store id username password strings of employee in session
 			currSession.setAttribute("employeeId", e.getEmployeeId());
@@ -80,16 +85,12 @@ public class LoginServlet extends HttpServlet {
 			
 			currSession.setAttribute("firstname", firstname);
 			currSession.setAttribute("lastname", lastname);
-			
 			// Store arraylist of pending reimbursements in session scope
 			currSession.setAttribute("pendingReimbursements", pendingReimbursements);
-			// TODO: Store arraylist of awarded reimbursements in session scope
-			// currSession.setAttribute("awardedReimbursements", awardedReimbursements);
-			
-			// TODO: Refactor project to call service methods from pojos instead of using hashmaps
-			
-			// If employee an approver
-				// Store arraylist of approvable reimbursements in session scope
+			currSession.setAttribute("matriculatedReimbursements", matriculatedReimbursements);
+			currSession.setAttribute("approvableReimbursements", approvableReimbursements);
+			currSession.setAttribute("finalizableReimbursements", finalizableReimbursements);
+
 			nextJSP = "/employee_menu.jsp";
 		}
 		else {

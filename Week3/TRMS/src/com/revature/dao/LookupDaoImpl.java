@@ -102,7 +102,7 @@ public class LookupDaoImpl {
 		String grade = null;
 		try(Connection conn = ConnectionFactory.getConnection()) {
 			conn.setAutoCommit(false);	
-	        String sql = "SELECT GRADE FROM GRADE WHERE GRADE_ID = ?"; 
+	        String sql = "SELECT GRADE_FORMAT FROM GRADE WHERE GRADE_ID = ?"; 
 	        PreparedStatement ps = null;
 	        ps = conn.prepareStatement(sql);
 	        ps.setInt(1, gradeId);
@@ -434,7 +434,7 @@ public class LookupDaoImpl {
 		ResultSet result = null;
         try (Connection conn = ConnectionFactory.getConnection()) {
         	  conn.setAutoCommit(false);
-        	  String sql = "SELECT APP_LEVEL FROM APP_LEVELS WHERE APP_LEVEL_ID = ? ";
+        	  String sql = "SELECT APP_LEVEL_TITLE FROM APP_LEVELS WHERE APP_LEVEL = ? ";
         	  PreparedStatement ps = conn.prepareStatement(sql);
         	  ps.setInt(1, appLevel);
   	          result = ps.executeQuery();

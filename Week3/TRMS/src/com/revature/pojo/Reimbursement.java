@@ -157,7 +157,7 @@ public class Reimbursement {
      * setAll allows to set all persistent variables in one method call.
      * This is useful, when all data is available and it is needed to 
      * set the initial state of this object. Note that this method will
-     * directly modify instance variales, without going trough the 
+     * directly modify instance variables, without going trough the 
      * individual set-methods.
      */
 

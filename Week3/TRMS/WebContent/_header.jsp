@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0-rc.6/js/bootstrap-datepicker.min.js" crossorigin="anonymous"></script>
 <script src="resources/reimb_form.js"></script>
+<script src="resources/click_row.js"></script>
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -22,7 +23,7 @@
 	    <!-- Brand and toggle get grouped for better mobile display -->
 	    <div class="navbar-header">
 	      <!-- if session employee exists, employee_menu.jsp, else home -->
-	      <a class="navbar-brand" href="employee_menu.jsp">
+	      <a class="navbar-brand" href="home.jsp">
 			Tuition Reimbursement Management System
 	      </a>
 	    </div>
@@ -39,11 +40,9 @@
 		          <span class="caret"></span>
 		          </a>
 		          <ul class="dropdown-menu" style="width:100%">
-		            <li><a href="#">Action</a></li>
-		            <li><a href="#">Another action</a></li>
-		            <li><a href="#">Something else here</a></li>
+		            <li><a href="employee_menu.jsp">Profile</a></li>
 		            <li role="separator" class="divider"></li>
-		            <li><a href="#">Separated link</a></li>
+		            <li><a href="home.jsp">Log Out</a></li>
 		          </ul>
 		        </li>
 		        <li role="presentation">

@@ -16,7 +16,7 @@
 
 				<!-- Table -->
 				
-				<table class="table" id="pending-reimb-table">
+				<table class="table" id="finalizable-reimb-table">
 					<tr>
 						<th>ID</th>
 						<th>Location</th>
@@ -24,12 +24,13 @@
 						<th>Event</th>
 						<th>Date</th>
 						<th>Grade</th>
-						<th>Waiting for Approval</th>
-						<th>Edit</th>
+						<th>BenCo Approve</th>
+						<th>BenCo Denied</th>
+						<th>Request Info</th>
 					</tr>
 					<!-- Generate table records using JSTL forEach -->
 					
-					<c:forEach items="${sessionScope.pendingReimbursements}" var="reimbursement">
+					<c:forEach items="${sessionScope.finalizableReimbursements}" var="reimbursement">
 						<!-- iterate over each reimbursement -->
 						<tr class="clickable-row">
 							<td>${reimbursement.getReimbId()}</td>
@@ -38,10 +39,9 @@
 							<td>${reimbursement.getEventTitle()}</td>
 							<td>${reimbursement.getEventDate()}</td>
 							<td>${reimbursement.getGrade()}</td>
-							<td>${reimbursement.getAppLevelTitle()}</td>
-							<c:if test="${reimbursement.getAppLevel() == 6}">
-								<td><a href="ReimbursementServlet">Edit</a></td>
-							</c:if>
+							<td><a href="ApproveServlet?finalizableId=${reimbursement.getReimbId()}">BenCo Approve</a></td>
+							<td><a href="ApproveServlet?benCoDeniedId=${reimbursement.getReimbId()}">BenCo Deny</a></td>
+							<td><a href="ApproveServlet?requestInfoId=${reimbursement.getReimbId()}">Request Info</a></td>
 						</tr>
 					</c:forEach>
 				</table>

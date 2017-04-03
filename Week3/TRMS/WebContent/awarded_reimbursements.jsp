@@ -23,15 +23,19 @@
 							<th>Event</th>
 							<th>Date</th>
 							<th>Grade</th>
-							<th>Status</th>
+							<th>Approval Status</th>
 						</tr>
 					<!-- Generate table records using JSTL forEach -->
-					<c:forEach var="i" begin="0" end="5">
+					<c:forEach items="${sessionScope.matriculatedReimbursements}" var="reimbursement">
 						<!-- iterate over each reimbursement -->
-						<tr> <!-- tr id = reimbursements id for each iter -->
-						
-							<!-- iterate over each field in reimbursement -->
-							<td><c:out value="${i}"/></td>
+						<tr class="clickable-row">
+							<td>${reimbursement.getReimbId()}</td>
+							<td>${reimbursement.getLocation()}</td>
+							<td>${reimbursement.getCost()}</td>
+							<td>${reimbursement.getEventTitle()}</td>
+							<td>${reimbursement.getEventDate()}</td>
+							<td>${reimbursement.getGrade()}</td>
+							<td>${reimbursement.getAppLevelTitle()}</td>
 						</tr>
 					</c:forEach>
 				</table>

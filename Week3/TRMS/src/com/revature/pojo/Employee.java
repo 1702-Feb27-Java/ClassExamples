@@ -1,5 +1,7 @@
 package com.revature.pojo;
 
+import com.revature.service.LookupService;
+
 /**
   * Employee Value Object.
   * This class is value object representing database table EMPLOYEES
@@ -20,7 +22,8 @@ public class Employee {
     private int reportsTo;
     private int roleId;
     private int deptId;
-
+    
+    LookupService ls = new LookupService();
 
 
     /** 
@@ -97,17 +100,34 @@ public class Employee {
     public int getRoleId() {
           return this.roleId;
     }
+    
+    public String getRole() {
+    	return ls.getRoleById(roleId);
+    }
+    
     public void setRoleId(int roleIdIn) {
           this.roleId = roleIdIn;
+    }
+
+    public boolean isApprover() {
+    	return (this.roleId != 2);
     }
 
     public int getDeptId() {
           return this.deptId;
     }
+    
     public void setDeptId(int deptIdIn) {
           this.deptId = deptIdIn;
     }
-
+    
+    public String getDept() {
+    	return ls.getDeptById(deptId);
+    }
+ 
+    public boolean isBenCo() {
+    	return (this.deptId == 4);
+    }
 
 
     /** 
