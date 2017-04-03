@@ -45,22 +45,20 @@ public class FrontController implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpServletResponse httpResponse = (HttpServletResponse)response;
 		
-		/*
-		//System.out.println(r2.getContextPath());	//root?? (Day14DemoDynamicProject)
-		//System.out.println(r2.getPathInfo()); 		//null (null)
-		System.out.println(httpRequest.getServletPath());	//servlet's path invoked! (/SessionHandler.do)
-		//action of forms can have servlet url appended with .do so that servlet url can remain simple and here servleturl.do can be specially handled here.
-		
-		String[] actionString = httpRequest.getRequestURI().split("/");
-		String action = actionString[actionString.length-1];
-		String a = action.substring(0, action.length()-3);
-		System.out.println("action substring: " + a);
-		*/
-		
-		String s = httpRequest.getServletPath().substring(1);
-		System.out.println(s);
+		// Parse requested resource's url.
+		String s = httpRequest.getServletPath().substring(1); //WHERE url LIKE /*
+		System.out.println("Resource requested: " + s);
 		System.out.println(httpRequest.getRequestURI());
 		
+		// Handle servlet requests.
+		switch (s) {
+		case "login.do": case "logout.do": case "submit_application.do": case "update_account.do":
+		case "status_reimbursement.do": case "add_grade.do":
+			chain.doFilter(request, response);
+			return;
+		}
+		
+		// Handle page requests.
 		switch (s) {
 		case "login":
 			if (httpRequest.getSession().getAttribute("user") == null) {
@@ -86,20 +84,20 @@ public class FrontController implements Filter {
 				httpRequest.getRequestDispatcher("apply.jsp").forward(request, response);
 			}
 			return;
-		case "app":
-			if (httpRequest.getSession().getAttribute("user") == null) {
-				httpResponse.sendRedirect("login");
-			}
-			else { //user must be logged in
-				httpRequest.getRequestDispatcher("app.jsp").forward(request, response);
-			}
-			return;
 		case "view_all":
 			if (httpRequest.getSession().getAttribute("user") == null) {
 				httpResponse.sendRedirect("login");
 			}
 			else { //user must be logged in
 				httpRequest.getRequestDispatcher("view_all.jsp").forward(request, response);
+			}
+			return;
+		case "app":
+			if (httpRequest.getSession().getAttribute("user") == null) {
+				httpResponse.sendRedirect("login");
+			}
+			else { //user must be logged in
+				httpRequest.getRequestDispatcher("app.jsp").forward(request, response);
 			}
 			return;
 		case "view_apps":
@@ -110,6 +108,14 @@ public class FrontController implements Filter {
 				httpRequest.getRequestDispatcher("view_apps.jsp").forward(request, response);
 			}
 			return;
+		case "view_app":
+			if (httpRequest.getSession().getAttribute("user") == null) {
+				httpResponse.sendRedirect("login");
+			}
+			else { //user must be logged in
+				httpRequest.getRequestDispatcher("view_app.jsp").forward(request, response);
+			}
+			return;
 		case "account_details":
 			if (httpRequest.getSession().getAttribute("user") == null) {
 				httpResponse.sendRedirect("login");
@@ -118,25 +124,25 @@ public class FrontController implements Filter {
 				httpRequest.getRequestDispatcher("acc.jsp").forward(request, response);
 			}
 			return;
-		case "index.jsp": case "landing":
+		case "landing": case "index.jsp": case "index": 
 			httpRequest.getRequestDispatcher("index.jsp").forward(request, response);
 			return;
-		case "css/main.css": case "media/network.jpg":
+		}
+		
+		// Parse complex urls (e.g., nested directories).
+		String medias = s.split("/")[0]; //WHERE url LIKE css/* OR LIKE media/*
+		System.out.println("Resource requested: " + medias);
+		
+		// Handle media requests.
+		switch (medias) {
+		case "css": case "media":
 			chain.doFilter(request, response);
 			return;
-		case "login.do":
-			chain.doFilter(request, response); //servlet handle
-			return;
-		case "logout.do":
-			chain.doFilter(request, response); //servlet handle
-			return;
-		case "submit_application.do":
-			chain.doFilter(request, response); //servlet handle
-			return;
-		default:
-			httpRequest.getRequestDispatcher("/WEB-INF/404.html").forward(request, response);
-			return;
 		}
+		
+		// Handle requests that caught by none of the above: cannot locate resource.
+		httpRequest.getRequestDispatcher("/WEB-INF/404.html").forward(request, response);
+		return;
 	}
 
 	/**

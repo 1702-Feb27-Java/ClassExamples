@@ -43,5 +43,35 @@ public class LogServiceImpl implements LogService {
 	public void setDefaultLevel(Log.Level defaultLevel) {
 		this.defaultLevel = defaultLevel;
 	}
+
+	@Override
+	public void trace(String message) {
+		logDao.addLog(Log.Level.trace, message);
+	}
+
+	@Override
+	public void debug(String message) {
+		logDao.addLog(Log.Level.debug, message);
+	}
+
+	@Override
+	public void info(String message) {
+		logDao.addLog(Log.Level.info, message);
+	}
+
+	@Override
+	public void warn(String message) {
+		logDao.addLog(Log.Level.warn, message);
+	}
+
+	@Override
+	public void error(String message) {
+		logDao.addLog(Log.Level.error, message);
+	}
+
+	@Override
+	public void fatal(String message) {
+		logDao.addLog(Log.Level.fatal, message);
+	}
 	
 }

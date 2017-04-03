@@ -38,7 +38,7 @@
 					<input type="password" name="password" placeholder="Password">
 					</label>
 					</p>
-					<input type="submit" value="Sign in">
+					<input class="btn btn-primary" type="submit" value="Sign in">
 				</form>
 			</div>
 		</div>

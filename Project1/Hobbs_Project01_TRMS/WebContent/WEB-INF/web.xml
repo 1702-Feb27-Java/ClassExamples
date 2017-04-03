@@ -48,4 +48,34 @@
     <servlet-name>SubmitApplication</servlet-name>
     <url-pattern>/submit_application.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateEmployee</display-name>
+    <servlet-name>UpdateEmployee</servlet-name>
+    <servlet-class>hobbs.project01.servlet.UpdateEmployee</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateEmployee</servlet-name>
+    <url-pattern>/update_account.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SetStatusReimbursement</display-name>
+    <servlet-name>SetStatusReimbursement</servlet-name>
+    <servlet-class>hobbs.project01.servlet.SetStatusReimbursement</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SetStatusReimbursement</servlet-name>
+    <url-pattern>/status_reimbursement.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddGrade</display-name>
+    <servlet-name>AddGrade</servlet-name>
+    <servlet-class>hobbs.project01.servlet.AddGrade</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddGrade</servlet-name>
+    <url-pattern>/add_grade.do</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -4,7 +4,7 @@
 <%@	page import="hobbs.project01.service.ReimbursementServiceImpl" %>
 <%@	page import="java.util.List" %>
 <%! Employee user;
-	Reimbursement reimbursement;
+	Reimbursement reimbursement; 
 	List<ReimbursementAttachment> attachments; //to allow convenient access to reimbursement's attachments.
 	Approval supervisorApproval, headApproval, bencoApproval;
 %>
@@ -70,12 +70,12 @@
 	                </a>
 	            </li>
 	            
-	            <li class="active">
+	            <li>
 	                <a href="view_all"><i class="fa fa-folder-open fa-lg"></i> View Your Applications</a>
 	            </li>
 	            
 	            <% if (user.getRoleId() == Employee.Role.supervisor.getId() || user.getRoleId() == Employee.Role.head.getId() || user.getDepartmentId() == Employee.Department.Benco.getId()) { %>
-	            	<li>
+	            	<li class="active">
 	            		<a href="view_apps"><i class="fa fa-tasks fa-lg"></i> View Application Requests</a>
 	            	</li>
 	            <% } %>
@@ -92,12 +92,8 @@
 	
 	<!-- CONTENT -->
 	<div class="container" id="content">
-	
-		<% if (reimbursement.getStatusId() == Reimbursement.Status.pending.getId()) { %>
-			<button class="btn btn-success pull-right" data-toggle="modal" data-target=".grade-form" style="padding-top: 10px"><i class="fa fa-paperclip fa-lg">&nbsp;Add grade</i></button>
-		<% } %>
 	    
-	    <h1>Application Details <small>(ID #<%= reimbursement.getId() %>) <% if (reimbursement.isUrgent()) { out.print("<i class=\"fa fa-clock-o\" title=\"Urgent\"></i>"); } %></small></h1>    
+	    <h1>Application Details <small>(ID #<%= reimbursement.getId() %>) <% if (reimbursement.isUrgent()) { out.print("<i class=\"fa fa-clock-o\" title=\"Urgent\"></i>"); } %></small></h1>
 	    
 	    <hr>
 	    
@@ -107,9 +103,11 @@
 	    	<div class="table-responsive">
 		    	<table class="table table-bordered">
 		    		<tr>
+		    			<th>Submitted by</th>
 		    			<th>Submitted on</th>
 		    		</tr>
 		    		<tr>
+		    			<td><%= "ID #" + reimbursement.getEmployeeId() %></td>
 		    			<td><%= reimbursement.getDatetimeCreated() %></td>
 		    		</tr>
 		    	</table>
@@ -232,46 +230,25 @@
 			    			<td><%= attachment.getId() %>
 			    			<td><%= ReimbursementAttachment.AttachmentType.getAttachmentType(attachment.getAttachmentTypeId()) %></td>
 			    			<td><%= attachment.getUrl() %></td><%-- change to generate a navigable url (For downloading purposes) --%>
-			    			<%--<td><a href="<%= ReimbursementServiceImpl.getReimbursementService().generateLink(attachment) %>">View</a></td> TODO: FIXME?: --%>
-			    		</tr>
-	    			<% } } %>	
+		    			</tr>
+		    		<% } } %>
 		    	</table>
 	    	</div>
 	    	<!-- /.ATTACHMENTS -->
 	    </div>
 	    
+	    <form action="status_reimbursement.do" method="POST">
+	    	<textarea name="reason" placeholder="Reason for approval or denial."></textarea><br>
+	    	<input class="btn btn-primary" type="submit" name="approve" value="Approve">
+	    	<input class="btn btn-danger" type="submit" name="deny" value="Deny">
+	    </form>
+	    <br>
+	    <p><a class="btn btn-default" href="view_apps">Return</a></p>
+	    <br>
+	    
 	</div>
 	<!-- /.CONTENT -->
 	
-	<!-- ADD GRADE FORM -->
-	<div class="modal fade grade-form" role="dialog">
-    	<div class="modal-dialog modal-sm">
-    		<div class="modal-content">
-    			<div class="modal-header">
-    				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	    			<h2 class="modal-title">Add Grade</h2>
-	    		</div>
-	    		<div class="modal-body">
-	    			<div class="panel panel-default">
-	    				<div class="panel-heading"><h1 class="panel-title">Grade earned</h1></div>
-	    				<div class="panel-body">
-			    			<input type="text" name="grade" placeholder="Grade earned" form="add-grade" required="required">
-	    				</div>
-	    				<div class="panel-heading nested"><h1 class="panel-title">Attachments <small>(if any)</small></h1></div>
-	    				<div class="panel-body">
-			    			<input type="file" name="grade-attachments" form="add-grade" multiple>
-	    				</div>
-	    			</div>
-	    		</div>
-	    		<div class="modal-footer">
-	    			<form id="add-grade" action="add_grade.do?id=<%= reimbursement.getId() %>" method="POST" enctype="multipart/form-data">
-	    				<input class="btn btn-primary" type="submit" value="Add to Reimbursement">
-	    			</form>
-	    		</div>
-    		</div>
-    	</div>
-    </div>
-    <!-- /.ADD GRADE FORM -->
 	
 	<!-- FOOTER -->
 	

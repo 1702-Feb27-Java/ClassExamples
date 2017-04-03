@@ -15,12 +15,17 @@ public class ReimbursementAttachment {
 	 *
 	 */
 	public enum AttachmentType {
-		event(1), approvalSupervisor(2), approvalHead(3);
+		event(1, "Event-related"), approvalSupervisor(2, "Supervisor pre-approval"), approvalHead(3, "Department Head pre-approval"), grade(21, "Grade-related");
 		
 		private int id;
+		/**
+		 * Pretty name for the attachment type, for front-end printing and displaying purposes.
+		 */
+		private String name;
 		
-		private AttachmentType(int id) {
+		private AttachmentType(int id, String name) {
 			this.id = id;
+			this.name = name;
 		}
 		
 		public int getId() {
@@ -47,6 +52,11 @@ public class ReimbursementAttachment {
 				}
 			}
 			return null;
+		}
+		
+		@Override
+		public String toString() {
+			return this.name;
 		}
 	}
 

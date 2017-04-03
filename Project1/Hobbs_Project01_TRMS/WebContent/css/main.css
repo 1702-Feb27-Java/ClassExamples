@@ -2,18 +2,31 @@
 
 body {
 	background-color: white;
-	padding-top: 55px;
+	padding-top: 50px;
 }
 
 body .non-user {
-	background-color: white;
+	background-color: #2e353d;
 	padding-top: 0px;
 }
 
+.non-user .panel {
+	box-shadow: 2px 5px 10px rgba(0,0,0,.05)
+}
 
 #header {
 	background-color: #2e353d
 }
+
+#footer {
+	background-color: #2e353d;
+	color: #e1ffff;
+	
+	!text-align: right;
+	
+	padding: 75px;
+}
+
 /* prevent collapsing header */
 .navbar-collapse.collapse {
   display: block!important;
@@ -124,6 +137,8 @@ body .non-user {
 .nav-side-menu li a {
   text-decoration: none;
   color: #e1ffff;
+  
+  display: block; /*make link span whole menu*/
 }
 .nav-side-menu li a i {
   padding-left: 10px;
@@ -163,8 +178,10 @@ body .non-user {
     font-size: 22px;
     padding-left: 20px;
     line-height: 50px !important;
-
-  }
+  } 
+  .navbar-nav .open .dropdown-menu {
+    background-color: #ffffff; /*remove transparent color in bootstrap's .less*/
+	}
 }
 
 @media (min-width: 767px) {
@@ -195,26 +212,35 @@ body .non-user {
 #landing {
 	text-align: center	
 }
-
 	#hero {
-		height: 450px;
-		
 		top: 0px;
 		
-		padding-top: 55px;
 		padding: 75px;
+		padding-top: 10%;
 		
 		background: url(../media/network.jpg) no-repeat center center scroll;
 		background-size: cover;
 		background-attachment: fixed;
 	}
+	@media(min-width: 767px) {
+		#hero {
+			height: 69vh;
+		}
+	}
+	@media(max-width: 767px) {
+	}
+	
 
 	#hypervisor {
-		padding: 50px;
+		padding: 40px;
 		text-align: center;
 		
 		background-color: #23282e;
 		color: #e1ffff;
+	}
+	
+	#hypervisor li {
+		padding: 15px;
 	}
 	
 	.slide-left {
@@ -257,7 +283,45 @@ body .non-user {
 	text-align: center;
 }
 
+#stack {
+	background-color: #d19b3d;
+	color: #e1ffff;
+	
+	text-align: center;
+	
+	padding: 75px;
+}
+#stack .thumbnail {
+	background-color: inherit;
+	border: 0;
+	border-radius: 0;
+}
+#stack .thumbnail img {
+	width: auto;
+	height: auto;
+	max-width: 240px;
+	max-height: 160px;
+	display: inline;
+}
+#stack .thumbnail .caption {
+	color: #e1ffff;
+}
+#stack h3 {
+	color: black;
+}
+
+
 .clickable-table-row:hover {
 	background-color: #e1e1e1;
 	cursor: pointer; cursor: hand;
 }
+
+.panel .panel-heading.nested { /*defeating bootstrap's panel heading's top border radius for when nesting panels, for more seamless appearance*/
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+}
+
+.approval-subtable { /*removing bootstrap's padding in table columns in order to have subtables flush against the column's border*/
+	padding: 0px !important
+}
+

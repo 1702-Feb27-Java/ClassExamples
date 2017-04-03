@@ -32,11 +32,11 @@
 			<ul class="nav navbar-nav">
 				<!-- USER BUTTON -->
 	   			<li class="dropdown">
-		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= user.getUsername() %> <span class="caret"></span></a>
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle fa-lg"></i>&nbsp;&nbsp;<%= user.getUsername() %> <span class="caret"></span></a>
 		          <ul class="dropdown-menu">
 		            <li><a href="account"><i class="fa fa-home"></i>&nbsp;Home</a></li>
 		            <li role="separator" class="divider"></li>
-		            <li><a href="logout.do"><i class="fa fa-sign-out"></i>&nbsp;Logout</a></li>
+		            <li><a href="logout.do"><i class="fa fa-sign-out"></i>&nbsp;Sign out</a></li>
 		          </ul>
 		        </li>
 			</ul>
@@ -61,7 +61,7 @@
 	                <a href="view_all"><i class="fa fa-folder-open fa-lg"></i> View Your Applications</a>
 	            </li>
 	            
-	            <% if (user.getRoleId() == Employee.Role.supervisor.getId() || user.getRoleId() == Employee.Role.head.getId()) { %>
+	            <% if (user.getRoleId() == Employee.Role.supervisor.getId() || user.getRoleId() == Employee.Role.head.getId() || user.getDepartmentId() == Employee.Department.Benco.getId()) { %>
 	            	<li>
 	            		<a href="view_apps"><i class="fa fa-tasks fa-lg"></i> View Application Requests</a>
 	            	</li>
@@ -80,11 +80,9 @@
 	<!-- CONTENT -->
 	<div class="container" id="content">
 	    
-	    <h1><i class="fa fa-user-circle"></i>&nbsp;<%= user.getFirstName() + " " + user.getLastName() %></h1>
+	    <h1><i class="fa fa-user-circle"></i>&nbsp;<%= user.getFirstName() + " " + user.getLastName() %> <small>(ID #<%= user.getId() %>)</small></h1>
 	    
 	    <hr>
-	    
-	    <p>Do stuff.</p>
 	    
 	</div>
 	<!-- /.CONTENT -->

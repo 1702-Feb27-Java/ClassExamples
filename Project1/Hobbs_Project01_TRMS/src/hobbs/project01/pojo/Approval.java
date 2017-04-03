@@ -4,12 +4,12 @@ import java.sql.Timestamp;
 
 public class Approval {
 	
-	public enum ApprovalStatus {
+	public enum Status {
 		pending(1), awarded(2), denied(3);
 		
 		private int id;
 		
-		private ApprovalStatus(int id) {
+		private Status(int id) {
 			this.id = id;
 		}
 		
@@ -17,23 +17,23 @@ public class Approval {
 			return this.id;
 		}
 		
-		public static ApprovalStatus getApprovalStatus(int id)
+		public static Status getStatus(int id)
         {
-            ApprovalStatus[] approvalStatuses = ApprovalStatus.values();
-            for(int i = 0; i < approvalStatuses.length; i++)
+            Status[] statuses = Status.values();
+            for(int i = 0; i < statuses.length; i++)
             {
-                if(approvalStatuses[i].id  == id) {
-                	return approvalStatuses[i];
+                if(statuses[i].id  == id) {
+                	return statuses[i];
                 }
             }
             return null;
         }
 		
-		public static ApprovalStatus getApprovalStatus(String approvalStatus) {
-			ApprovalStatus[] approvalStatuses = ApprovalStatus.values();
-			for(int i = 0; i < approvalStatuses.length; i++) {
-				if (approvalStatuses[i].toString().equals(approvalStatus)) {
-					return approvalStatuses[i];
+		public static Status getStatus(String status) {
+			Status[] statuses = Status.values();
+			for(int i = 0; i < statuses.length; i++) {
+				if (statuses[i].toString().equals(status)) {
+					return statuses[i];
 				}
 			}
 			return null;
@@ -41,7 +41,7 @@ public class Approval {
 		
 	}
 	
-	private Integer approvalStatusId, reimbursementId, approverId;
+	private Integer id, approvalStatusId, reimbursementId, approverId;
 	private String reason;
 	private Timestamp datetimeCreated;
 	
@@ -49,9 +49,10 @@ public class Approval {
 		
 	}
 	
-	public Approval(Integer approvalStatusId, Integer reimbursementId, Integer approverId, String reason,
+	public Approval(Integer id, Integer approvalStatusId, Integer reimbursementId, Integer approverId, String reason,
 			Timestamp datetimeCreated) {
 		super();
+		this.id = id;
 		this.approvalStatusId = approvalStatusId;
 		this.reimbursementId = reimbursementId;
 		this.approverId = approverId;
@@ -59,6 +60,14 @@ public class Approval {
 		this.datetimeCreated = datetimeCreated;
 	}
 	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getApprovalStatusId() {
 		return approvalStatusId;
 	}

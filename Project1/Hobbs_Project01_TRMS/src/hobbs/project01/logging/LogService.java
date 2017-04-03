@@ -22,4 +22,46 @@ public interface LogService {
 	 */
 	public void log(String message);
 	
+	/**
+	 * Logs a message with the TRACE level.
+	 * 
+	 * @param message
+	 */
+	public void trace(String message);
+	
+	/**
+	 * Logs a message with the DEBUG level.
+	 * 
+	 * @param message
+	 */
+	public void debug(String message);
+	
+	/**
+	 * Logs a message with the INFO level.
+	 * 
+	 * @param message
+	 */
+	public void info(String message);
+	
+	/**
+	 * Logs a message with the WARN level.
+	 * 
+	 * @param message
+	 */
+	public void warn(String message);
+	
+	/**
+	 * Logs a message with the ERROR level.
+	 * 
+	 * @param message
+	 */
+	public void error(String message);
+	
+	/**
+	 * Logs a message with the FATAL level.
+	 * 
+	 * @param message
+	 */
+	public void fatal(String message);
+	
 }

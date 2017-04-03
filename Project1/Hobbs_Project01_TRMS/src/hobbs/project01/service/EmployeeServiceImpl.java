@@ -44,5 +44,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		return null;
 	}
+	
+	@Override
+	public void updateAccount(Employee user) {
+		EmployeeDaoImpl.getEmployeeDao().updateAccount(user);
+	}
+
+	@Override
+	public Employee refreshUser(Employee user) {
+		return EmployeeDaoImpl.getEmployeeDao().getEmployee(user.getId());
+	}
 
 }

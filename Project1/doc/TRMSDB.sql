@@ -1,52 +1,6 @@
 --------------------------------------------------------
---  File created - Friday-March-31-2017   
+--  File created - Sunday-April-02-2017   
 --------------------------------------------------------
-DROP TABLE "TRMSDB"."ALTERED_REIMBURSEMENTS" cascade constraints;
-DROP TABLE "TRMSDB"."APPROVALS" cascade constraints;
-DROP TABLE "TRMSDB"."APPROVAL_STATUS" cascade constraints;
-DROP TABLE "TRMSDB"."DEPARTMENT" cascade constraints;
-DROP TABLE "TRMSDB"."EMPLOYEES" cascade constraints;
-DROP TABLE "TRMSDB"."EVENT_TYPE" cascade constraints;
-DROP TABLE "TRMSDB"."GRADE_FORMAT" cascade constraints;
-DROP TABLE "TRMSDB"."LOGS" cascade constraints;
-DROP TABLE "TRMSDB"."LOG_LEVEL" cascade constraints;
-DROP TABLE "TRMSDB"."MESSAGE_ATTACHMENTS" cascade constraints;
-DROP TABLE "TRMSDB"."REIMBURSEMENTS" cascade constraints;
-DROP TABLE "TRMSDB"."REIMBURSEMENT_ATTACHMENTS" cascade constraints;
-DROP TABLE "TRMSDB"."REIMBURSEMENT_ATTACHMENT_TYPE" cascade constraints;
-DROP TABLE "TRMSDB"."REIMBURSEMENT_GRADES" cascade constraints;
-DROP TABLE "TRMSDB"."REIMBURSEMENT_MESSAGES" cascade constraints;
-DROP TABLE "TRMSDB"."REIMBURSEMENT_STATUS" cascade constraints;
-DROP TABLE "TRMSDB"."ROLE" cascade constraints;
-DROP TABLE "TRMSDB"."URGENT_REIMBURSEMENTS" cascade constraints;
-DROP SEQUENCE "TRMSDB"."SEQUENCE_APPROVALS_ID";
-DROP SEQUENCE "TRMSDB"."SEQUENCE_APPROVAL_STATUS_ID";
-DROP SEQUENCE "TRMSDB"."SEQUENCE_DEPARTMENT_ID";
-DROP SEQUENCE "TRMSDB"."SEQUENCE_EMPLOYEES_ID";
-DROP SEQUENCE "TRMSDB"."SEQUENCE_EVENT_TYPE_ID";
-DROP SEQUENCE "TRMSDB"."SEQUENCE_GRADE_FORMAT_ID";
-DROP SEQUENCE "TRMSDB"."SEQUENCE_LOGS_ID";
-DROP SEQUENCE "TRMSDB"."SEQUENCE_LOG_LEVEL_ID";
-DROP SEQUENCE "TRMSDB"."SEQUENCE_REIMBURSEMENTS_ID";
-DROP SEQUENCE "TRMSDB"."SEQUENCE_ROLE_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_APPROVALS_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_APPROVAL_STATUS_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_DEPARTMENT_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_EMP_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_EVENT_TYPE_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_GRADE_FORMAT_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_LOGS_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_LOG_LEVEL_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_REIM_ATTACH_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_REIM_ATTACH_TYPE_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_REIM_GRADES_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_REIM_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_REIM_MESSAGES_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_REIM_MESSAGE_ATTACH_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_REIM_MSG_ATTACH_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_REIM_STATUS_ID";
-DROP SEQUENCE "TRMSDB"."SEQ_ROLE_ID";
-DROP PROCEDURE "TRMSDB"."INSERT_THEN_PEND_APPROVAL_IF";
 --------------------------------------------------------
 --  DDL for Table ALTERED_REIMBURSEMENTS
 --------------------------------------------------------
@@ -108,7 +62,7 @@ DROP PROCEDURE "TRMSDB"."INSERT_THEN_PEND_APPROVAL_IF";
   CREATE TABLE "TRMSDB"."EMPLOYEES" 
    (	"ID" NUMBER, 
 	"USERNAME" VARCHAR2(40 BYTE), 
-	"password" VARCHAR2(40 BYTE), 
+	"PASSWORD2" VARCHAR2(40 BYTE), 
 	"EMAIL" VARCHAR2(40 BYTE), 
 	"FIRST_NAME" VARCHAR2(40 BYTE), 
 	"LAST_NAME" VARCHAR2(40 BYTE), 
@@ -303,7 +257,7 @@ DROP PROCEDURE "TRMSDB"."INSERT_THEN_PEND_APPROVAL_IF";
 --  DDL for Sequence SEQUENCE_APPROVALS_ID
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "TRMSDB"."SEQUENCE_APPROVALS_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 21 CACHE 20 NOORDER  NOCYCLE ;
+   CREATE SEQUENCE  "TRMSDB"."SEQUENCE_APPROVALS_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 41 CACHE 20 NOORDER  NOCYCLE ;
 --------------------------------------------------------
 --  DDL for Sequence SEQUENCE_APPROVAL_STATUS_ID
 --------------------------------------------------------
@@ -353,7 +307,7 @@ DROP PROCEDURE "TRMSDB"."INSERT_THEN_PEND_APPROVAL_IF";
 --  DDL for Sequence SEQ_APPROVALS_ID
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "TRMSDB"."SEQ_APPROVALS_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 21 CACHE 20 NOORDER  NOCYCLE ;
+   CREATE SEQUENCE  "TRMSDB"."SEQ_APPROVALS_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 41 CACHE 20 NOORDER  NOCYCLE ;
 --------------------------------------------------------
 --  DDL for Sequence SEQ_APPROVAL_STATUS_ID
 --------------------------------------------------------
@@ -398,12 +352,12 @@ DROP PROCEDURE "TRMSDB"."INSERT_THEN_PEND_APPROVAL_IF";
 --  DDL for Sequence SEQ_REIM_ATTACH_TYPE_ID
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "TRMSDB"."SEQ_REIM_ATTACH_TYPE_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 21 CACHE 20 NOORDER  NOCYCLE ;
+   CREATE SEQUENCE  "TRMSDB"."SEQ_REIM_ATTACH_TYPE_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 41 CACHE 20 NOORDER  NOCYCLE ;
 --------------------------------------------------------
 --  DDL for Sequence SEQ_REIM_GRADES_ID
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "TRMSDB"."SEQ_REIM_GRADES_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE ;
+   CREATE SEQUENCE  "TRMSDB"."SEQ_REIM_GRADES_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 21 CACHE 20 NOORDER  NOCYCLE ;
 --------------------------------------------------------
 --  DDL for Sequence SEQ_REIM_ID
 --------------------------------------------------------
@@ -441,6 +395,10 @@ SET DEFINE OFF;
 Insert into TRMSDB.APPROVALS (ID,APPROVAL_STATUS_ID,REIMBURSEMENT_ID,APPROVER_ID,DATETIMECREATED,REASON) values (1,2,2,6,null,null);
 Insert into TRMSDB.APPROVALS (ID,APPROVAL_STATUS_ID,REIMBURSEMENT_ID,APPROVER_ID,DATETIMECREATED,REASON) values (5,2,2,1,to_date('28-MAR-17','DD-MON-RR'),'looks good');
 Insert into TRMSDB.APPROVALS (ID,APPROVAL_STATUS_ID,REIMBURSEMENT_ID,APPROVER_ID,DATETIMECREATED,REASON) values (6,2,2,49,to_date('28-MAR-17','DD-MON-RR'),null);
+Insert into TRMSDB.APPROVALS (ID,APPROVAL_STATUS_ID,REIMBURSEMENT_ID,APPROVER_ID,DATETIMECREATED,REASON) values (21,2,28,4,to_date('02-APR-17','DD-MON-RR'),'Sounds good.');
+Insert into TRMSDB.APPROVALS (ID,APPROVAL_STATUS_ID,REIMBURSEMENT_ID,APPROVER_ID,DATETIMECREATED,REASON) values (22,2,29,15,to_date('02-APR-17','DD-MON-RR'),'Good luck!');
+Insert into TRMSDB.APPROVALS (ID,APPROVAL_STATUS_ID,REIMBURSEMENT_ID,APPROVER_ID,DATETIMECREATED,REASON) values (23,2,29,5,to_date('02-APR-17','DD-MON-RR'),'OCA''s tough, but I''ve seen your work so it''ll be a cakewalk for you.');
+Insert into TRMSDB.APPROVALS (ID,APPROVAL_STATUS_ID,REIMBURSEMENT_ID,APPROVER_ID,DATETIMECREATED,REASON) values (24,2,28,49,to_date('02-APR-17','DD-MON-RR'),'good');
 REM INSERTING into TRMSDB.APPROVAL_STATUS
 SET DEFINE OFF;
 Insert into TRMSDB.APPROVAL_STATUS (ID,APPROVAL_STATUS) values (1,'pending');
@@ -455,56 +413,56 @@ Insert into TRMSDB.DEPARTMENT (ID,DEPARTMENT) values (4,'HR');
 Insert into TRMSDB.DEPARTMENT (ID,DEPARTMENT) values (5,'Benco');
 REM INSERTING into TRMSDB.EMPLOYEES
 SET DEFINE OFF;
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (1,'mhobbs','password','michael.a.hobbs@gmail.com','Michael','Hobbs',2,null,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (2,'meli_b','honey','meli_b@example.com','Melissa','Blackwell',2,null,2);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (3,'hollym','doseo','hollymiller@example.com','Holly','Miller',2,null,3);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (4,'averycannon','averypassword','avery_cannon@example.com','Avery','Cannon',2,null,4);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (5,'benjiro','bennie','benjirosan@example.com','Benjiro','Ito',2,null,5);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (6,'eseymour','selwyn','elvinseymour@example.com','Elvin','Seymour',3,1,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (7,'yim','chus','yim@example.com','Yi','Mitchell',3,1,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (8,'jherbert','jeangrey','jean@example.com','Jeanette','Herbert',3,1,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (9,'eddiej','misterjeong','eddiej@example.com','Edgar','Jeong',3,1,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (10,'pradilla','deeepend','pradeep@example.com','Pradeep','Villa',3,2,2);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (11,'lysette','valerian','lysette@example.com','Lysette','Woodhams',3,2,2);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (12,'sanj','kathleenbaby','bigsanjiv@example.com','Sanjiv','Singh',3,2,2);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (13,'lilabby','routh123','abbybaby@example.com','Lily','Abbott',3,3,3);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (14,'miguel','agua','miguel@example.com','Miguel','Sano',3,3,3);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (15,'seong','song','seongssi@example.com','Seong','Cho',3,5,5);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (16,'seanb','mean','sean@example.com','Sean','Bean',4,6,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (17,'weaver','sigourney','ariella@example.com','Ariella','Weaver',4,6,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (18,'dparsons','dpw','dparsons@example.com','Darnell','Parsons',4,6,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (19,'epam','electric bread','epam@example.com','Emilia','Pam',4,7,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (20,'rachel','opensesame','rachel@example.com','Rachel','Masters',4,7,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (21,'ftw','mow','ftw@example.com','Merideth','Winship',4,8,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (22,'wheelie','pop','wheelie@example.com','Kyleigh','Wheeler',4,8,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (23,'tabitha','love','tabitha@example.com','Tabitha','Love',4,8,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (24,'msray','sunspots','irisray@example.com','Iris','Ray',4,8,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (25,'patrick','slayer','patricktheslayer@example.com','Patrick','Thayer',4,8,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (26,'xi','abcxyz','xi@example.com','Xiomara','Jacob',4,9,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (27,'gil','goodoldgil','gil@example.com','Gil','Abraham',4,9,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (28,'hatoful','boyfriend','hatty@example.com','Hatty','Simmons',4,9,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (29,'melina','mmmhmm','melinamolina@example.com','Melina','Molina',4,9,1);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (30,'cwoodrow','cdog','cwoodrow@example.com','Curtis','Woodrow',4,10,2);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (31,'felix','the cat','felixj@example.com','Felix','Jimenez',4,10,2);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (32,'zelda','princess','zeldabass@example.com','Zelda','Bass',4,10,2);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (33,'foster','yesyesyes','foster@example.com','Yeshua','Foster',4,10,2);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (34,'kelly','kellyanne','kelsilucas@example.com','Kelsi','Lucas',4,11,2);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (35,'federico','isaura','federicotasker@example.com','Federico','Tasker',4,11,2);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (36,'dory','justkeepswimming','doryfisher@example.com','Dory','Fisher',4,11,2);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (37,'lianna','leah','lianna@example.com','Lianna','Farrow',4,12,2);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (38,'don','donniedarko','donovan@example.com','Donovan','Holstead',4,13,3);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (39,'homer','simpsons','homer@example.com','Homer','Simmonds',4,13,3);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (40,'peta','flowers','petachandler@example.com','Peta','Chandler',4,13,3);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (41,'maribel','christina','maribelfirmin@example.com','Maribel','Firmin',4,14,3);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (42,'elon','tesla','elonhargrave@example.com','Elon','Hargrave',4,14,3);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (43,'stephen','zhao','stephenzheng@example.com','Stephen','Zheng',4,14,3);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (44,'hailee','duff','haileelambert@example.com','Hailee','Lambert',4,14,3);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (45,'shivali','sksksk','skumar@example.com','Shivali','Kumar',4,4,4);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (46,'lynna','lkh123','lynnahowland@example.com','Lynna','Howland',4,4,4);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (47,'lorne','lonerangerwarwick','lornewarwick@example.com','Lorne','Warwick',4,4,4);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (48,'emma','edison','emmawatson@example.com','Emma','Watson',4,4,4);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (49,'paola','password123','paoladeluca@example.com','Paola','DeLuca',4,15,5);
-Insert into TRMSDB.EMPLOYEES (ID,USERNAME,"password",EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (50,'hannah','one','hannahlee@example.com','Hannah','Lee',4,15,5);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (1,'mhobbs','password','michael.a.hobbs@gmail.com','Michael','Hopps',2,null,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (2,'meli_b','honey','meli_b@example.com','Melissa','Blackwell',2,null,2);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (3,'hollym','doseo','hollymiller@example.com','Holly','Miller',2,null,3);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (4,'averycannon','averypassword','avery_cannon@example.com','Avery','Cannon',2,null,4);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (5,'benjiro','bennie','benjirosan@example.com','Benjiro','Ito',2,null,5);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (6,'eseymour','selwyn','elvinseymour@example.com','Elvin','Seymour',3,1,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (7,'yim','chus','yim@example.com','Yi','Mitchell',3,1,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (8,'jherbert','jeangrey','jean@example.com','Jeanette','Herbert',3,1,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (9,'eddiej','misterjeong','eddiej@example.com','Edgar','Jeong',3,1,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (10,'pradilla','deeepend','pradeep@example.com','Pradeep','Villa',3,2,2);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (11,'lysette','valerian','lysette@example.com','Lysette','Woodhams',3,2,2);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (12,'sanj','kathleenbaby','bigsanjiv@example.com','Sanjiv','Singh',3,2,2);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (13,'lilabby','routh123','abbybaby@example.com','Lily','Abbott',3,3,3);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (14,'miguel','agua','miguel@example.com','Miguel','Sano',3,3,3);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (15,'seong','song','seongssi@example.com','Seong','Cho',3,5,5);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (16,'seanb','mean','sean@example.com','Sean','Bean',4,6,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (17,'weaver','sigourney','ariella@example.com','Ariella','Weaver',4,6,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (18,'dparsons','dpw','dparsons@example.com','Darnell','Parsons',4,6,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (19,'epam','electric bread','epam@example.com','Emilia','Pam',4,7,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (20,'rachel','opensesame','rachel@example.com','Rachel','Masters',4,7,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (21,'ftw','mow','ftw@example.com','Merideth','Winship',4,8,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (22,'wheelie','pop','wheelie@example.com','Kyleigh','Wheeler',4,8,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (23,'tabitha','love','tabitha@example.com','Tabitha','Love',4,8,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (24,'msray','sunspots','irisray@example.com','Iris','Ray',4,8,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (25,'patrick','slayer','patricktheslayer@example.com','Patrick','Thayer',4,8,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (26,'xi','abcxyz','xi@example.com','Xiomara','Jacob',4,9,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (27,'gil','goodoldgil','gil@example.com','Gil','Abraham',4,9,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (28,'hatoful','boyfriend','hatty@example.com','Hatty','Simmons',4,9,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (29,'melina','mmmhmm','melinamolina@example.com','Melina','Molina',4,9,1);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (30,'cwoodrow','cdog','cwoodrow@example.com','Curtis','Woodrow',4,10,2);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (31,'felix','the cat','felixj@example.com','Felix','Jimenez',4,10,2);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (32,'zelda','princess','zeldabass@example.com','Zelda','Bass',4,10,2);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (33,'foster','yesyesyes','foster@example.com','Yeshua','Foster',4,10,2);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (34,'kelly','kellyanne','kelsilucas@example.com','Kelsi','Lucas',4,11,2);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (35,'federico','isaura','federicotasker@example.com','Federico','Tasker',4,11,2);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (36,'dory','justkeepswimming','doryfisher@example.com','Dory','Fisher',4,11,2);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (37,'lianna','leah','lianna@example.com','Lianna','Farrow',4,12,2);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (38,'don','donniedarko','donovan@example.com','Donovan','Holstead',4,13,3);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (39,'homer','simpsons','homer@example.com','Homer','Simmonds',4,13,3);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (40,'peta','flowers','petachandler@example.com','Peta','Chandler',4,13,3);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (41,'maribel','christina','maribelfirmin@example.com','Maribel','Firmin',4,14,3);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (42,'elon','tesla','elonhargrave@example.com','Elon','Hargrave',4,14,3);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (43,'stephen','zhao','stephenzheng@example.com','Stephen','Zheng',4,14,3);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (44,'hailee','duff','haileelambert@example.com','Hailee','Lambert',4,14,3);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (45,'shivali','sksksk','skumar@example.com','Shivali','Kumar',4,4,4);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (46,'lynna','lkh123','lynnahowland@example.com','Lynna','Howland',4,4,4);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (47,'lorne','lonerangerwarwick','lornewarwick@example.com','Lorne','Warwick',4,4,4);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (48,'emma','edison','emmawatson@example.com','Emma','Watson',4,4,4);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (49,'paola','password123','paoladeluca@example.com','Paola','DeLuca',4,15,5);
+Insert into TRMSDB.EMPLOYEES (ID,USERNAME,PASSWORD2,EMAIL,FIRST_NAME,LAST_NAME,ROLE_ID,SUPERVISOR_ID,DEPARTMENT_ID) values (50,'hannah','one','hannahlee@example.com','Hannah','Lee',4,15,5);
 REM INSERTING into TRMSDB.EVENT_TYPE
 SET DEFINE OFF;
 Insert into TRMSDB.EVENT_TYPE (ID,EVENT_TYPE,COVERAGE_PERCENTAGE) values (1,'university',80);
@@ -536,7 +494,7 @@ SET DEFINE OFF;
 REM INSERTING into TRMSDB.REIMBURSEMENTS
 SET DEFINE OFF;
 Insert into TRMSDB.REIMBURSEMENTS (ID,EMPLOYEE_ID,STATUS_ID,EVENT_TYPE_ID,GRADE_FORMAT_ID,GRADE_ID,START_DATETIME,END_DATETIME,DESCRIPTION,JUSTIFICATION,LOCATION,COST,WORKTIME_TO_BE_MISSED,DATETIMECREATED) values (1,1,1,1,1,null,to_date('01-MAY-17','DD-MON-RR'),to_date('19-MAY-17','DD-MON-RR'),'Mascot X provides an opportunity to study top-notch mascot training and deployment from the mascot trainers at Disneyland.','Our organization employs mascots, and it was determined that Disneyland''s use of mascots is second to none and that we could improve our mascot training program by studying mascot deployment at Disneyland.','Disneyland',500.5,'The first 3 weeks of May will involve out-of-office travel and study.',to_date('26-MAR-17','DD-MON-RR'));
-Insert into TRMSDB.REIMBURSEMENTS (ID,EMPLOYEE_ID,STATUS_ID,EVENT_TYPE_ID,GRADE_FORMAT_ID,GRADE_ID,START_DATETIME,END_DATETIME,DESCRIPTION,JUSTIFICATION,LOCATION,COST,WORKTIME_TO_BE_MISSED,DATETIMECREATED) values (2,16,2,1,1,null,to_date('05-APR-17','DD-MON-RR'),to_date('01-MAY-17','DD-MON-RR'),'A certification training program to prepare for my OCA.','No OCA, no life.','Somewhere USA',500.52,'3 weeks starting from April 5.',to_date('27-MAR-17','DD-MON-RR'));
+Insert into TRMSDB.REIMBURSEMENTS (ID,EMPLOYEE_ID,STATUS_ID,EVENT_TYPE_ID,GRADE_FORMAT_ID,GRADE_ID,START_DATETIME,END_DATETIME,DESCRIPTION,JUSTIFICATION,LOCATION,COST,WORKTIME_TO_BE_MISSED,DATETIMECREATED) values (2,16,2,1,1,4,to_date('05-APR-17','DD-MON-RR'),to_date('01-MAY-17','DD-MON-RR'),'A certification training program to prepare for my OCA.','No OCA, no life.','Somewhere USA',500.52,'3 weeks starting from April 5.',to_date('27-MAR-17','DD-MON-RR'));
 Insert into TRMSDB.REIMBURSEMENTS (ID,EMPLOYEE_ID,STATUS_ID,EVENT_TYPE_ID,GRADE_FORMAT_ID,GRADE_ID,START_DATETIME,END_DATETIME,DESCRIPTION,JUSTIFICATION,LOCATION,COST,WORKTIME_TO_BE_MISSED,DATETIMECREATED) values (3,41,1,1,1,null,to_date('01-JUN-17','DD-MON-RR'),to_date('01-JUL-17','DD-MON-RR'),'Symposium on accretion disks.','Research into circumstellar material.','Newfoundland',200,'The month of June.',to_date('28-MAR-17','DD-MON-RR'));
 Insert into TRMSDB.REIMBURSEMENTS (ID,EMPLOYEE_ID,STATUS_ID,EVENT_TYPE_ID,GRADE_FORMAT_ID,GRADE_ID,START_DATETIME,END_DATETIME,DESCRIPTION,JUSTIFICATION,LOCATION,COST,WORKTIME_TO_BE_MISSED,DATETIMECREATED) values (21,1,1,1,1,null,to_date('01-MAY-17','DD-MON-RR'),to_date('01-JUN-17','DD-MON-RR'),'aoheutn hoeantu haso','htnaosehu ntaohe us','disneyland',500,'htnaos euhnaote hu',to_date('31-MAR-17','DD-MON-RR'));
 Insert into TRMSDB.REIMBURSEMENTS (ID,EMPLOYEE_ID,STATUS_ID,EVENT_TYPE_ID,GRADE_FORMAT_ID,GRADE_ID,START_DATETIME,END_DATETIME,DESCRIPTION,JUSTIFICATION,LOCATION,COST,WORKTIME_TO_BE_MISSED,DATETIMECREATED) values (22,1,1,2,2,null,to_date('01-JUN-17','DD-MON-RR'),to_date('02-JUN-16','DD-MON-RR'),'aohetn aohseunt ah','h anoteshu aonth','virginia',100,'h ntaoeu anoe tu',to_date('31-MAR-17','DD-MON-RR'));
@@ -545,6 +503,9 @@ Insert into TRMSDB.REIMBURSEMENTS (ID,EMPLOYEE_ID,STATUS_ID,EVENT_TYPE_ID,GRADE_
 Insert into TRMSDB.REIMBURSEMENTS (ID,EMPLOYEE_ID,STATUS_ID,EVENT_TYPE_ID,GRADE_FORMAT_ID,GRADE_ID,START_DATETIME,END_DATETIME,DESCRIPTION,JUSTIFICATION,LOCATION,COST,WORKTIME_TO_BE_MISSED,DATETIMECREATED) values (25,2,1,5,3,null,to_date('01-SEP-17','DD-MON-RR'),to_date('02-SEP-17','DD-MON-RR'),'aoeuhtns','gcrlmwvz','home',50,null,to_date('31-MAR-17','DD-MON-RR'));
 Insert into TRMSDB.REIMBURSEMENTS (ID,EMPLOYEE_ID,STATUS_ID,EVENT_TYPE_ID,GRADE_FORMAT_ID,GRADE_ID,START_DATETIME,END_DATETIME,DESCRIPTION,JUSTIFICATION,LOCATION,COST,WORKTIME_TO_BE_MISSED,DATETIMECREATED) values (26,1,1,1,1,null,to_date('01-JAN-18','DD-MON-RR'),to_date('02-JAN-18','DD-MON-RR'),'ahoetnu','htnohseu','bkxmqbkxmb',111,'htn',to_date('31-MAR-17','DD-MON-RR'));
 Insert into TRMSDB.REIMBURSEMENTS (ID,EMPLOYEE_ID,STATUS_ID,EVENT_TYPE_ID,GRADE_FORMAT_ID,GRADE_ID,START_DATETIME,END_DATETIME,DESCRIPTION,JUSTIFICATION,LOCATION,COST,WORKTIME_TO_BE_MISSED,DATETIMECREATED) values (27,1,1,1,1,null,to_date('05-APR-17','DD-MON-RR'),to_date('07-APR-17','DD-MON-RR'),'hhhh','ccc','aaaa',111,null,to_date('31-MAR-17','DD-MON-RR'));
+Insert into TRMSDB.REIMBURSEMENTS (ID,EMPLOYEE_ID,STATUS_ID,EVENT_TYPE_ID,GRADE_FORMAT_ID,GRADE_ID,START_DATETIME,END_DATETIME,DESCRIPTION,JUSTIFICATION,LOCATION,COST,WORKTIME_TO_BE_MISSED,DATETIMECREATED) values (28,45,2,1,1,null,to_date('14-APR-17','DD-MON-RR'),to_date('01-MAY-17','DD-MON-RR'),'Opportunity to observe and study the film-making process as part of a guest assistant-producer training program.','This program will help me prepare to take on producer-level responsibilities following my promotion.','Universal Studios',250,'Starting April 10 I will be on-location and out of the office until May 4.',to_date('02-APR-17','DD-MON-RR'));
+Insert into TRMSDB.REIMBURSEMENTS (ID,EMPLOYEE_ID,STATUS_ID,EVENT_TYPE_ID,GRADE_FORMAT_ID,GRADE_ID,START_DATETIME,END_DATETIME,DESCRIPTION,JUSTIFICATION,LOCATION,COST,WORKTIME_TO_BE_MISSED,DATETIMECREATED) values (29,50,2,4,1,null,to_date('17-APR-17','DD-MON-RR'),to_date('17-APR-17','DD-MON-RR'),'2 hour practice exam that costs a lot.','No OCA, no life.','Revature',999,null,to_date('02-APR-17','DD-MON-RR'));
+Insert into TRMSDB.REIMBURSEMENTS (ID,EMPLOYEE_ID,STATUS_ID,EVENT_TYPE_ID,GRADE_FORMAT_ID,GRADE_ID,START_DATETIME,END_DATETIME,DESCRIPTION,JUSTIFICATION,LOCATION,COST,WORKTIME_TO_BE_MISSED,DATETIMECREATED) values (30,16,1,6,1,null,to_date('14-APR-17','DD-MON-RR'),to_date('15-APR-17','DD-MON-RR'),'Software Training','A developer can always train more.','Revature',300,null,to_date('02-APR-17','DD-MON-RR'));
 REM INSERTING into TRMSDB.REIMBURSEMENT_ATTACHMENTS
 SET DEFINE OFF;
 Insert into TRMSDB.REIMBURSEMENT_ATTACHMENTS (ID,REIMBURSEMENT_ID,ATTACHMENT_TYPE_ID,URL) values (1,23,1,'1-267570155-Good document.docx');
@@ -553,13 +514,21 @@ Insert into TRMSDB.REIMBURSEMENT_ATTACHMENTS (ID,REIMBURSEMENT_ID,ATTACHMENT_TYP
 Insert into TRMSDB.REIMBURSEMENT_ATTACHMENTS (ID,REIMBURSEMENT_ID,ATTACHMENT_TYPE_ID,URL) values (4,23,3,'1-799231351-');
 Insert into TRMSDB.REIMBURSEMENT_ATTACHMENTS (ID,REIMBURSEMENT_ID,ATTACHMENT_TYPE_ID,URL) values (5,24,2,'1-1773650270-sup-app.msg');
 Insert into TRMSDB.REIMBURSEMENT_ATTACHMENTS (ID,REIMBURSEMENT_ID,ATTACHMENT_TYPE_ID,URL) values (6,26,3,'1-518022866-sup-app.msg');
+Insert into TRMSDB.REIMBURSEMENT_ATTACHMENTS (ID,REIMBURSEMENT_ID,ATTACHMENT_TYPE_ID,URL) values (7,29,1,'50-2041940964-test.txt');
+Insert into TRMSDB.REIMBURSEMENT_ATTACHMENTS (ID,REIMBURSEMENT_ID,ATTACHMENT_TYPE_ID,URL) values (8,2,21,'16-1072487773-test.txt');
+Insert into TRMSDB.REIMBURSEMENT_ATTACHMENTS (ID,REIMBURSEMENT_ID,ATTACHMENT_TYPE_ID,URL) values (9,2,21,'16-2132359084-aoeu');
 REM INSERTING into TRMSDB.REIMBURSEMENT_ATTACHMENT_TYPE
 SET DEFINE OFF;
 Insert into TRMSDB.REIMBURSEMENT_ATTACHMENT_TYPE (ID,ATTACHMENT_TYPE) values (1,'event-related');
 Insert into TRMSDB.REIMBURSEMENT_ATTACHMENT_TYPE (ID,ATTACHMENT_TYPE) values (2,'supervisor approval');
 Insert into TRMSDB.REIMBURSEMENT_ATTACHMENT_TYPE (ID,ATTACHMENT_TYPE) values (3,'department-head approval');
+Insert into TRMSDB.REIMBURSEMENT_ATTACHMENT_TYPE (ID,ATTACHMENT_TYPE) values (21,'grade');
 REM INSERTING into TRMSDB.REIMBURSEMENT_GRADES
 SET DEFINE OFF;
+Insert into TRMSDB.REIMBURSEMENT_GRADES (ID,REIMBURSEMENT_ID,GRADE) values (1,2,'A');
+Insert into TRMSDB.REIMBURSEMENT_GRADES (ID,REIMBURSEMENT_ID,GRADE) values (2,2,'A');
+Insert into TRMSDB.REIMBURSEMENT_GRADES (ID,REIMBURSEMENT_ID,GRADE) values (3,2,'A');
+Insert into TRMSDB.REIMBURSEMENT_GRADES (ID,REIMBURSEMENT_ID,GRADE) values (4,2,'B');
 REM INSERTING into TRMSDB.REIMBURSEMENT_MESSAGES
 SET DEFINE OFF;
 REM INSERTING into TRMSDB.REIMBURSEMENT_STATUS
@@ -1117,7 +1086,7 @@ ALTER TRIGGER "TRMSDB"."TRIG_ROLE_ID" ENABLE;
 --------------------------------------------------------
 set define off;
 
-  CREATE OR REPLACE PROCEDURE "TRMSDB"."INSERT_THEN_PEND_APPROVAL_IF" (approver_id IN NUMBER, reimbursement_id IN NUMBER, reason IN VARCHAR2, approval_status_id IN NUMBER)
+  CREATE OR REPLACE PROCEDURE "TRMSDB"."INSERT_THEN_PEND_APPROVAL_IF" (approver_id IN NUMBER, reimbursement_id IN NUMBER, approval_status_id IN NUMBER, reason IN VARCHAR2)
     IS
       approval_id NUMBER;
       reim_id NUMBER;
@@ -1136,16 +1105,22 @@ set define off;
       --BENCO
       SELECT COUNT(*) INTO benco_approval FROM approvals WHERE EXISTS (select * from approvals a1 inner join employees e1 on a1.approver_id = e1.id AND e1.department_id = 5 AND a1.reimbursement_id = reim_id);
       
-      IF (supervisor_approval > 0) THEN
-        IF (head_approval > 0) THEN
+      IF (approval_status_id = 2) THEN
+        --awarded approval may mean reimbursement becomes pending if 3-step approval process has occurred.
+        IF (supervisor_approval > 0) THEN
+          IF (head_approval > 0) THEN
+            IF (benco_approval > 0) THEN
+              UPDATE reimbursements SET status_id = 2 WHERE id = reim_id;
+            END IF;
+          END IF;
+        ELSIF (head_approval > 0) THEN
           IF (benco_approval > 0) THEN
             UPDATE reimbursements SET status_id = 2 WHERE id = reim_id;
           END IF;
         END IF;
-      ELSIF (head_approval > 0) THEN
-        IF (benco_approval > 0) THEN
-          UPDATE reimbursements SET status_id = 2 WHERE id = reim_id;
-        END IF;
+      ELSIF (approval_status_id = 3) THEN
+        --reimbursement is denied if approval was denied.
+        UPDATE reimbursements SET status_id = 5 WHERE id = reim_id;
       END IF;
       
       commit;
@@ -1205,7 +1180,7 @@ set define off;
   ALTER TABLE "TRMSDB"."EMPLOYEES" MODIFY ("LAST_NAME" NOT NULL ENABLE);
   ALTER TABLE "TRMSDB"."EMPLOYEES" MODIFY ("FIRST_NAME" NOT NULL ENABLE);
   ALTER TABLE "TRMSDB"."EMPLOYEES" MODIFY ("EMAIL" NOT NULL ENABLE);
-  ALTER TABLE "TRMSDB"."EMPLOYEES" MODIFY ("password" NOT NULL ENABLE);
+  ALTER TABLE "TRMSDB"."EMPLOYEES" MODIFY ("PASSWORD2" NOT NULL ENABLE);
   ALTER TABLE "TRMSDB"."EMPLOYEES" MODIFY ("USERNAME" NOT NULL ENABLE);
 --------------------------------------------------------
 --  Constraints for Table EVENT_TYPE

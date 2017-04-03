@@ -36,11 +36,11 @@
 			<ul class="nav navbar-nav">
 				<!-- USER BUTTON -->
 	   			<li class="dropdown">
-		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= user.getUsername() %> <span class="caret"></span></a>
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle fa-lg"></i>&nbsp;&nbsp;<%= user.getUsername() %> <span class="caret"></span></a>
 		          <ul class="dropdown-menu">
 		            <li><a href="account"><i class="fa fa-home"></i>&nbsp;Home</a></li>
 		            <li role="separator" class="divider"></li>
-		            <li><a href="logout.do"><i class="fa fa-sign-out"></i>&nbsp;Logout</a></li>
+		            <li><a href="logout.do"><i class="fa fa-sign-out"></i>&nbsp;Sign out</a></li>
 		          </ul>
 		        </li>
 			</ul>
@@ -65,7 +65,7 @@
 	                <a href="view_all"><i class="fa fa-folder-open fa-lg"></i> View Your Applications</a>
 	            </li>
 	            
-	            <% if (user.getRoleId() == Employee.Role.supervisor.getId() || user.getRoleId() == Employee.Role.head.getId()) { %>
+	            <% if (user.getRoleId() == Employee.Role.supervisor.getId() || user.getRoleId() == Employee.Role.head.getId() || user.getDepartmentId() == Employee.Department.Benco.getId()) { %>
 	            	<li>
 	            		<a href="view_apps"><i class="fa fa-tasks fa-lg"></i> View Application Requests</a>
 	            	</li>
@@ -88,101 +88,117 @@
 	    
 	    <hr>
 	    
-		<form action="submit_application.do" method="POST" enctype="multipart/form-data">
-		<input type="hidden" name="employeeId" value="<%= ((Employee)session.getAttribute("user")).getId() %>">
-		
-		<p>
-		<label>Event type:<br>
-			<select name="eventType">
-				<% boolean firstEvent = true; for (Reimbursement.EventType eventType : Reimbursement.EventType.values()) { if (firstEvent) { %>
-					<option value="<%= eventType.getId() %>" selected="selected"><%= eventType.toString() %></option>
-				<% firstEvent = false; } else { %>
-					<option value="<%= eventType.getId() %>"><%= eventType.toString() %></option>
-				<% }} %>
-			</select>
-		</label>
-		</p>
-		
-		<p>
-		<label>Grading format:<br>
-			<select name="gradeFormat">
-				<%	boolean firstFormat = true; for (GradeFormat gradeFormat : gradeFormats) { if (firstFormat) { %>
-					<option value="<%= gradeFormat.getId() %>" selected="selected"><%= gradeFormat.getGrades() %></option>
-				<% firstFormat = false; } else {%>
-					<option value="<%= gradeFormat.getId() %>"><%= gradeFormat.getGrades() %></option>
-				<% } } %>
-			</select>
-		</label>
-		</p>
-		
-		<p>
-		<label>Location:<br>
-			<input type="text" name="location" required="required">
-		</label>
-		</p>
-		
-		<p>
-		<label>Cost:<br>
-			<input type="text" name="cost" required="required">
-		</label>
-		</p>
-		
-		<p>Starting date and time<br>
-		<label>Date:
-			<input type="text" name="startDate" placeholder="YYYY-MM-DD" required="required">
-		</label>
-		<label>Time (in 24-hour format):
-			<input type="text" name="startTime" placeholder="HH:MM:DD" required="required">
-		</label>
-		</p>
-		
-		<p>Ending date and time<br>
-		<label>Date:
-			<input type="text" name="endDate" placeholder="YYYY-MM-DD" required="required">
-		</label>
-		<label>Time (in 24-hour format):
-			<input type="text" name="endTime" placeholder="HH:MM:DD" required="required">
-		</label>
-		</p>
-		
-		<p>
-		<label>Description:<br>
-			<textarea name="description" placeholder="Describe the event you are seeking reimbursement for." required="required"></textarea>
-		</label>
-		</p>
-		
-		<p>
-		<label>Work-related justification:<br>
-			<textarea name="justification" placeholder="Describe how it relates to your work." required="required"></textarea>
-		</label>
-		</p>
-		
-		<p>
-		<label>Worktime to be missed:<br>
-			<textarea name="worktimeToBeMissed" placeholder="Describe how it will impact your time at work."></textarea>
-		</label>
-		</p>
-		
-		<p>
-		<label>Event-related attachments:<br>
-			<input type="file" name="event-attachments" multiple accept=".pdf,.png,.jpg,.jpeg,.txt,.doc,.docx,application/pdf,image/png,image/jpeg,text/plain,application/msword">
-		</label>
-		</p>
-		
-		<p>Pre-approvals<br>
-		<label>Supervisor pre-approval attachment:<br>
-			<input type="file" name="supervisor-attachment" accept=".msg,application/vnd.ms-outlook">
-		</label>
-		<label>Department Head pre-approval attachment:<br>
-			<input type="file" name="head-attachment" accept=".msg,application/vnd.ms-outlook">
-		</label>
-		</p>
-		
-		<input type="submit" value="Submit">
-	</form>
-	
-	<p><a href="account">Cancel and return</a></p>
-	    
+	    <div class="panel panel-default">
+	    	<!-- EVENT -->
+	    	<div class="panel-heading"><h1 class="panel-title">Event details</h1></div>
+	    	<div class="table-responsive">
+	    		<table class="table table-bordered">
+	    			<tr>
+	    				<th>Type</th>
+	    				<th>Location</th>
+	    				<th>Description</th>
+	    				<th>Justification</th>
+	    				<th>Worktime impact</th>
+	    				<th>Cost</th>
+	    				<th>Projected reimbursement</th>
+	    			</tr>
+	    			<tr>
+	    				<td>
+	    					<select id="type-field" form="app-form" name="eventType">
+								<% boolean firstEvent = true; for (Reimbursement.EventType eventType : Reimbursement.EventType.values()) { if (firstEvent) { %>
+									<option value="<%= eventType.getId() %>" selected="selected"><%= eventType.toString() %></option>
+								<% firstEvent = false; } else { %>
+									<option value="<%= eventType.getId() %>"><%= eventType.toString() %></option>
+								<% }} %>
+							</select>
+						</td>
+	    				<td><input type="text" form="app-form" name="location" placeholder="Location" required="required"></td>
+	    				<td><textarea form="app-form" name="description" placeholder="Describe the event you are seeking reimbursement for." required="required"></textarea></td>
+	    				<td><textarea form="app-form" name="justification" placeholder="Describe how it relates to your work." required="required"></textarea></td>
+	    				<td><textarea form="app-form" name="worktimeToBeMissed" placeholder="Describe how it will impact your time at work."></textarea></td>
+	    				<td><input id="cost-field" type="text" form="app-form" name="cost" required="required"></td>
+	    				<td><input id="projected-cost-field" type="text" readonly="readonly" disabled="disabled"></td>
+	    			</tr>
+	    		</table>
+	    	</div>
+	    	<!-- /.EVENT -->
+	    	<!-- DATES -->
+	    	<div class="panel-heading nested"><h1 class="panel-title">Dates</h1></div>
+	    	<div class="table-responsive">
+	    		<table class="table table-bordered">
+	    			<tr>
+	    				<th>Start date and time</th>
+	    				<th>End date and time</th>
+	    			</tr>
+	    			<tr>    			
+	    				<td>
+		    				<label>Date:<br>
+								<input type="text" form="app-form" name="startDate" placeholder="YYYY-MM-DD" required="required">
+							</label>
+							<label>Time (in 24-hour format):<br>
+								<input type="text" form="app-form" name="startTime" placeholder="HH:MM:SS" required="required">
+							</label>
+						</td>
+	    				<td>
+   							<label>Date:<br>
+								<input type="text" form="app-form" name="endDate" placeholder="YYYY-MM-DD" required="required">
+							</label>
+							<label>Time (in 24-hour format):<br>
+								<input type="text" form="app-form" name="endTime" placeholder="HH:MM:SS" required="required">
+							</label>
+	    				</td>
+	    			</tr>
+	    		</table>
+	    	</div>
+	    	<!-- /.DATES -->
+	    	<!-- GRADING -->
+	    	<div class="panel-heading nested"><h1 class="panel-title">Grading</h1></div>
+	    	<div class="table-responsive">
+	    		<table class="table table-bordered">
+	    			<tr>
+	    				<th>Format</th>
+	    			</tr>
+	    			<tr>
+	    				<td>
+	    					<select form="app-form" name="gradeFormat">
+								<%	boolean firstFormat = true; for (GradeFormat gradeFormat : gradeFormats) { if (firstFormat) { %>
+									<option value="<%= gradeFormat.getId() %>" selected="selected"><%= gradeFormat.getGrades() %></option>
+								<% firstFormat = false; } else {%>
+									<option value="<%= gradeFormat.getId() %>"><%= gradeFormat.getGrades() %></option>
+								<% } } %>
+							</select>
+	    				</td>
+	    			</tr>
+	    		</table>
+	    	</div>
+	    	<!-- /.GRADING -->
+	    	<!-- ATTACHMENTS -->
+	    	<div class="panel-heading nested"><h1 class="panel-title">Attachments <small>(if any)</small></h1></div>
+	    	<div class="table-responsive">
+	    		<table class="table table-bordered">
+	    			<tr>
+	    				<th>Event-related</th>
+	    				<th>Supervisor pre-approval</th>
+	    				<th>Department Head pre-approval</th>
+	    			</tr>
+	    			<tr>
+	    				<td><input type="file" form="app-form" name="event-attachments" multiple accept=".pdf,.png,.jpg,.jpeg,.txt,.doc,.docx,application/pdf,image/png,image/jpeg,text/plain,application/msword"></td>
+	    				<td><input type="file" form="app-form" name="supervisor-attachment" accept=".msg,application/vnd.ms-outlook"></td>
+	    				<td><input type="file" form="app-form" name="head-attachment" accept=".msg,application/vnd.ms-outlook"></td>
+	    			</tr>
+	    		</table>
+	    	</div>
+	    	<!-- /.ATTACHMENTS -->
+	    	<!-- APP-FORM -->
+	    	<div class="panel-footer">
+		    	<form id="app-form" action="submit_application.do" method="POST" enctype="multipart/form-data">
+					<input type="hidden" name="employeeId" value="<%= ((Employee)session.getAttribute("user")).getId() %>">
+					<input class="btn btn-primary" type="submit" value="Submit">
+				</form>
+				<p><a class="btn btn-danger" href="account" style="margin-top: 5px;">Cancel</a></p>
+	    	</div>
+	    	<!-- /.APP-FORM -->
+	    </div>	    
 	</div>
 	<!-- /.CONTENT -->
 	
@@ -197,5 +213,48 @@
 	<!-- /.JS -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script>
+		$(document).ready(function() { //TODO: ajax to java
+			
+			function updateCost() {
+				let cost = parseFloat($('#cost-field').val()); 
+				//console.log(cost);
+				if (!isNaN(cost)) {
+					switch (parseInt($('#type-field').val())) {
+					case 1:
+						$('#projected-cost-field').val('$' + (cost * .8).toFixed(2));
+						break;
+					case 2:
+						$('#projected-cost-field').val('$' + (cost * .6).toFixed(2));
+						break;
+					case 3:
+						$('#projected-cost-field').val('$' + (cost * .75).toFixed(2));
+						break;
+					case 4:
+						$('#projected-cost-field').val('$' + (cost).toFixed(2));
+						break;
+					case 5:
+						$('#projected-cost-field').val('$' + (cost * .9).toFixed(2));
+						break;
+					case 6:
+						$('#projected-cost-field').val('$' + (cost * .3).toFixed(2));
+						break;
+					}
+				}
+				else {
+					$('#cost-field').val('');
+					$('#projected-cost-field').val('');
+				}
+			}
+		
+			$('#cost-field').on('blur', function() { 
+				updateCost();				
+			});
+			
+			$('#type-field').on('change', function() {
+				updateCost();	
+			});
+		});
+	</script>
 </body>
 </html>
