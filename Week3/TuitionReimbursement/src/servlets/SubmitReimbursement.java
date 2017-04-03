@@ -195,6 +195,10 @@ public class SubmitReimbursement extends HttpServlet {
 		if(!files.isEmpty())
 			serveEmp.submitEdit(rId, files);
 		
+		request.setAttribute("id", ses.getAttribute("uId"));
+		request.setAttribute("roleId", ses.getAttribute("roldId"));
+		request.setAttribute("deptId", ses.getAttribute("deptId"));
+		
 		String nextJSP = "/loggedIn.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextJSP);
 		dispatcher.forward(request,response);

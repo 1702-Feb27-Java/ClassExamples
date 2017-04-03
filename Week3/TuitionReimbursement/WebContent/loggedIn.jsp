@@ -20,7 +20,7 @@
 			<div class="col-md-1"></div>
 			<div class="col-md-3">
 				<div class="btn-group-vertical">
-				View Reimbursements 
+				<h2>View Reimbursements</h2> 
 				  <br><form action="ReimbursementsServlet.do" method="POST">
 			  			<button type="submit" class="btn btn-default btn-lg">Pending</button>
 			  	  </form><br>
@@ -37,7 +37,7 @@
 			</div>
 			<div class="col-md-1"></div>
 			<div class="col-md-3">
-				Apply for Reimbursement
+				<h2>Apply for Reimbursement</h2>
 				<form action="CreateReimbursement.do" method="POST">
 			  		<button type="submit" class="btn btn-default btn-lg">Apply</button>
 			  	</form>
@@ -45,20 +45,20 @@
 			<div class="col-md-4">
 				<c:choose>
 					<c:when test="${roleId == 2}">
-						Welcome Supervisor
+						<h2>Welcome Supervisor</h2>
 						<form action="PendingReimbursementsServlet.do" method="POST">
 					  		<button type="submit" class="btn btn-default btn-lg">Pending</button>
 					  	</form>
 					</c:when>
 					<c:when test="${roleId == 3}">
-						Welcome Department Head
+						<h2>Welcome Department Head</h2>
 						<form action="PendingReimbursementsServlet.do" method="POST">
 					  		<button type="submit" class="btn btn-default btn-lg">Pending</button>
 					  	</form>
 					</c:when>
 					<c:when test="${deptId == 1}">
 						<div class="btn-group-vertical">
-						Welcome Benefits Coordinator
+						<h2>Welcome Benefits Coordinator</h2>
 						  <br><form action="PendingReimbursementsServlet.do" method="POST">
 						  		<button type="submit" class="btn btn-default btn-lg">Pending</button>
 						  </form><br>
