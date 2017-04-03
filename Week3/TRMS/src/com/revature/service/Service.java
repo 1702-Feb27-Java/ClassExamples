@@ -79,4 +79,11 @@ public class Service
 	{
 		dao.decline(reim_id);
 	}
+	
+	public ArrayList<Reimburstment> getBencoPending()
+	{
+		ArrayList<Reimburstment> arr = new ArrayList();
+		arr = dao.getBencoPending();
+		return arr;
+	}
 }

@@ -49,10 +49,32 @@ public class MakeReimServlet extends HttpServlet {
 		reim.setCourseEndDate(request.getParameter("endDate"));
 		reim.setTime(request.getParameter("courseTime"));
 		reim.setCourseCost(Integer.parseInt(request.getParameter("courseCost")));
-		reim.setReimburstAmt(Integer.parseInt(request.getParameter("reimAmt")));
-		reim.setCourseID(1);
+		//reim.setReimburstAmt(Integer.parseInt(request.getParameter("reimAmt")));
+		reim.setCourseID(Integer.parseInt(request.getParameter("courseID")));
 		reim.setApproval(1);
 		reim.setGradeTypeID(Integer.parseInt(request.getParameter("gradeTypeID")));
+		int reimtotal = 0;
+		if(reim.getCourseID() == 1)
+		{
+			reimtotal = (int)(reim.getCourseCost() * .8);
+		}
+		else if(reim.getCourseID() == 2)
+		{
+			reimtotal = (int)(reim.getCourseCost() * .6);
+		}
+		else if(reim.getCourseID() == 3)
+		{
+			reimtotal = (int)(reim.getCourseCost() * .75);
+		}
+		else if(reim.getCourseID() == 4)
+		{
+			reimtotal = (int)(reim.getCourseCost() * 1);
+		}
+		else if(reim.getCourseID() == 5)
+		{
+			reimtotal = (int)(reim.getCourseCost() * .9);
+		}
+		reim.setReimburstAmt(reimtotal);
 		service.makeReimburstment(reim);
 		if(reim.getApproval() == 1)
 		{

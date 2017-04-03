@@ -10,6 +10,10 @@
   
     <h1 style="color:blue;" align="center">Viewing Your Reimbursement</h1>
 	<hr>
+	<c:choose>
+		<c:when test="${reimbursement.approval == 4}"><h2>Your Allowance: ${user.allowence - reimbursement.reimburstAmt}</h2></c:when>
+		<c:otherwise><h2>Your Allowance: ${user.allowence}</h2></c:otherwise>
+	</c:choose>
 	<table border="1">
      	<tr><th>Reimbursement ID</th><th>Employee ID</th><th>Location</th><th>Add Date</th>
      		<th>Course Start Date</th><th>Course End Date</th><th>Course Time</th><th>Course Cost</th>

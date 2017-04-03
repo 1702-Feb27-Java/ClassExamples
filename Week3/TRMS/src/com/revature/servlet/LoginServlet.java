@@ -42,19 +42,24 @@ public class LoginServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		Employee emp = service.viewAccount(request.getParameter("username"));
 		request.getSession().setAttribute("user", emp);
-		if(request.getParameter("password").equals(emp.getPassword()) && emp.getRole_id() == 1)
+		if(request.getParameter("password").equals(emp.getPassword()) && emp.getRole_id() == 1 && emp.getDept_id() != 4)
 		{
 			RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");
 			rd.forward(request, response);
 		}
-		else if(request.getParameter("password").equals(emp.getPassword()) && emp.getRole_id() == 2)
+		else if(request.getParameter("password").equals(emp.getPassword()) && emp.getRole_id() == 2 && emp.getDept_id() != 4)
 		{
 			RequestDispatcher rd = request.getRequestDispatcher("DSDashboard.jsp");
 			rd.forward(request, response);
 		}
-		else if(request.getParameter("password").equals(emp.getPassword()) && emp.getRole_id() == 3)
+		else if(request.getParameter("password").equals(emp.getPassword()) && emp.getRole_id() == 3 && emp.getDept_id() != 4)
 		{
 			RequestDispatcher rd = request.getRequestDispatcher("DHDashboard.jsp");
+			rd.forward(request, response);
+		}
+		else
+		{
+			RequestDispatcher rd = request.getRequestDispatcher("BencoDash.jsp");
 			rd.forward(request, response);
 		}
 	}

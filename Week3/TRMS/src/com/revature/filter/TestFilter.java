@@ -76,6 +76,10 @@ public class TestFilter implements Filter {
 		case "LogoutServlet":
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
+		case "BencoPendingServlet":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
+			return;
 		default:
 //			rd = req.getRequestDispatcher("DefaultServlet");
 //			rd.include(req, res);

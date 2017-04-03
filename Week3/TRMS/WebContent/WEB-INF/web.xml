@@ -106,4 +106,14 @@
     <servlet-name>LogoutServlet</servlet-name>
     <url-pattern>/LogoutServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BencoPendingServlet</display-name>
+    <servlet-name>BencoPendingServlet</servlet-name>
+    <servlet-class>com.revature.servlet.BencoPendingServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BencoPendingServlet</servlet-name>
+    <url-pattern>/BencoPendingServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

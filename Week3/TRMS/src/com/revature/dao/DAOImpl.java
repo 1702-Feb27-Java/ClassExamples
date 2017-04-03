@@ -378,4 +378,42 @@ public class DAOImpl implements DAO
 			e.getStackTrace();
 		}
 	}
+	
+	public ArrayList<Reimburstment> getBencoPending()
+	{
+		Reimburstment reim;
+		ArrayList<Reimburstment> temp = new ArrayList();
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String sql = "SELECT * FROM REIMBURSTMENT WHERE APPROVAL_ID = 3";
+			PreparedStatement ps = connect.prepareStatement(sql);
+			ResultSet rs;
+			rs = ps.executeQuery();
+			while(rs.next())
+			{
+				reim = new Reimburstment();
+				reim.setReim_id(rs.getInt(1));
+				reim.setEmp_id(rs.getInt(2));
+				reim.setLocation(rs.getString(3));
+				reim.setAddDate(rs.getString(4));
+				reim.setCourseStartDate(rs.getString(5));
+				reim.setCourseEndDate(rs.getString(6));
+				reim.setTime(rs.getString(7));
+				reim.setCourseCost(rs.getInt(8));
+				reim.setReimburstAmt(rs.getInt(9));
+				reim.setApproval(rs.getInt(10));
+				reim.setCourseID(rs.getInt(11));
+				reim.setGradeTypeID(rs.getInt(12));
+				temp.add(reim);
+			}
+			connect.commit();
+			return temp;
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return temp;
+	}
 }

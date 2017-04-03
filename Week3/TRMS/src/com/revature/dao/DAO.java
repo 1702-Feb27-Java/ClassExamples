@@ -17,4 +17,5 @@ public interface DAO
 	public void dhApproval(int reim_id);
 	public void bApproval(int reim_id);
 	public void decline(int reim_id);
+	public ArrayList<Reimburstment> getBencoPending();
 }

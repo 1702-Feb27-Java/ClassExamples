@@ -25,8 +25,12 @@
 	     <input type="text" name="courseTime"><br>
 	     Please Enter The Cost of the Course:<br>
 	     <input type="text" name="courseCost"><br>
-	     Please Enter The Reimbursement Amount:<br>
-	     <input type="text" name="reimAmt"><br>
+	     Please enter the course ID:<br>
+	     1 for University Course, 2 for Seminars, 3 for Certification Prep. Class<br>
+	     4 for Certification, 5 for Technical Training<br>
+	     <input type="text" name="courseID"><br>
+	     <!-- Please Enter The Reimbursement Amount:<br>
+	     <input type="text" name="reimAmt"><br> -->
 	     Please Enter The Grade Type ID:<br>
 	     <input type="text" name="gradeTypeID"><br>
 	     <br>

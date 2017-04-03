@@ -1,6 +1,8 @@
 package com.revature.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,16 +10,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.revature.pojo.Reimburstment;
+import com.revature.service.Service;
+
 /**
- * Servlet implementation class LogoutServlet
+ * Servlet implementation class BencoPendingServlet
  */
-public class LogoutServlet extends HttpServlet {
+public class BencoPendingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private String initParamName;
+	private String initParamValue;
+	private String configParamName;
+	private String configParamValue;
+	Service service = new Service();
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogoutServlet() {
+    public BencoPendingServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,10 +37,12 @@ public class LogoutServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getSession().invalidate();
-//		RequestDispatcher rd = request.getRequestDispatcher("index.html");
-//		rd.forward(request, response);
-		response.sendRedirect("index.html");
+		PrintWriter out = response.getWriter();
+		ArrayList<Reimburstment> reims = new ArrayList();
+		reims = service.getBencoPending();
+		request.getSession().setAttribute("reimbursements", reims);
+		RequestDispatcher rd = request.getRequestDispatcher("BencoPending.jsp");
+		rd.forward(request, response);
 	}
 
 	/**
