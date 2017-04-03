@@ -2,7 +2,6 @@ package com.revature.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.revature.pojo.Reimburstment;
+import com.revature.pojo.Employee;
 import com.revature.service.Service;
 
 /**
@@ -38,21 +37,21 @@ public class ApprovalServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
-		int alevel = Integer.parseInt(request.getParameter("approvelevel"));
 		int reimid = Integer.parseInt(request.getParameter("approveid"));
-		if(alevel == 1)
+		Employee emp = (Employee) request.getSession().getAttribute("user");
+		if(emp.getRole_id() == 1)
 		{
 			service.dsApprove(reimid);
 			RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");
 			rd.forward(request, response);
 		}
-		else if(alevel == 2)
+		else if(emp.getRole_id() == 2)
 		{
 			service.dhApproval(reimid);
 			RequestDispatcher rd = request.getRequestDispatcher("DSDashboard.jsp");
 			rd.forward(request, response);
 		}
-		else if(alevel == 3)
+		else if(emp.getRole_id() == 3)
 		{
 			service.bApproval(reimid);
 			RequestDispatcher rd = request.getRequestDispatcher("DHDashboard.jsp");

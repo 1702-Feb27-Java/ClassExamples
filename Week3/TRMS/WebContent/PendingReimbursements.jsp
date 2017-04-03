@@ -31,9 +31,9 @@
             <td>${row.time}</td>
             <td>${row.courseCost}</td>
             <td>${row.reimburstAmt}</td>
-            <td>${row.approval}</td>
-            <td>${row.courseID}</td>
-            <td>${row.gradeTypeID}</td>
+            <td>${row.approvalString}</td>
+            <td>${row.courseIDString}</td>
+            <td>${row.gradeTypeString}</td>
             <td><input type="hidden" name="emp_id" value="${row.emp_id}">
             	<input type="submit" value="Approval Decision" method="POST"></td>
         </form>

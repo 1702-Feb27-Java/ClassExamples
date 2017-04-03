@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.revature.pojo.Employee;
 import com.revature.pojo.Reimburstment;
 import com.revature.service.Service;
 
@@ -38,20 +39,20 @@ public class DeclineServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
-		int dlevel = Integer.parseInt(request.getParameter("declinelevel"));
 		int reimid = Integer.parseInt(request.getParameter("declineid"));
+		Employee emp = (Employee) request.getSession().getAttribute("user");
 		service.decline(reimid);
-		if(dlevel == 1)
+		if(emp.getRole_id() == 1)
 		{
 			RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");
 			rd.forward(request, response);
 		}
-		else if(dlevel == 2)
+		else if(emp.getRole_id() == 2)
 		{
 			RequestDispatcher rd = request.getRequestDispatcher("DSDashboard.jsp");
 			rd.forward(request, response);
 		}
-		else if(dlevel == 3)
+		else if(emp.getRole_id() == 3)
 		{
 			RequestDispatcher rd = request.getRequestDispatcher("DHDashboard.jsp");
 			rd.forward(request, response);

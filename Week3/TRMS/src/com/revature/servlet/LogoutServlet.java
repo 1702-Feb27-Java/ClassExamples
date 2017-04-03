@@ -27,8 +27,8 @@ public class LogoutServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher rd = request.getRequestDispatcher("index.html");
 		request.getSession().invalidate();
+		RequestDispatcher rd = request.getRequestDispatcher("index.html");
 		rd.forward(request, response);
 	}
 

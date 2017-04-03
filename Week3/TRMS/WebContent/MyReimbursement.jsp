@@ -24,9 +24,9 @@
             <td>${reimbursement.time}</td>
             <td>${reimbursement.courseCost}</td>
             <td>${reimbursement.reimburstAmt}</td>
-            <td>${reimbursement.approval}</td>
-            <td>${reimbursement.courseID}</td>
-            <td>${reimbursement.gradeTypeID}</td>
+            <td>${reimbursement.approvalString}</td>
+            <td>${reimbursement.courseIDString}</td>
+            <td>${reimbursement.gradeTypeString}</td>
         </tr>
     </table>
       

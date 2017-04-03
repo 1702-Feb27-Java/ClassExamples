@@ -2,7 +2,7 @@ package com.revature.pojo;
 
 public class Reimburstment
 {
-	String location, addDate, courseStartDate, courseEndDate, time, course, grade;
+	String location, addDate, courseStartDate, courseEndDate, time, course, grade, approvalString, courseIDString, gradeTypeString;
 	int emp_id, courseCost, reimburstAmt, reim_id, approval, courseID, gradeTypeID;
 	
 	public Reimburstment()
@@ -16,6 +16,18 @@ public class Reimburstment
 	public void setGradeTypeID(int gradeTypeID)
 	{
 		this.gradeTypeID = gradeTypeID;
+		if(gradeTypeID == 1)
+		{
+			gradeTypeString = "Pass-Fail";
+		}
+		else if(gradeTypeID == 2)
+		{
+			gradeTypeString = "A-F";
+		}
+	}
+	public String getGradeTypeString()
+	{
+		return gradeTypeString;
 	}
 	public int getCourseID()
 	{
@@ -24,6 +36,34 @@ public class Reimburstment
 	public void setCourseID(int courseID)
 	{
 		this.courseID = courseID;
+		if(courseID == 1)
+		{
+			courseIDString = "University Course";
+		}
+		else if(courseID == 2)
+		{
+			courseIDString = "Seminars";
+		}
+		else if(courseID == 3)
+		{
+			courseIDString = "Certification Prep. Class";
+		}
+		else if(courseID == 4)
+		{
+			courseIDString = "Certification";
+		}
+		else if(courseID == 5)
+		{
+			courseIDString = "Technical";
+		}
+		else if(courseID == 6)
+		{
+			courseIDString = "Other";
+		}
+	}
+	public String getCourseIDString()
+	{
+		return courseIDString;
 	}
 	public String getLocation()
 	{
@@ -88,6 +128,30 @@ public class Reimburstment
 	public void setApproval(int approval)
 	{
 		this.approval = approval;
+		if(approval == 1)
+		{
+			approvalString = "Waiting on Supervisor";
+		}
+		else if(approval == 2)
+		{
+			approvalString = "Waiting on Dept. Head";
+		}
+		else if(approval == 3)
+		{
+			approvalString = "Waiting on Benco";
+		}
+		else if(approval == 4)
+		{
+			approvalString = "Approved";
+		}
+		else if(approval == 5)
+		{
+			approvalString = "Declined";
+		}
+	}
+	public String getApprovalString()
+	{
+		return approvalString;
 	}
 	public int getEmp_id()
 	{

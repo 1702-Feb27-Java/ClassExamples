@@ -25,20 +25,18 @@
             <td>${reim.time}</td>
             <td>${reim.courseCost}</td>
             <td>${reim.reimburstAmt}</td>
-            <td>${reim.approval}</td>
-            <td>${reim.courseID}</td>
-            <td>${reim.gradeTypeID}</td>
+            <td>${reim.approvalString}</td>
+            <td>${reim.courseIDString}</td>
+            <td>${reim.gradeTypeString}</td>
         </tr>
     </table>
     
     <form align="center" action="ApprovalServlet.do" style="color:blue">
     	<input type="hidden" name="approveid" value="${reim.reim_id}">
-    	<input type="hidden" name="approvelevel" value="${reim.approval}">
     	<input type="submit" name="approve" value="Approve">
     </form>
     <form align="center" action="DeclineServlet.do" style="color:blue">
     	<input type="hidden" name="declineid" value="${reim.reim_id}">
-    	<input type="hidden" name="declinelevel" value="${reim.approval}">
     	<input type="submit" name="decline" value="Decline">
     </form>
 </body>
