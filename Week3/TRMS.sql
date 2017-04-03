@@ -24,6 +24,7 @@ DROP TABLE Department;
 /
 DROP TABLE Rolet;
 /
+
 /*******************************************************************************
    Create Lookup Tables
 ********************************************************************************/
@@ -143,6 +144,7 @@ CREATE TABLE Messages
     Receiver NUMBER,
     Msg VARCHAR2(500) NOT NULL,
     ReimId NUMBER,
+    rInfo NUMBER DEFAULT 0,
 
     FOREIGN KEY (Sender) REFERENCES Employee(EmpId),
     FOREIGN KEY (Receiver) REFERENCES Employee(EmpId),

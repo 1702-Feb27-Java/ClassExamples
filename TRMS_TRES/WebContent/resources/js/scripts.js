@@ -4,7 +4,6 @@
 
       var dateObj = new Date();
       
-      console.log(dateObj.get)
       var time = dateObj.getHours();
       if (dateObj.getMinutes() < 10)
     	  time += ":0" + dateObj.getMinutes();
@@ -27,7 +26,6 @@
 		$("#cst").on('input', function (){
 			if (!($.isNumeric($("#cst").val())) && $("#cst").val() != "")
 			{
-				console.log ($('#cst').val());
 				alert("not a number fix this to not sumbit");
 			}
 		})
@@ -74,10 +72,67 @@
           return date;
         }
       } );
-    //===================== WHEN THEY SUBMIT THE REIBURSEMENT ==============================================================================
-    $(function (){
-    	$("#reimsub").submit( function (){
-    								})
-    });
     //=============================
+    $(function(){
+    	$("#courses").change( function(){
+    		var x = $("#courses").val();
+    		var cost = $("#cst").val();
+    		var p = 1;
+    		switch(x)
+    		{
+    		case '1':
+    			p = .8;
+    			break;
+    		case '2':
+    			p = .6;
+    			break;
+    		case '3':
+    			p = .75;
+    			break;
+    		case '5':
+    			p = .9;
+    			break;
+    		case '6':
+    			p = .3;
+    			break;
+    		}
+    		$("#calcVal").find("p").text(parseFloat(Math.round(cost*p).toFixed(2)));
+    		})
+    });
+    $(function(){
+    	$("#cst").change( function(){
+    		var x = $("#courses").val();
+    		var cost = $("#cst").val();
+    		var p = 1;
+    		switch(x)
+    		{
+    		case '1':
+    			p = .8;
+    			break;
+    		case '2':
+    			p = .6;
+    			break;
+    		case '3':
+    			p = .75;
+    			break;
+    		case '5':
+    			p = .9;
+    			break;
+    		case '6':
+    			p = .3;
+    			break;
+    		}
+    		$("#calcVal").find("p").text(parseFloat(Math.round(cost*p).toFixed(2)));
+    		})
+    });
+    //=====================================================================
+    $(function(){
+    $("#reimform").on('submit',function(){
+    	console.log("REIMSUB");
+    	console.log ($("#calcVal").find("p:first").text());
+    	var cst = document.getElementById("cst");
+    	$(cst).val($("#calcVal").find("p:first").text());
+    });
+    	
+    });
 //</script>

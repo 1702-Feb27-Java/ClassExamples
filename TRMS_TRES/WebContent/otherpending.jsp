@@ -7,10 +7,13 @@
 <%@ page import="com.tres.objs.Reimbursement" %>
 <html>
 	<%@ include file="head.html" %>
+		<script src="resources/js/scripts.js"> </script>
+	</head>
 	<body>
 	<%@ include file="navbar.jsp" %>
 		<title>Pending Reimbursements</title>
 		<% ArrayList<Reimbursement> pend = (ArrayList<Reimbursement>)session.getAttribute("mypending"); %>
+		<% ArrayList<Double> us_bal = (ArrayList<Double>)session.getAttribute("theirBal"); %>
 		<% Set<String> us_pend = (Set<String>)session.getAttribute("mybelows"); %>
 		<ul class="nav nav-tabs">
 		
@@ -23,7 +26,7 @@
 		%>
 		</ul>
 		<div class="tab-content">
-  			<%for(String s : us_pend)
+  			<%int count = 0;for(String s : us_pend)
   				{
 					//Reimbursement x = pend.get(i);
   			%>
@@ -99,21 +102,58 @@
   										</tbody>
   									</table>
   													
-		        					<%if ( y.getSid() !=2) {%>
+		        					<%if ( y.getSid() <2) {%>
+		        						<%if(!(us_bal.get(count) < y.getCost() && ((int)session.getAttribute("roleid") == 4 || (int)session.getAttribute("deptid") == 1)) ){ %>
 										<!-- Indicates a successful or positive action -->
 										<form action="<%=path%>Pending/approve" method="POST">
 											<input type="submit" class="btn btn-success" value="Accept">
 											<input type="hidden" name="reimid" value="<%=y.getReimid()%>">
 											<input type="hidden" name="apprid" value="<%=y.getApprod()%>">
 											<input type="hidden" name="rcvid" value="<%=y.getEmid()%>">
+											<input type="hidden" name="crscost" value="<%=y.getCost()%>">
 										</form>
+										<%}if((int)session.getAttribute("roleid") == 4 || (int)session.getAttribute("deptid") == 1){ %>
+										<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+										<button type="button"  data-toggle="modal" data-target="#ChangeModal<%=y.getReimid() %>" class="btn btn-warning">Change Amount</button>
+										<%} %>
+										
 										<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
 										<button type="button"  data-toggle="modal" data-target="#AddInfoModal<%=y.getReimid() %>" class="btn btn-primary">Request Info</button>
 												
 										<!-- Indicates caution should be taken with this action -->
 										<button type="button"  data-toggle="modal" data-target="#DeclineModal<%=y.getReimid() %>" class="btn btn-danger">Decline</button>
 									<%} %>
-										<!-- Modal -->
+										<!-- Modal ================================ CHANGE -->
+										<div class="modal fade" id="ChangeModal<%=y.getReimid() %>" role="dialog">
+											<div class="modal-dialog">
+											<!-- Modal content-->
+												<div class="modal-content">
+											    	<div class="modal-header">
+											        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+											          	<h4 class="modal-title">Change Reimbursement Amount</h4>
+											        </div>
+											       	<div class="modal-body">
+											        	<form action="<%=path%>Pending/approve2" method="POST">
+											  				<div class="form-group">
+											  					<label for="WhyChange">Change to: </label>
+											  					<textarea required="required" name="reason" class="form-control" rows="3" id="WhyChange"></textarea>
+											  				</div>
+						    								<div class="input-group">
+      															<div class="input-group-addon">$</div>
+      															<input type="text" required="required" class="form-control" name="cst" id="cst" placeholder="Amount">
+    														</div>
+											  				<input type="hidden" name="reimid" value="<%=y.getReimid()%>">
+											  				<input type="hidden" name="rcvid" value="<%=y.getEmid()%>">
+											        		<div class="modal-footer">
+											  					<button type="submit" class="btn btn-success">Change/Approve</button>
+													          	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											        		</div>
+														</form>
+											        </div>
+											      </div>
+											</div>
+										</div>
+										<!-- Modal ======================== DECLINE-->
 										<div class="modal fade" id="DeclineModal<%=y.getReimid() %>" role="dialog">
 											<div class="modal-dialog">
 											<!-- Modal content-->
@@ -139,7 +179,7 @@
 											      </div>
 											</div>
 										</div>
-										<!-- Modal -->
+										<!-- Modal ================================ INFO -->
 										<div class="modal fade" id="AddInfoModal<%=y.getReimid() %>" role="dialog">
 											<div class="modal-dialog">
 												<!-- Modal content-->
@@ -151,13 +191,11 @@
 											        <div class="modal-body">
 											        	<form action="<%=path%>Pending/infoo" method="POST">
 											  				<div class="form-group">
-											  					<label for="exampleInputFile">File input</label>
-											  					<input type="file" id="exampleInputFile">
-											  				</div>
-											  				<div class="form-group">
 											  					<label for="infoComment">What you want:</label>
-											  					<textarea class="form-control" rows="3" id="infoComment"></textarea>
+											  					<textarea class="form-control" rows="3" id="infoComment" name="infoReq"></textarea>
 											  				</div>
+											  				<input type="hidden" name="reimid" value="<%=y.getReimid()%>">
+											  				<input type="hidden" name="rcvid" value="<%=y.getEmid()%>">
 											        		<div class="modal-footer">
 											  					<button type="submit" class="btn btn-info">Submit</button>
 													          	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -174,7 +212,7 @@
 							%>
 						</div>		
 					</div>
-				<%}%>
+				<%count+=1;}%>
 		</div>
 	</body>
 </html>

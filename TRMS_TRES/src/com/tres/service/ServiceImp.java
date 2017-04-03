@@ -63,8 +63,34 @@ public class ServiceImp implements Service
 	}
 
 	@Override
-	public void updateReim(int reimid, int apprid, int repid, int send, int recv)
+	public void updateReim(int reimid, int apprid, int repid, int send, int recv, String msg)
 	{
-		dao.updateReim(reimid, apprid, repid, send, recv);
+		dao.updateReim(reimid, apprid, repid, send, recv, msg);
+	}
+
+	@Override
+	public void addMsg(int reimid, int s, int r, String reason)
+	{
+		dao.addMsg(reimid, s, r, reason);
+		
+	}
+
+	@Override
+	public double getBalance(int ownId)
+	{
+		// TODO Auto-generated method stub
+		return dao.getBalance(ownId);
+	}
+
+	@Override
+	public void updateUser(int rcv_id, double crscost)
+	{
+		dao.updateUser(rcv_id, crscost);
+	}
+
+	@Override
+	public void updateReimAmnt(int reim_id, double cst)
+	{
+		dao.updateReimAmnt(reim_id, cst);
 	}
 }

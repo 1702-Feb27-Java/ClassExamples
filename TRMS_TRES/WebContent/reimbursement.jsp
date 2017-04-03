@@ -26,7 +26,11 @@
 				<p>Fields marked with * are required </p>
  		 	</div>
  		 </div>
-		<form id="form1" action="Reimbur" method="POST" enctype="multipart/form-data" >
+ 		 
+            	<div class="input-group-addon" id="calcVal">Projected Reimbursement Amount:
+            		<p> </p>
+            	</div>
+		<form id="reimform" action="Reimbur" method="POST" enctype="multipart/form-data" >
             <!---------------- BASIC USER INFO (Username) ----------------------->
 <!--==
 ID: UNAME 
@@ -92,7 +96,7 @@ ID: TIMEPICKER1
 				<div class="col-md-2 col-md-offset-1">
                 	<div class="form-group">
                         <label class="control-label" for="timepicker1"> Time </label>
-                		<input required="required" type="time" name="timepicker1" id="timepicker1" disabled>
+                		<input required="required" type="time" name="timepicker1" id="timepicker1" readonly="readonly">
                 		<!-- <button type="button" id="setTimeButton">Set Current Time</button> -->
                 	</div>
   				</div>
@@ -105,7 +109,7 @@ ID: FRMDT
 				<div class="col-md-4 col-md-offset-1">
                 	<div class="form-group">
                         <label class="control-label" for="frmdt"> Form Date: </label>
-                		<input required="required" type="date" name="frmdt" id="frmdt" disabled> 
+                		<input required="required" type="date" name="frmdt" id="frmdt" readonly="readonly"> 
                 	</div>
   				</div>
   			</div>
@@ -153,6 +157,7 @@ ID: CRSDES
 <!--==
 ID: CST
 ==-->
+			<%! ArrayList<CourseType> crs = (Login.serve).getCourseTypes(); %>
             <div class="row">
                 <div class="col-md-2 col-md-offset-1">
                     <div class="form-group">
@@ -197,7 +202,6 @@ ID: COURSES
                     <div class="form-group">
                         <label class="control-label" for="courses">Type of Event:</label>
 						<div class="btn-group">
-							<%! ArrayList<CourseType> crs = (Login.serve).getCourseTypes(); %>
   							<select name="courses" id="courses" class="btn btn-default">
     						<% 
     							for(int i =0; i < crs.size(); i++)
@@ -225,7 +229,7 @@ ID: WRKJUS
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-md-offset-5">
+                <div class="col-md-4 col-md-offset-6">
 		  			<button type="submit" class="btn btn-default" id="reimsub">Submit</button>
 		  		</div>
 		  	</div>

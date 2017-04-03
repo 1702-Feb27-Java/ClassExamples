@@ -69,14 +69,17 @@ public class Pending extends HttpServlet {
 					 otpend = serve.getHvPending((int)sess.getAttribute("uid"));
 				}
 				Set<String> users = new HashSet<String>();
+				ArrayList<Double>usersBal = new ArrayList<>();
 				for (Reimbursement r: otpend)
 				{
 					users.add(r.getCreator());
+					usersBal.add(serve.getBalance(r.getEmid()));
 				}
 				if (!otpend.isEmpty())
 				{
 					sess.setAttribute("mypending", otpend);
 					sess.setAttribute("mybelows", users);
+					sess.setAttribute("theirBal", usersBal);
 					rs = request.getRequestDispatcher("/otherpending.jsp");
 					rs.forward(request, response);
 				}
@@ -90,32 +93,69 @@ public class Pending extends HttpServlet {
 				String reason = "Reason it was Declined: " + request.getParameter("reason");
 				int reim_id = Integer.parseInt(request.getParameter("reimid"));
 				int rcv_id = Integer.parseInt(request.getParameter("rcvid"));
+				double bal = serve.getBalance(rcv_id);
 				serve.updateAddMsg((int)sess.getAttribute("uid"), rcv_id, reason, reim_id, 2);
 				rs = request.getRequestDispatcher("/employee.jsp");
 				rs.forward(request, response);
 				break;
 			case "approve":
+				String msg = "APPROVED ";
 				System.out.println("APPROVE");
 				int uid = (int)sess.getAttribute("uid");
 				int repid = (int) sess.getAttribute("repid");
 				reim_id = Integer.parseInt(request.getParameter("reimid"));
+				double crscost = Double.parseDouble(request.getParameter("crscost"));
 				rcv_id = Integer.parseInt(request.getParameter("rcvid"));
 				int apprid = Integer.parseInt(request.getParameter("apprid"));
+				bal = serve.getBalance(rcv_id);
 				if(apprid == 3)
 				{
-					
+				// DO SOMETHING 
+					msg = "Finally Approved";
+					serve.updateAddMsg(uid, rcv_id, msg, reim_id, 3);
+					bal -= crscost;
+					serve.updateUser(rcv_id, bal);
+					rs = request.getRequestDispatcher("/employee.jsp");
+					rs.forward(request, response);
 				}
 				else
 				{
-					serve.updateReim(reim_id, apprid+1, repid,(int)sess.getAttribute("uid"),rcv_id);
+					serve.updateReim(reim_id, apprid+1, repid,(int)sess.getAttribute("uid"),rcv_id, msg);
 					System.out.println("UPDATE LVL");
 					rs = request.getRequestDispatcher("/employee.jsp");
 					rs.forward(request, response);
 				}
 				break;
 			case "infoo":
-				
+				System.out.println("INFO");
+				reason = "Info Needed: " + request.getParameter("infoReq");
+				uid = (int)sess.getAttribute("uid");
+				reim_id = Integer.parseInt(request.getParameter("reimid"));
+				rcv_id = Integer.parseInt(request.getParameter("rcvid"));
+				serve.addMsg(reim_id, uid, rcv_id, reason );
+				rs = request.getRequestDispatcher("/employee.jsp");
+				rs.forward(request, response);
 				break;
+			case "approve2":
+				uid = (int)sess.getAttribute("uid");
+				repid = (int) sess.getAttribute("repid");
+				reim_id = Integer.parseInt(request.getParameter("reimid"));
+				rcv_id = Integer.parseInt(request.getParameter("rcvid"));
+				double cst = Double.parseDouble(request.getParameter("cst"));
+				bal = serve.getBalance(rcv_id);
+				if( cst > bal)
+				{
+					bal =0;
+				}
+				else
+					bal-=cst;
+				msg = "APPROVED ADJUSTED AMOUNT: " + request.getParameter("reason");
+				serve.updateAddMsg(uid, rcv_id, msg, reim_id, 3);
+				serve.updateUser(rcv_id, bal);
+				serve.updateReimAmnt(reim_id, cst);
+				rs = request.getRequestDispatcher("/employee.jsp");
+				rs.forward(request, response);
+
 		}
 	}
 

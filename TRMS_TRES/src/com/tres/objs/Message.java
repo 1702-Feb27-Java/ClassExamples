@@ -9,6 +9,7 @@ public class Message
 	private String msg,
 				sndname,
 				rcvname;
+	private int rinfo;
 	//============ GETTERS AND SETTERS =========================================================
 	public final int getMsgid()
 	{
@@ -66,8 +67,16 @@ public class Message
 	{
 		this.rcvname = rcvname;
 	}
+	public final int getRinfo()
+	{
+		return rinfo;
+	}
+	public final void setRinfo(int rinfo)
+	{
+		this.rinfo = rinfo;
+	}
 	//=============================== CONSTRUCTORS ======================================================
-	public Message(int msgid, int sender, int receiver, int reimid, String msg, String sndname, String rcvname)
+	public Message(int msgid, int sender, int receiver, int reimid, String msg, String sndname, String rcvname, int rinfo)
 	{
 		super();
 		this.msgid = msgid;
@@ -77,6 +86,7 @@ public class Message
 		this.msg = msg;
 		this.sndname = sndname;
 		this.rcvname = rcvname;
+		this.rinfo = rinfo;
 	}
 	public Message()
 	{

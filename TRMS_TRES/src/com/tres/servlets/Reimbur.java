@@ -69,40 +69,40 @@ public class Reimbur extends HttpServlet {
 							//EMID
 			    			x
 							//Location
-			    		, multiparts.get(9).getString()
+			    		, multiparts.get(6).getString()
 							
 							//TIME
-			    		, multiparts.get(5).getString()
+			    		, multiparts.get(2).getString()
 			
 							//COURSE DES
-			    		, multiparts.get(10).getString()
+			    		, multiparts.get(7).getString()
 			
 			    			//COST
-			    		,Double.parseDouble(multiparts.get(11).getString())
+			    		,Double.parseDouble(multiparts.get(8).getString())
 			
 			    			//GRADEID
-			    		, Integer.parseInt(multiparts.get(12).getString())
+			    		, Integer.parseInt(multiparts.get(9).getString())
 			
 			    			//courseid
-			    		, Integer.parseInt(multiparts.get(13).getString())
+			    		, Integer.parseInt(multiparts.get(10).getString())
 			
 			    			//workjus
-			    		, multiparts.get(14).getString()
+			    		, multiparts.get(11).getString()
 			
 			    			//tmmiss
-			    		, multiparts.get(3).getString()
+			    		, multiparts.get(1).getString()
 		
 			    			//crsStart
-			    		, multiparts.get(7).getString()
+			    		, multiparts.get(4).getString()
 		
 			    			//crsEnd
-			    		, multiparts.get(8).getString()
+			    		, multiparts.get(5).getString()
 			
 			    			//approd
 			    		,y
 	
 			    			//formdt
-			    		, multiparts.get(6).getString()
+			    		, multiparts.get(3).getString()
 			
 			    			//gradeval
 			    		,null
@@ -113,9 +113,9 @@ public class Reimbur extends HttpServlet {
 			    		, 1
 			    		);
 			int reim_id = serve.insertReim(r);
-			if(!multiparts.get(1).isFormField() && multiparts.get(1).getSize() > 0)
+			if(!multiparts.get(0).isFormField() && multiparts.get(0).getSize() > 0)
 			{
-				FileItem item = multiparts.get(1);
+				FileItem item = multiparts.get(0);
 			    String name = new File(item.getName()).getName();
 			    serve.addAtch(x, reim_id, UPLOAD_DIRECTORY+"\\"+ name);
 			}

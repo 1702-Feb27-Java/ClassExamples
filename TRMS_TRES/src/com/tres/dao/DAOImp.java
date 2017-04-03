@@ -264,7 +264,7 @@ public class DAOImp implements DAO
 				 ResultSet rs2 = p.executeQuery();
 				 while (rs2.next())
 				 {
-					 Message m2 = new Message(rs2.getInt("MSGID"), rs2.getInt("SENDER"), rs2.getInt("RECEIVER"), rs2.getInt("REIMID"), rs2.getString("MSG"), rs2.getString("SNAME"), rs2.getString("RNAME"));
+					 Message m2 = new Message(rs2.getInt("MSGID"), rs2.getInt("SENDER"), rs2.getInt("RECEIVER"), rs2.getInt("REIMID"), rs2.getString("MSG"), rs2.getString("SNAME"), rs2.getString("RNAME"),rs2.getInt("RINFO"));
 					 m.add(m2);
 				 }
 				 r.setMsgs(m);
@@ -364,7 +364,7 @@ public class DAOImp implements DAO
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{
 			connect.setAutoCommit(false);
-			String sql_count = "UPDATE REIMBURSEMENT SET SID= ? WHERE REIMID = ?";
+			String sql_count = "UPDATE REIMBURSEMENT SET SID= ?  WHERE REIMID = ?";
 			PreparedStatement ps = connect.prepareStatement(sql_count);
 			ps.setInt(1, sid);
 			ps.setInt(2, reimid);
@@ -386,8 +386,9 @@ public class DAOImp implements DAO
 		}
 	}
 
+	//====================================== UPDATE REIMBURSMENT MOVE UP AND ADD TO MSGS WITH VALUES
 	@Override
-	public void updateReim(int reimid, int apprid, int repid,int send, int recv)
+	public void updateReim(int reimid, int apprid, int repid,int send, int recv, String msg)
 	{
 		try(Connection connect = ConnectionUtil.getConnection();)
 		{
@@ -400,7 +401,6 @@ public class DAOImp implements DAO
 			int rs = ps.executeUpdate();
 			if (rs> 0)
 			{
-				String msg = "APPROVED ";
 				String msgsql = "INSERT INTO MESSAGES (SENDER, RECEIVER, MSG, REIMID) values (?,?,?,?)";
 				PreparedStatement p = connect.prepareStatement(msgsql);
 				p.setInt(1, send);
@@ -414,5 +414,92 @@ public class DAOImp implements DAO
 		{
 			e.printStackTrace();
 		}	
+	}
+
+	//====================================== ADD MESSAGES =================================================
+	@Override
+	public void addMsg(int reimid, int s, int r, String reason)
+	{
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String msgsql = "INSERT INTO MESSAGES (SENDER, RECEIVER, MSG, REIMID, RINFO) values (?,?,?,?,1)";
+			PreparedStatement p = connect.prepareStatement(msgsql);
+			p.setInt(1, s);
+			p.setInt(2, r);
+			p.setString(3, reason);
+			p.setInt(4, reimid);
+			p.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}	
+		
+	}
+
+
+	//====================================== GET BALANCE OF USER =================================================
+	@Override
+	public double getBalance(int ownId)
+	{
+		double valid = 0;
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String sql_count = "Select BALANCE FROM EMPLOYEE WHERE EMPID = ?"; 
+			PreparedStatement ps = connect.prepareStatement(sql_count);
+			ps.setInt(1, ownId);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next())	
+			{
+				valid = rs.getDouble("BALANCE");
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}	
+			return valid;
+	}
+
+
+	//====================================== 
+	@Override
+	public void updateUser(int rcv_id, double crscost)
+	{
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String sql_count = "UPDATE EMPLOYEE SET BALANCE= ? WHERE EMPID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql_count);
+			ps.setDouble(1, crscost);
+			ps.setInt(2, rcv_id);
+			int rs = ps.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}		
+	}
+	//==================================
+
+	@Override
+	public void updateReimAmnt(int reim_id, double cst)
+	{
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String sql_count = "UPDATE REIMBURSEMENT SET COSTCRS= ? WHERE REIMID = ?";
+			PreparedStatement ps = connect.prepareStatement(sql_count);
+			ps.setDouble(1, cst);
+			ps.setInt(2, reim_id);
+			int rs = ps.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}		
 	}
 }

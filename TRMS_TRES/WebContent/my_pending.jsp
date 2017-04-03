@@ -1,3 +1,4 @@
+<%@page import="com.sun.xml.internal.txw2.Document"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -107,10 +108,30 @@
 										<h5>No messages</h5>
 									</div>
 									<%}else{
-										for( Message m : x.getMsgs()){%>
-										<div class="panel panel-<%=btnType%>">
+										for( Message m : x.getMsgs()){
+											switch (x.getSid())
+											{
+												case 1:
+													btnType ="info";
+													break;
+												case 2:
+													btnType ="danger";
+													break;
+												case 3:
+													btnType ="success";
+													break;
+											}
+										%>
+										<div  id ="listMsgs" class="panel panel-<%=btnType%>">
       										<div class="panel-heading"><strong><%=m.getSndname() %></strong></div>
       										<div class="panel-body"><%=m.getMsg()%></div>
+      										<div class='form-group' id='addInfo<%=m.getMsgid()%>' style="display:none"> <label for='exampleInputFile'>File input</label> <input type='file' id='exampleInputFile'> </div>
+      										<%if(m.getRinfo() == 1){ %>
+      											<script>
+													var testing = document.getElementById("addInfo<%=m.getMsgid()%>");
+													testing.style.display = 'block';
+													</script>
+											<%} %>
     									</div>
 									<%}}%>
 								</div>
