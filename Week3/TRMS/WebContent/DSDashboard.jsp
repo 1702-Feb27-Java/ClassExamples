@@ -23,6 +23,8 @@
 			<input type="hidden" name="deptid" value="${user.dept_id}" id="deptid"><br>
 			<input type="submit" value="Pending Reimbursements"><br>
 		</form>
-		
+		<form align="center" action="LogoutServlet.do" style="color:blue">
+			<input type="submit" name="logout" value="Logout"><br>
+		</form>
 	</body>
 </html>

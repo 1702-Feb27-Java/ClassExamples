@@ -19,6 +19,9 @@
 			<input type="hidden" name="password" value="${user.password}" id="password"><br>
 			<input type="submit" name="myReim" id=2 value="View My Reimbursement"><br>
 		</form>
+		<form align="center" action="LogoutServlet.do" style="color:blue">
+			<input type="submit" name="logout" value="Logout"><br>
+		</form>
 		
 	</body>
 </html>

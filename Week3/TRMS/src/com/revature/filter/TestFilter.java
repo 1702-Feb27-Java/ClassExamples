@@ -48,7 +48,6 @@ public class TestFilter implements Filter {
 		case "MyReimServlet":
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
-			//^^^^^^^^^^^^^^^^^^FIX ME FIX ME FIX ME FIX ME
 			return;
 		case "LoginServlet":
 			rd = req.getRequestDispatcher(action);
@@ -74,6 +73,9 @@ public class TestFilter implements Filter {
 			rd = req.getRequestDispatcher(action);
 			rd.forward(req, res);
 			return;
+		case "LogoutServlet":
+			rd = req.getRequestDispatcher(action);
+			rd.forward(req, res);
 		default:
 //			rd = req.getRequestDispatcher("DefaultServlet");
 //			rd.include(req, res);
