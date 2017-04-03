@@ -39,8 +39,10 @@ public class DecisionServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		ArrayList<Reimburstment> reims = new ArrayList();
+		Reimburstment reim = new Reimburstment();
 		reims = service.getAllReims(Integer.parseInt(request.getParameter("emp_id")));
-		request.getSession().setAttribute("reims", reims);
+		reim = reims.get(0);
+		request.getSession().setAttribute("reim", reim);
 		RequestDispatcher rd = request.getRequestDispatcher("Decision.jsp");
 		rd.forward(request, response);
 	}

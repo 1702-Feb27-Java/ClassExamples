@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -40,24 +41,22 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		Employee emp = service.viewAccount(request.getParameter("username"));
-		request.getSession().setAttribute("username", emp.getUsername());
-		request.getSession().setAttribute("password", emp.getPassword());
-		request.getSession().setAttribute("empid", emp.getEmp_id());
+		request.getSession().setAttribute("user", emp);
 		if(request.getParameter("password").equals(emp.getPassword()) && emp.getRole_id() == 1)
 		{
-			response.sendRedirect("Dashboard.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");
+			rd.forward(request, response);
 		}
 		else if(request.getParameter("password").equals(emp.getPassword()) && emp.getRole_id() == 2)
 		{
-			response.sendRedirect("DSDashboard.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("DSDashboard.jsp");
+			rd.forward(request, response);
 		}
 		else if(request.getParameter("password").equals(emp.getPassword()) && emp.getRole_id() == 3)
 		{
-			response.sendRedirect("DHDashboard.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("DHDashboard.jsp");
+			rd.forward(request, response);
 		}
-		//System.out.println(emp.getUsername());
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		response.getWriter().append("For User: " + request.getParameter("username"));
 	}
 
 	/**
