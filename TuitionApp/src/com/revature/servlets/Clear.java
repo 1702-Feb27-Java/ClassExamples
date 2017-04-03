@@ -1,7 +1,7 @@
 package com.revature.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,18 +9,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.revature.dao.AppDAOImp;
+import com.revature.dao.UserDAOImp;
+import com.revature.pojo.NotifClass;
+import com.revature.pojo.UserClass;
 
 /**
- * Servlet implementation class Cancel
+ * Servlet implementation class Clear
  */
-public class Cancel extends HttpServlet {
+public class Clear extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Cancel() {
+    public Clear() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,27 +41,28 @@ public class Cancel extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		//HttpSession session = request.getSession();
-		PrintWriter out = response.getWriter();
-		int appID = Integer.parseInt(request.getParameter("appID"));
+		HttpSession session = request.getSession();
+
+		UserClass thisUser = new UserClass();
+		thisUser = (UserClass)session.getAttribute("userInfo");
+		UserDAOImp userDAO = new UserDAOImp();
 		
+		@SuppressWarnings("unchecked")
+		ArrayList<NotifClass> notifications = (ArrayList<NotifClass>)session.getAttribute("notif");
 		
-		AppDAOImp appDAO = new AppDAOImp();
-		appDAO.cancelApp(appID);
+		for (NotifClass n : notifications){
+			userDAO.clearNotification(n);
+		}
 		
-		//session.removeAttribute("appID");
+		session.removeAttribute("notif");
 		
-		out.println("<html><head>");
-        out.println("<title>Servlet Parameter</title>");
-        out.println("<link rel='stylesheet' href='" + request.getContextPath() +  "/css/styles1.css' />");
-        out.println("</head>");
-        out.println("<body><h1>You canceled your application!</h1>");
-        //out.println(firstname + " " + lastname + " " + username + " " + pass + " " + email + " " + dept);
-        out.println("<h2>Redirecting in 5 seconds...</h2>");
-        out.println("</body></html>");
-        
-        response.setHeader("Refresh", "5;url=appstatus.jsp");
-		
+		if (thisUser.getRoleID() == 1){
+			request.getRequestDispatcher("empaccount.jsp").forward(request, response);
+		} else if (thisUser.getRoleID() == 2){
+			request.getRequestDispatcher("supervisoraccount.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("dept-headaccount.jsp").forward(request, response);
+		}
 	}
 
 }

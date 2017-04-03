@@ -1,7 +1,6 @@
 package com.revature.servlets;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,15 +12,15 @@ import com.revature.dao.UserDAOImp;
 import com.revature.pojo.UserClass;
 
 /**
- * Servlet implementation class changeRe
+ * Servlet implementation class changeGrade
  */
-public class changeRe extends HttpServlet {
+public class changeGrade extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public changeRe() {
+    public changeGrade() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,38 +34,44 @@ public class changeRe extends HttpServlet {
 //	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
 		HttpSession session = request.getSession();
 		UserClass thisUser = new UserClass();
 		thisUser = (UserClass)session.getAttribute("userInfo");
-		
-		double adjusted = Double.parseDouble(request.getParameter("adjusted").toString());
-		String reason = request.getParameter("reason");
-		
+
+		String finalGrade = request.getParameter("finalGrade").toString();
+		String presentation = request.getParameter("presRev").toString();
+
 		AppDAOImp appDAO = new AppDAOImp();
 		int appID = Integer.parseInt(session.getAttribute("appID").toString());
-		
-		appDAO.changeAward(appID, adjusted, reason);
-		
 		UserDAOImp userDAO = new UserDAOImp();
 		int userID = userDAO.getUserIDbyAppID(appID);
-		
-		String notifMes = "Your application no. " + appID + " has had the reimbursement amount adjusted to $" 
-		+ adjusted + " by " + thisUser.getFirstname() + " " + thisUser.getLastname() 
-		+ " because of the following reason: " + reason;
-		
-		userDAO.addNotif(userID, thisUser, notifMes);
+
+		if (finalGrade != null){
+			appDAO.changeGrade(appID, finalGrade);
+			String notifMes = "Your application no. " + appID + " has been awarded a final grade of " 
+					+ finalGrade + " by " + thisUser.getFirstname() + " " + thisUser.getLastname();				
+			
+			userDAO.addNotif(userID, thisUser, notifMes);
+		} else {
+			appDAO.changePresentation(appID, presentation);
+			
+			String notifMes = "Your application no. " + appID + " has been awarded a presentation review of " 
+					+ presentation + " by " + thisUser.getFirstname() + " " + thisUser.getLastname();				
+			
+			userDAO.addNotif(userID, thisUser, notifMes);
+		}
 		
 		session.removeAttribute("appID");
-		
+
 		String destination = "pendingapps.jsp";
 
 		response.sendRedirect(destination);
-		
 	}
 
 }

@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
 <%@ page import="com.revature.pojo.*" %>
 <%@ page import="com.revature.dao.*" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -84,6 +87,7 @@
   
   <% if (thisUser.getDeptID() == 3) {%>
   <li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  <li role="presentation"><a href="approvedapps.jsp">View Approved Apps</a></li>
   <% } else { %>
   
      <% if (thisUser.getRoleID() == 2) {%>
@@ -105,11 +109,47 @@
 <% if (thisUser!=null) {%>
 <h2>Welcome back, <%= thisUser.getFirstname() %></h2>
 
+<% }%>
 
 
-<% }  else {
-	System.out.println("no");
-}%>
+	<%
+		UserDAOImp userDAO = new UserDAOImp();
+		ArrayList<NotifClass> notifications = new ArrayList<NotifClass>();
+		notifications = userDAO.getNotifByUserID(thisUser.getUserID());
+		request.setAttribute("notif", notifications);
+	%>
+
+	<p>
+		You currently have
+		<%=notifications.size()%>
+		notifications.
+	</p>
+
+<br>
+
+<% if (notifications.size() > 0){ %>
+	
+	<form action="Clear" method="POST">
+	<% session.setAttribute("notif", notifications); %>
+	<button type="submit" class="btn btn-default">Clear Notifications</button></form>
+	
+	<br>
+	
+<table id="notifications" class="table table-striped">
+	<tr>
+		<th>Notification ID</th>
+		<th>Requester ID</th>
+		<th>Message</th>
+	</tr>
+	<c:forEach var="notif" items="${requestScope['notif']}">
+		<tr>
+			<td><c:out value="${notif.notifID}" /></td>
+			<td><c:out value="${notif.requesterID}" /></td>
+			<td><c:out value="${notif.notifMessage}" /></td>
+		</tr>
+	</c:forEach>
+</table>
+<%} %>
 
 </body>
 </html>

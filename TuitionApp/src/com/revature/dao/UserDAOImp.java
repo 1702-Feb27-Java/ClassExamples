@@ -15,8 +15,9 @@ import com.revature.pojo.UserClass;
 
 public class UserDAOImp implements UserDAO {
 
-	CallableStatement newUser, newApp;
-	PreparedStatement getByUser, getUnamePW, getManagement, getNames, checkSuper;
+	CallableStatement newUser, newApp, newNotif;
+	PreparedStatement getByUser, getUnamePW, getManagement, 
+	getNames, checkSuper, getUserID, getNotif, clearNotif;
 
 	@Override
 	public void addUser(UserClass uc) {
@@ -89,19 +90,51 @@ public class UserDAOImp implements UserDAO {
 	}
 
 	@Override
-	public void addNotif(UserClass uc) {
+	public void addNotif(int userID, UserClass uc, String message) {
 		// TODO Auto-generated method stub
-
+		try (Connection connect = ConnectionClass.getConnection();) {
+			connect.setAutoCommit(false);
+			
+			newNotif = connect.prepareCall("CALL addNotifications(?,?,?,?)");
+			newNotif.setInt(1, userID);
+			newNotif.setInt(2, 1); // always active
+			newNotif.setInt(3, uc.getUserID());
+			newNotif.setString(4, message);
+			
+			newNotif.execute();
+				
+			connect.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public ArrayList<NotifClass> getNotifByUserID() {
+	public ArrayList<NotifClass> getNotifByUserID(int userID) {
 		// TODO Auto-generated method stub
 
 		ArrayList<NotifClass> notifications = new ArrayList<NotifClass>();
 
 		try (Connection connect = ConnectionClass.getConnection();) {
 			connect.setAutoCommit(false);
+			
+			getNotif = connect.prepareStatement("SELECT * FROM Notifications WHERE user_id = ? AND resolution_id = 1");
+			getNotif.setInt(1, userID);
+			
+			ResultSet rs = getNotif.executeQuery();
+			
+			while(rs.next()){
+				NotifClass nc = new NotifClass();
+				
+				nc.setNotifID(rs.getInt(1));
+				nc.setResolutionID(rs.getInt(3));
+				nc.setRequesterID(rs.getInt(4));
+				nc.setNotifMessage(rs.getString(5));
+				
+				notifications.add(nc);
+				
+				nc = null;
+			}
 
 			connect.commit();
 		} catch (SQLException e) {
@@ -235,46 +268,48 @@ public class UserDAOImp implements UserDAO {
 		return check;
 	}
 
-	// @Override
-	// public ArrayList<UserClass> getManagement() {
-	// // TODO Auto-generated method stub
-	//
-	// ArrayList<UserClass> allManagement = new ArrayList<UserClass>();
-	//
-	// try (Connection connect = ConnectionClass.getConnection();) {
-	// connect.setAutoCommit(false);
-	//
-	// // calls a query to get all users
-	// String sql = "SELECT * FROM Users WHERE role_id > 1";
-	// getManagement = connect.prepareStatement(sql);
-	//
-	// ResultSet rs = getManagement.executeQuery();
-	//
-	// // then we save these users into an arraylist
-	// while (rs.next()) {
-	// UserClass user = new UserClass();
-	//
-	// user.setUserID(rs.getInt(1));
-	// user.setFirstname(rs.getString(2));
-	// user.setLastname(rs.getString(3));
-	// user.setUsername(rs.getString(4));
-	// user.setPw(rs.getString(5));
-	// user.setEmail(rs.getString(6));
-	// user.setDeptID(rs.getInt(7));
-	// user.setRoleID(rs.getInt(8));
-	// user.setReportsto(rs.getInt(9));
-	// allManagement.add(user);
-	//
-	// user = null;
-	// }
-	//
-	// connect.commit();
-	//
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// }
-	//
-	// return allManagement;
-	// }
+	@Override
+	public int getUserIDbyAppID(int appID) {
+		// TODO Auto-generated method stub
+		
+		int userID = 0;
+		try (Connection connect = ConnectionClass.getConnection();) {
+			connect.setAutoCommit(false);
+			
+			getUserID = connect.prepareStatement("SELECT user_id FROM Applications WHERE app_id = ?");
+			getUserID.setInt(1, appID);
+			
+			ResultSet rs = getUserID.executeQuery();
+			
+			while (rs.next()){
+				userID = rs.getInt(1);
+			}
+			
+			connect.commit();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return userID;
+	}
+
+	@Override
+	public void clearNotification(NotifClass notif) {
+		// TODO Auto-generated method stub
+		try (Connection connect = ConnectionClass.getConnection();) {
+			connect.setAutoCommit(false);
+			
+			clearNotif = connect.prepareStatement("UPDATE Notifications SET resolution_id = 2 WHERE notification_id = ?");
+			
+			clearNotif.setInt(1, notif.getNotifID());
+			
+			clearNotif.execute();
+			
+			connect.commit();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

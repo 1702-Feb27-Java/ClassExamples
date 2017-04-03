@@ -9,8 +9,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Your Account</title>
+<title>Your Account - Pending Tasks</title>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -48,10 +49,12 @@
 
 </head>
 <body>
+
 <div class="page-header">
 	<h1>Tuition Reimbursement Management System</h1>
 
-<%! UserClass thisUser = new UserClass(); %>
+<%! UserClass thisUser = new UserClass(); 
+	UserDAOImp userDAO = new UserDAOImp(); %>
 <% thisUser = (UserClass)session.getAttribute("userInfo"); %>
 
 	<% if (thisUser.getDeptID() == 1) {%>
@@ -78,16 +81,15 @@
 	<h2>Department Head Portal</h2>
 	<% } %>
 </div>
-
 <ul class="nav nav-tabs">
-  <li role="presentation" class="active"><a href="dept-headaccount.jsp">Home</a></li>
+  <li role="presentation"><a href="empaccount.jsp">Home</a></li>
   <li role="presentation"><a href="appstatus.jsp">Application Status</a></li>
   <li role="presentation"><a href="application.jsp">New Application</a></li>
   
-  <% if (thisUser.getDeptID() == 3) {%>
-  <li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
-  <li role="presentation"><a href="approvedapps.jsp">View Approved Apps</a></li>
-  <% } else { %>
+	<% if (thisUser.getDeptID() == 3) {%>
+  	<li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  	<li role="presentation" class="active"><a href="approvedapps.jsp">View Approved Apps</a></li>
+  		<% } else { %>
   
      <% if (thisUser.getRoleID() == 2) {%>
   		<li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
@@ -105,48 +107,75 @@
 
 </ul>
 
-<% if (thisUser!=null) {%>
-<h2>Welcome back, <%= thisUser.getFirstname() %></h2>
 
-<% } %>
+<% AppDAOImp appDAO = new AppDAOImp(); 
+	ArrayList<AppClass> approved = new ArrayList<AppClass>();
+	approved = appDAO.getApprovedApps();
+		
+	request.setAttribute("approved", approved); %>
 
-<%
-		UserDAOImp userDAO = new UserDAOImp();
-		ArrayList<NotifClass> notifications = new ArrayList<NotifClass>();
-		notifications = userDAO.getNotifByUserID(thisUser.getUserID());
-		request.setAttribute("notif", notifications);
-	%>
+<br>
+<p>There are a total of <%= approved.size() %> approved app(s) to be reviewed.</p>
+<br>
 
-	<p>
-		You currently have
-		<%=notifications.size()%>
-		notifications.
-	</p>
-
-	<br>
-
-<% if (notifications.size() > 0){ %>
-
-<form action="Clear" method="POST">
-	<% session.setAttribute("notif", notifications); %>
-	<button type="submit" class="btn btn-default">Clear Notifications</button></form>
-	
-	<br>
-<table id="notifications" class="table table-striped">
-	<tr>
-		<th>Notification ID</th>
-		<th>Requester ID</th>
-		<th>Message</th>
-	</tr>
-	<c:forEach var="notif" items="${requestScope['notif']}">
+<% if (approved.size() > 0) { %>
+<table class="table table-striped">
+<thead class="thead-inverse">
 		<tr>
-			<td><c:out value="${notif.notifID}" /></td>
-			<td><c:out value="${notif.requesterID}" /></td>
-			<td><c:out value="${notif.notifMessage}" /></td>
+		<th>User ID</th>
+		<th>App ID</th>
+		<th>Priority</th>
+		<th>Date Created</th>
+		<th>Status</th>
+		<th>Event Type</th>
+		<th>Cost</th>
+		<th>Justification</th>
+		<th>Grading</th>
+		<th>Attachments</th>
+		<th>Reimbursement</th>
+		</tr>
+		</thead>
+		
+		<tbody>
+		
+		<c:forEach var="approved" items="${requestScope['approved']}">
+		<tr>
+			<td><c:out value="${approved.userID}" /></td>
+			<td><c:out value="${approved.appID}" /></td>
+			<td><c:out value="${approved.dateCreated}" /></td> 
+			<c:choose>
+				<c:when test="${approved.statusID == '1'}"><td>active</td></c:when>
+				<c:otherwise><td>inactive</td></c:otherwise>
+			</c:choose>
+			<c:choose>
+				<c:when test="${approved.priority == '1'}"><td>normal</td></c:when>
+				<c:otherwise><td>urgent</td></c:otherwise>
+			</c:choose>
+			<c:choose>
+				<c:when test="${approved.eventID == '1'}"><td>University Courses</td></c:when>
+				<c:when test="${approved.eventID == '2'}"><td>Seminars</td></c:when>
+				<c:when test="${approved.eventID == '3'}"><td>Certification Prep.</td></c:when>
+				<c:when test="${approved.eventID == '4'}"><td>Certification</td></c:when>
+				<c:when test="${approved.eventID == '5'}"><td>Technical Training</td></c:when>
+				<c:otherwise><td>Other</td></c:otherwise>
+			</c:choose>
+			<td><c:out value="${approved.totalCost}" /></td>
+			
+			<td><c:out value="${approved.justification}" /></td>
+			<td><form action="GradingAsBenco" method="POST"><input name="appID" type="hidden" value="${approved.appID}"></input>
+			<button type="submit" class="btn btn-link">Check</button></form></td>
+			
+			<td><form action="ViewFilesAsBenco" method="POST"><input name="appID" type="hidden" value="${approved.appID}"></input>
+			<button type="submit" class="btn btn-link">View</button></form></td>
+			
+			<td><form action="ReimbAsBenco" method="POST"><input name="appID" type="hidden" value="${approved.appID}"></input>
+			<button type="submit" class="btn btn-link">Check</button></form></td>
+			
 		</tr>
 	</c:forEach>
+	</tbody>
 </table>
-<%} %>
 
+<% } %>
 </body>
 </html>

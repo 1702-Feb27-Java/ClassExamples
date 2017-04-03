@@ -88,6 +88,7 @@
   
 	<% if (thisUser.getDeptID() == 3) {%>
   	<li role="presentation" class="active"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  	<li role="presentation"><a href="approvedapps.jsp">View Approved Apps</a></li>
   		<% } else { %>
   
      <% if (thisUser.getRoleID() == 2) {%>
@@ -111,10 +112,11 @@
 <% AppDAOImp appDAO = new AppDAOImp(); 
 	int flag = 0;
 	ArrayList<AppClass> pending = new ArrayList<AppClass>();
-	ArrayList<AppClass> bPending = new ArrayList<AppClass>();
 	int apprLvl = 0;
 	boolean check = userDAO.checkForSuper(thisUser.getDeptID());
 	System.out.println(check);
+	
+	if (thisUser.getDeptID() == 1 || thisUser.getDeptID() == 2){
 	
 		if (thisUser.getRoleID() == 2){ // if supervisor
 			pending = appDAO.getPendingApps(thisUser.getRoleID()-1, 1, thisUser);
@@ -127,20 +129,45 @@
 				pending = appDAO.getPendingApps(thisUser.getRoleID()-1, 1, thisUser);
 			}
 		}
-	
-	
-	
-	System.out.println(pending);
-	
+	} else { // in benco
+		ArrayList<AppClass> pendingBenco = new ArrayList<AppClass>();
+		if (thisUser.getRoleID() == 2){ // if supervisor
+			pending = appDAO.getPendingApps(thisUser.getRoleID()-1, 1, thisUser);
+			pendingBenco = appDAO.getPendingAppsBenco();
+			for (AppClass a : pendingBenco){
+				pending.add(a);
+			}
+		} else if (thisUser.getRoleID() == 3) { // department head
+			if (check == false){ // no supers, we go down one approval level
+				pending = appDAO.getPendingApps(thisUser.getRoleID()-2, 1, thisUser);
+				flag = 1;
+				pendingBenco = appDAO.getPendingAppsBenco();
+				for (AppClass a : pendingBenco){
+					pending.add(a);
+				}
+			}
+			else { // otherwise
+				pending = appDAO.getPendingApps(thisUser.getRoleID()-1, 1, thisUser);
+				pendingBenco = appDAO.getPendingAppsBenco();
+				for (AppClass a : pendingBenco){
+					pending.add(a);
+				}
+			}
+		} else { // benco employee
+			pending = appDAO.getPendingAppsBenco();
+		}
+	}
+		
 	request.setAttribute("pending", pending);
 	session.setAttribute("flag", flag); %>
 
 <br>
 <p>There are a total of <%= pending.size() %> pending app(s) to be reviewed.</p>
 <br>
-<table class="table">
-	<c:forEach var="pend" items="${requestScope['pending']}">
-	
+
+<% if (pending.size() > 0){ %>
+<table class="table table-striped">
+<thead class="thead-inverse">
 		<tr>
 		<th>User ID</th>
 		<th>App ID</th>
@@ -150,10 +177,16 @@
 		<th>Event Type</th>
 		<th>Cost</th>
 		<th>Justification</th>
+		<th>Grading</th>
 		<th>Attachments</th>
 		<th>Reimbursement</th>
-		<th colspan="2">Actions</th>
+		<th colspan="3">Actions</th>
 		</tr>
+		</thead>
+		
+		<tbody>
+		
+		<c:forEach var="pend" items="${requestScope['pending']}">
 		<tr>
 			<td><c:out value="${pend.userID}" /></td>
 			<td><c:out value="${pend.appID}" /></td>
@@ -177,8 +210,10 @@
 			<td><c:out value="${pend.totalCost}" /></td>
 			
 			<td><c:out value="${pend.justification}" /></td>
+			<td><form action="GradingAsManager" method="POST"><input name="appID" type="hidden" value="${pend.appID}"></input>
+			<button type="submit" class="btn btn-link">Check</button></form></td>
 			
-			<td><form action="Attachments" method="POST"><input name="appID" type="hidden" value="${pend.appID}"></input>
+			<td><form action="ViewFilesAsManager" method="POST"><input name="appID" type="hidden" value="${pend.appID}"></input>
 			<button type="submit" class="btn btn-link">View</button></form></td>
 			
 			<td><form action="ReimbAsManager" method="POST"><input name="appID" type="hidden" value="${pend.appID}"></input>
@@ -189,8 +224,9 @@
 			<textarea class="form-control" rows="3" name="message"></textarea>
 			<br>
 			<input name="appID" type="hidden" value="${pend.appID}"></input>
-			<button type="submit" class="btn btn-default">Approve</button></form>
+			<button type="submit" class="btn btn-default">Approve</button></form></td>
 			
+			<td>
 			<form action="Deny" method="POST">
 			Message (limit to 250 chars):
 			<textarea class="form-control" rows="3" name="message"></textarea>
@@ -207,7 +243,8 @@
 			<button type="submit" class="btn btn-default">Request Info</button></form></td>
 		</tr>
 	</c:forEach>
+	</tbody>
 </table>
-
+<% } %>
 </body>
 </html>

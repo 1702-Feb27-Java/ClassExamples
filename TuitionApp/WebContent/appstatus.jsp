@@ -102,6 +102,7 @@
   
 <% if (thisUser.getDeptID() == 3) {%>
   <li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  <li role="presentation"><a href="approvedapps.jsp">View Approved Apps</a></li>
   <% } else { %>
   
      <% if (thisUser.getRoleID() == 2) {%>
@@ -127,8 +128,11 @@
 	
 <br>
 <p>You have a total of <%= numberApps.size() %> app(s).</p>
+
+<% if (numberApps.size() > 0) { %>
 <br>
-<table class="table">
+<table class="table table-striped">
+<thead class="thead-inverse">
 	<tr>
 		<th>App ID</th>
 		<th>Priority</th>
@@ -141,8 +145,10 @@
 		<th>Justification</th>
 		<th>Reimbursement</th>
 		<th>Approval Status</th>
-		<th colspan="2">Action</th>
+		<th colspan="3"><center>Actions</center></th>
 	</tr>
+	 </thead>
+	  <tbody>
 	<% int i = 0; %>
 	<c:forEach var="app" items="${appsByUser}">
 		<tr>
@@ -188,10 +194,21 @@
 			<form action="ToFile" method="POST"><input name="appID" type="hidden" value="${app.appID}"></input>
 			<button type="submit" class="btn btn-link">File Upload</button></form></td>
 			
+			<c:choose>
+			<c:when test="${app.statusID == '1'}">
+			<td>
+			<form action="Cancel" method="POST"><input name="appID" type="hidden" value="${app.appID}">
+			<button type="submit" class="btn btn-default">Cancel</button>
+			</form></td></c:when>
+			<c:otherwise><td>
+			<button type="submit" class="btn btn-default" disabled>Cancel</button>
+			</td></c:otherwise>
+			</c:choose>
 		</tr>
 	</c:forEach>
+	 </tbody>
 </table>
-
+<% } %>
 
 </body>
 </html>

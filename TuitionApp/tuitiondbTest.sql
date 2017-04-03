@@ -2,7 +2,7 @@
 COMMIT;
 ROLLBACK;
 
-SELECT * FROM AdditionalInfo;
+SELECT * FROM Users;
 SELECT * FROM Applications;
 SELECT * FROM Approvals;
 select * from ClassDateTime;

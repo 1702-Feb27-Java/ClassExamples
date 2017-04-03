@@ -58,7 +58,7 @@ public class Award extends HttpServlet {
         out.println("<h2>Redirecting in 5 seconds...</h2>");
         out.println("</body></html>");
         
-        response.setHeader("Refresh", "5;url=appstatus.jsp");
+        response.setHeader("Refresh", "5;url=pendingapps.jsp");
 	}
 
 }

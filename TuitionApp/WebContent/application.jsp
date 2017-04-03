@@ -82,9 +82,10 @@
   <li role="presentation"><a href="appstatus.jsp">Application Status</a></li>
   <li role="presentation" class="active"><a href="application.jsp">New Application</a></li>
   
-<% if (thisUser.getDeptID() == 3) {%>
-  <li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
-  <% } else { %>
+	<% if (thisUser.getDeptID() == 3) {%>
+  	<li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  	<li role="presentation"><a href="approvedapps.jsp">View Approved Apps</a></li>
+  		<% } else { %>
   
      <% if (thisUser.getRoleID() == 2) {%>
   		<li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
@@ -96,10 +97,10 @@
   
    <% } %>
   
-
   <li role="presentation"><form action="LogOutServlet" method="POST">
 	<button type="submit" class="btn btn-default">Logout</button>
 	</form></li>
+
 </ul>
 	<br><br>
 	<form action="ApplicationServlet" method="POST">

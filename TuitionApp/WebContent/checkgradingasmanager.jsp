@@ -10,7 +10,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Your Account</title>
+<title>Your Account - Grading</title>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+	integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+	crossorigin="anonymous">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+	integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+	crossorigin="anonymous"></script>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -45,15 +54,17 @@
 <link rel="stylesheet" type="text/css"
 	href="http://fonts.googleapis.com/css?family=Source Code Pro">
 <link rel="stylesheet" href="CSS/styles1.css">
-
 </head>
 <body>
-<div class="page-header">
-	<h1>Tuition Reimbursement Management System</h1>
 
 <%! UserClass thisUser = new UserClass(); %>
 <% thisUser = (UserClass)session.getAttribute("userInfo"); %>
 
+<%! AppDAOImp appDAO = new AppDAOImp(); %>
+
+<div class="page-header">
+	<h1>Tuition Reimbursement Management System</h1>
+	
 	<% if (thisUser.getDeptID() == 1) {%>
 	<h2>Marketing</h2>
 	<% } %>
@@ -77,76 +88,70 @@
 	<% if (thisUser.getRoleID()==3) { %>
 	<h2>Department Head Portal</h2>
 	<% } %>
+	
 </div>
 
 <ul class="nav nav-tabs">
-  <li role="presentation" class="active"><a href="dept-headaccount.jsp">Home</a></li>
+  <li role="presentation"><a href="empaccount.jsp">Home</a></li>
   <li role="presentation"><a href="appstatus.jsp">Application Status</a></li>
   <li role="presentation"><a href="application.jsp">New Application</a></li>
   
-  <% if (thisUser.getDeptID() == 3) {%>
-  <li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
+<% if (thisUser.getDeptID() == 3) {%>
+  <li role="presentation" class="active"><a href="pendingapps.jsp">View Pending Apps</a></li>
   <li role="presentation"><a href="approvedapps.jsp">View Approved Apps</a></li>
   <% } else { %>
   
      <% if (thisUser.getRoleID() == 2) {%>
-  		<li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  		<li role="presentation" class="active"><a href="pendingapps.jsp">View Pending Apps</a></li>
   	<% } %>
   
   	<% if (thisUser.getRoleID() == 3) {%>
-  		<li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  		<li role="presentation" class="active"><a href="pendingapps.jsp">View Pending Apps</a></li>
   	<% } %>
   
    <% } %>
   
+
   <li role="presentation"><form action="LogOutServlet" method="POST">
 	<button type="submit" class="btn btn-default">Logout</button>
 	</form></li>
-
 </ul>
 
-<% if (thisUser!=null) {%>
-<h2>Welcome back, <%= thisUser.getFirstname() %></h2>
+<%	int appID = Integer.parseInt(request.getParameter("appID"));
+	session.setAttribute("appID", appID);
 
-<% } %>
-
-<%
-		UserDAOImp userDAO = new UserDAOImp();
-		ArrayList<NotifClass> notifications = new ArrayList<NotifClass>();
-		notifications = userDAO.getNotifByUserID(thisUser.getUserID());
-		request.setAttribute("notif", notifications);
-	%>
-
-	<p>
-		You currently have
-		<%=notifications.size()%>
-		notifications.
-	</p>
+	GradingClass grading = new GradingClass();
+	grading = appDAO.getGradingByAppID(appID);
+	request.setAttribute("grade", grading); %>
 
 	<br>
-
-<% if (notifications.size() > 0){ %>
-
-<form action="Clear" method="POST">
-	<% session.setAttribute("notif", notifications); %>
-	<button type="submit" class="btn btn-default">Clear Notifications</button></form>
-	
+	<form action="BackToPending" method="POST">
+		<button type="submit" class="btn btn-default">Back</button>
+	</form>
 	<br>
-<table id="notifications" class="table table-striped">
+
+	<table class="table">
 	<tr>
-		<th>Notification ID</th>
-		<th>Requester ID</th>
-		<th>Message</th>
+		<th>App ID</th>
+		<th>Grading Format</th>
+		<th>Grade Cutoff</th>
+		<th>Grade Awarded</th>
+		<th>Presentation Review</th>
 	</tr>
-	<c:forEach var="notif" items="${requestScope['notif']}">
 		<tr>
-			<td><c:out value="${notif.notifID}" /></td>
-			<td><c:out value="${notif.requesterID}" /></td>
-			<td><c:out value="${notif.notifMessage}" /></td>
+			<td><c:out value="${grade.appID}" /></td>
+			<c:choose>
+				<c:when test="${grade.gradingFormatID == '1'}"><td>Pass/Fail</td></c:when>
+				<c:when test="${grade.gradingFormatID == '2'}"><td>A-F</td></c:when>
+				<c:when test="${grade.gradingFormatID == '3'}"><td>Percentage</td></c:when>
+				<c:otherwise><td>Presentation</td></c:otherwise>
+			</c:choose>
+			<td><c:out value="${grade.gradeCutoff}" /></td>
+			<td><c:out value="${grade.gradeAwarded}" /></td>
+			<td><c:out value="${grade.presReview}" /></td>
 		</tr>
-	</c:forEach>
 </table>
-<%} %>
+		
 
 </body>
 </html>

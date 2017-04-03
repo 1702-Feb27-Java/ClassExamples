@@ -45,7 +45,12 @@ public interface AppDAO {
 	 *  END APPROVAL AND DENY LOGIC
 	 **************************************************/
 	
+	void infoRequestAsManager(int appID, UserClass uc, String message);
+	void infoRequestAsBenco(int appID, UserClass uc, String message);
+	
 	void changeAward(int appID, double amount, String reason);
+	void changeGrade(int appID, String finalGrade);
+	void changePresentation(int appID, String presentation);
 	
 	// returns all the approvals updates for ONE app
 	ArrayList<ApprovalClass> getApprovalsByAppID(int appID);
@@ -56,5 +61,7 @@ public interface AppDAO {
 	
 	// UserClass uc is the manager who is currently logged in
 	ArrayList<AppClass> getPendingApps(int apprLvl, int apprSts, UserClass uc);
+	ArrayList<AppClass> getPendingAppsBenco();	
+	ArrayList<AppClass> getApprovedApps();	
 	
 }

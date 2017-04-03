@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.revature.dao.AppDAOImp;
+import com.revature.dao.UserDAOImp;
 import com.revature.pojo.UserClass;
 
 /**
@@ -69,6 +70,14 @@ public class ToApprove extends HttpServlet {
 
 		}
 
+		UserDAOImp userDAO = new UserDAOImp();
+		int userID = userDAO.getUserIDbyAppID(appID);
+		
+		String notifMes = "Your application no. " + appID + " has been approved by " 
+		+ thisUser.getFirstname() + " " + thisUser.getLastname() + " with the message: " + message;
+		
+		userDAO.addNotif(userID, thisUser, notifMes);
+		
 		String destination = "/approval.jsp";
 
         RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);

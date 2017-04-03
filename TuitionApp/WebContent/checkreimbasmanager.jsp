@@ -93,19 +93,20 @@
 
 <ul class="nav nav-tabs">
   <li role="presentation"><a href="empaccount.jsp">Home</a></li>
-  <li role="presentation" class="active"><a href="appstatus.jsp">Application Status</a></li>
+  <li role="presentation"><a href="appstatus.jsp">Application Status</a></li>
   <li role="presentation"><a href="application.jsp">New Application</a></li>
   
 <% if (thisUser.getDeptID() == 3) {%>
-  <li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  <li role="presentation" class="active"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  <li role="presentation"><a href="approvedapps.jsp">View Approved Apps</a></li>
   <% } else { %>
   
      <% if (thisUser.getRoleID() == 2) {%>
-  		<li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  		<li role="presentation" class="active"><a href="pendingapps.jsp">View Pending Apps</a></li>
   	<% } %>
   
   	<% if (thisUser.getRoleID() == 3) {%>
-  		<li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  		<li role="presentation" class="active"><a href="pendingapps.jsp">View Pending Apps</a></li>
   	<% } %>
   
    <% } %>
@@ -150,8 +151,7 @@
 		</form>
 	</div>
 	<% } %>
-
-
+	
 	<br>
 <table class="table">
 	<tr>
@@ -159,21 +159,12 @@
 		<th>Projected Reimb.</th>
 		<th>Awarded Reimb.</th>
 		<th>Reason for Change</th>
-		<th>Action</th>
 	</tr>
 		<tr>
 			<td><c:out value="${re.reimburseID}" /></td>
 			<td><c:out value="${re.projected}" /></td>
 			<td><c:out value="${re.awarded}" /></td>
 			<td><c:out value="${re.changeReason}" /></td>
-			<td> <% if (rc.getAwarded()!= 0) { %>
-			<form action="Award" method="POST">
-			<button type="submit" class="btn btn-default">Award</button></form>
-			<% } else { %>
-			<form action="Award" method="POST">
-			<button type="submit" class="btn btn-default" disabled>Award</button></form>
-			<% } %>
-			</td>
 		</tr>
 </table>
 

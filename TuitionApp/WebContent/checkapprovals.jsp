@@ -100,6 +100,7 @@
   
 <% if (thisUser.getDeptID() == 3) {%>
   <li role="presentation"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  <li role="presentation"><a href="approvedapps.jsp">View Approved Apps</a></li>
   <% } else { %>
   
      <% if (thisUser.getRoleID() == 2) {%>
@@ -121,28 +122,12 @@
 <%	int appID = Integer.parseInt(request.getParameter("appID"));
 	int active = Integer.parseInt(request.getParameter("active"));
 	approvals = appDAO.getApprovalsByAppID(appID);
-	request.setAttribute("approvs", approvals);
-	session.setAttribute("appID", appID); %>
+	request.setAttribute("approvs", approvals);%>
 
 	<br>
 	<form action="BackToAppStatus" method="POST">
 		<button type="submit" class="btn btn-default">Back</button>
 	</form>
-
-	<%
-		if (active == 1) {
-	%>
-	<h2>Cancel application?</h2>
-	<form action="Cancel" method="POST">
-		<button type="submit" class="btn btn-default">Cancel</button>
-	</form>
-	<%
-		} else {
-	%>
-	
-	<h1>This application has been canceled.</h1>
-	
-	<% } %>
 
 	<br>
 	<table class="table">

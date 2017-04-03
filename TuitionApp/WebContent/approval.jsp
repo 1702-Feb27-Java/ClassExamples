@@ -96,6 +96,7 @@
   
 <% if (thisUser.getDeptID() == 3) {%>
   <li role="presentation" class="active"><a href="pendingapps.jsp">View Pending Apps</a></li>
+  <li role="presentation"><a href="approvedapps.jsp">View Approved Apps</a></li>
   <% } else { %>
   
      <% if (thisUser.getRoleID() == 2) {%>
