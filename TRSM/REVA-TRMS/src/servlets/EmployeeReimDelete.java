@@ -37,14 +37,14 @@ public class EmployeeReimDelete extends HttpServlet {
 		Reimburse re = (Reimburse)sess.getAttribute("re");
 		Service serv = new Service();
 		
-		if(request.getParameter("delete") != null){
+		if(request.getParameter("delete") != null){ //we delete the request denying benco's offer of more money
 			
 			e.setPending(e.getPending() - re.getCost());
 			serv.updatePending(e.getUserName(), e.getPending());
 			
 			serv.deleteReim(re.getReim_id());
 		}
-		else if(request.getParameter("accepted") != null){
+		else if(request.getParameter("accepted") != null){ // we accept less money 
 			
 			e.setAwarded(e.getAwarded() + re.getCost());
 			e.setPending(e.getPending() - re.getCost());
@@ -52,7 +52,7 @@ public class EmployeeReimDelete extends HttpServlet {
 			serv.updateAwarded(e.getUserName(), e.getAwarded());
 			serv.updateStatus(re.getReim_id(), 7);
 		}
-		else{
+		else{ //we delete a denied request
 			serv.deleteReim(re.getReim_id());
 		}
 		

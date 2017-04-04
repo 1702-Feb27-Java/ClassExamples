@@ -35,7 +35,7 @@ public class Advance extends HttpServlet {
 		
 		ArrayList<Reimburse> rem = serv.getAllReim();
 		
-		for (Reimburse r : rem){
+		for (Reimburse r : rem){ //checks if a reimbursement should be auto approved after the day updates
 			int stat = serv.getStatus(r.getReim_id());
 			if(r.getNumDay() >= 7 && (stat == 1 || stat == 2)){
 				serv.updateStatus(r.getReim_id(), 3);

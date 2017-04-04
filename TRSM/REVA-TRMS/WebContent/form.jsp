@@ -52,7 +52,7 @@ table, tr, th{
   </div><!-- /.container-fluid -->
 </nav>
 
-<form class="form-horizontal" action="FormServ.do" method="POST">
+<form class="form-horizontal" action="FormServ.do" method="POST" enctype="multipart/form-data">
 <fieldset>
 
 <!-- Form Name -->
@@ -151,7 +151,10 @@ table, tr, th{
   </div>
 </div>
 <br>
-
+<div align="center">
+<input type="file" name="InputFile" id="InputFile">
+</div>
+<br>
 <!-- Button -->
 <div class="form-group">
   <label class="col-md-4 control-label" for="submit"></label>

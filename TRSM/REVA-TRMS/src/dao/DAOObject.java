@@ -68,7 +68,7 @@ public class DAOObject {
 		return null;
 	}
 	
-	
+	//gets an employee's role
 	public String getRole(String userName){
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -99,6 +99,7 @@ public class DAOObject {
 		return null;
 	}
 	
+	//gets an employees department
 	public String getDepartment(String userName){
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -130,7 +131,7 @@ public class DAOObject {
 	}
 	
 	
-	
+	//gets all reimbursements
 	public ArrayList<Reimburse> getAllReimburse(){
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -222,7 +223,7 @@ public class DAOObject {
 	}
 	
 	
-	
+	//gets an employee
 	public Employee getEmployee(int id) {
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -280,7 +281,7 @@ public class DAOObject {
 		return null;
 	}
 	
-	
+	//adds a reimbursement
 	public int addRequest(String username, Reimburse req, Employee em, int isUrgent) {
 		int temp = 0;
 		
@@ -335,7 +336,7 @@ public class DAOObject {
 	
 	
 	
-	
+	//gets a reimbursement
 	public Reimburse getReimbursement(int id) {
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -381,7 +382,7 @@ public class DAOObject {
 	}
 	
 	
-	
+	//changes the status of a reimbursement
 	public void updateStatus(int id, int stat) {
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -402,7 +403,7 @@ public class DAOObject {
 	}
 	
 	
-	
+	//changes the number of the day
 	public void updateNumDay(int id) {
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -423,7 +424,7 @@ public class DAOObject {
 	}
 	
 	
-	
+	//deletes the reimbursement
 	public void deleteReim(int id) {
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -444,7 +445,7 @@ public class DAOObject {
 		
 	}
 	
-	
+	//updates who should be approving
 	public void updateApprover(int id, int eI) {
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -464,7 +465,7 @@ public class DAOObject {
 		
 	}
 	
-	
+	//gets the status of a reimburse
 	public int getStatus(int id) {
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -496,7 +497,7 @@ public class DAOObject {
 	}
 	
 	
-	
+	//updates teh pending amount for an employee
 	public void updatePending(String userName, int newCost) {
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -516,6 +517,7 @@ public class DAOObject {
 		
 	}
 	
+	//updates the awared amoun for an employee
 	public void updateAwarded(String userName, int newCost) {
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -539,7 +541,7 @@ public class DAOObject {
 	
 	
 	
-	
+	//adds a message
 	public int addMessage(String message, int req, int whoSent) {
 		int temp = 0;
 		
@@ -571,6 +573,41 @@ public class DAOObject {
 		return 0;
 	}
 	
+	
+	
+	//for adding attachments
+	public int addAttach(String message, int req) {
+		int temp = 0;
+		
+	
+		try(Connection connect = ConnectionUtil.getConnection();){
+			connect.setAutoCommit(false);
+			
+			//?s can be set
+			String sql = "CALL addAttach(?, ?)";
+			//seting the call
+			CallableStatement cs = connect.prepareCall(sql);
+			cs.setInt(1, req);
+			cs.setString(2, message);
+		
+			
+			
+			
+			
+			cs.executeUpdate();
+			
+			//Statement statement = connect.createStatement();			
+			connect.commit();
+			connect.setAutoCommit(true);
+			return 1;
+					
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	//gets all the messages for a reimburse
 	public ArrayList<String> getMessage(int reID){
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);
@@ -595,7 +632,7 @@ public class DAOObject {
 		return null;
 	}
 	
-	
+	//advances the day by one
 	public void advanceDay() {
 		int temp = 0;
 		
@@ -621,6 +658,7 @@ public class DAOObject {
 		
 	}
 	
+	//updates teh reimbursement to change the cost
 	public void updateCost(int id, int newCost){
 		try(Connection connect = ConnectionUtil.getConnection();){
 			connect.setAutoCommit(false);

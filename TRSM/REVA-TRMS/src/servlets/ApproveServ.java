@@ -37,25 +37,25 @@ public class ApproveServ extends HttpServlet {
 		Service serv = new Service();
 		String decision = request.getParameter("choice");
 		
-		if(decision.equals("approve")){
+		if(decision.equals("approve")){ //if approve was checked
 			Reimburse re = ((Reimburse)sess.getAttribute("reim"));
 			Employee e = ((Employee)sess.getAttribute("reimEm"));
 			int stat = serv.getStatus(re.getReim_id());
 			
 			
-			if(stat == 1 || stat == 2){ //superviser approved need to set approve to dehead
+			if(stat == 1 || stat == 2){ //superviser approved
 				serv.updateStatus(re.getReim_id(), 3);
 				Employee dH = serv.getDepartmentHead(e.getReportsto());
 				serv.setApprover(re.getReim_id(), dH.geteId());
 				serv.updateNumDay(re.getReim_id());
 			}
-			else if(stat == 3 || stat == 4){
+			else if(stat == 3 || stat == 4){ //department head approved
 				serv.updateStatus(re.getReim_id(), 5);
 				serv.setApprover(re.getReim_id(), 21);
 				//serv.updateNumDay(re.getReim_id());
 				//put into benCo
 			}
-			else if(stat == 5 || stat == 6 || stat == 7 || stat == 8){
+			else if(stat == 5 || stat == 6 || stat == 7 || stat == 8){ //benco approved
 				if(request.getParameter("newAmount") != null){
 					int old = re.getCost();
 					try{
@@ -69,12 +69,21 @@ public class ApproveServ extends HttpServlet {
 							serv.updateAwarded(e.getUserName(), e.getAwarded());
 							serv.addMessage(re.getReim_id(), mess, 3);
 						}
-						else{
+						else if(old - newCost > 0){
 							serv.updateCost(re.getReim_id(), newCost);
 							serv.updateStatus(re.getReim_id(), 9);
 							e.setPending(e.getPending() - re.getCost());
 							serv.updatePending(e.getUserName(), newCost);
 							serv.addMessage(re.getReim_id(), mess, 3);
+						}
+						else{
+							serv.updateStatus(re.getReim_id(), 7);
+							
+							e.setAwarded(e.getAwarded() + re.getCost());
+							e.setPending(e.getPending() - re.getCost());
+							serv.updatePending(e.getUserName(), e.getPending());
+							serv.updateAwarded(e.getUserName(), e.getAwarded());
+							
 						}
 					}catch(Exception ex){
 						HttpServletRequest req = (HttpServletRequest)request;
@@ -97,25 +106,25 @@ public class ApproveServ extends HttpServlet {
 				//we good
 			}
 		}
-		else if(decision.equals("request info")){
+		else if(decision.equals("request info")){ //need more info and create a message
 			Reimburse re = ((Reimburse)sess.getAttribute("reim"));
 			int stat = serv.getStatus(re.getReim_id());
 			
-			if(stat == 1 || stat == 2){
+			if(stat == 1 || stat == 2){ //superviser sent the message
 				serv.updateStatus(re.getReim_id(), 2);
 				serv.addMessage(re.getReim_id(), mess, 1);
 			}
-			else if(stat == 3 || stat == 4){
+			else if(stat == 3 || stat == 4){ //dHead sent the message
 				serv.updateStatus(re.getReim_id(), 4);
 				serv.addMessage(re.getReim_id(), mess, 2);
 			}
-			else if(stat == 5 || stat == 8 || stat == 9){
+			else if(stat == 5 || stat == 8 || stat == 9){ //benco sent the message
 				serv.updateStatus(re.getReim_id(), 6);
 				serv.addMessage(re.getReim_id(), mess, 3);
 			}
 				
 		}
-		else if(decision.equals("deny")){
+		else if(decision.equals("deny")){ //set the correct amount for employee pending reimburse
 			Reimburse re = ((Reimburse)sess.getAttribute("reim"));
 			
 			int stat = serv.getStatus(re.getReim_id());
@@ -124,6 +133,7 @@ public class ApproveServ extends HttpServlet {
 			e.setPending(e.getPending() - re.getCost());
 			serv.updatePending(e.getUserName(), e.getPending());
 			
+			//make the message
 			if(stat <= 2){
 				serv.addMessage(re.getReim_id(), mess, 1);
 			}

@@ -164,7 +164,7 @@
 <div align="center">
 <%if( ((Employee)session.getAttribute("employee")).getDepart().equals("BenCo")){ %>
 	New Amount to change
-	<input type="text" value="newAmount" name="newAmount">
+	<input type="text" value="<%=((Reimburse)session.getAttribute("reim")).getCost()%>" name="newAmount">
 <%} %>
 </div>
 

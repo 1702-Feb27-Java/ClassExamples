@@ -69,6 +69,10 @@ public class Service {
 		db.updateCost(id, newCost);
 	}
 	
+	public void addAttach(int id, String mess){
+		db.addAttach( mess, id);
+	}
+	
 	/**
 	 * gets if the given value is the department head. Make sure to no envoke on the boss 
 	 * @param id the reportsto field of an employee

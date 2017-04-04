@@ -51,7 +51,7 @@ public class MessageServ extends HttpServlet {
 		//get message
 		
 		ArrayList<String> mess = serv.getMessage(rm.getReim_id());
-		//System.out.println(mess);
+		//gets array of messages for the reimburse so we can set it
 		if(mess == null){
 			sess.setAttribute("superMessage", null);
 			sess.setAttribute("departHeadMessage", null);

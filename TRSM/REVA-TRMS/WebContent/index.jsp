@@ -23,6 +23,7 @@
 		}%>
 		<%if(session.getAttribute("username") != null) {%>
 		<%="error username/password combination not found"%>
+		
 		<%} %>
 		
 		
