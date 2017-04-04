@@ -93,4 +93,15 @@ public class ServiceImp implements Service
 	{
 		dao.updateReimAmnt(reim_id, cst);
 	}
+
+	@Override
+	public double getPendingAmnt(int id)
+	{
+		return dao.getPendingAmnt(id);
+	}
+	@Override
+	public double getAwardAmnt(int id)
+	{
+		return dao.getAwardAmnt(id);
+	}
 }

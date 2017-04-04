@@ -31,7 +31,7 @@
         <%--@ session.getAttribute("");--%>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
+        <li><a href="<%=path%>"index.jsp>Logout</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

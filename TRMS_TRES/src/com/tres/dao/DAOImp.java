@@ -502,4 +502,50 @@ public class DAOImp implements DAO
 			e.printStackTrace();
 		}		
 	}
+	//==================================================
+	@Override
+	public double getPendingAmnt(int id)
+	{
+		double amnt=0;
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String sql_count = "SELECT SUM(COSTCRS) FROM REIMBURSEMENT WHERE EMPID = ? AND SID = 1";
+			PreparedStatement ps = connect.prepareStatement(sql_count);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				amnt = rs.getInt(1);
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}	
+		return amnt;
+	}
+	
+	@Override
+	public double getAwardAmnt(int id)
+	{
+		double amnt=0;
+		try(Connection connect = ConnectionUtil.getConnection();)
+		{
+			connect.setAutoCommit(false);
+			String sql_count = "SELECT SUM(COSTCRS) FROM REIMBURSEMENT WHERE EMPID = ? AND SID = 3";
+			PreparedStatement ps = connect.prepareStatement(sql_count);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				amnt = rs.getInt(1);
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}	
+		return amnt;
+	}
 }

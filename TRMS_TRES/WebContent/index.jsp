@@ -6,16 +6,30 @@
 		<title>Login Page</title>
 	</head>
 	<body>
-		<form action="Login" method="POST">
-  			<div class="form-group">
-    			<label for="uname">Username</label>
-    			<input type="text" class="form-control" id="uname" placeholder="Username" name="uname" >
-  			</div>
-  			<div class="form-group">
-    			<label for="exampleInputPassword1">Password</label>
-    			<input type="password" class="form-control" id="passwd" placeholder="Password" name="password" >
-  			</div>
-  			<button type="submit" class="btn btn-default">Submit</button>
-		</form>
+		<% session.invalidate(); %>
+		<div class="container">
+		    <div class="row vertical-offset-100">
+		        <div class="col-md-4 col-md-offset-4">
+		    		<div class="panel panel-default">
+					  	<div class="panel-heading">
+					    	<h2 class="panel-title">Tuition Reimbursement Management System</h2>
+					 	</div>
+					  	<div class="panel-body">
+							<form action="Login" method="POST" >
+		                    <fieldset>
+					    	  	<div class="form-group">
+					    		    <input class="form-control" placeholder="Username" name="uname" class="form-control" type="text">
+					    		</div>
+					    		<div class="form-group">
+					    			<input class="form-control" placeholder="Password" name="password" type="password">
+					    		</div>
+					    		<input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+					    	</fieldset>
+					      	</form>
+					    </div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

@@ -17,6 +17,8 @@ public interface DAO
 	public ArrayList<Reimbursement> getPending(int uid);
 	public ArrayList<Reimbursement> getHvPending(int uid);
 	public double getBalance(int ownId);
+	public double getPendingAmnt(int id);
+	public double getAwardAmnt(int id);
 	
 	//INSERT STUFF FROM DB
 	public int insertReim(Reimbursement r);

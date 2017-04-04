@@ -18,6 +18,9 @@ public interface Service
 	public ArrayList<Reimbursement> getHvPending(int uid);
 	public double getBalance(int ownId);
 	
+	public double getPendingAmnt(int id);
+	public double getAwardAmnt(int id);
+	
 	
 	
 	//INSERT INTO DATABASE

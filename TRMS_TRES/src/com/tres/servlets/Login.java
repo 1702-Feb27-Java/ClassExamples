@@ -68,6 +68,15 @@ public class Login extends HttpServlet {
 			sess.setAttribute("pwd", emp.getPwd());
 			sess.setAttribute("role", emp.getRole());
 			sess.setAttribute("roleid", emp.getRoleid());
+			//GET PENDING AMOUNTS
+
+			double pendTotal = serve.getPendingAmnt(emp.getId());
+			double awrdTotal = serve.getAwardAmnt(emp.getId());
+			double balance = serve.getBalance(emp.getId());
+ 
+			sess.setAttribute("pendAmnt", pendTotal);
+			sess.setAttribute("awardAmnt", awrdTotal);
+			sess.setAttribute("balance", balance);
 			//if ( emp.getDeptid() != 1 && emp.getRoleid() == 1)
 				rs = request.getRequestDispatcher("/employee.jsp");
 			//else

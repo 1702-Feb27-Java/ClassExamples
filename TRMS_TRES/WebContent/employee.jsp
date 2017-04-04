@@ -8,10 +8,18 @@
 		<title>Employee Menu</title>
 	</head>
 	<body>
-		<h1> Welcome <%= session.getAttribute("uname")%> </h1>
-		<h1> Reports to <%= session.getAttribute("repto")%> </h1>
-		<h1> Reports to id <%= session.getAttribute("repid")%> </h1>
-		<hr>
-			
+		<div class="container-fluid well span6">
+			<div class="row-fluid">
+		        <div class="span2" >
+				    <img src="http://wraggelabs.com/static/images/default_avatar-2.gif" class="img-circle">
+		        </div>
+				<h1> Welcome: <%= session.getAttribute("uname")%> </h1>
+				<h4> Reports to: <%= session.getAttribute("repto")%> </h4>
+				<h4> Reports to id: <%= session.getAttribute("repid")%> </h4>
+				<h3> Pending Amount: <%= session.getAttribute("pendAmnt")%> </h3>
+				<h3> Awarded Amount: <%= session.getAttribute("awardAmnt")%> </h3>
+				<h3> Remaining Amount: <%= session.getAttribute("balance")%> </h3>
+			</div>
+		</div>		
 	</body>
 </html>
