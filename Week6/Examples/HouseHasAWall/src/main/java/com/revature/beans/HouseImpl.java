@@ -1,6 +1,7 @@
 package com.revature.beans;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -11,8 +12,8 @@ public class HouseImpl implements House {
 
 	private String name;
 	
-	@Autowired
-	@Qualifier("wallImpl")
+	@Resource(name="goodWall")
+	//@Qualifier("goodWall")
 	private Wall wallid;
 	
 	public HouseImpl(){}

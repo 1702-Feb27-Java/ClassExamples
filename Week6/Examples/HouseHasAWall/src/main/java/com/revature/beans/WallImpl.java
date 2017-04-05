@@ -2,7 +2,7 @@ package com.revature.beans;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("goodWall")
 public class WallImpl implements Wall {
 
 	private String material = "Wood";
