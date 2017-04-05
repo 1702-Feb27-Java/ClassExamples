@@ -1,12 +1,11 @@
 package com.revature.driver;
 
+import java.util.List;
+
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.revature.beans.Bear;
-import com.revature.beans.Cave;
-import com.revature.beans.HoneyPot;
-import com.revature.dao.BearDao;
-import com.revature.dao.BearDaoImpl;
 import com.revature.util.HibernateUtil;
 
 public class Driver {
@@ -14,7 +13,14 @@ public class Driver {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		BearDao dao = new BearDaoImpl();
+		Session sess = HibernateUtil.getSession();
+		Query q = sess.createSQLQuery("SELECT * FROM BEAR WHERE BEAR_ID = ?").addEntity(Bear.class);
+		List bList = q.setInteger(0, 1800).list();
+		
+		System.out.println((Bear)bList.get(0));
+		
+		
+		/*BearDao dao = new BearDaoImpl();
 
 		// dao.createBear();
 
@@ -44,7 +50,7 @@ public class Driver {
 
 		System.out.println(b);
 		
-		System.out.println("end");
+		System.out.println("end");*/
 
 	}
 
