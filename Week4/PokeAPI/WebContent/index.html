@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<style>
+
+
+body
+{
+ background: url("https://media3.giphy.com/media/l0HlvGZXSgzNtY7OU/giphy.gif");
+     background-size: 100% ;
+    background-repeat: no-repeat;
+    color: yellow;
+    font-weight: 900;
+}
+#pokeval
+{
+  color: black;
+    font-weight: 900;
+
+}
+</style>
+<body>
+
+<!-- 
+<p>
+WHAAAAAAAAAAAAAT????????????????????</p>
+<h1>SERVLET EXAMPLE</h1>
+
+<form action = "ExampleServlet2.do" method = "POST">
+username 
+<input type ="text" name ="uname">
+<br>
+password
+<input type ="password" name ="pwd">
+<br>
+
+rad1
+<input type="radio" name="MyRadio" value"button 1">
+<br>
+rad2
+<input type="radio" name="MyRadio" value"button 2">
+
+<br>
+rad3
+<input type="radio" name="MyRadio" value"button 3">
+<br>
+<input type="submit" value="Login">
+
+</form>
+
+
+<form action = "ServerHandler.do" method="POST">
+
+<input type = "submit" value = "Visit" >
+<input type="hidden" name="ConstantValue" value="Example">
+</form>
+<br>
+
+<a href = "index.jsp">JSP INDEX PAGE</a>
+
+<br>
+-->
+  <h1>WELCOME TO THE POKEMON INDEX</h1>
+<script>var a = 0;</script>
+
+Enter The index you wish to see
+<input type = "text" id = "pokeval">
+
+  <button id = AJAXBUTTON > Submit </button>
+<p id ="output"></p>
+
+  <br>
+  <div id = "image">
+  <p id = "other"></p>
+  </div>
+  
+    <script>
+  
+  
+
+  
+  
+  var xhtml = new XMLHttpRequest();
+  xhtml.onreadystatechange = function()
+  {
+  
+  if(xhtml.readyState ==4)
+  {
+  //$("#output"
+ // document.getElementById("output").innerHTML = this.responseText;
+  
+  }
+  
+  
+  }
+  xhtml.open("GET", "resources/XML/stuff.xml",true);
+  xhtml.send();
+  
+  
+  //jQuery Version
+ // $("#output").load("resources/XML/stuff.xml");
+   $("#AJAXBUTTON").click(function() {
+	var url = "http://pokeapi.co/api/v2/pokemon/"+$("#pokeval").val()+"/";
+	  $('#222').empty();
+	  $.get(url,function(data,status){
+		//  console.log(status);
+		
+		console.log("------------------------");
+		console.log("Displaying Pokemon");
+		
+		console.log("------------------------");
+		
+		  console.log(data.name);
+		  console.log(data.stats);
+		  console.log("'http://pokeapi.co/media/img/" + $("#pokeval").val() + ".png'");
+		  
+		  
+		  
+		  $("#222").append(" <table border = 2><tr><th>Picture</th><th>Name</th><th>Weight</th><th>Height</th></tr><tr><td> "
+				  +"<img src='http://pokeapi.co/media/img/" 
+				  + $("#pokeval").val() 
+				  + ".png'/>"+"<br>"+"</td><td>"
+				  +data.name
+				  +"</td><td>"+data.weight+"</td>"
+				  +"</td><td>"+data.height+"</td>"
+				  +"</tr></table>");
+		  a += 1 ;
+		  
+
+			console.log("------------------------");
+		//	$("#namep").append( data.name+"<br>");
+			console.log("------------------------");
+	  });
+	  
+ })
+ 
+ 
+ 
+ 
+  </script>
+ <div id = 222>
+ </div> 
+ 
+</body>
+</html>
