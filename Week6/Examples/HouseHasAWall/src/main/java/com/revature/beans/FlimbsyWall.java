@@ -2,6 +2,8 @@ package com.revature.beans;
 
 import org.springframework.stereotype.Component;
 
+import com.revature.beans.Wall;
+
 @Component
 public class FlimbsyWall implements Wall {
 

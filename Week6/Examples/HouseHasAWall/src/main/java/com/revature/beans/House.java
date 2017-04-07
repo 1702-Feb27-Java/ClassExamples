@@ -1,5 +1,7 @@
 package com.revature.beans;
 
+import com.revature.beans.Wall;
+
 public interface House {
 
 	public String getName();
