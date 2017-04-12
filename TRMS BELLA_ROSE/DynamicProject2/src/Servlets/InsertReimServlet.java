@@ -148,7 +148,7 @@ public class InsertReimServlet extends HttpServlet
 
 			// Sender's email ID needs to be mentioned
 			String from = "angelicpyro143";
-			String password = "Bellarosegoogle143!";
+			String password = "password";
 
 			// Assuming you are sending email from localhost
 			String host = "smtp.gmail.com";
@@ -251,7 +251,7 @@ public class InsertReimServlet extends HttpServlet
 
 			// Sender's email ID needs to be mentioned
 			String from = "angelicpyro143";
-			String password = "Bellarosegoogle143!";
+			String password = "password";
 
 			// Assuming you are sending email from localhost
 			String host = "smtp.gmail.com";
@@ -372,7 +372,7 @@ public class InsertReimServlet extends HttpServlet
 
 			// Sender's email ID needs to be mentioned
 			String from = "angelicpyro143";
-			String password = "Bellarosegoogle143!";
+			String password = "password";
 
 			// Assuming you are sending email from localhost
 			String host = "smtp.gmail.com";
