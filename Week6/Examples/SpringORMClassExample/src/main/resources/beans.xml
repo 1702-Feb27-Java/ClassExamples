@@ -12,8 +12,8 @@
 	
 	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
-		<property name="username" value="FLASH_CARD"></property>
-		<property name="password" value="#######"></property>
+		<property name="username" value="chinook"></property>
+		<property name="password" value="p4ssw0rd"></property>
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
 	</bean>
 	
@@ -38,5 +38,8 @@
 	<bean id="myDao" class="com.revature.doa.DaoImpl">
 		<property name="sessionFactory" ref="mySessionFactory"></property>
 	</bean>
+
+	<!-- Find JPA Repositories -->
+	<jpa:repositories base-package="com.revature.dao></jpa:repositories>
 
 </beans>
