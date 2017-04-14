@@ -1,0 +1,14 @@
+		<!-- ng-bind is also an expression, can be used inside an element to 
+	evaluate an expression. Essentially the same as {{varName}} -->
+	<h1>
+		Welcome <span ng-bind="varName"></span>!
+	</h1>
+	<p>A little bit of welcome text</p>
+	<br> Input Name!
+	<input type="text" ng-model="varName">
+	<hr>
+	<input type="number" ng-model="num1">
+	<br>
+	<input type="number" ng-model="num2">
+
+	<p>{{num1 + " + " + num2 + " = " + (num1 + num2)}}</p>

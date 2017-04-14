@@ -1,0 +1,21 @@
+<hr>
+	<h4>Form Validation</h4>
+	<form name="myForm">
+		Input Email: <input type="email" name="myEmail" ng-model="text">
+		<span ng-show="myForm.myEmail.$error.email">BAD EMAIL</span>
+		<br>Valid: {{myForm.myEmail.$valid}}
+		<br>Touched: {{myForm.myEmail.$touched}}
+		<br>Dirty: {{myForm.myEmail.$dirty}}
+		<br>Pristine: {{myForm.myEmail.$pristine}}
+		<!-- 
+			The properties that can be checked for form input types are:
+			Valid: Does it meet requiremenets
+			Touched: Has blur event occurred? (Blur occurs when you click out of it)
+			Dirty: Has a user input anything into it?
+			Pristine: User has interacted with the field
+			not-empty
+			untouched
+			invalid
+			pending: Has form been submitted yet?
+		 -->
+	</form>	

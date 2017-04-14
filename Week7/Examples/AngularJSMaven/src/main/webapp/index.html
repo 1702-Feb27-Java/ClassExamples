@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Super Angular World</title>
+<script src="https://opensource.keycdn.com/angularjs/1.6.2/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<script src="resources/js/app.js"></script>
+<script src="resources/js/script.js"></script>
+</head>
+<!-- ng-app: specifies the scope of the page that uses angular
+	ng-app is called a directive.
+	Other directives include:
+	ng-app :
+	ng-model : Create a bind on some data to a variable
+	ng-bind : binds application data to the HTML View  
+	ng-init : pre initializes any variables of choice
+	-->
+<body ng-app="myApp" ng-controller="initVars">
+	
+
+	<div ng-view></div>
+
+	<ul>
+		<li><a href="#welcome">Welcome</a></li>	
+		<li><a href="#ngrepeat">NG Repeat</a></li>
+		<li><a href="#cdirective">Custom Directives</a></li>
+		<li><a href="#formvalid">Form Validation</a></li>
+	</ul>
+
+
+
+		<hr>
+	
+	<!-- 
+		angular has a directive for most events available in html.
+		All are accessed the same way as other directives, e.g.:
+		ng-click
+		ng-blur
+		ng-focus
+		ng-dbclick
+		ng-keydown
+		ng-keyup
+		ng-copy
+		ng-paste
+	 -->
+	<h4>Events!</h4>
+	<div ng-click="clickMe='CLICKED!'">{{clickMe}}</div>
+	<hr>
+	<h4>Controller Scopes</h4>
+	<div ng-controller="rootControl"></div>
+	{{varScope}}
+	<div ng-controller="cScope1">{{varScope}}</div>
+	<div ng-controller="cScope2">{{varScope}}</div>	
+	<br>
+	<button ng-click="clicked()" ng-controller="clickHandler">CLICK ME!</button>
+	
+	<hr>
+	<h4>Filters!</h4>
+	
+	<input type="text" ng-model="bobbert">
+	<ul>
+		<li ng-repeat="x in names | filter : bobbert | orderBy:x">{{x | uppercase}}</li>
+	</ul>
+	<p>{{varName | uppercase}}</p>
+	
+	<h4>Custom Filter!</h4>
+ 	<ul>
+		<li ng-repeat="x in names">{{x | bfilter}}</li>
+	</ul>
+	<p>I have {{123|currency}}!</p>
+	
+	<!-- 
+		filter - filter by letter/string/binding
+		currency - convert a number to currency
+		date
+		json - convert string representation of a json into a js object
+		limitTo - apply a limit to an array count, or string length
+		lowercase - converts to lower case
+		uppercase
+		orderBy - order a list by something
+	 -->
+	 <hr>
+	 
+	 <h4>Services!</h4>
+	 
+	 <!-- Services: Limited to the scope of an angular application.
+	 	All start with '$' (Excluding custom services) 
+	 	-->
+	 <div>My url is: {{curURL}}</div>
+	 
+	 <br>
+	 <p>Below is my timeout service example.</p>
+	 
+	 <div ng-controller="timeoutControl">{{timeoutTest}}</div>
+	 <div ng-controller="intervalControl">Interval Var: {{intervalVar}}</div>
+	 <div ng-controller="customService">{{effectedVar}}</div>
+	 
+	 <hr>
+	 
+	 <h4>$http</h4>
+	 <div ng-controller="apiControl">
+		 <input type="text" ng-model="apiHit">
+		 <br><button ng-click="sendReq()">GET Pokemon</button>
+		 <div ng-show="hitResult">{{hitResult}}</div>
+		 <div ng-show="hitSrc"><img ng-src="{{hitSrc}}"/></div>
+	 </div>
+	 
+	 
+	 
+	 
+</body>
+</html>
