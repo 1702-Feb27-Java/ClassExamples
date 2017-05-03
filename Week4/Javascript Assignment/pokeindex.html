@@ -1,0 +1,29 @@
+<!DOCTYPE>
+<html>
+	<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="pokeindex.js"></script>
+	</head>
+
+	<body>
+	<div id="pokeContainer">
+		<input type="text" id="AJAXText"></input>
+		<button id="AJAXButton">AJAXButton</button>
+		<script>
+		var poke = "http://pokeapi.co/api/v2/pokemon/";
+		$("#AJAXButton").click(function(){
+		$.get(poke + $("#AJAXText").val() + "/", function(data, status)
+		{
+			var tableFormat = "<table border=2 id='newTable'></table>"
+			$("#pokeContainer").append(tableFormat);
+			$("#newTable").append("<tr><td>Name</td><td>" + data.name + "</td></tr>")
+			$("#newTable").append("<tr><td>Weight</td><td>" + data.weight + "</td></tr>")
+			$("#newTable").append("<tr><td>Height</td><td>" + data.height + "</td></tr>")
+			$("#newTable").append("<tr><td>Base EXP</td><td>" + data.base_experience + "</td></tr>")
+			$("#newTable").append("<tr><td>Picture</td><td><img src='" + data.sprites.front_default + "'></img></td></tr>")
+		});
+		})
+		</script>
+		</div>
+	</body>
+</html>
