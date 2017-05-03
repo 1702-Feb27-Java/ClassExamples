@@ -1,0 +1,87 @@
+<!--
+	DAY 20: jQuery Practice
+-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>A pokedex with a Gif</title>
+
+	<!-- JQuery, required for parts of Bootstrap that use it -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lobster Two">
+
+	<style>
+		body {
+			background-image: url("https://media.giphy.com/media/vBNZq7FiUBcVG/giphy.gif");
+			color: white;
+			text-align: center;
+			font-family: 'Lobster Two';
+		}
+		
+		section {
+			padding-top: 20px;
+			padding-bottom: 20px;
+		}
+		
+		.demo {
+			padding: 20px;
+		}
+		
+		#ajax-response {
+			border: 1px inset black;
+			padding: 10px;
+		}
+		
+		hr {
+			width: 35%;
+		}
+		
+		td {
+			padding: 10px;
+		}
+
+		button {
+			color:black;
+		}
+
+		input {
+			color:black;
+		}
+		
+		.class {
+			text-align: center;
+		}
+	</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="PokeThingy2.js"></script>
+</head>
+<body>
+
+	
+	
+	<section>
+		<h2>Pokedex</h2>
+		
+		<div class="demo">
+		<h1>
+			Pokemon Number:
+			<input type="text" id="pokemonno">
+			<button id="pokeapi">Submit</button>
+			<div id="pokeapi-box">
+			</div>
+		</h1>
+		</div>
+	</section>
+	
+</body>
+</html>
