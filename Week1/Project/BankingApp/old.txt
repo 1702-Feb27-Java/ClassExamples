@@ -1,0 +1,7 @@
+1:ADMIN:PASSWORD:N/A:N/A:N/A:N/A
+3:marco:tobon:103666250:50:103666251:1
+3:juan:2taps:3273400:50:3273401:2
+2:me:metoo:N/A:N/A:N/A:N/A
+3:lajuana:2taps:P:N/A:P:N/A
+3:bobbert:pass:N/A:0:N/A:0
+3:FORFOOFFE:FEOFEOFEOF:N/A:0:N/A:0
