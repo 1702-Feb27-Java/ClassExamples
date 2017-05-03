@@ -1,0 +1,73 @@
+<!--
+ - TITLE: JavaScript Assignment 2
+ - AUTHOR: Michael Hobbs
+ - DATE: 2017 March 24
+ -
+ -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JavaScript Assignment 2 - Fizz Buzz</title>
+	<style>
+		#fizzbuzz {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width: 500px;
+		}
+		#display {
+			width: 400px;
+			height: 200px;
+			!border: 1px solid black;
+			overflow-y: auto;
+			padding: 20px;
+		}
+		#labels {
+			!border: 1px solid black;
+			height: 200px;
+			width: 200px;
+			float: left;
+			text-align: right;
+			padding: 10px;
+		}
+		#controls {
+			!border: 1px solid black;
+			height: 200px;
+			width: 200px;
+			text-align: left;
+			float: left;
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+
+	<h1>Fizz Buzz App</h1>
+	
+	<p><small>Michael Hobbs<br>2017 March 24</small></p>
+	
+	<p>Fizz Buzz is a sequence of numbers where every multiple of 3 is replaced with the word 'Fizz', every multiple of 5 replaced with 'Buzz', and every multiple of both 3 and 5 with 'Fizz-Buzz'. This app lets you define where in the Fizz Buzz sequence it will start and you can also define where in the sequence it will end.</p>
+
+	<div id="fizzbuzz">
+		<div id="display">
+		</div>
+		
+		<div id="labels">
+			<label for="min-index">Where to start in the sequence:</label><br><br>
+			<label for="max-index">Where to end:</label><br>
+		</div>
+		
+		<div id="controls">
+			<input id="min-index" type="text"><br><br>
+			<input id="max-index" type="text"><br><br>
+		
+			<button id="start-button" type="button">START</button>
+		</div>
+	</div>
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="javascript_assignment_2.js"></script>
+	<script>init();</script>
+</body>
+</html>
